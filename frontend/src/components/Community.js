@@ -42,23 +42,38 @@ const translateNotificationContent = (notification, t) => {
   const content = notification.message || notification.content;
   const fromName = notification.from_athlete_name || 'Someone';
   
-  // Check notification type and translate accordingly
-  if (notification.type === 'follow_request') {
-    return t('notifications.followRequest', { name: fromName });
-  } else if (notification.type === 'message_request') {
-    return t('notifications.messageRequest', { name: fromName });
-  } else if (notification.type === 'follow') {
-    return t('notifications.newFollower', { name: fromName });
-  } else if (content.includes('commented on your post')) {
-    return t('notifications.commentedOnPost', { name: fromName });
-  } else if (content.includes('liked your post')) {
-    return t('notifications.likedPost', { name: fromName });
-  } else if (content.includes('mentioned you')) {
-    return t('notifications.mentionedYou', { name: fromName });
+  // Check notification type first for accurate translation
+  switch (notification.type) {
+    case 'follow_request':
+      return t('notifications.followRequest', { name: fromName });
+    case 'message_request':
+      return t('notifications.messageRequest', { name: fromName });
+    case 'follow':
+      return t('notifications.newFollower', { name: fromName });
+    case 'like':
+      return t('notifications.likedPost', { name: fromName });
+    case 'comment':
+      return t('notifications.commentedOnPost', { name: fromName });
+    case 'comment_like':
+      return t('notifications.likedComment', { name: fromName });
+    case 'share':
+      return t('notifications.sharedPost', { name: fromName });
+    case 'event_comment':
+      return t('notifications.commentedOnEvent', { name: fromName });
+    case 'mention':
+      return t('notifications.mentionedYou', { name: fromName });
+    case 'follow_request_accepted':
+      return t('notifications.acceptedFollowRequest', { name: fromName });
+    case 'message_request_accepted':
+      return t('notifications.acceptedMessageRequest', { name: fromName });
+    case 'group_join_request':
+      return t('notifications.groupJoinRequest', { name: fromName });
+    case 'event_invite':
+      return t('notifications.eventInvite', { name: fromName });
+    default:
+      // Fallback to original content if type not recognized
+      return content;
   }
-  
-  // Fallback to original content if no match
-  return content;
 };
 
 const Community = ({ athleteId, athlete, showNotifications: externalShowNotifications, setShowNotifications: externalSetShowNotifications, setCommunityUnreadCount: externalSetCommunityUnreadCount, headerProgress = 1, footerProgress = 1, onOpenMessages }) => {
