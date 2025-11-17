@@ -83,7 +83,7 @@ const SearchableSelect = ({ value, onChange, options, placeholder, label }) => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder={t('community.searchNationality')}
-                className="w-full bg-gray-800 text-white rounded-lg pl-10 pr-8 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
+                className="w-full bg-gray-800 text-white rounded-lg pl-10 pr-8 py-2 border border-gray-600 focus:border-[#00FFFF] focus:ring-2 focus:ring-[#00FFFF]/20 outline-none text-sm"
               />
               {searchTerm && (
                 <button
