@@ -2269,8 +2269,17 @@ const Dashboard = ({ athleteId }) => {
                     className={`mb-2 rounded-none md:rounded-3xl hover:opacity-90 active:opacity-80 cursor-pointer transition-all overflow-hidden ${
                       !notification.read ? 'ring-2 ring-[#00C2A8]/30' : ''
                     }`}
-                    style={{ background: 'var(--grad-surface)' }}
-                    onClick={() => handleNotificationClick(notification)}
+                    style={{ background: 'var(--grad-surface)', border: '5px solid lime', boxShadow: '0 0 20px lime' }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const alertDiv = document.createElement('div');
+                      alertDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:lime;color:black;padding:40px;z-index:999999;font-size:24px;border:5px solid yellow;font-weight:bold;';
+                      alertDiv.textContent = 'DASHBOARD MOBILE CLICKED! Type: ' + notification.type;
+                      document.body.appendChild(alertDiv);
+                      setTimeout(() => alertDiv.remove(), 3000);
+                      handleNotificationClick(notification);
+                    }}
                   >
                     <div className="p-4">
                     <div className="flex items-start gap-3">
