@@ -315,6 +315,10 @@
     "followers": "Follower",
     "posts": "Post",
     "interests": "Interessi",
+    "searchUsers": "Cerca utenti...",
+    "noFollowers": "Nessun follower ancora",
+    "noFollowing": "Non segui ancora nessuno",
+    "noUsersFound": "Nessun utente trovato",
     "healthTrainingGoals": "Obiettivi di Salute e Allenamento",
     "yearsOld": "{{age}} anni",
     "actions": {
