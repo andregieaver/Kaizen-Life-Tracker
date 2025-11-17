@@ -2382,7 +2382,17 @@ const Dashboard = ({ athleteId }) => {
                       className={`p-3 border-b border-gray-700 hover:bg-gray-700 cursor-pointer transition-colors ${
                         !notification.read ? 'bg-gray-700/50' : ''
                       }`}
-                      onClick={() => handleNotificationClick(notification)}
+                      style={{ border: '5px solid lime', boxShadow: '0 0 20px lime' }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const alertDiv = document.createElement('div');
+                        alertDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:lime;color:black;padding:40px;z-index:999999;font-size:24px;border:5px solid yellow;font-weight:bold;';
+                        alertDiv.textContent = 'DASHBOARD DESKTOP CLICKED! Type: ' + notification.type;
+                        document.body.appendChild(alertDiv);
+                        setTimeout(() => alertDiv.remove(), 3000);
+                        handleNotificationClick(notification);
+                      }}
                     >
                       <div className="flex items-start gap-3">
                         <div className="flex-shrink-0 mt-1">
