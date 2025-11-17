@@ -2676,6 +2676,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             setShowProfile(false);
             onOpenMessages && onOpenMessages(userId);
           }}
+          onAcceptFollowRequest={handleAcceptFollowRequest}
+          onDeclineFollowRequest={handleDeclineFollowRequest}
+          onAcceptMessageRequest={handleAcceptMessageRequest}
+          onDeclineMessageRequest={handleDeclineMessageRequest}
         />
       )}
 
