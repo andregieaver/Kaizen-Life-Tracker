@@ -1687,7 +1687,12 @@
   },
   "athlete": {
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "requestToFollow": "Request to Follow",
+    "followRequestSent": "Request Sent",
+    "message": "Message",
+    "requestToMessage": "Request to Message",
+    "messageRequestSent": "Request Sent"
   },
   "habits": {
     "title": "Habits",
