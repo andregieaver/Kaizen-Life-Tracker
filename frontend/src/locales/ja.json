@@ -2216,7 +2216,14 @@
     "newFollower": "{{name}}さんがあなたをフォローし始めました",
     "commentedOnPost": "{{name}}さんがあなたの投稿にコメントしました",
     "likedPost": "{{name}}さんがあなたの投稿にいいねしました",
-    "mentionedYou": "{{name}}さんがあなたをメンションしました"
+    "likedComment": "{{name}}さんがあなたのコメントにいいねしました",
+    "sharedPost": "{{name}}さんがあなたの投稿をシェアしました",
+    "commentedOnEvent": "{{name}}さんがあなたのイベントにコメントしました",
+    "mentionedYou": "{{name}}さんがあなたをメンションしました",
+    "acceptedFollowRequest": "{{name}}さんがあなたのフォローリクエストを承認しました",
+    "acceptedMessageRequest": "{{name}}さんがあなたのメッセージリクエストを承認しました",
+    "groupJoinRequest": "{{name}}さんがあなたのグループに参加したいとリクエストしました",
+    "eventInvite": "{{name}}さんがあなたをイベントに招待しました"
   },
   "today": {
     "bpm": "BPM",
