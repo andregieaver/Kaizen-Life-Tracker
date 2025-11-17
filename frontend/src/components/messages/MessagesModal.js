@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Search, Send, ArrowLeft, Smile } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/button';
 import OnlineStatusIndicator from '../OnlineStatusIndicator';
 import EmojiPicker from 'emoji-picker-react';
@@ -10,6 +11,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initialUserId = null }) => {
+  const { t } = useTranslation();
   const [conversations, setConversations] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messages, setMessages] = useState([]);
