@@ -315,6 +315,10 @@
     "followers": "フォロワー",
     "posts": "投稿",
     "interests": "興味",
+    "searchUsers": "ユーザーを検索...",
+    "noFollowers": "まだフォロワーがいません",
+    "noFollowing": "まだ誰もフォローしていません",
+    "noUsersFound": "ユーザーが見つかりませんでした",
     "healthTrainingGoals": "健康とトレーニングの目標",
     "yearsOld": "{{age}}歳",
     "actions": {
