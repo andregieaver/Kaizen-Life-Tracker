@@ -670,6 +670,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const loadAthleteProfile = async (targetAthleteId, requestContext = null) => {
+    // Temporary debugging
+    window.alert(`DEBUG: loadAthleteProfile called\nAthleteId: ${targetAthleteId}\nRequestContext: ${JSON.stringify(requestContext)}`);
     console.log('Loading athlete profile:', targetAthleteId, 'requestContext:', requestContext);
     setProfileLoading(true);
     try {
@@ -679,6 +681,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         requestContext // Add request context if present (follow_request or message_request)
       };
       console.log('Profile loaded with context:', profileWithContext);
+      window.alert(`DEBUG: Profile loaded successfully, about to show modal`);
       setProfileData(profileWithContext);
       setShowProfile(true);
     } catch (error) {
