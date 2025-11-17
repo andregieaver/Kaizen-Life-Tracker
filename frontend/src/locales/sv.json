@@ -2236,6 +2236,7 @@
     "startConversation": "Starta konversationen!",
     "sendMessage": "Skicka meddelande",
     "messageButton": "Meddelande",
-    "back": "Tillbaka"
+    "back": "Tillbaka",
+    "searchEmoji": "Sök emoji..."
   }
 }
