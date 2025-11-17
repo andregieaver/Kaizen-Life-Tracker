@@ -122,13 +122,15 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
               filteredList.map(athlete => (
                 <div
                   key={athlete.id}
-                  className="bg-gray-700 rounded-lg p-4 flex items-center justify-between hover:bg-gray-600 transition-colors cursor-pointer"
-                  onClick={() => {
-                    onViewProfile(athlete.id);
-                    onClose();
-                  }}
+                  className="bg-gray-700 rounded-lg p-4 flex items-center justify-between hover:bg-gray-600 transition-colors"
                 >
-                  <div className="flex items-center space-x-4 flex-1">
+                  <div 
+                    className="flex items-center space-x-4 flex-1 cursor-pointer"
+                    onClick={() => {
+                      onViewProfile(athlete.id);
+                      onClose();
+                    }}
+                  >
                     <div className="relative">
                       {athlete.profile_picture ? (
                         <>
@@ -157,6 +159,39 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
                         <p className="text-sm text-gray-400 line-clamp-1">{athlete.bio}</p>
                       )}
                     </div>
+                  </div>
+                  
+                  {/* Action Buttons */}
+                  <div className="flex items-center space-x-2 ml-4" onClick={(e) => e.stopPropagation()}>
+                    {activeTab === 'followers' ? (
+                      <>
+                        <Button
+                          onClick={() => handleRemoveFollower(athlete.id)}
+                          variant="outline"
+                          size="sm"
+                          className="bg-red-600 hover:bg-red-700 text-white border-0"
+                        >
+                          {t('community.removeFollower')}
+                        </Button>
+                        <Button
+                          onClick={() => handleBlockUser(athlete.id)}
+                          variant="outline"
+                          size="sm"
+                          className="bg-gray-800 hover:bg-gray-900 text-white border-gray-600"
+                        >
+                          {t('community.blockUser')}
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        onClick={() => handleUnfollow(athlete.id)}
+                        variant="outline"
+                        size="sm"
+                        className="bg-red-600 hover:bg-red-700 text-white border-0"
+                      >
+                        {t('community.unfollowUser')}
+                      </Button>
+                    )}
                   </div>
                 </div>
               ))
