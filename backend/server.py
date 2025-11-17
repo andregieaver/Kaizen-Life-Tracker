@@ -10871,7 +10871,9 @@ async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(
             "content": content,
             "image_urls": comment_data.get("image_urls", []),  # Array of image URLs (max 3)
             "likes_count": 0,  # Initialize likes count
-            "created_at": datetime.now(timezone.utc).isoformat()
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "youtube_data": comment_data.get("youtube_data"),  # YouTube video metadata
+            "url_preview": comment_data.get("url_preview")  # URL preview metadata
         }
         
         await db.community_comments.insert_one(prepare_for_mongo(comment.copy()))
