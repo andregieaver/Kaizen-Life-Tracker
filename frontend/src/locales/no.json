@@ -2210,7 +2210,13 @@
     "groups": "Grupper",
     "noNotifications": "Ingen varsler",
     "notifications": "Varsler",
-    "posts": "Innlegg"
+    "posts": "Innlegg",
+    "followRequest": "{{name}} ba om å følge deg",
+    "messageRequest": "{{name}} ba om å sende deg melding",
+    "newFollower": "{{name}} begynte å følge deg",
+    "commentedOnPost": "{{name}} kommenterte innlegget ditt",
+    "likedPost": "{{name}} likte innlegget ditt",
+    "mentionedYou": "{{name}} nevnte deg"
   },
   "today": {
     "bpm": "BPM",
