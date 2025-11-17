@@ -1449,6 +1449,9 @@ class CommunityComment(BaseModel):
     image_urls: Optional[List[str]] = []  # Array of image URLs (max 3 for comments)
     likes_count: int = 0  # Number of likes on this comment
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    # Link preview data
+    youtube_data: Optional[dict] = None  # {"video_id": "...", "title": "...", "thumbnail": "...", "embed_url": "..."}
+    url_preview: Optional[dict] = None  # {"url": "...", "title": "...", "description": "...", "image": "...", "site_name": "..."}
 
 class CommunityLike(BaseModel):
     model_config = ConfigDict(extra="ignore")
