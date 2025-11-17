@@ -12048,6 +12048,88 @@ async def toggle_follow(target_athlete_id: str, athlete_id: str = Query(...)):
         logging.error(f"Error toggling follow: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@api_router.delete("/community/follow")
+async def remove_follow(follower_id: str = Query(...), following_id: str = Query(...)):
+    """Remove a follow relationship (for removing followers or unfollowing)"""
+    try:
+        # Find and delete the follow relationship
+        result = await db.community_follows.delete_one({
+            "follower_id": follower_id,
+            "following_id": following_id
+        })
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Follow relationship not found")
+        
+        return {"success": True, "message": "Follow relationship removed"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error removing follow: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/community/block")
+async def block_user(block_data: dict):
+    """Block a user from following or messaging"""
+    try:
+        blocker_id = block_data.get("blocker_id")
+        blocked_id = block_data.get("blocked_id")
+        
+        if not blocker_id or not blocked_id:
+            raise HTTPException(status_code=400, detail="Missing required fields")
+        
+        # Check if already blocked
+        existing_block = await db.user_blocks.find_one({
+            "blocker_id": blocker_id,
+            "blocked_id": blocked_id
+        })
+        
+        if existing_block:
+            return {"success": True, "message": "User already blocked"}
+        
+        # Create block record
+        block = {
+            "id": str(uuid.uuid4()),
+            "blocker_id": blocker_id,
+            "blocked_id": blocked_id,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.user_blocks.insert_one(prepare_for_mongo(block.copy()))
+        
+        # Remove any existing follow relationships
+        await db.community_follows.delete_many({
+            "$or": [
+                {"follower_id": blocked_id, "following_id": blocker_id},
+                {"follower_id": blocker_id, "following_id": blocked_id}
+            ]
+        })
+        
+        # Remove any pending follow requests
+        await db.follow_requests.delete_many({
+            "$or": [
+                {"requester_id": blocked_id, "target_id": blocker_id},
+                {"requester_id": blocker_id, "target_id": blocked_id}
+            ]
+        })
+        
+        # Remove any pending message requests
+        await db.message_requests.delete_many({
+            "$or": [
+                {"requester_id": blocked_id, "target_id": blocker_id},
+                {"requester_id": blocker_id, "target_id": blocked_id}
+            ]
+        })
+        
+        return {"success": True, "message": "User blocked successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error blocking user: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.post("/community/follow-request/{request_id}/accept")
 async def accept_follow_request(request_id: str, athlete_id: str = Query(...)):
     """Accept a follow request"""
