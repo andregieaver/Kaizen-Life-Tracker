@@ -1898,7 +1898,14 @@
     "newFollower": "{{name}} begyndte at følge dig",
     "commentedOnPost": "{{name}} kommenterede dit opslag",
     "likedPost": "{{name}} kunne lide dit opslag",
-    "mentionedYou": "{{name}} nævnte dig"
+    "likedComment": "{{name}} kunne lide din kommentar",
+    "sharedPost": "{{name}} delte dit opslag",
+    "commentedOnEvent": "{{name}} kommenterede din begivenhed",
+    "mentionedYou": "{{name}} nævnte dig",
+    "acceptedFollowRequest": "{{name}} accepterede din følge-anmodning",
+    "acceptedMessageRequest": "{{name}} accepterede din besked-anmodning",
+    "groupJoinRequest": "{{name}} anmodede om at tilslutte sig din gruppe",
+    "eventInvite": "{{name}} inviterede dig til en begivenhed"
   },
   "today": {
     "bpm": "BPM",
