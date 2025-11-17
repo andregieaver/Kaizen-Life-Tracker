@@ -441,7 +441,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
               </>
             ) : (
               <div className="flex-1 flex items-center justify-center text-gray-400">
-                <p>Select a conversation to start messaging</p>
+                <p>{t('messages.selectConversation')}</p>
               </div>
             )}
           </div>
