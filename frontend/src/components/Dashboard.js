@@ -1147,14 +1147,14 @@ const Dashboard = ({ athleteId }) => {
               {moduleSettings?.community?.enabled && (
                 <button 
                   onClick={() => activeTab === 'community' ? navigate('/dashboard') : navigate('/dashboard/community')}
-                  className="p-2 transition-all duration-200 active:scale-95 relative"
+                  className="p-2 transition-all duration-200 active:scale-95 relative group"
                   aria-label={activeTab === 'community' ? 'Dashboard' : 'Community'}
                   title={activeTab === 'community' ? 'Back to Dashboard' : 'Community'}
                 >
                   {activeTab === 'community' ? (
-                    <User className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
+                    <User className="w-6 h-6 text-white group-hover:text-[#32D3FF] group-active:text-[#32D3FF] transition-colors duration-200" />
                   ) : (
-                    <Users className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
+                    <Users className="w-6 h-6 text-white group-hover:text-[#32D3FF] group-active:text-[#32D3FF] transition-colors duration-200" />
                   )}
                 </button>
               )}
