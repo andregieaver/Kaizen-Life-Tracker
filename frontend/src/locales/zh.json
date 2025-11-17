@@ -2210,7 +2210,13 @@
     "groups": "群组",
     "noNotifications": "没有通知",
     "notifications": "通知",
-    "posts": "帖子"
+    "posts": "帖子",
+    "followRequest": "{{name}} 请求关注你",
+    "messageRequest": "{{name}} 请求给你发消息",
+    "newFollower": "{{name}} 开始关注你了",
+    "commentedOnPost": "{{name}} 评论了你的帖子",
+    "likedPost": "{{name}} 点赞了你的帖子",
+    "mentionedYou": "{{name}} 提到了你"
   },
   "today": {
     "bpm": "BPM",
