@@ -2210,7 +2210,13 @@
     "groups": "Gruppi",
     "noNotifications": "Nessuna notifica",
     "notifications": "Notifiche",
-    "posts": "Post"
+    "posts": "Post",
+    "followRequest": "{{name}} ha chiesto di seguirti",
+    "messageRequest": "{{name}} ha chiesto di inviarti un messaggio",
+    "newFollower": "{{name}} ha iniziato a seguirti",
+    "commentedOnPost": "{{name}} ha commentato il tuo post",
+    "likedPost": "{{name}} ha messo mi piace al tuo post",
+    "mentionedYou": "{{name}} ti ha menzionato"
   },
   "today": {
     "bpm": "BPM",
