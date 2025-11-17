@@ -522,6 +522,8 @@ agent_communication:
     message: "OAUTH ROUTING FIX - Added PolarConnector to resolve routing conflict. Created PolarConnector class that delegates to PolarService for authorization, following same pattern as StravaConnector/OuraConnector. Added polar_connector to connectors dict. Backend restarted successfully. Ready for OAuth flow testing."
   - agent: "testing"
     message: "✅ POLAR OAUTH ROUTING FIX VERIFIED SUCCESSFULLY - OAuth routing conflict resolved. GET /api/auth/polar now returns 200 with authorization URL (not 404 'Provider not found'). Authorization URL contains all required OAuth parameters (client_id, redirect_uri with /api/ prefix, scope=accesslink.read_all, state). Connection status and sync endpoints working correctly. POLAR OAUTH INTEGRATION IS PRODUCTION-READY."
+  - agent: "testing"
+    message: "❌ NOTIFICATION CLICK HANDLER DIAGNOSTIC TEST INCOMPLETE - Unable to complete automated testing due to authentication barriers (cookie consent modal, login form issues). CODE VERIFICATION COMPLETED: Confirmed inline window.alert() calls are present in Community.js lines 3525 and 3570 with red borders for visual confirmation. CRITICAL NEED: Manual testing required to verify if alerts 'MOBILE NOTIFICATION CLICKED!' or 'DESKTOP NOTIFICATION CLICKED!' appear when clicking notifications. This will determine if onClick handlers are firing or if there's an overlay/event propagation issue preventing clicks from reaching notification elements."
 
   - task: "Strava Sync Endpoint force_full_sync Parameter Fix"
     implemented: true
