@@ -596,6 +596,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                         height={350}
                         previewConfig={{ showPreview: false }}
                         searchDisabled={false}
+                        searchPlaceholder={t('messages.searchEmoji')}
                         skinTonesDisabled={false}
                         lazyLoadEmojis={true}
                       />
