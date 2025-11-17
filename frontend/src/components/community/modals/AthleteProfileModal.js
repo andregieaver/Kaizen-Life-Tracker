@@ -6,6 +6,7 @@ import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
 import ImageCarousel from '../../ImageCarousel';
 import OnlineStatusIndicator from '../../OnlineStatusIndicator';
+import FollowersFollowingModal from './FollowersFollowingModal';
 import axios from 'axios';
 import { logger } from '../../../utils/logger';
 import { formatMentions } from '../../../utils/mentionUtils';
@@ -18,6 +19,8 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
   const [activeTab, setActiveTab] = useState('about'); // 'about' or 'posts'
   const [userPosts, setUserPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
+  const [showFollowersModal, setShowFollowersModal] = useState(false);
+  const [followersModalTab, setFollowersModalTab] = useState('followers');
   
   // Calculate age from date of birth
   const calculateAge = (dob) => {
