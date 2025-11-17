@@ -416,7 +416,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                       value={messageText}
                       onChange={(e) => setMessageText(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      placeholder="Type a message..."
+                      placeholder={t('messages.typeMessage')}
                       className="flex-1 p-3 bg-gray-800 text-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#00C2A8] min-h-[44px] max-h-32"
                       rows="1"
                       disabled={sending}
