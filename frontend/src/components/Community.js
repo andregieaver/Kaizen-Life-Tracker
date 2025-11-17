@@ -2766,7 +2766,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Floating Action Button - Bottom Right */}
       <button
         onClick={() => setShowCreateMenu(!showCreateMenu)}
-        className="md:hidden fixed z-50 w-14 h-14 rounded-full flex items-center justify-center"
+        className="fixed z-50 w-14 h-14 rounded-full flex items-center justify-center"
         style={{
           bottom: `calc(96px - ${(1 - footerProgress) * 100}px)`,
           right: '16px',
