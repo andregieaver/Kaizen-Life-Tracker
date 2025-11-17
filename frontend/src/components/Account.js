@@ -333,6 +333,7 @@ const Account = ({ athleteId }) => {
     share_bio: false,
     share_goals: false,
     share_interests: false,
+    privacy_level: 'public',
     estimated_calorie_need: '',
     weight_goal: '',
     health_goals: [],
