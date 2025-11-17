@@ -2729,8 +2729,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           onFollowToggle={handleAthletesFollowToggle}
           onViewProfile={loadAthleteProfile}
           onMessageUser={(userId) => {
-            setShowAthletes(false);
-            onOpenMessages && onOpenMessages(userId);
+            const athlete = athletes.find(a => a.id === userId);
+            if (athlete) {
+              handleMessageUser(userId, athlete.privacy_level, athlete.message_request_sent);
+            }
           }}
           t={t}
         />
