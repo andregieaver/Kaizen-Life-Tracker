@@ -1658,6 +1658,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const handleNotificationClick = async (notification) => {
+    // Temporary debugging - log to both container and create visible alert
+    window.alert(`DEBUG: Notification clicked\nType: ${notification.type}\nFrom: ${notification.from_athlete_id}\nAction: ${notification.action_id}`);
     console.log('🔔 Notification clicked - Type:', notification.type, 'From:', notification.from_athlete_id, 'Action:', notification.action_id);
     
     try {
@@ -1669,6 +1671,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     // Handle different notification types
     if (notification.type === 'follow_request' && notification.from_athlete_id) {
       console.log('✅ Opening profile for FOLLOW REQUEST');
+      window.alert(`DEBUG: Matched follow_request condition, about to load profile`);
       effectiveSetShowNotifications(false);
       await loadAthleteProfile(notification.from_athlete_id, { 
         requestType: 'follow', 
@@ -1676,6 +1679,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       });
     } else if (notification.type === 'message_request' && notification.from_athlete_id) {
       console.log('✅ Opening profile for MESSAGE REQUEST');
+      window.alert(`DEBUG: Matched message_request condition, about to load profile`);
       effectiveSetShowNotifications(false);
       await loadAthleteProfile(notification.from_athlete_id, { 
         requestType: 'message', 
