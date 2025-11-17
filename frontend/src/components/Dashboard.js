@@ -2404,7 +2404,7 @@ const Dashboard = ({ athleteId }) => {
                           {getNotificationIcon(notification.type)}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm">{notification.message || notification.content}</p>
+                          <p className="text-white text-sm">{translateNotificationContent(notification, t)}</p>
                           <p className="text-gray-400 text-xs mt-1">
                             {new Date(notification.created_at).toLocaleString()}
                           </p>
