@@ -239,7 +239,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
-          <h2 className="text-2xl font-bold text-white">Messages</h2>
+          <h2 className="text-2xl font-bold text-white">{t('messages.title')}</h2>
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-700 rounded-full transition-colors"
