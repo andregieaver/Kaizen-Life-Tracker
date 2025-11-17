@@ -2224,5 +2224,17 @@
     "totalLoad": "Total Load",
     "trainingLoad": "Training Load",
     "workout": "Workout"
+  },
+  "messages": {
+    "title": "Messages",
+    "searchConversations": "Search conversations...",
+    "noConversationsFound": "No conversations found",
+    "noMessagesYet": "No messages yet",
+    "typeMessage": "Type a message...",
+    "selectConversation": "Select a conversation to start messaging",
+    "startConversation": "Start the conversation!",
+    "sendMessage": "Send message",
+    "messageButton": "Message",
+    "back": "Back"
   }
 }
