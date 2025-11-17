@@ -18529,6 +18529,8 @@ class SendMessageRequest(BaseModel):
     sender_id: str
     receiver_id: str
     content: str
+    youtube_data: Optional[dict] = None
+    url_preview: Optional[dict] = None
 
 @api_router.post("/messages/send")
 async def send_message(message_data: SendMessageRequest):
