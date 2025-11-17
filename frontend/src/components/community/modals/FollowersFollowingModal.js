@@ -130,7 +130,10 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
           {/* Tabs */}
           <div className="flex space-x-1">
             <button
-              onClick={() => setActiveTab('followers')}
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveTab('followers');
+              }}
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                 activeTab === 'followers'
                   ? 'bg-[#00C2A8] text-white'
@@ -140,7 +143,10 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
               {t('community.followers')} ({followers.length})
             </button>
             <button
-              onClick={() => setActiveTab('following')}
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveTab('following');
+              }}
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                 activeTab === 'following'
                   ? 'bg-[#00C2A8] text-white'
