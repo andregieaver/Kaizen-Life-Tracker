@@ -1692,7 +1692,9 @@
     "followRequestSent": "Request Sent",
     "message": "Message",
     "requestToMessage": "Request to Message",
-    "messageRequestSent": "Request Sent"
+    "messageRequestSent": "Request Sent",
+    "acceptRequest": "Accept",
+    "declineRequest": "Decline"
   },
   "habits": {
     "title": "Habits",
