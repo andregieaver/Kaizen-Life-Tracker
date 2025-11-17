@@ -2323,21 +2323,15 @@ const Account = ({ athleteId }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="nationality" className="text-sm font-medium text-white">{t('account.nationality')}</Label>
-                      <Select
+                      <SearchableSelect
                         value={personalForm.nationality}
-                        onValueChange={(value) => setPersonalForm(prev => ({...prev, nationality: value}))}
-                      >
-                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
-                          <SelectValue placeholder={t('account.selectCountry')} />
-                        </SelectTrigger>
-                        <SelectContent className="max-h-[300px]">
-                          {countries.map(country => (
-                            <SelectItem key={country.value} value={country.value}>
-                              {country.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                        onChange={(value) => setPersonalForm(prev => ({...prev, nationality: value}))}
+                        options={countries.map(country => ({
+                          value: country.value,
+                          label: country.label
+                        }))}
+                        placeholder={t('account.selectCountry')}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-sm font-medium text-white">{t('account.dateOfBirth')}</Label>
