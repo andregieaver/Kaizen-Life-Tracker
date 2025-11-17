@@ -436,6 +436,9 @@
       "writeComment": "Skriv en kommentar...",
       "writeCommentMention": "Skriv en kommentar, nævn med @..."
     },
+    "searchNationality": "Søg nationalitet...",
+    "noNationalitiesFound": "Ingen nationaliteter fundet",
+    "findUser": "Find bruger",
     "challenge": {
       "title": "Udfordring",
       "active": "Aktiv",
