@@ -361,6 +361,9 @@
       "writeComment": "写评论...",
       "writeCommentMention": "写评论，提及请用@..."
     },
+    "searchNationality": "搜索国籍...",
+    "noNationalitiesFound": "未找到国籍",
+    "findUser": "查找用户",
     "challenge": {
       "title": "挑战",
       "active": "进行中",
