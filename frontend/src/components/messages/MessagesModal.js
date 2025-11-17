@@ -474,6 +474,58 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                 
                 {/* Message Input - Fixed at bottom */}
                 <div className="p-3 md:p-4 border-t border-gray-700 bg-gray-800/50 flex-shrink-0 relative">
+                  {/* Link Preview Cards (YouTube or URL) */}
+                  {(youtubeData || urlPreview) && (
+                    <div className="mb-3">
+                      {youtubeData && (
+                        <div className="relative bg-gray-700 rounded-lg overflow-hidden">
+                          <button
+                            onClick={() => setYoutubeData(null)}
+                            className="absolute top-2 right-2 z-10 bg-black/50 hover:bg-black/70 rounded-full p-1 transition-colors"
+                          >
+                            <X className="w-4 h-4 text-white" />
+                          </button>
+                          <img 
+                            src={youtubeData.thumbnail} 
+                            alt={youtubeData.title}
+                            className="w-full h-32 object-cover"
+                          />
+                          <div className="p-2">
+                            <p className="text-white text-sm font-semibold line-clamp-2">{youtubeData.title}</p>
+                            <p className="text-gray-400 text-xs mt-1">YouTube Video</p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {urlPreview && !youtubeData && (
+                        <div className="relative bg-gray-700 rounded-lg overflow-hidden">
+                          <button
+                            onClick={() => setUrlPreview(null)}
+                            className="absolute top-2 right-2 z-10 bg-black/50 hover:bg-black/70 rounded-full p-1 transition-colors"
+                          >
+                            <X className="w-4 h-4 text-white" />
+                          </button>
+                          {urlPreview.image && (
+                            <img 
+                              src={urlPreview.image} 
+                              alt={urlPreview.title}
+                              className="w-full h-32 object-cover"
+                            />
+                          )}
+                          <div className="p-2">
+                            <p className="text-white text-sm font-semibold line-clamp-2">{urlPreview.title}</p>
+                            {urlPreview.description && (
+                              <p className="text-gray-400 text-xs mt-1 line-clamp-2">{urlPreview.description}</p>
+                            )}
+                            {urlPreview.site_name && (
+                              <p className="text-gray-500 text-xs mt-1">{urlPreview.site_name}</p>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
                   {/* Emoji Picker */}
                   {showEmojiPicker && (
                     <div 
