@@ -1679,7 +1679,9 @@
   },
   "athlete": {
     "follow": "フォローする",
-    "unfollow": "フォローを解除する"
+    "unfollow": "フォローを解除する",
+    "acceptRequest": "承認",
+    "declineRequest": "拒否"
   },
   "habits": {
     "title": "習慣",
