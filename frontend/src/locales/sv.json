@@ -315,6 +315,10 @@
     "followers": "Följare",
     "posts": "Inlägg",
     "interests": "Intressen",
+    "searchUsers": "Sök användare...",
+    "noFollowers": "Inga följare ännu",
+    "noFollowing": "Följer ingen ännu",
+    "noUsersFound": "Inga användare hittades",
     "healthTrainingGoals": "Hälso- och träningsmål",
     "yearsOld": "{{age}} år gammal",
     "actions": {
