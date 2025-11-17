@@ -2608,6 +2608,70 @@ const Account = ({ athleteId }) => {
 
                 <Separator className="opacity-10" />
 
+                {/* Privacy Level Settings */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-display font-semibold text-white">{t('account.privacyLevel')}</h3>
+                  <p className="text-sm text-gray-400">{t('account.privacyLevelDescription')}</p>
+                  
+                  {/* Privacy Toggle Pills */}
+                  <div className="inline-flex rounded-lg bg-gray-800 p-1" role="group">
+                    <button
+                      type="button"
+                      onClick={() => setPersonalForm(prev => ({...prev, privacy_level: 'public'}))}
+                      className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                        personalForm.privacy_level === 'public'
+                          ? 'bg-[#00C2A8] text-white'
+                          : 'text-gray-400 hover:text-white'
+                      }`}
+                    >
+                      {t('account.privacyPublic')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPersonalForm(prev => ({...prev, privacy_level: 'guarded'}))}
+                      className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                        personalForm.privacy_level === 'guarded'
+                          ? 'bg-[#00C2A8] text-white'
+                          : 'text-gray-400 hover:text-white'
+                      }`}
+                    >
+                      {t('account.privacyGuarded')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPersonalForm(prev => ({...prev, privacy_level: 'private'}))}
+                      className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                        personalForm.privacy_level === 'private'
+                          ? 'bg-[#00C2A8] text-white'
+                          : 'text-gray-400 hover:text-white'
+                      }`}
+                    >
+                      {t('account.privacyPrivate')}
+                    </button>
+                  </div>
+
+                  {/* Privacy Level Descriptions */}
+                  <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+                    {personalForm.privacy_level === 'public' && (
+                      <p className="text-sm text-gray-300">
+                        <span className="font-semibold text-white">{t('account.privacyPublic')}:</span> {t('account.privacyPublicDescription')}
+                      </p>
+                    )}
+                    {personalForm.privacy_level === 'guarded' && (
+                      <p className="text-sm text-gray-300">
+                        <span className="font-semibold text-white">{t('account.privacyGuarded')}:</span> {t('account.privacyGuardedDescription')}
+                      </p>
+                    )}
+                    {personalForm.privacy_level === 'private' && (
+                      <p className="text-sm text-gray-300">
+                        <span className="font-semibold text-white">{t('account.privacyPrivate')}:</span> {t('account.privacyPrivateDescription')}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <Separator className="opacity-10" />
+
                 <div className="space-y-4">
                   <h3 className="text-lg font-display font-semibold text-white">{t('account.healthNutritionGoals')}</h3>
                   
