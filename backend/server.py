@@ -12108,6 +12108,14 @@ async def decline_follow_request(request_id: str, athlete_id: str = Query(...)):
         # Get the request
         request = await db.follow_requests.find_one({"id": request_id, "target_id": athlete_id, "status": "pending"})
         if not request:
+            # Check if already declined or accepted
+            existing_request = await db.follow_requests.find_one({"id": request_id, "target_id": athlete_id})
+            if existing_request:
+                status = existing_request.get("status")
+                if status == "declined":
+                    return {"success": True, "message": "Follow request already declined", "already_declined": True}
+                elif status == "accepted":
+                    return {"success": False, "message": "Cannot decline an already accepted request", "already_accepted": True}
             raise HTTPException(status_code=404, detail="Request not found")
         
         # Update request status
