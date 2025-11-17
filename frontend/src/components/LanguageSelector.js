@@ -70,6 +70,7 @@ const LanguageSelector = ({ athleteId }) => {
           label: `${lang.flag} ${lang.name}`
         }))}
         placeholder={t('account.selectLanguage')}
+        searchPlaceholder={t('community.searchLanguage')}
       />
       <p className="text-xs text-gray-500">
         {t('account.selectLanguage')}
