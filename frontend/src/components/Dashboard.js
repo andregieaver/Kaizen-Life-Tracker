@@ -1138,10 +1138,10 @@ const Dashboard = ({ athleteId }) => {
               {moduleSettings?.affiliateProgram?.enabled && (
                 <button 
                   onClick={() => navigate('/dashboard/referrals')}
-                  className="p-2 transition-all duration-200 active:scale-95"
+                  className="p-2 transition-all duration-200 active:scale-95 group"
                   aria-label="Referrals"
                 >
-                  <Gift className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
+                  <Gift className="w-6 h-6 text-white group-hover:text-[#32D3FF] group-active:text-[#32D3FF] transition-colors duration-200" />
                 </button>
               )}
               {moduleSettings?.community?.enabled && (
