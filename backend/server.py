@@ -12313,6 +12313,56 @@ async def get_all_athletes(viewer_athlete_id: str = Query(...), search: str = Qu
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@api_router.get("/community/athletes/{athlete_id}/followers")
+async def get_athlete_followers(athlete_id: str):
+    """Get list of users following this athlete"""
+    try:
+        # Get all follow relationships where this athlete is being followed
+        follows = await db.community_follows.find(
+            {"following_id": athlete_id}
+        ).to_list(length=None)
+        
+        # Get follower profiles
+        follower_ids = [f["follower_id"] for f in follows]
+        if not follower_ids:
+            return {"followers": []}
+        
+        followers = await db.athlete_profiles.find(
+            {"id": {"$in": follower_ids}},
+            {"_id": 0, "id": 1, "name": 1, "profile_picture": 1, "bio": 1, "nationality": 1, "subscription_tier": 1, "last_active_at": 1}
+        ).to_list(length=None)
+        
+        return {"followers": followers}
+    except Exception as e:
+        logging.error(f"Error fetching followers: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/community/athletes/{athlete_id}/following")
+async def get_athlete_following(athlete_id: str):
+    """Get list of users this athlete is following"""
+    try:
+        # Get all follow relationships where this athlete is the follower
+        follows = await db.community_follows.find(
+            {"follower_id": athlete_id}
+        ).to_list(length=None)
+        
+        # Get following profiles
+        following_ids = [f["following_id"] for f in follows]
+        if not following_ids:
+            return {"following": []}
+        
+        following = await db.athlete_profiles.find(
+            {"id": {"$in": following_ids}},
+            {"_id": 0, "id": 1, "name": 1, "profile_picture": 1, "bio": 1, "nationality": 1, "subscription_tier": 1, "last_active_at": 1}
+        ).to_list(length=None)
+        
+        return {"following": following}
+    except Exception as e:
+        logging.error(f"Error fetching following: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ==========================================
 # GROUPS ENDPOINTS
 # ==========================================
