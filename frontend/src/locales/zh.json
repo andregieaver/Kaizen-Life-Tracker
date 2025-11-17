@@ -2224,5 +2224,17 @@
     "totalLoad": "总负荷",
     "trainingLoad": "训练负荷",
     "workout": "锻炼"
+  },
+  "messages": {
+    "title": "消息",
+    "searchConversations": "搜索对话...",
+    "noConversationsFound": "未找到对话",
+    "noMessagesYet": "还没有消息",
+    "typeMessage": "输入消息...",
+    "selectConversation": "选择一个对话开始聊天",
+    "startConversation": "开始对话！",
+    "sendMessage": "发送消息",
+    "messageButton": "消息",
+    "back": "返回"
   }
 }
