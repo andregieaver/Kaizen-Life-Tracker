@@ -62,7 +62,7 @@ const SearchableSelect = ({ value, onChange, options, placeholder, label }) => {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm flex items-center justify-between hover:bg-gray-600 transition-colors"
+        className="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00FFFF] focus:ring-2 focus:ring-[#00FFFF]/20 outline-none text-sm flex items-center justify-between hover:bg-gray-600 transition-colors"
       >
         <span className="truncate">{getDisplayLabel()}</span>
         <ChevronDown 
