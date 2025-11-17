@@ -3505,6 +3505,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             
             {/* Notifications List */}
             <div className="flex-1 overflow-y-auto p-2">
+              <div style={{ background: 'yellow', color: 'black', padding: '20px', fontSize: '20px', fontWeight: 'bold', textAlign: 'center', border: '5px solid red' }}>
+                🔴 DEBUG MODE ACTIVE - {notifications.length} notifications loaded 🔴
+              </div>
               {notifications.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
