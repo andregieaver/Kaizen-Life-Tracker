@@ -67,16 +67,18 @@ const FeedTab = ({
           <label className="text-white text-sm font-semibold whitespace-nowrap">
             {t('community.post.filterByNationality')}:
           </label>
-          <select
+          <SearchableSelect
             value={nationalityFilter}
-            onChange={(e) => onNationalityFilterChange(e.target.value)}
-            className="flex-1 bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
-          >
-            <option value="all">{t('community.post.allNationalities')}</option>
-            {getUniqueNationalities().map(nationality => (
-              <option key={nationality} value={nationality}>{nationality}</option>
-            ))}
-          </select>
+            onChange={onNationalityFilterChange}
+            options={[
+              { value: 'all', label: t('community.post.allNationalities') },
+              ...getUniqueNationalities().map(nationality => ({
+                value: nationality,
+                label: nationality
+              }))
+            ]}
+            placeholder={t('community.post.allNationalities')}
+          />
         </div>
       </div>
 
