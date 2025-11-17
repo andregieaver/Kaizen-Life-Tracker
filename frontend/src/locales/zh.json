@@ -1679,7 +1679,9 @@
   },
   "athlete": {
     "follow": "关注",
-    "unfollow": "取消关注"
+    "unfollow": "取消关注",
+    "acceptRequest": "接受",
+    "declineRequest": "拒绝"
   },
   "habits": {
     "title": "习惯",
