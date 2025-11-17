@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from environment
-BACKEND_URL = "https://communityhub-28.preview.emergentagent.com/api"
+BACKEND_URL = "https://fitness-connect-21.preview.emergentagent.com/api"
 
 def debug_schedule_limit_issue():
     """Debug the specific schedule limit issue"""
