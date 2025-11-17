@@ -2216,7 +2216,14 @@
     "newFollower": "{{name}} begynte å følge deg",
     "commentedOnPost": "{{name}} kommenterte innlegget ditt",
     "likedPost": "{{name}} likte innlegget ditt",
-    "mentionedYou": "{{name}} nevnte deg"
+    "likedComment": "{{name}} likte kommentaren din",
+    "sharedPost": "{{name}} delte innlegget ditt",
+    "commentedOnEvent": "{{name}} kommenterte arrangementet ditt",
+    "mentionedYou": "{{name}} nevnte deg",
+    "acceptedFollowRequest": "{{name}} godtok følgeforespørselen din",
+    "acceptedMessageRequest": "{{name}} godtok meldingsforespørselen din",
+    "groupJoinRequest": "{{name}} ba om å bli med i gruppen din",
+    "eventInvite": "{{name}} inviterte deg til et arrangement"
   },
   "today": {
     "bpm": "BPM",
