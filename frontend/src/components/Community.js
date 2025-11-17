@@ -1567,7 +1567,21 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
     
     // Handle different notification types
-    if (notification.type === 'follow' && notification.from_athlete_id) {
+    if (notification.type === 'follow_request' && notification.from_athlete_id) {
+      // Open requester's profile with request context
+      effectiveSetShowNotifications(false);
+      await loadAthleteProfile(notification.from_athlete_id, { 
+        requestType: 'follow', 
+        requestId: notification.action_id 
+      });
+    } else if (notification.type === 'message_request' && notification.from_athlete_id) {
+      // Open requester's profile with message request context
+      effectiveSetShowNotifications(false);
+      await loadAthleteProfile(notification.from_athlete_id, { 
+        requestType: 'message', 
+        requestId: notification.action_id 
+      });
+    } else if (notification.type === 'follow' && notification.from_athlete_id) {
       effectiveSetShowNotifications(false);
       await loadAthleteProfile(notification.from_athlete_id);
     } else if (notification.type === 'mention' && notification.post_id) {
