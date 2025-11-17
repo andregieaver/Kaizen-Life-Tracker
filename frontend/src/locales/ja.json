@@ -2224,5 +2224,17 @@
     "totalLoad": "総負荷",
     "trainingLoad": "トレーニング負荷",
     "workout": "トレーニング"
+  },
+  "messages": {
+    "title": "メッセージ",
+    "searchConversations": "会話を検索...",
+    "noConversationsFound": "会話が見つかりませんでした",
+    "noMessagesYet": "メッセージはまだありません",
+    "typeMessage": "メッセージを入力...",
+    "selectConversation": "チャットを開始するには会話を選択してください",
+    "startConversation": "会話を開始しましょう！",
+    "sendMessage": "メッセージを送信",
+    "messageButton": "メッセージ",
+    "back": "戻る"
   }
 }
