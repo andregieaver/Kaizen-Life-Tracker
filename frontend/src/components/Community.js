@@ -3604,20 +3604,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       className={`p-4 hover:bg-gray-700/30 cursor-pointer transition-colors ${
                         !notification.read ? 'bg-gray-700/20' : ''
                       }`}
-                      style={{ borderBottom: '1px solid var(--border)', border: '5px solid red', boxShadow: '0 0 20px red' }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const alertDiv = document.createElement('div');
-                        alertDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:red;color:white;padding:40px;z-index:999999;font-size:24px;border:5px solid yellow;';
-                        alertDiv.textContent = 'DESKTOP NOTIFICATION CLICKED! Type: ' + notification.type;
-                        document.body.appendChild(alertDiv);
-                        setTimeout(() => alertDiv.remove(), 3000);
-                        window.alert('DESKTOP NOTIFICATION CLICKED!');
-                        handleNotificationClick(notification);
-                      }}
+                      style={{ borderBottom: '1px solid var(--border)' }}
+                      onClick={() => handleNotificationClick(notification)}
                     >
-                      <p className="text-sm" style={{ color: 'var(--text-hi)', background: 'red' }}>{notification.message || notification.content}</p>
+                      <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
                       <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                         {new Date(notification.created_at).toLocaleString()}
                       </p>
