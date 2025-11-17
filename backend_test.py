@@ -14193,20 +14193,15 @@ def test_strava_callback_domain_update():
         return False
 
 def main():
-    """Main function to run comprehensive backend API testing as requested in review"""
-    print("🚀 STARTING COMPREHENSIVE BACKEND API TESTING - POST-REFACTORING VERIFICATION")
+    """Main function to run notification click handler testing as requested in review"""
+    print("🚀 STARTING NOTIFICATION CLICK HANDLER TESTING AS REQUESTED")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test 1: System Settings APIs
+    # Test: Notification Click Handler Functionality
     print("\n" + "="*70)
-    if not test_system_settings_apis():
-        all_tests_passed = False
-    
-    # Test 2: Community APIs
-    print("\n" + "="*70)
-    if not test_community_apis():
+    if not test_notification_click_handler_functionality():
         all_tests_passed = False
     
     # Final Results
