@@ -390,6 +390,10 @@
     "followers": "Følgere",
     "posts": "Opslag",
     "interests": "Interesser",
+    "searchUsers": "Søg brugere...",
+    "noFollowers": "Ingen følgere endnu",
+    "noFollowing": "Følger ingen endnu",
+    "noUsersFound": "Ingen brugere fundet",
     "healthTrainingGoals": "Sundheds- og træningsmål",
     "yearsOld": "{{age}} år gammel",
     "actions": {
