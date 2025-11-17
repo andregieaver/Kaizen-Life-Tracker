@@ -12154,6 +12154,20 @@ async def get_athlete_profile(target_athlete_id: str, viewer_athlete_id: str = Q
             "following_id": target_athlete_id
         }) is not None
         
+        # Check if there's a pending follow request
+        follow_request_sent = await db.follow_requests.find_one({
+            "requester_id": viewer_athlete_id,
+            "target_id": target_athlete_id,
+            "status": "pending"
+        }) is not None
+        
+        # Check if there's a pending message request
+        message_request_sent = await db.message_requests.find_one({
+            "requester_id": viewer_athlete_id,
+            "target_id": target_athlete_id,
+            "status": "pending"
+        }) is not None
+        
         return {
             "id": athlete["id"],
             "name": athlete.get("name", "Unknown"),
@@ -12167,11 +12181,14 @@ async def get_athlete_profile(target_athlete_id: str, viewer_athlete_id: str = Q
             "share_bio": athlete.get("share_bio", True),
             "share_goals": athlete.get("share_goals", True),
             "share_interests": athlete.get("share_interests", True),
+            "privacy_level": athlete.get("privacy_level", "public"),
             "posts_count": posts_count,
             "likes_received": likes_received,
             "followers_count": followers_count,
             "following_count": following_count,
             "is_following": is_following,
+            "follow_request_sent": follow_request_sent,
+            "message_request_sent": message_request_sent,
             "is_own_profile": target_athlete_id == viewer_athlete_id,
             "last_active_at": athlete.get("last_active_at")
         }
