@@ -222,11 +222,23 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                     <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count || 0}</p>
                     <p className="text-gray-400 text-sm">{t('community.posts')}</p>
                   </div>
-                  <div className="text-center">
+                  <div 
+                    className="text-center cursor-pointer hover:bg-gray-700/30 rounded-lg py-2 transition-colors"
+                    onClick={() => {
+                      setFollowersModalTab('followers');
+                      setShowFollowersModal(true);
+                    }}
+                  >
                     <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count || 0}</p>
                     <p className="text-gray-400 text-sm">{t('community.followers')}</p>
                   </div>
-                  <div className="text-center">
+                  <div 
+                    className="text-center cursor-pointer hover:bg-gray-700/30 rounded-lg py-2 transition-colors"
+                    onClick={() => {
+                      setFollowersModalTab('following');
+                      setShowFollowersModal(true);
+                    }}
+                  >
                     <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count || 0}</p>
                     <p className="text-gray-400 text-sm">{t('community.following')}</p>
                   </div>
