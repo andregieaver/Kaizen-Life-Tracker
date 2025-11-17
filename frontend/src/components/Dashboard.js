@@ -2107,12 +2107,12 @@ const Dashboard = ({ athleteId }) => {
           }}
           onMouseEnter={(e) => {
             if (location.pathname !== '/dashboard/account') {
-              e.currentTarget.style.color = 'var(--c-brand-500)';
+              e.currentTarget.style.color = '#32D3FF';
             }
           }}
           onMouseLeave={(e) => {
             if (location.pathname !== '/dashboard/account') {
-              e.currentTarget.style.color = 'var(--text-med)';
+              e.currentTarget.style.color = 'white';
             }
           }}
         >
