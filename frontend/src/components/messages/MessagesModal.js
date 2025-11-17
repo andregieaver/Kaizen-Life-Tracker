@@ -268,10 +268,10 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
             {/* Conversations */}
             <div className="flex-1 overflow-y-auto custom-scrollbar">
               {loading && conversations.length === 0 ? (
-                <div className="p-8 text-center text-gray-400">Loading...</div>
+                <div className="p-8 text-center text-gray-400">{t('common.loading')}</div>
               ) : filteredConversations.length === 0 ? (
                 <div className="p-8 text-center text-gray-400">
-                  {searchQuery ? 'No conversations found' : 'No messages yet'}
+                  {searchQuery ? t('messages.noConversationsFound') : t('messages.noMessagesYet')}
                 </div>
               ) : (
                 filteredConversations.map(conv => (
