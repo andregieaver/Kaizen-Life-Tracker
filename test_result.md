@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix the Direct Messaging feature layout bug where the message input field and send button are not fixed to the bottom of the chat window, causing them to scroll away with the message history. Then add emoji picker functionality to the message input bar. Finally, ensure all text in the Messages modal is fully translated into all supported languages."
+user_problem_statement: "Fix the Direct Messaging feature layout bug where the message input field and send button are not fixed to the bottom of the chat window, causing them to scroll away with the message history. Then add emoji picker functionality to the message input bar. Finally, ensure all text in the Messages modal is fully translated into all supported languages. Then implement link preview functionality (like posts have) for both comments and instant messages."
 
 frontend:
   - task: "Direct Messaging Chat Input Layout Fix"
