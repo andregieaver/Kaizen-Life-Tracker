@@ -305,7 +305,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                           <p className="text-white font-semibold truncate">{conv.other_user.name}</p>
                           <span className="text-xs text-gray-400">{formatTime(conv.last_message_at)}</span>
                         </div>
-                        <p className="text-sm text-gray-400 truncate">{conv.last_message_preview || 'No messages yet'}</p>
+                        <p className="text-sm text-gray-400 truncate">{conv.last_message_preview || t('messages.noMessagesYet')}</p>
                       </div>
                       
                       {conv.unread_count > 0 && (
