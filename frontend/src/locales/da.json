@@ -1906,5 +1906,17 @@
     "totalLoad": "Total Belasting",
     "trainingLoad": "Træningsbelastning",
     "workout": "Træning"
+  },
+  "messages": {
+    "title": "Beskeder",
+    "searchConversations": "Søg samtaler...",
+    "noConversationsFound": "Ingen samtaler fundet",
+    "noMessagesYet": "Ingen beskeder endnu",
+    "typeMessage": "Skriv en besked...",
+    "selectConversation": "Vælg en samtale for at begynde at chatte",
+    "startConversation": "Start samtalen!",
+    "sendMessage": "Send besked",
+    "messageButton": "Besked",
+    "back": "Tilbage"
   }
 }
