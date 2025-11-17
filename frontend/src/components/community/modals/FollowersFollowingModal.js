@@ -15,6 +15,7 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
   const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [actionLoading, setActionLoading] = useState(null);
 
   useEffect(() => {
     loadData();
