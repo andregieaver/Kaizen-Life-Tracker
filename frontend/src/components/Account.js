@@ -14,6 +14,7 @@ import LanguageSelector from './LanguageSelector';
 import ChangePassword from './ChangePassword';
 import ChangeEmail from './ChangeEmail';
 import { useCountries } from '../utils/translationData';
+import SearchableSelect from './community/SearchableSelect';
 import { logger } from '../utils/logger';
 import { 
   registerServiceWorker,
