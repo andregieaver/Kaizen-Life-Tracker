@@ -111,8 +111,8 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
   });
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[70] p-2 md:p-4">
-      <div className="rounded-none md:rounded-3xl max-w-2xl w-full max-h-[80vh] flex flex-col border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[70] p-2 md:p-4" onClick={onClose}>
+      <div className="rounded-none md:rounded-3xl max-w-2xl w-full max-h-[80vh] flex flex-col border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
           <div className="flex items-center justify-between mb-4">
