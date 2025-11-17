@@ -1042,6 +1042,7 @@ class AthleteUpdate(BaseModel):
     share_bio: Optional[bool] = None
     share_goals: Optional[bool] = None
     share_interests: Optional[bool] = None
+    privacy_level: Optional[str] = None
     
     # Health & Nutrition Goals
     estimated_calorie_need: Optional[int] = None
