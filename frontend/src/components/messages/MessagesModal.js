@@ -20,6 +20,9 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
   const [sending, setSending] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [youtubeData, setYoutubeData] = useState(null);
+  const [urlPreview, setUrlPreview] = useState(null);
+  const [fetchingPreview, setFetchingPreview] = useState(false);
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
   const emojiPickerRef = useRef(null);
