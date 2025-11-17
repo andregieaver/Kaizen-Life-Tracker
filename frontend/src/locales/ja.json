@@ -2210,7 +2210,13 @@
     "groups": "グループ",
     "noNotifications": "通知はありません",
     "notifications": "通知",
-    "posts": "投稿"
+    "posts": "投稿",
+    "followRequest": "{{name}}さんがあなたをフォローしたいとリクエストしました",
+    "messageRequest": "{{name}}さんがあなたにメッセージを送りたいとリクエストしました",
+    "newFollower": "{{name}}さんがあなたをフォローし始めました",
+    "commentedOnPost": "{{name}}さんがあなたの投稿にコメントしました",
+    "likedPost": "{{name}}さんがあなたの投稿にいいねしました",
+    "mentionedYou": "{{name}}さんがあなたをメンションしました"
   },
   "today": {
     "bpm": "BPM",
