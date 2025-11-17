@@ -1084,10 +1084,10 @@ const Dashboard = ({ athleteId }) => {
               </div>
               <button 
                 onClick={() => setIsMenuOpen(true)}
-                className="p-2 transition-all duration-200 hover:scale-110"
+                className="p-2 transition-all duration-200 hover:scale-110 group"
                 aria-label="Open menu"
               >
-                <Menu className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
+                <Menu className="w-6 h-6 text-white group-hover:text-[#32D3FF] group-active:text-[#32D3FF] transition-colors duration-200" />
               </button>
             </div>
           </div>
