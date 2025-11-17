@@ -2236,6 +2236,7 @@
     "startConversation": "Inizia la conversazione!",
     "sendMessage": "Invia messaggio",
     "messageButton": "Messaggio",
-    "back": "Indietro"
+    "back": "Indietro",
+    "searchEmoji": "Cerca emoji..."
   }
 }
