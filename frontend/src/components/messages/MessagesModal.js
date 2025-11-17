@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { X, Search, Send, ArrowLeft } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { X, Search, Send, ArrowLeft, Smile } from 'lucide-react';
 import { Button } from '../ui/button';
 import OnlineStatusIndicator from '../OnlineStatusIndicator';
+import EmojiPicker from 'emoji-picker-react';
 import axios from 'axios';
 import { logger } from '../../utils/logger';
 
@@ -16,8 +17,10 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const messagesEndRef = React.useRef(null);
-  const textareaRef = React.useRef(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const messagesEndRef = useRef(null);
+  const textareaRef = useRef(null);
+  const emojiPickerRef = useRef(null);
   
   // Load conversations on mount
   useEffect(() => {
