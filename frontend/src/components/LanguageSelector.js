@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Label } from './ui/label';
 import { Globe } from 'lucide-react';
 import axios from 'axios';
+import SearchableSelect from './community/SearchableSelect';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
