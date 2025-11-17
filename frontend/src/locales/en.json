@@ -2236,6 +2236,7 @@
     "startConversation": "Start the conversation!",
     "sendMessage": "Send message",
     "messageButton": "Message",
-    "back": "Back"
+    "back": "Back",
+    "searchEmoji": "Search emoji..."
   }
 }
