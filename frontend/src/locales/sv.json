@@ -2224,5 +2224,17 @@
     "totalLoad": "Total Belastning",
     "trainingLoad": "Träningsbelastning",
     "workout": "Träning"
+  },
+  "messages": {
+    "title": "Meddelanden",
+    "searchConversations": "Sök konversationer...",
+    "noConversationsFound": "Inga konversationer hittades",
+    "noMessagesYet": "Inga meddelanden än",
+    "typeMessage": "Skriv ett meddelande...",
+    "selectConversation": "Välj en konversation för att börja chatta",
+    "startConversation": "Starta konversationen!",
+    "sendMessage": "Skicka meddelande",
+    "messageButton": "Meddelande",
+    "back": "Tillbaka"
   }
 }
