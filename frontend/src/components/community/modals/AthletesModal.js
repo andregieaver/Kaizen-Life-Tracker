@@ -24,7 +24,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
       <div className="rounded-none md:rounded-3xl max-w-2xl w-full max-h-[80vh] flex flex-col border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
         <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Find User</h2>
+            <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('community.findUser')}</h2>
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-700 rounded-full transition-colors"
