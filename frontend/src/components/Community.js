@@ -3520,8 +3520,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     className={`mb-2 rounded-none md:rounded-3xl hover:opacity-90 active:opacity-80 cursor-pointer transition-all overflow-hidden ${
                       !notification.read ? 'ring-2 ring-[#00C2A8]/30' : ''
                     }`}
-                    style={{ background: 'var(--grad-surface)' }}
-                    onClick={() => handleNotificationClick(notification)}
+                    style={{ background: 'var(--grad-surface)', border: '2px solid red' }}
+                    onClick={() => {
+                      window.alert('MOBILE NOTIFICATION CLICKED!');
+                      handleNotificationClick(notification);
+                    }}
                   >
                     <div className="p-4">
                       <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
