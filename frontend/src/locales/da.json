@@ -1400,7 +1400,9 @@
   },
   "athlete": {
     "follow": "Følg",
-    "unfollow": "Fjern følger"
+    "unfollow": "Fjern følger",
+    "acceptRequest": "Accepter",
+    "declineRequest": "Afvis"
   },
   "habits": {
     "title": "Vaner",
