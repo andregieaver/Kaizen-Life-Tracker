@@ -14058,16 +14058,25 @@ async def send_custom_email(email_id: str):
             # Waitlist users are in a separate collection
             collection = db.waiting_list
             query = {}  # Get all waitlist entries
+            logging.info(f"Querying waiting_list collection for all entries")
         elif target_audience in ["free", "pro", "premium"]:
             query["subscription_tier"] = target_audience
+            logging.info(f"Querying athlete_profiles with subscription_tier: {target_audience}")
+        else:
+            logging.info(f"Querying all athlete_profiles")
         # If "all", query remains empty (all users from athlete_profiles)
         
         # Get target users (batch processing recommended for large lists)
         # Limit to 5000 to prevent memory issues - use pagination for larger campaigns
+        logging.info(f"Executing query on collection: {collection.name}, query: {query}")
         users = await collection.find(query, {"_id": 0, "email": 1, "name": 1}).limit(5000).to_list(length=5000)
+        logging.info(f"Found {len(users)} users matching query")
         
         if not users:
-            raise HTTPException(status_code=400, detail=f"No users found for target audience: {target_audience}")
+            # Get count to debug
+            total_count = await collection.count_documents({})
+            logging.error(f"No users found for audience '{target_audience}'. Total docs in collection: {total_count}")
+            raise HTTPException(status_code=400, detail=f"No users found for target audience: {target_audience}. Total entries in database: {total_count}")
         
         # Log warning if we hit the limit
         if len(users) >= 5000:
