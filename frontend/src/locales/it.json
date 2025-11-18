@@ -359,7 +359,12 @@
       "filterByNationality": "Filtra per nazionalità",
       "allNationalities": "Tutte le nazionalità",
       "writeComment": "Scrivi un commento...",
-      "writeCommentMention": "Scrivi un commento, menziona con @..."
+      "writeCommentMention": "Scrivi un commento, menziona con @...",
+      "showMore": "Mostra di più",
+      "showLess": "Mostra di meno",
+      "seeTranslation": "Vedi traduzione",
+      "seeOriginal": "Vedi originale",
+      "translating": "Traduzione in corso..."
     },
     "searchNationality": "Cerca nazionalità...",
     "noNationalitiesFound": "Nessuna nazionalità trovata",
