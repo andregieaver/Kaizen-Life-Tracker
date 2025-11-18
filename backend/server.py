@@ -14127,7 +14127,8 @@ async def send_custom_email(email_id: str):
         
         logging.info(f"Custom email sent: {sent_count} successful, {failed_count} failed")
         
-        return {
+        # Build response with error details if any failures
+        response = {
             "success": True,
             "sent_count": sent_count,
             "failed_count": failed_count,
