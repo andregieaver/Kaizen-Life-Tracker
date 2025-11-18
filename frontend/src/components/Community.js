@@ -77,7 +77,7 @@ const translateNotificationContent = (notification, t) => {
 };
 
 const Community = ({ athleteId, athlete, showNotifications: externalShowNotifications, setShowNotifications: externalSetShowNotifications, setCommunityUnreadCount: externalSetCommunityUnreadCount, headerProgress = 1, footerProgress = 1, onOpenMessages }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   
   // Check if current user is super admin
