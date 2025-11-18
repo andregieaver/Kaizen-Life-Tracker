@@ -359,7 +359,12 @@
       "filterByNationality": "国籍でフィルターする",
       "allNationalities": "すべての国籍",
       "writeComment": "コメントを書いてください...",
-      "writeCommentMention": "コメントを書いて、@で言及してください..."
+      "writeCommentMention": "コメントを書いて、@で言及してください...",
+      "showMore": "もっと見る",
+      "showLess": "少なく表示",
+      "seeTranslation": "翻訳を見る",
+      "seeOriginal": "オリジナルを見る",
+      "translating": "翻訳中..."
     },
     "searchNationality": "国籍を検索...",
     "noNationalitiesFound": "国籍が見つかりません",
