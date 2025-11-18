@@ -289,16 +289,39 @@ const PostCard = ({
                   overflow: 'hidden'
                 } : {}}
               >
-                {formatMentions(post.content)}
+                {translatedPosts?.[post.id]?.isTranslated 
+                  ? translatedPosts[post.id].translated_text
+                  : formatMentions(post.content)
+                }
               </p>
-              {post.content && post.content.length > 100 && (
-                <button
-                  onClick={() => onToggleExpandPost(post.id)}
-                  className="text-[#00C2A8] hover:text-[#00a890] text-sm font-semibold mt-1"
-                >
-                  {expandedPosts[post.id] ? 'Show less' : 'Show more'}
-                </button>
-              )}
+              <div className="flex items-center gap-3 mt-1">
+                {post.content && post.content.length > 100 && (
+                  <button
+                    onClick={() => onToggleExpandPost(post.id)}
+                    className="text-[#00FFFF] hover:text-[#00d4d4] text-sm font-semibold"
+                  >
+                    {expandedPosts[post.id] ? t('community.post.showLess') : t('community.post.showMore')}
+                  </button>
+                )}
+                {post.content && onTranslatePost && (
+                  <button
+                    onClick={() => onTranslatePost(post.id, post.content)}
+                    disabled={translatingPosts?.[post.id]}
+                    className="text-[#00FFFF] hover:text-[#00d4d4] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                  >
+                    {translatingPosts?.[post.id] ? (
+                      <>
+                        <RefreshCw className="w-3 h-3 animate-spin" />
+                        {t('community.post.translating')}
+                      </>
+                    ) : translatedPosts?.[post.id]?.isTranslated ? (
+                      t('community.post.seeOriginal')
+                    ) : (
+                      t('community.post.seeTranslation')
+                    )}
+                  </button>
+                )}
+              </div>
             </div>
             
             {/* Display media (images and videos) */}
