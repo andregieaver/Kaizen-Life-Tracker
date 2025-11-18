@@ -305,7 +305,10 @@ const PostCard = ({
                 )}
                 {post.content && onTranslatePost && (
                   <button
-                    onClick={() => onTranslatePost(post.id, post.content)}
+                    onClick={() => {
+                      console.log('Translation button clicked for post:', post.id);
+                      onTranslatePost(post.id, post.content);
+                    }}
                     disabled={translatingPosts?.[post.id]}
                     className="text-[#00FFFF] hover:text-[#00d4d4] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
                   >
