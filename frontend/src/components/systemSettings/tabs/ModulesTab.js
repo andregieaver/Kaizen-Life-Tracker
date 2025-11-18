@@ -74,7 +74,7 @@ const ModulesTab = ({
           </div>
           
           {/* Expanded Content */}
-          {moduleSettings.affiliateProgram.enabled && moduleSettings.affiliateProgram.expanded && (
+          {moduleSettings?.affiliateProgram?.enabled && moduleSettings?.affiliateProgram?.expanded && (
             <div className="p-4 bg-gray-900/50 border-t border-gray-700">
               <p className="text-gray-400 text-sm">
                 {t('systemSettings.modules.configAffiliateProgram')}
