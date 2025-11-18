@@ -17921,6 +17921,44 @@ async def add_to_waiting_list(entry_data: dict):
         await db.waiting_list.insert_one(entry.model_dump())
         
         logging.info(f"Waiting list entry added: {entry.email}")
+        
+        # Send waitlist auto-responder email
+        try:
+            # Get email template
+            template = await db.email_templates.find_one({"template_id": "waitlist_autoresponder"})
+            
+            if template:
+                # Replace variables
+                subject = template.get("subject", "Thank You for Joining Our Waitlist!")
+                html_body = template.get("html_body", "")
+                text_body = template.get("body", "")
+                
+                # Replace template variables
+                variables = {
+                    "{{user_name}}": entry.name,
+                    "{{user_email}}": entry.email,
+                    "{{preferred_language}}": entry.nationality
+                }
+                
+                for var, value in variables.items():
+                    subject = subject.replace(var, value)
+                    html_body = html_body.replace(var, value)
+                    text_body = text_body.replace(var, value)
+                
+                # Send email
+                await email_service.send_email(
+                    to_email=entry.email,
+                    subject=subject,
+                    html_content=html_body,
+                    text_content=text_body
+                )
+                logging.info(f"Waitlist auto-responder sent to {entry.email}")
+            else:
+                logging.warning("Waitlist auto-responder template not found")
+        except Exception as email_error:
+            logging.error(f"Error sending waitlist auto-responder: {email_error}")
+            # Don't fail the whole request if email fails
+        
         return {
             "message": "Successfully added to waiting list",
             "id": entry.id
