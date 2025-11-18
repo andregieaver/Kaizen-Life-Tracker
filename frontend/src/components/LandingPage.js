@@ -385,23 +385,19 @@ const WaitingListSection = () => {
                     <Globe className="w-4 h-4 mr-2 text-blue-400" />
                     Preferred Language *
                   </label>
-                  <select
-                    required
+                  <SearchableSelect
                     value={formData.nationality}
-                    onChange={(e) => setFormData({...formData, nationality: e.target.value})}
-                    className="w-full px-4 py-3 text-white rounded-lg focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent transition-all"
-                    style={{
-                      background: 'rgba(17, 24, 39, 0.5)',
-                      border: '1px solid rgba(71, 85, 105, 0.3)'
-                    }}
-                  >
-                    <option value="" className="bg-gray-700">Select your language...</option>
-                    {languages.map((lang) => (
-                      <option key={lang.code} value={lang.name} className="bg-gray-700">
-                        {lang.name}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(value) => setFormData({...formData, nationality: value})}
+                    options={[
+                      { value: '', label: 'Select your language...' },
+                      ...languages.map((lang) => ({
+                        value: lang.name,
+                        label: lang.name
+                      }))
+                    ]}
+                    placeholder="Select your language..."
+                    searchPlaceholder="Search language..."
+                  />
                   <p className="text-xs text-gray-400 mt-1">
                     To prioritize your language at launch of the app
                   </p>
