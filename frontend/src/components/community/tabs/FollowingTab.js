@@ -50,7 +50,11 @@ const FollowingTab = ({
   onSharePost,
   onCommentContentChange,
   onAddComment,
-  onSelectCommentMention
+  onSelectCommentMention,
+  // Translation handlers
+  translatedPosts,
+  translatingPosts,
+  onTranslatePost
 }) => {
   const { t } = useTranslation();
 
