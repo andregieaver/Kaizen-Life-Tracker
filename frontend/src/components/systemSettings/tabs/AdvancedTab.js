@@ -299,6 +299,18 @@ const AdvancedTab = ({
                   placeholder="Client Secret"
                 />
               </div>
+              {/* Callback Domain for OAuth integrations */}
+              {['strava', 'polar', 'fitbit', 'garmin', 'coros', 'whoop'].includes(integration) && (
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    value={advancedSettings[integration]?.callbackDomain || ''}
+                    onChange={(e) => onUpdateIntegration(integration, 'callbackDomain', e.target.value)}
+                    className="w-full bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-xs"
+                    placeholder="Callback Domain (e.g., https://yourdomain.com)"
+                  />
+                </div>
+              )}
             </div>
           ))}
         </CardContent>
