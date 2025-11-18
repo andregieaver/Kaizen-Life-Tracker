@@ -14132,9 +14132,15 @@ async def send_custom_email(email_id: str):
             "success": True,
             "sent_count": sent_count,
             "failed_count": failed_count,
+            "message": f"Email sent successfully to {sent_count} recipients!" if sent_count > 0 else f"Email sending failed for all {failed_count} recipients",
             "target_audience": target_audience,
             "total_users": len(users)
         }
+        
+        # Add error details if there were failures
+        if failed_count > 0 and 'error_details' in locals():
+            response["errors"] = error_details
+            logging.error(f"Email sending errors: {error_details}")
         
     except HTTPException:
         raise
