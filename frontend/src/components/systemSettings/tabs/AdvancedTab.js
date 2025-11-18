@@ -231,6 +231,45 @@ const AdvancedTab = ({
         </CardContent>
       </Card>
 
+      {/* OpenAI API Key */}
+      <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center">
+            <Settings className="w-5 h-5 mr-2 text-[#32D3FF]" />
+            {t('systemSettings.advanced.openaiSettings')}
+          </CardTitle>
+          <CardDescription className="text-gray-400">
+            {t('systemSettings.advanced.openaiDescription')}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div>
+            <label className="block text-gray-300 mb-2 text-sm font-semibold">
+              {t('systemSettings.advanced.openaiApiKey')}
+            </label>
+            <div className="flex gap-2">
+              <input
+                type={advancedSettings.showKey ? 'text' : 'password'}
+                value={advancedSettings.openaiApiKey || ''}
+                onChange={(e) => onUpdateIntegration('openaiApiKey', '', e.target.value)}
+                className="flex-1 bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
+                placeholder="sk-..."
+              />
+              <Button
+                size="sm"
+                onClick={() => onToggleVisibility('showKey')}
+                className="bg-gray-700 hover:bg-gray-600"
+              >
+                {advancedSettings.showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </Button>
+            </div>
+            <p className="text-xs text-gray-400 mt-1">
+              {t('systemSettings.advanced.openaiKeyHelp')}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Integration Settings */}
       <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
         <CardHeader>
