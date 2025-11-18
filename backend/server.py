@@ -14093,19 +14093,27 @@ async def send_custom_email(email_id: str):
                 user_email = user.get("email")
                 
                 if not user_email:
+                    logging.warning(f"Skipping user with no email: {user}")
                     continue
                 
-                body = email["body"].replace("{{user_name}}", user_name).replace("{{user_email}}", user_email)
+                # Replace variables in subject, body, and html_body
+                subject = email["subject"].replace("{{user_name}}", user_name).replace("{{user_email}}", user_email)
+                body = email.get("body", "").replace("{{user_name}}", user_name).replace("{{user_email}}", user_email)
                 html_body = email.get("html_body", "").replace("{{user_name}}", user_name).replace("{{user_email}}", user_email)
+                
+                logging.info(f"Sending email to {user_email} with name: {user_name}")
+                logging.debug(f"Subject after replacement: {subject}")
+                logging.debug(f"Body after replacement: {body[:100]}")
                 
                 # Send email
                 await email_service.send_email(
                     to_email=user_email,
-                    subject=email["subject"],
-                    text_content=body,
+                    subject=subject,
+                    text_content=body if body else None,
                     html_content=html_body if html_body else None
                 )
                 sent_count += 1
+                logging.info(f"Email sent successfully to {user_email}")
                 
             except Exception as e:
                 logging.error(f"Failed to send email to {user.get('email')}: {e}")
