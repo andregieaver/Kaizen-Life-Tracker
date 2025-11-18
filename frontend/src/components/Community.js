@@ -1724,8 +1724,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const handleTranslatePost = async (postId, originalContent) => {
+    console.log('Translation requested for post:', postId);
+    console.log('Current language:', i18n.language);
+    console.log('Original content:', originalContent);
+    
     // If already translated, toggle back to original
     if (translatedPosts[postId]?.isTranslated) {
+      console.log('Showing original text');
       setTranslatedPosts(prev => ({
         ...prev,
         [postId]: { ...prev[postId], isTranslated: false }
@@ -1735,6 +1740,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
     // If we have a cached translation, just show it
     if (translatedPosts[postId]?.translated_text) {
+      console.log('Showing cached translation');
       setTranslatedPosts(prev => ({
         ...prev,
         [postId]: { ...prev[postId], isTranslated: true }
@@ -1742,23 +1748,34 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       return;
     }
 
+    // Map language code to full language name
+    const languageMap = {
+      'en': 'English',
+      'es': 'Spanish',
+      'fr': 'French',
+      'de': 'German',
+      'it': 'Italian',
+      'sv': 'Swedish',
+      'no': 'Norwegian',
+      'da': 'Danish',
+      'ja': 'Japanese',
+      'zh': 'Chinese'
+    };
+    
+    const targetLanguage = languageMap[i18n.language] || 'English';
+    console.log('Target language:', targetLanguage);
+
     // Otherwise, fetch translation
     setTranslatingPosts(prev => ({ ...prev, [postId]: true }));
     
     try {
+      console.log('Calling translation API...');
       const response = await axios.post(`${API}/community/posts/translate`, {
         text: originalContent,
-        target_language: i18n.language === 'en' ? 'English' : 
-                        i18n.language === 'es' ? 'Spanish' :
-                        i18n.language === 'fr' ? 'French' :
-                        i18n.language === 'de' ? 'German' :
-                        i18n.language === 'it' ? 'Italian' :
-                        i18n.language === 'sv' ? 'Swedish' :
-                        i18n.language === 'no' ? 'Norwegian' :
-                        i18n.language === 'da' ? 'Danish' :
-                        i18n.language === 'ja' ? 'Japanese' :
-                        i18n.language === 'zh' ? 'Chinese' : 'English'
+        target_language: targetLanguage
       });
+
+      console.log('Translation response:', response.data);
 
       setTranslatedPosts(prev => ({
         ...prev,
@@ -1768,9 +1785,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           isTranslated: true
         }
       }));
+      
+      console.log('Translation successful');
     } catch (error) {
       console.error('Translation error:', error);
-      // Optionally show an error notification
+      console.error('Error details:', error.response?.data || error.message);
+      alert(`Translation failed: ${error.response?.data?.detail || error.message}`);
     } finally {
       setTranslatingPosts(prev => ({ ...prev, [postId]: false }));
     }
