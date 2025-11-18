@@ -1723,6 +1723,60 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }));
   };
 
+  const handleTranslatePost = async (postId, originalContent) => {
+    // If already translated, toggle back to original
+    if (translatedPosts[postId]?.isTranslated) {
+      setTranslatedPosts(prev => ({
+        ...prev,
+        [postId]: { ...prev[postId], isTranslated: false }
+      }));
+      return;
+    }
+
+    // If we have a cached translation, just show it
+    if (translatedPosts[postId]?.translated_text) {
+      setTranslatedPosts(prev => ({
+        ...prev,
+        [postId]: { ...prev[postId], isTranslated: true }
+      }));
+      return;
+    }
+
+    // Otherwise, fetch translation
+    setTranslatingPosts(prev => ({ ...prev, [postId]: true }));
+    
+    try {
+      const response = await axios.post(`${API}/community/posts/translate`, {
+        text: originalContent,
+        target_language: i18n.language === 'en' ? 'English' : 
+                        i18n.language === 'es' ? 'Spanish' :
+                        i18n.language === 'fr' ? 'French' :
+                        i18n.language === 'de' ? 'German' :
+                        i18n.language === 'it' ? 'Italian' :
+                        i18n.language === 'sv' ? 'Swedish' :
+                        i18n.language === 'no' ? 'Norwegian' :
+                        i18n.language === 'da' ? 'Danish' :
+                        i18n.language === 'ja' ? 'Japanese' :
+                        i18n.language === 'zh' ? 'Chinese' : 'English'
+      });
+
+      setTranslatedPosts(prev => ({
+        ...prev,
+        [postId]: {
+          original_text: originalContent,
+          translated_text: response.data.translated_text,
+          isTranslated: true
+        }
+      }));
+    } catch (error) {
+      console.error('Translation error:', error);
+      // Optionally show an error notification
+    } finally {
+      setTranslatingPosts(prev => ({ ...prev, [postId]: false }));
+    }
+  };
+
+
 
   const markNotificationRead = async (notificationId) => {
     try {
