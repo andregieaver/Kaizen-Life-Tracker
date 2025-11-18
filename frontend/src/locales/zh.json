@@ -359,7 +359,12 @@
       "filterByNationality": "按国籍筛选",
       "allNationalities": "所有国籍",
       "writeComment": "写评论...",
-      "writeCommentMention": "写评论，提及请用@..."
+      "writeCommentMention": "写评论，提及请用@...",
+      "showMore": "显示更多",
+      "showLess": "显示更少",
+      "seeTranslation": "查看翻译",
+      "seeOriginal": "查看原文",
+      "translating": "翻译中..."
     },
     "searchNationality": "搜索国籍...",
     "noNationalitiesFound": "未找到国籍",
