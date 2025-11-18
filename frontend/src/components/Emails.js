@@ -75,6 +75,15 @@ const Emails = () => {
       defaultSubject: 'Your Password Has Been Changed',
       defaultBody: 'Hi {{user_name}},\n\nYour password has been successfully changed.\n\nIf you didn\'t make this change, please contact support immediately.',
       defaultHtmlBody: '<p>Hi {{user_name}},</p><p>Your password has been successfully changed.</p><p>If you didn\'t make this change, please contact support immediately.</p>'
+    },
+    {
+      id: 'waitlist_autoresponder',
+      name: 'Waitlist Auto-responder',
+      description: 'Welcome email sent to users who sign up for the waiting list',
+      variables: ['{{user_name}}', '{{user_email}}', '{{preferred_language}}'],
+      defaultSubject: 'Thank You for Joining Our Waitlist!',
+      defaultBody: 'Hi {{user_name}},\n\nThank you for signing up for our waitlist! We\'re excited to have you join us.\n\nYour email: {{user_email}}\nPreferred language: {{preferred_language}}\n\nWe\'ll notify you as soon as we launch. Stay tuned!\n\nBest regards,\nThe Team',
+      defaultHtmlBody: '<p>Hi {{user_name}},</p><p>Thank you for signing up for our waitlist! We\'re excited to have you join us.</p><p><strong>Your email:</strong> {{user_email}}<br><strong>Preferred language:</strong> {{preferred_language}}</p><p>We\'ll notify you as soon as we launch. Stay tuned!</p><p>Best regards,<br>The Team</p>'
     }
   ];
 
