@@ -1696,12 +1696,22 @@ const Dashboard = ({ athleteId }) => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-3">
               {/* Column 1: Progress - Recent Test Results */}
               <div className="border-0 shadow-lg overflow-hidden" style={{ 
-                background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
-                backdropFilter: 'blur(12px) saturate(140%)',
-                WebkitBackdropFilter: 'blur(12px) saturate(140%)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
-                borderRadius: '8px'
+                background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+                backdropFilter: 'blur(24px) saturate(140%)',
+                WebkitBackdropFilter: 'blur(24px) saturate(140%)',
+                borderRadius: '12px',
+                boxShadow: `
+                  inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+                  inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
+                  inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 35%), transparent),
+                  inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 25%), transparent),
+                  inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
+                  inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+                  inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+                  inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+                  0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+                  0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent)
+                `
               }}>
                 <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
                   <h2 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('dashboard.progress.title')}</h2>
