@@ -101,23 +101,23 @@ const ModulesTab = ({
                   type="button"
                   onClick={() => toggleModule('community')}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#32D3FF] focus:ring-offset-2 focus:ring-offset-gray-900 ${
-                    moduleSettings.community.enabled 
+                    moduleSettings?.community?.enabled 
                       ? 'bg-[#32D3FF]' 
                       : 'bg-gray-600'
                   }`}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      moduleSettings.community.enabled 
+                      moduleSettings?.community?.enabled 
                         ? 'translate-x-6' 
                         : 'translate-x-1'
                     }`}
                   />
                 </button>
                 <span className="text-sm font-medium text-white min-w-[60px]">
-                  {moduleSettings.community.enabled ? t('systemSettings.modules.enabled') : t('systemSettings.modules.disabled')}
+                  {moduleSettings?.community?.enabled ? t('systemSettings.modules.enabled') : t('systemSettings.modules.disabled')}
                 </span>
-                {moduleSettings.community.enabled && (
+                {moduleSettings?.community?.enabled && (
                   <button
                     type="button"
                     onClick={() => toggleModuleExpansion('community')}
