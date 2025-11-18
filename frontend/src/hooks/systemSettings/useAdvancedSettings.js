@@ -308,6 +308,7 @@ const useAdvancedSettings = (athleteId) => {
     loadAdvancedSettings,
     saveAdvancedSettings,
     updateSEOSetting,
+    updateSimpleSetting,
     updateStripeMode,
     updateStripeCredentials,
     updateIntegration,
