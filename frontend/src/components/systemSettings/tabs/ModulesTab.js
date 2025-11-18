@@ -40,23 +40,23 @@ const ModulesTab = ({
                   type="button"
                   onClick={() => toggleModule('affiliateProgram')}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#32D3FF] focus:ring-offset-2 focus:ring-offset-gray-900 ${
-                    moduleSettings.affiliateProgram.enabled 
+                    moduleSettings?.affiliateProgram?.enabled 
                       ? 'bg-[#32D3FF]' 
                       : 'bg-gray-600'
                   }`}
                 >
                   <span
                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      moduleSettings.affiliateProgram.enabled 
+                      moduleSettings?.affiliateProgram?.enabled 
                         ? 'translate-x-6' 
                         : 'translate-x-1'
                     }`}
                   />
                 </button>
                 <span className="text-sm font-medium text-white min-w-[60px]">
-                  {moduleSettings.affiliateProgram.enabled ? t('common.connect') : t('common.disconnect')}
+                  {moduleSettings?.affiliateProgram?.enabled ? t('common.connect') : t('common.disconnect')}
                 </span>
-                {moduleSettings.affiliateProgram.enabled && (
+                {moduleSettings?.affiliateProgram?.enabled && (
                   <button
                     type="button"
                     onClick={() => toggleModuleExpansion('affiliateProgram')}
