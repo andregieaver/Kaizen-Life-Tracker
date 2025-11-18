@@ -251,7 +251,11 @@ const AdvancedTab = ({
               <input
                 type={advancedSettings.showKey ? 'text' : 'password'}
                 value={advancedSettings.openaiApiKey || ''}
-                onChange={(e) => onUpdateIntegration('openaiApiKey', '', e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Update the openaiApiKey directly in advancedSettings
+                  onUpdateIntegration('openaiApiKey', 'direct', value);
+                }}
                 className="flex-1 bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                 placeholder="sk-..."
               />
