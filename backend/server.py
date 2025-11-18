@@ -10401,13 +10401,19 @@ async def translate_post_content(request: dict):
         if not text:
             raise HTTPException(status_code=400, detail="Text is required")
         
-        # Check if OpenAI is configured
-        if not openai_api_key:
-            raise HTTPException(status_code=503, detail="Translation service not configured")
+        # Get OpenAI API key from system settings
+        coach_service = AICoachService()
+        api_key = await coach_service.get_global_openai_key()
+        
+        if not api_key:
+            raise HTTPException(status_code=503, detail="Translation service not configured. Please add OpenAI API key in System Settings.")
         
         # Use OpenAI for translation
         try:
-            response = openai.chat.completions.create(
+            from openai import OpenAI
+            client = OpenAI(api_key=api_key)
+            
+            response = client.chat.completions.create(
                 model="gpt-4o-mini",  # Using mini for cost efficiency
                 messages=[
                     {
