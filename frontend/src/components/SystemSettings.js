@@ -2773,6 +2773,7 @@ const SystemSettings = ({ athleteId }) => {
             <AdvancedTab
               advancedSettings={advancedHook.advancedSettings}
               onUpdateSEOSetting={advancedHook.updateSEOSetting}
+              onUpdateSimpleSetting={advancedHook.updateSimpleSetting}
               onUpdateStripeMode={advancedHook.updateStripeMode}
               onUpdateStripeCredentials={advancedHook.updateStripeCredentials}
               onUpdateIntegration={advancedHook.updateIntegration}
