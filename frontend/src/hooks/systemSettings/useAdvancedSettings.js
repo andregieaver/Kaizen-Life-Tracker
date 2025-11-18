@@ -186,6 +186,17 @@ const useAdvancedSettings = (athleteId) => {
   }, []);
 
   /**
+   * Update simple top-level settings (like openaiApiKey)
+   */
+  const updateSimpleSetting = useCallback((field, value) => {
+    setAdvancedSettings(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  }, []);
+
+
+  /**
    * Update Stripe mode (test/live)
    */
   const updateStripeMode = useCallback((mode) => {
