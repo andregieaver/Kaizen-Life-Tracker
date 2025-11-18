@@ -14116,8 +14116,13 @@ async def send_custom_email(email_id: str):
                 logging.info(f"Email sent successfully to {user_email}")
                 
             except Exception as e:
-                logging.error(f"Failed to send email to {user.get('email')}: {e}")
+                error_msg = f"Failed to send email to {user.get('email')}: {str(e)}"
+                logging.error(error_msg, exc_info=True)
                 failed_count += 1
+                # Store error details for debugging
+                if not hasattr(locals(), 'error_details'):
+                    error_details = []
+                error_details.append({"email": user.get('email'), "error": str(e)})
                 continue
         
         logging.info(f"Custom email sent: {sent_count} successful, {failed_count} failed")
