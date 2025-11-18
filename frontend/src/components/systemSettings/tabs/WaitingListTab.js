@@ -66,7 +66,7 @@ const WaitingListTab = ({
           
           <Button
             onClick={onExport}
-            disabled={waitingListEntries.length === 0}
+            disabled={!waitingListEntries || waitingListEntries.length === 0}
             className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto sm:ml-auto"
           >
             <Download className="w-4 h-4 mr-2" />
