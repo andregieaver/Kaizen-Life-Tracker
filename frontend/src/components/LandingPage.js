@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
 import { useScrollDepth, useTimeOnPage } from '../lib/useViewTracker';
+import SearchableSelect from './community/SearchableSelect';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
