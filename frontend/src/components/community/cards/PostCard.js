@@ -51,7 +51,10 @@ const PostCard = ({
   onSharePost,
   onCommentContentChange,
   onAddComment,
-  onSelectCommentMention
+  onSelectCommentMention,
+  translatedPosts,
+  translatingPosts,
+  onTranslatePost
 }) => {
   const { t } = useTranslation();
 
