@@ -150,6 +150,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   // Expanded posts state for "Show more/less"
   const [expandedPosts, setExpandedPosts] = useState({});
   
+  // Translation state for posts
+  const [translatedPosts, setTranslatedPosts] = useState({}); // {postId: {translated_text, original_text, isTranslated}}
+  const [translatingPosts, setTranslatingPosts] = useState({}); // {postId: boolean}
+
+  
   // Custom hooks for post actions, comments, and notifications
   const postActions = usePostActions(athleteId);
   const {
