@@ -359,7 +359,12 @@
       "filterByNationality": "Filtrer etter nasjonalitet",
       "allNationalities": "Alle nasjonaliteter",
       "writeComment": "Skriv en kommentar...",
-      "writeCommentMention": "Skriv en kommentar, nevn med @..."
+      "writeCommentMention": "Skriv en kommentar, nevn med @...",
+      "showMore": "Vis mer",
+      "showLess": "Vis mindre",
+      "seeTranslation": "Se oversettelse",
+      "seeOriginal": "Se original",
+      "translating": "Oversetter..."
     },
     "searchNationality": "Søk nasjonalitet...",
     "noNationalitiesFound": "Ingen nasjonaliteter funnet",
