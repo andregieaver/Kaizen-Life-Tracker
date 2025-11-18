@@ -2648,6 +2648,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           onCommentContentChange={handleCommentContentChange}
           onAddComment={handleAddComment}
           onSelectCommentMention={handleSelectCommentMention}
+          translatedPosts={translatedPosts}
+          translatingPosts={translatingPosts}
+          onTranslatePost={handleTranslatePost}
         />
       )}
 
