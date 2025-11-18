@@ -10390,6 +10390,57 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
         logging.error(f"Error creating community post: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@api_router.post("/community/posts/translate")
+async def translate_post_content(request: dict):
+    """Translate post content to user's preferred language using OpenAI"""
+    try:
+        text = request.get("text", "")
+        target_language = request.get("target_language", "English")
+        
+        if not text:
+            raise HTTPException(status_code=400, detail="Text is required")
+        
+        # Check if OpenAI is configured
+        if not openai_api_key:
+            raise HTTPException(status_code=503, detail="Translation service not configured")
+        
+        # Use OpenAI for translation
+        try:
+            response = openai.chat.completions.create(
+                model="gpt-4o-mini",  # Using mini for cost efficiency
+                messages=[
+                    {
+                        "role": "system",
+                        "content": f"You are a professional translator. Translate the following text to {target_language}. Preserve formatting, emojis, and tone. Only return the translated text, nothing else."
+                    },
+                    {
+                        "role": "user",
+                        "content": text
+                    }
+                ],
+                temperature=0.3,
+                max_tokens=1000
+            )
+            
+            translated_text = response.choices[0].message.content.strip()
+            
+            return {
+                "original_text": text,
+                "translated_text": translated_text,
+                "target_language": target_language
+            }
+            
+        except Exception as openai_error:
+            logging.error(f"OpenAI translation error: {openai_error}")
+            raise HTTPException(status_code=500, detail=f"Translation failed: {str(openai_error)}")
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error in translation endpoint: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/community/posts/{post_id}")
 async def get_single_post(post_id: str, athlete_id: str = Query(...)):
     """Get a single post by ID with liked status"""
