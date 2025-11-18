@@ -48,6 +48,10 @@ const FeedTab = ({
   onSetEditVisibility,
   onSetEditingPost,
   onSetEditMedia,
+  // Translation handlers
+  translatedPosts,
+  translatingPosts,
+  onTranslatePost,
   onEditPost,
   onToggleExpandPost,
   onToggleLike,
