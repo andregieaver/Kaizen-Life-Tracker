@@ -135,7 +135,7 @@ const ModulesTab = ({
           </div>
           
           {/* Expanded Content */}
-          {moduleSettings.community.enabled && moduleSettings.community.expanded && (
+          {moduleSettings?.community?.enabled && moduleSettings?.community?.expanded && (
             <div className="p-4 bg-gray-900/50 border-t border-gray-700">
               <p className="text-gray-400 text-sm">
                 {t('systemSettings.modules.configCommunity')}
