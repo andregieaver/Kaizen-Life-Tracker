@@ -7,6 +7,7 @@ import { Button } from '../../ui/button';
 const AdvancedTab = ({
   advancedSettings,
   onUpdateSEOSetting,
+  onUpdateSimpleSetting,
   onUpdateStripeMode,
   onUpdateStripeCredentials,
   onUpdateIntegration,
