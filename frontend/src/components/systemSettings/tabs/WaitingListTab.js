@@ -80,7 +80,7 @@ const WaitingListTab = ({
           <div className="text-center py-8 text-gray-400">
             {t('systemSettings.waitingList.loadingEntries')}
           </div>
-        ) : waitingListEntries.length === 0 ? (
+        ) : !waitingListEntries || waitingListEntries.length === 0 ? (
           <div className="text-center py-8 text-gray-400">
             {t('systemSettings.waitingList.noEntries')}
           </div>
