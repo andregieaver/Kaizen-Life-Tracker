@@ -2772,10 +2772,13 @@ const SystemSettings = ({ athleteId }) => {
           <TabsContent value="advanced">
             <AdvancedTab
               advancedSettings={advancedHook.advancedSettings}
-              onUpdateSettings={advancedHook.updateSettings}
-              onToggleKeyVisibility={advancedHook.toggleKeyVisibility}
-              onSave={advancedHook.saveAdvancedSettings}
-              onUploadImage={advancedHook.uploadSEOImage}
+              onUpdateSEOSetting={advancedHook.updateSEOSetting}
+              onUpdateStripeMode={advancedHook.updateStripeMode}
+              onUpdateStripeCredentials={advancedHook.updateStripeCredentials}
+              onUpdateIntegration={advancedHook.updateIntegration}
+              onToggleVisibility={advancedHook.toggleVisibility}
+              onUploadSEOImage={advancedHook.uploadSEOImage}
+              onSaveAdvancedSettings={advancedHook.saveAdvancedSettings}
               isSaving={advancedHook.isSaving}
             />
           </TabsContent>
