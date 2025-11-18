@@ -153,6 +153,9 @@ const FeedTab = ({
                   onCommentContentChange={onCommentContentChange}
                   onAddComment={onAddComment}
                   onSelectCommentMention={onSelectCommentMention}
+                  translatedPosts={translatedPosts}
+                  translatingPosts={translatingPosts}
+                  onTranslatePost={onTranslatePost}
                 />
               );
             }
