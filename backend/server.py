@@ -14142,6 +14142,8 @@ async def send_custom_email(email_id: str):
             response["errors"] = error_details
             logging.error(f"Email sending errors: {error_details}")
         
+        return response
+        
     except HTTPException:
         raise
     except Exception as e:
