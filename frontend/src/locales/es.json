@@ -59,6 +59,17 @@
     "aiCoachInsights": "Insights del entrenador IA"
   },
   "readiness": {
+    "title": "Preparación",
+    "maxScore": "100",
+    "excellent": "Excelente",
+    "good": "Bueno",
+    "fair": "Regular",
+    "poor": "Pobre",
+    "contributingFactors": "Factores contribuyentes",
+    "todaysRecommendations": "Recomendaciones de hoy",
+    "insufficientData": "Datos insuficientes para un cálculo preciso",
+    "logMoreData": "Registra más datos de entrenamiento y sueño para mejores resultados"
+  },
   "bodyScore": {
     "title": "Índice Corporal",
     "description": "Salud y fitness general",
@@ -74,7 +85,6 @@
     "missingData": "Datos faltantes",
     "noData": "No hay datos disponibles",
     "error": "Error al cargar"
-  },
     "title": "Puntuación de preparación",
   "bodyScore": {
     "title": "Índice Corporal",

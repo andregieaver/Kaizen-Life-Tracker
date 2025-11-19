@@ -59,6 +59,17 @@
     "aiCoachInsights": "KI-Trainer Erkenntnisse"
   },
   "readiness": {
+    "title": "Bereitschaft",
+    "maxScore": "100",
+    "excellent": "Ausgezeichnet",
+    "good": "Gut",
+    "fair": "OK",
+    "poor": "Schwach",
+    "contributingFactors": "Beitragende Faktoren",
+    "todaysRecommendations": "Heutige Empfehlungen",
+    "insufficientData": "Unzureichende Daten für genaue Berechnung",
+    "logMoreData": "Mehr Trainings- und Schlafdaten protokollieren"
+  },
   "bodyScore": {
     "title": "Körperwert",
     "description": "Gesundheit & Fitness insgesamt",
@@ -74,7 +85,6 @@
     "missingData": "Fehlende Daten",
     "noData": "Keine Daten verfügbar",
     "error": "Laden fehlgeschlagen"
-  },
     "title": "Bereitschaftswert",
   "bodyScore": {
     "title": "Körperwert",
