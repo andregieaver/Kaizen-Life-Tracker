@@ -9889,23 +9889,44 @@ async def get_body_score_data(athlete_id: str):
                 result['oura_readiness_score'] = latest_readiness['readiness_score']
             
             # Get HRV data from most recent activities
-            # Get last 7 activities with HRV data
+            # Get last 7 activities with HRV data (check both raw_data and top-level)
             recent_activities = await db.oura_activities.find(
-                {"user_id": athlete_id, "raw_data.average_hrv": {"$exists": True, "$ne": None}},
-                {"_id": 0, "raw_data.average_hrv": 1, "raw_data.day": 1}
+                {
+                    "user_id": athlete_id,
+                    "$or": [
+                        {"raw_data.average_hrv": {"$exists": True, "$ne": None}},
+                        {"average_hrv": {"$exists": True, "$ne": None}}
+                    ]
+                },
+                {"_id": 0, "raw_data.average_hrv": 1, "average_hrv": 1, "raw_data.day": 1}
             ).sort("start_date", -1).limit(7).to_list(length=7)
             
-            hrv_values = [a['raw_data']['average_hrv'] for a in recent_activities if a.get('raw_data') and a['raw_data'].get('average_hrv')]
+            hrv_values = []
+            for a in recent_activities:
+                hrv = (a.get('raw_data', {}).get('average_hrv') or a.get('average_hrv'))
+                if hrv:
+                    hrv_values.append(hrv)
+            
             if hrv_values:
                 result['hrv_7d_avg'] = sum(hrv_values) / len(hrv_values)
                 
             # Get all activities with HRV for baseline calculation
             all_activities = await db.oura_activities.find(
-                {"user_id": athlete_id, "raw_data.average_hrv": {"$exists": True, "$ne": None}},
-                {"_id": 0, "raw_data.average_hrv": 1}
+                {
+                    "user_id": athlete_id,
+                    "$or": [
+                        {"raw_data.average_hrv": {"$exists": True, "$ne": None}},
+                        {"average_hrv": {"$exists": True, "$ne": None}}
+                    ]
+                },
+                {"_id": 0, "raw_data.average_hrv": 1, "average_hrv": 1}
             ).limit(90).to_list(length=90)
             
-            baseline_hrv_values = [a['raw_data']['average_hrv'] for a in all_activities if a.get('raw_data') and a['raw_data'].get('average_hrv')]
+            baseline_hrv_values = []
+            for a in all_activities:
+                hrv = (a.get('raw_data', {}).get('average_hrv') or a.get('average_hrv'))
+                if hrv:
+                    baseline_hrv_values.append(hrv)
             if baseline_hrv_values and len(baseline_hrv_values) >= 3:  # Lowered threshold for testing
                 import statistics
                 result['hrv_baseline_mean'] = statistics.mean(baseline_hrv_values)
