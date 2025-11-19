@@ -9790,8 +9790,8 @@ async def get_user_daily_metrics(
 async def get_body_score_data(athlete_id: str):
     """Aggregate health metrics from all integrations for body score calculation"""
     try:
-        # Get user profile
-        athlete = await db.athletes.find_one({"athlete_id": athlete_id}, {"_id": 0})
+        # Get user profile from athlete_profiles collection
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
         if not athlete:
             raise HTTPException(status_code=404, detail="Athlete not found")
         
