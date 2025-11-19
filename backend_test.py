@@ -14476,15 +14476,15 @@ def test_strava_callback_domain_update():
         return False
 
 def main():
-    """Main function to run notification click handler testing as requested in review"""
-    print("🚀 STARTING NOTIFICATION CLICK HANDLER TESTING AS REQUESTED")
+    """Main function to run Body Score Data Aggregation API testing as requested in review"""
+    print("🚀 STARTING BODY SCORE DATA AGGREGATION API TESTING AS REQUESTED")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test: Notification Click Handler Functionality
+    # Test: Body Score Data Aggregation API
     print("\n" + "="*70)
-    if not test_notification_click_handler_functionality():
+    if not test_body_score_data_aggregation_api():
         all_tests_passed = False
     
     # Final Results
@@ -14493,14 +14493,14 @@ def main():
     print("=" * 70)
     
     if all_tests_passed:
-        print("✅ ALL BACKEND API TESTS PASSED!")
-        print("🎉 POST-REFACTORING VERIFICATION COMPLETED SUCCESSFULLY")
-        print("💡 All System Settings and Community APIs are working correctly")
-        print("💡 No breaking changes detected from frontend refactoring")
+        print("✅ ALL BODY SCORE API TESTS PASSED!")
+        print("🎉 MONGODB PROJECTION FIX VERIFICATION COMPLETED SUCCESSFULLY")
+        print("💡 All Oura metrics are being retrieved correctly")
+        print("💡 Body Score should now display 7/9 components in production")
     else:
-        print("❌ SOME BACKEND API TESTS FAILED!")
+        print("❌ BODY SCORE API TESTS FAILED!")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Some APIs may have been affected by refactoring")
+        print("🚨 CRITICAL: MongoDB projection fix may not be working correctly")
         sys.exit(1)
 
 if __name__ == "__main__":
