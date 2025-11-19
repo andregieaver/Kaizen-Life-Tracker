@@ -1032,6 +1032,7 @@ class AthleteUpdate(BaseModel):
     # Personal Information Fields
     height: Optional[float] = None
     weight: Optional[float] = None
+    body_fat_percentage: Optional[float] = None
     vo2_max: Optional[float] = None
     max_heart_rate: Optional[int] = None
     gender: Optional[str] = None
