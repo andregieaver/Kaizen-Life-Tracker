@@ -101,6 +101,12 @@
       "title": "Progress",
       "subtitle": "Recent test results"
     },
+    "strava": {
+      "title": "Strava Activities",
+      "notConnected": "Strava not connected",
+      "loading": "Loading activities...",
+      "noActivities": "No recent activities"
+    },
     "modals": {
       "referralRewards": "Referral Rewards",
       "notifications": "Notifications",
