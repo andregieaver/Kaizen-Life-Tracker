@@ -9851,7 +9851,7 @@ async def get_body_score_data(athlete_id: str):
                     "user_id": athlete_id,
                     "raw_data.type": {"$exists": True}  # Sleep activities have type field
                 },
-                {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1},
+                {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1, "lowest_heart_rate": 1, "average_hrv": 1},
                 sort=[("start_date", -1)]
             )
             
@@ -9863,7 +9863,7 @@ async def get_body_score_data(athlete_id: str):
                         "score": {"$exists": True, "$ne": None},
                         "raw_data.lowest_heart_rate": {"$exists": True, "$ne": None}
                     },
-                    {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1},
+                    {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1, "lowest_heart_rate": 1, "average_hrv": 1},
                     sort=[("start_date", -1)]
                 )
             
