@@ -9839,28 +9839,33 @@ async def get_body_score_data(athlete_id: str):
         }
         
         # Fetch Oura data if connected
-        oura_integration = await db.integrations.find_one({"user_id": athlete_id, "service": "oura"})
-        if oura_integration and oura_integration.get('access_token'):
+        oura_connection = await db.oura_connections.find_one({"user_id": athlete_id})
+        if oura_connection and oura_connection.get('access_token'):
             result['connected_integrations'].append('oura')
             
             # Get latest Oura sleep data (for sleep score)
-            latest_sleep = await db.oura_sleep_activities.find_one(
-                {"athlete_id": athlete_id},
-                {"_id": 0},
-                sort=[("date", -1)]
+            latest_sleep = await db.oura_activities.find_one(
+                {"user_id": athlete_id},
+                {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1},
+                sort=[("start_date", -1)]
             )
-            if latest_sleep and latest_sleep.get('score'):
-                result['oura_sleep_score'] = latest_sleep['score']
+            if latest_sleep:
+                # Get sleep score
+                if latest_sleep.get('score'):
+                    result['oura_sleep_score'] = latest_sleep['score']
+                
+                # Get RHR from lowest_heart_rate
+                if latest_sleep.get('raw_data') and latest_sleep['raw_data'].get('lowest_heart_rate'):
+                    result['resting_heart_rate'] = latest_sleep['raw_data']['lowest_heart_rate']
             
-            # Get latest Oura readiness data
-            latest_readiness = await db.oura_readiness_activities.find_one(
+            # Get latest readiness data from readiness_scores collection
+            latest_readiness = await db.readiness_scores.find_one(
                 {"athlete_id": athlete_id},
-                {"_id": 0},
+                {"_id": 0, "readiness_score": 1, "date": 1},
                 sort=[("date", -1)]
             )
-            if latest_readiness:
-                result['oura_readiness_score'] = latest_readiness.get('score')
-                result['oura_body_age'] = latest_readiness.get('body_age')
+            if latest_readiness and latest_readiness.get('readiness_score'):
+                result['oura_readiness_score'] = latest_readiness['readiness_score']
             
             # Get HRV data (7-day average and baseline)
             seven_days_ago = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
