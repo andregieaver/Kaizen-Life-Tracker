@@ -157,6 +157,22 @@
     "insufficientData": "Insufficient data for accurate calculation",
     "logMoreData": "Log more workout and sleep data for better insights"
   },
+  "bodyScore": {
+    "title": "Body Score",
+    "description": "Overall health & fitness",
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor",
+    "viewBreakdown": "View Component Breakdown",
+    "componentsUsed": "Using {{count}} of {{total}} components",
+    "topDrivers": "Top Drivers",
+    "topDrags": "Top Drags",
+    "connectIntegrations": "Connect Oura, Strava, or other integrations to calculate your body score",
+    "missingData": "Missing data",
+    "noData": "No data available",
+    "error": "Failed to load"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
