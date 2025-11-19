@@ -9868,13 +9868,16 @@ async def get_body_score_data(athlete_id: str):
                 )
             
             if latest_sleep:
-                # Get sleep score
-                if latest_sleep.get('score'):
-                    result['oura_sleep_score'] = latest_sleep['score']
+                # Get sleep score - check both top-level and raw_data
+                sleep_score = latest_sleep.get('score') or (latest_sleep.get('raw_data', {}).get('score'))
+                if sleep_score:
+                    result['oura_sleep_score'] = sleep_score
                 
-                # Get RHR from lowest_heart_rate
-                if latest_sleep.get('raw_data') and latest_sleep['raw_data'].get('lowest_heart_rate'):
-                    result['resting_heart_rate'] = latest_sleep['raw_data']['lowest_heart_rate']
+                # Get RHR from lowest_heart_rate - check both locations
+                rhr = (latest_sleep.get('raw_data', {}).get('lowest_heart_rate') or 
+                       latest_sleep.get('lowest_heart_rate'))
+                if rhr:
+                    result['resting_heart_rate'] = rhr
             
             # Get latest readiness data from readiness_scores collection
             latest_readiness = await db.readiness_scores.find_one(
