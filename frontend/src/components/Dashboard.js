@@ -1693,9 +1693,15 @@ const Dashboard = ({ athleteId }) => {
               <OuraVitalsCard athleteId={athleteId} />
             </div>
 
-            {/* Strava Activities */}
-            <div className="mb-3">
-              <StravaActivityCard athleteId={athleteId} />
+            {/* Integration Activity Cards - Only shown if connected */}
+            <div className="space-y-3 mb-3">
+              <IntegrationActivityCard athleteId={athleteId} integration="strava" />
+              <IntegrationActivityCard athleteId={athleteId} integration="polar" />
+              <IntegrationActivityCard athleteId={athleteId} integration="fitbit" />
+              <IntegrationActivityCard athleteId={athleteId} integration="garmin" />
+              <IntegrationActivityCard athleteId={athleteId} integration="coros" />
+              <IntegrationActivityCard athleteId={athleteId} integration="whoop" />
+              <IntegrationActivityCard athleteId={athleteId} integration="suunto" />
             </div>
 
             {/* Progress and Merits - Two Equal Columns on Desktop */}
