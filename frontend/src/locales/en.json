@@ -103,7 +103,36 @@
     },
     "strava": {
       "title": "Strava Activities",
-      "notConnected": "Strava not connected",
+      "loading": "Loading activities...",
+      "noActivities": "No recent activities"
+    },
+    "polar": {
+      "title": "Polar Activities",
+      "loading": "Loading activities...",
+      "noActivities": "No recent activities"
+    },
+    "fitbit": {
+      "title": "Fitbit Activities",
+      "loading": "Loading activities...",
+      "noActivities": "No recent activities"
+    },
+    "garmin": {
+      "title": "Garmin Activities",
+      "loading": "Loading activities...",
+      "noActivities": "No recent activities"
+    },
+    "coros": {
+      "title": "Coros Activities",
+      "loading": "Loading activities...",
+      "noActivities": "No recent activities"
+    },
+    "whoop": {
+      "title": "Whoop Activities",
+      "loading": "Loading activities...",
+      "noActivities": "No recent activities"
+    },
+    "suunto": {
+      "title": "Suunto Activities",
       "loading": "Loading activities...",
       "noActivities": "No recent activities"
     },
