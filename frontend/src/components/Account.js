@@ -2425,7 +2425,7 @@ const Account = ({ athleteId }) => {
                     {t('account.physicalInformation')}
                   </h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="height" className="text-sm font-medium text-white">{t('account.height')}</Label>
                       <Input
@@ -2449,6 +2449,23 @@ const Account = ({ athleteId }) => {
                         value={personalForm.weight}
                         onChange={handlePersonalFormChange}
                         placeholder="70"
+                        className="text-white placeholder:text-gray-500"
+                        style={{ backgroundColor: '#111827', borderColor: '#374151' }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="body_fat_percentage" className="text-sm font-medium text-white">{t('account.bodyFatPercentage')}</Label>
+                      <Input
+                        id="body_fat_percentage"
+                        name="body_fat_percentage"
+                        type="number"
+                        step="0.1"
+                        value={personalForm.body_fat_percentage}
+                        onChange={handlePersonalFormChange}
+                        placeholder="18.5"
                         className="text-white placeholder:text-gray-500"
                         style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                       />
