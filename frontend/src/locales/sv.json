@@ -111,6 +111,17 @@
     }
   },
   "readiness": {
+    "title": "Beredskap",
+    "maxScore": "100",
+    "excellent": "Utmärkt",
+    "good": "Bra",
+    "fair": "OK",
+    "poor": "Svag",
+    "contributingFactors": "Bidragande faktorer",
+    "todaysRecommendations": "Dagens rekommendationer",
+    "insufficientData": "Otillräcklig data för korrekt beräkning",
+    "logMoreData": "Logga mer tränings- och sömndata för bättre insikter"
+  },
   "bodyScore": {
     "title": "Kroppsprofil",
     "description": "Övergripande hälsa & kondition",
@@ -126,7 +137,6 @@
     "missingData": "Saknad data",
     "noData": "Ingen data tillgänglig",
     "error": "Kunde inte ladda"
-  },
     "title": "Beredskap",
   "bodyScore": {
     "title": "Kroppsprofil",
