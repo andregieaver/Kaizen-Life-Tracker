@@ -3774,6 +3774,7 @@ async def login_athlete(login_data: LoginRequest):
     """Login athlete by email and password"""
     # Debug logging
     logging.info(f"[LOGIN] Attempt for email: {login_data.email}")
+    logging.info(f"[LOGIN] Password length: {len(login_data.password)}, first 3 chars: {login_data.password[:3] if len(login_data.password) >= 3 else login_data.password}")
     
     # Try athlete_profiles first (new collection)
     athlete = await db.athlete_profiles.find_one(
@@ -3793,7 +3794,11 @@ async def login_athlete(login_data: LoginRequest):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
     # Verify password
-    if not pwd_context.verify(login_data.password, athlete["password"]):
+    logging.info(f"[LOGIN] Stored password hash starts with: {athlete['password'][:20]}")
+    password_valid = pwd_context.verify(login_data.password, athlete["password"])
+    logging.info(f"[LOGIN] Password verification result: {password_valid}")
+    
+    if not password_valid:
         logging.warning(f"[LOGIN] Invalid password for: {login_data.email}")
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
