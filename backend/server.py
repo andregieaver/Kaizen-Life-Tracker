@@ -9786,6 +9786,186 @@ async def get_user_daily_metrics(
     
     return {"daily_metrics": [parse_from_mongo(metric) for metric in daily_metrics]}
 
+@api_router.get("/health/body-score-data/{athlete_id}")
+async def get_body_score_data(athlete_id: str):
+    """Aggregate health metrics from all integrations for body score calculation"""
+    try:
+        # Get user profile
+        athlete = await db.athletes.find_one({"athlete_id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Calculate age from birth date
+        age = None
+        if athlete.get('birth_day') and athlete.get('birth_month') and athlete.get('birth_year'):
+            try:
+                birth_date = datetime(
+                    int(athlete['birth_year']),
+                    int(athlete['birth_month']),
+                    int(athlete['birth_day'])
+                )
+                today = datetime.now(timezone.utc)
+                age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+            except:
+                pass
+        
+        # Initialize result with profile data
+        result = {
+            "age": age,
+            "gender": athlete.get('gender'),
+            "height_cm": athlete.get('height'),
+            "weight_kg": athlete.get('weight'),
+            "body_fat_percentage": athlete.get('body_fat_percentage'),
+            "vo2_max_manual": athlete.get('vo2_max'),
+            "max_heart_rate_manual": athlete.get('max_heart_rate'),
+            "connected_integrations": [],
+            "missing_data": []
+        }
+        
+        # Fetch Oura data if connected
+        oura_integration = await db.integrations.find_one({"user_id": athlete_id, "service": "oura"})
+        if oura_integration and oura_integration.get('access_token'):
+            result['connected_integrations'].append('oura')
+            
+            # Get latest Oura sleep data (for sleep score)
+            latest_sleep = await db.oura_sleep_activities.find_one(
+                {"athlete_id": athlete_id},
+                {"_id": 0},
+                sort=[("date", -1)]
+            )
+            if latest_sleep and latest_sleep.get('score'):
+                result['oura_sleep_score'] = latest_sleep['score']
+            
+            # Get latest Oura readiness data
+            latest_readiness = await db.oura_readiness_activities.find_one(
+                {"athlete_id": athlete_id},
+                {"_id": 0},
+                sort=[("date", -1)]
+            )
+            if latest_readiness:
+                result['oura_readiness_score'] = latest_readiness.get('score')
+                result['oura_body_age'] = latest_readiness.get('body_age')
+            
+            # Get HRV data (7-day average and baseline)
+            seven_days_ago = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+            recent_sleep = await db.oura_sleep_activities.find(
+                {"athlete_id": athlete_id, "date": {"$gte": seven_days_ago}},
+                {"_id": 0, "hrv_avg": 1}
+            ).to_list(length=7)
+            
+            hrv_values = [s['hrv_avg'] for s in recent_sleep if s.get('hrv_avg')]
+            if hrv_values:
+                result['hrv_7d_avg'] = sum(hrv_values) / len(hrv_values)
+                
+            # Get 90-day HRV baseline for mean and SD
+            ninety_days_ago = (datetime.now(timezone.utc) - timedelta(days=90)).isoformat()
+            baseline_sleep = await db.oura_sleep_activities.find(
+                {"athlete_id": athlete_id, "date": {"$gte": ninety_days_ago}},
+                {"_id": 0, "hrv_avg": 1}
+            ).to_list(length=90)
+            
+            baseline_hrv_values = [s['hrv_avg'] for s in baseline_sleep if s.get('hrv_avg')]
+            if baseline_hrv_values and len(baseline_hrv_values) >= 10:
+                import statistics
+                result['hrv_baseline_mean'] = statistics.mean(baseline_hrv_values)
+                result['hrv_baseline_sd'] = statistics.stdev(baseline_hrv_values)
+            
+            # Get latest RHR from Oura
+            if latest_sleep and latest_sleep.get('resting_heart_rate'):
+                result['resting_heart_rate'] = latest_sleep['resting_heart_rate']
+        
+        # Fetch Strava data if connected
+        strava_integration = await db.integrations.find_one({"user_id": athlete_id, "service": "strava"})
+        if strava_integration and strava_integration.get('access_token'):
+            result['connected_integrations'].append('strava')
+            
+            # Get VO2max from Strava activities (if available)
+            latest_activity_with_vo2 = await db.strava_activities.find_one(
+                {"athlete_id": athlete_id, "vo2_max": {"$exists": True, "$ne": None}},
+                {"_id": 0, "vo2_max": 1},
+                sort=[("start_date", -1)]
+            )
+            if latest_activity_with_vo2:
+                result['vo2_max_strava'] = latest_activity_with_vo2.get('vo2_max')
+            
+            # Calculate ACWR (Acute:Chronic Workload Ratio) from training load
+            # Acute = last 7 days, Chronic = last 28 days
+            seven_days_ago = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+            twenty_eight_days_ago = (datetime.now(timezone.utc) - timedelta(days=28)).isoformat()
+            
+            acute_activities = await db.strava_activities.find(
+                {"athlete_id": athlete_id, "start_date": {"$gte": seven_days_ago}},
+                {"_id": 0, "moving_time": 1, "average_heartrate": 1}
+            ).to_list(length=100)
+            
+            chronic_activities = await db.strava_activities.find(
+                {"athlete_id": athlete_id, "start_date": {"$gte": twenty_eight_days_ago}},
+                {"_id": 0, "moving_time": 1, "average_heartrate": 1}
+            ).to_list(length=200)
+            
+            # Simple training load calculation: moving_time * avg_hr (if available)
+            acute_load = sum(a.get('moving_time', 0) for a in acute_activities) / 60  # in minutes
+            chronic_load = sum(a.get('moving_time', 0) for a in chronic_activities) / 60 / 4  # average per week
+            
+            if chronic_load > 0:
+                result['acwr'] = acute_load / chronic_load
+        
+        # Fetch data from other integrations (Garmin, Polar, Coros, Suunto)
+        for service in ['garmin', 'polar', 'coros', 'suunto']:
+            integration = await db.integrations.find_one({"user_id": athlete_id, "service": service})
+            if integration and integration.get('access_token'):
+                result['connected_integrations'].append(service)
+                
+                # Try to get data from their respective collections
+                collection_name = f"{service}_activities"
+                if collection_name in await db.list_collection_names():
+                    # Get latest activity with useful metrics
+                    latest = await db[collection_name].find_one(
+                        {"athlete_id": athlete_id},
+                        {"_id": 0},
+                        sort=[("start_date", -1)]
+                    )
+                    if latest:
+                        # Extract VO2max if available
+                        if latest.get('vo2_max') and not result.get('vo2_max_strava'):
+                            result[f'vo2_max_{service}'] = latest['vo2_max']
+                        
+                        # Extract heart rate data if available
+                        if latest.get('average_heart_rate') and not result.get('resting_heart_rate'):
+                            result[f'avg_hr_{service}'] = latest['average_heart_rate']
+        
+        # Determine what data is missing for optimal body score calculation
+        if not result.get('age'):
+            result['missing_data'].append('age')
+        if not result.get('gender'):
+            result['missing_data'].append('gender')
+        if not result.get('height_cm'):
+            result['missing_data'].append('height')
+        if not result.get('weight_kg'):
+            result['missing_data'].append('weight')
+        
+        # Check for VO2max from any source
+        if not any(key.startswith('vo2_max') for key in result.keys()):
+            result['missing_data'].append('vo2_max')
+        
+        # Check for HRV data
+        if not result.get('hrv_7d_avg'):
+            result['missing_data'].append('hrv')
+        
+        # Check for RHR
+        if not result.get('resting_heart_rate'):
+            result['missing_data'].append('resting_heart_rate')
+        
+        # Check for sleep score
+        if not result.get('oura_sleep_score'):
+            result['missing_data'].append('sleep_score')
+        
+        return result
+        
+    except Exception as e:
+        logging.error(f"Error fetching body score data: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error fetching body score data: {str(e)}")
+
 @api_router.get("/health")
 async def health_check():
     """Health check endpoint"""
