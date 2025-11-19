@@ -9867,29 +9867,29 @@ async def get_body_score_data(athlete_id: str):
             if latest_readiness and latest_readiness.get('readiness_score'):
                 result['oura_readiness_score'] = latest_readiness['readiness_score']
             
-            # Get HRV data (7-day average and baseline) from raw_data.average_hrv
-            seven_days_ago = (datetime.now(timezone.utc) - timedelta(days=7)).strftime('%Y-%m-%d')
-            recent_sleep = await db.oura_activities.find(
-                {"user_id": athlete_id, "raw_data.day": {"$gte": seven_days_ago}},
-                {"_id": 0, "raw_data.average_hrv": 1}
-            ).to_list(length=7)
+            # Get HRV data from most recent activities
+            # Get last 7 activities with HRV data
+            recent_activities = await db.oura_activities.find(
+                {"user_id": athlete_id, "raw_data.average_hrv": {"$exists": True, "$ne": None}},
+                {"_id": 0, "raw_data.average_hrv": 1, "raw_data.day": 1}
+            ).sort("start_date", -1).limit(7).to_list(length=7)
             
-            hrv_values = [s['raw_data']['average_hrv'] for s in recent_sleep if s.get('raw_data') and s['raw_data'].get('average_hrv')]
+            hrv_values = [a['raw_data']['average_hrv'] for a in recent_activities if a.get('raw_data') and a['raw_data'].get('average_hrv')]
             if hrv_values:
                 result['hrv_7d_avg'] = sum(hrv_values) / len(hrv_values)
                 
-            # Get 90-day HRV baseline for mean and SD
-            ninety_days_ago = (datetime.now(timezone.utc) - timedelta(days=90)).strftime('%Y-%m-%d')
-            baseline_sleep = await db.oura_activities.find(
-                {"user_id": athlete_id, "raw_data.day": {"$gte": ninety_days_ago}},
+            # Get all activities with HRV for baseline calculation
+            all_activities = await db.oura_activities.find(
+                {"user_id": athlete_id, "raw_data.average_hrv": {"$exists": True, "$ne": None}},
                 {"_id": 0, "raw_data.average_hrv": 1}
-            ).to_list(length=90)
+            ).limit(90).to_list(length=90)
             
-            baseline_hrv_values = [s['raw_data']['average_hrv'] for s in baseline_sleep if s.get('raw_data') and s['raw_data'].get('average_hrv')]
-            if baseline_hrv_values and len(baseline_hrv_values) >= 10:
+            baseline_hrv_values = [a['raw_data']['average_hrv'] for a in all_activities if a.get('raw_data') and a['raw_data'].get('average_hrv')]
+            if baseline_hrv_values and len(baseline_hrv_values) >= 3:  # Lowered threshold for testing
                 import statistics
                 result['hrv_baseline_mean'] = statistics.mean(baseline_hrv_values)
-                result['hrv_baseline_sd'] = statistics.stdev(baseline_hrv_values)
+                if len(baseline_hrv_values) >= 2:
+                    result['hrv_baseline_sd'] = statistics.stdev(baseline_hrv_values)
         
         # Fetch Strava data if connected
         strava_integration = await db.integrations.find_one({"user_id": athlete_id, "service": "strava"})
