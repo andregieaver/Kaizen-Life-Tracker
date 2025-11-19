@@ -103,7 +103,36 @@
     },
     "strava": {
       "title": "Strava-aktiviteter",
-      "notConnected": "Strava ikke tilkoblet",
+      "loading": "Laster aktiviteter...",
+      "noActivities": "Ingen nylige aktiviteter"
+    },
+    "polar": {
+      "title": "Polar-aktiviteter",
+      "loading": "Laster aktiviteter...",
+      "noActivities": "Ingen nylige aktiviteter"
+    },
+    "fitbit": {
+      "title": "Fitbit-aktiviteter",
+      "loading": "Laster aktiviteter...",
+      "noActivities": "Ingen nylige aktiviteter"
+    },
+    "garmin": {
+      "title": "Garmin-aktiviteter",
+      "loading": "Laster aktiviteter...",
+      "noActivities": "Ingen nylige aktiviteter"
+    },
+    "coros": {
+      "title": "Coros-aktiviteter",
+      "loading": "Laster aktiviteter...",
+      "noActivities": "Ingen nylige aktiviteter"
+    },
+    "whoop": {
+      "title": "Whoop-aktiviteter",
+      "loading": "Laster aktiviteter...",
+      "noActivities": "Ingen nylige aktiviteter"
+    },
+    "suunto": {
+      "title": "Suunto-aktiviteter",
       "loading": "Laster aktiviteter...",
       "noActivities": "Ingen nylige aktiviteter"
     },
