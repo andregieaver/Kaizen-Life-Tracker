@@ -9848,6 +9848,63 @@ async def create_community_indexes():
         await db.community_groups.create_index([("created_at", -1)])
         await db.community_groups.create_index([("id", 1)])
         await db.community_groups.create_index([("admin_id", 1)])
+
+async def auto_sync_integrations():
+    """
+    Automatically sync Strava and Oura data for all connected users at 8 AM local time
+    """
+    try:
+        logging.info("Starting automatic integration sync (Strava & Oura) at 8 AM")
+        
+        synced_count = 0
+        failed_count = 0
+        
+        # Get all athletes with active integrations
+        athletes = await db.athlete_profiles.find({
+            "$or": [
+                {"strava_access_token": {"$exists": True, "$ne": None}},
+                {"oura_access_token": {"$exists": True, "$ne": None}}
+            ]
+        }).to_list(length=10000)
+        
+        logging.info(f"Found {len(athletes)} athletes with Strava or Oura connections")
+        
+        for athlete in athletes:
+            athlete_id = athlete.get("athlete_id")
+            if not athlete_id:
+                continue
+                
+            # Sync Strava if connected
+            if athlete.get("strava_access_token"):
+                try:
+                    logging.info(f"Auto-syncing Strava for athlete {athlete_id}")
+                    # Call the existing Strava sync endpoint
+                    await sync_strava_activities(athlete_id)
+                    synced_count += 1
+                    logging.info(f"Successfully synced Strava for athlete {athlete_id}")
+                except Exception as strava_error:
+                    logging.error(f"Failed to sync Strava for athlete {athlete_id}: {strava_error}")
+                    failed_count += 1
+            
+            # Sync Oura if connected
+            if athlete.get("oura_access_token"):
+                try:
+                    logging.info(f"Auto-syncing Oura for athlete {athlete_id}")
+                    # Call the existing Oura sync endpoint
+                    from oura_service import OuraService
+                    oura_service = OuraService()
+                    await oura_service.sync_oura_data(athlete_id)
+                    synced_count += 1
+                    logging.info(f"Successfully synced Oura for athlete {athlete_id}")
+                except Exception as oura_error:
+                    logging.error(f"Failed to sync Oura for athlete {athlete_id}: {oura_error}")
+                    failed_count += 1
+        
+        logging.info(f"Auto-sync completed: {synced_count} successful, {failed_count} failed")
+        
+    except Exception as e:
+        logging.error(f"Error in auto_sync_integrations: {e}", exc_info=True)
+
         
         # Community group memberships indexes
         await db.community_group_memberships.create_index([("group_id", 1), ("athlete_id", 1)], unique=True)
