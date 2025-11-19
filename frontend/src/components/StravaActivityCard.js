@@ -53,7 +53,7 @@ const StravaActivityCard = ({ athleteId }) => {
       
       setIsLoading(false);
     } catch (error) {
-      logger.error(null, 'Error loading Strava data:', error);
+      console.error('Error loading Strava data:', error);
       setIsLoading(false);
     }
   };
