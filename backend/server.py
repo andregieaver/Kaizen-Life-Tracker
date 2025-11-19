@@ -9918,6 +9918,15 @@ async def startup_scheduler():
             replace_existing=True
         )
         
+
+        # Add job for daily Strava and Oura sync at 8 AM
+        scheduler.add_job(
+            auto_sync_integrations,
+            CronTrigger(hour=8, minute=0),  # Run daily at 8 AM
+            id='auto_sync_integrations',
+            replace_existing=True
+        )
+
         scheduler.start()
         print("=" * 50)
         print("SCHEDULER STARTED SUCCESSFULLY")
