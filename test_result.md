@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix the Direct Messaging feature layout bug where the message input field and send button are not fixed to the bottom of the chat window, causing them to scroll away with the message history. Then add emoji picker functionality to the message input bar. Finally, ensure all text in the Messages modal is fully translated into all supported languages. Then implement link preview functionality (like posts have) for both comments and instant messages. Finally, translate the time display ('1m ago', '13h ago'), emoji picker search placeholder, and 'Find User' heading in community search."
+user_problem_statement: "Implement a comprehensive Body Score feature to replace the existing Readiness card on the dashboard. The Body Score should aggregate health metrics from multiple integrations (Oura, Strava, Garmin, Polar, Coros, Suunto) and calculate a weighted score (0-100) using age/sex-adjusted VO2max, HRV z-score, resting heart rate, ACWR, BMI, body fat %, sleep quality, and other metrics. Add a body_fat_percentage field to Account settings. Display the score with expandable component breakdown showing drivers and drags."
 
 frontend:
   - task: "Direct Messaging Chat Input Layout Fix"
