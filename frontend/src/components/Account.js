@@ -325,6 +325,7 @@ const Account = ({ athleteId }) => {
     // Personal Information fields
     height: '',
     weight: '',
+    body_fat_percentage: '',
     vo2_max: '',
     max_heart_rate: '',
     gender: '',
