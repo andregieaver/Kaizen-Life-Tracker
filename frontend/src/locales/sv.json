@@ -137,6 +137,22 @@
     "missingData": "Saknad data",
     "noData": "Ingen data tillgänglig",
     "error": "Kunde inte ladda"
+  },
+  "bodyScore": {
+    "title": "Kroppsprofil",
+    "description": "Övergripande hälsa & kondition",
+    "excellent": "Utmärkt",
+    "good": "Bra",
+    "fair": "OK",
+    "poor": "Svag",
+    "viewBreakdown": "Visa komponentöversikt",
+    "componentsUsed": "Använder {{count}} av {{total}} komponenter",
+    "topDrivers": "Starkaste faktorer",
+    "topDrags": "Svagaste faktorer",
+    "connectIntegrations": "Anslut Oura, Strava eller andra integrationer för att beräkna din kroppsprofil",
+    "missingData": "Saknad data",
+    "noData": "Ingen data tillgänglig",
+    "error": "Kunde inte ladda"
     "title": "Beredskap",
   "bodyScore": {
     "title": "Kroppsprofil",

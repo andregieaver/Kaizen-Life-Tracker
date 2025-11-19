@@ -85,6 +85,22 @@
     "missingData": "Fehlende Daten",
     "noData": "Keine Daten verfügbar",
     "error": "Laden fehlgeschlagen"
+  },
+  "bodyScore": {
+    "title": "Körperwert",
+    "description": "Gesundheit & Fitness insgesamt",
+    "excellent": "Ausgezeichnet",
+    "good": "Gut",
+    "fair": "Ordentlich",
+    "poor": "Schwach",
+    "viewBreakdown": "Komponentenübersicht anzeigen",
+    "componentsUsed": "{{count}} von {{total}} Komponenten verwenden",
+    "topDrivers": "Haupttreiber",
+    "topDrags": "Haupthemmnisse",
+    "connectIntegrations": "Verbinden Sie Oura, Strava oder andere Integrationen, um Ihren Körperwert zu berechnen",
+    "missingData": "Fehlende Daten",
+    "noData": "Keine Daten verfügbar",
+    "error": "Laden fehlgeschlagen"
     "title": "Bereitschaftswert",
   "bodyScore": {
     "title": "Körperwert",
