@@ -9848,6 +9848,10 @@ async def create_community_indexes():
         await db.community_groups.create_index([("created_at", -1)])
         await db.community_groups.create_index([("id", 1)])
         await db.community_groups.create_index([("admin_id", 1)])
+        
+        logging.info("Community indexes created successfully")
+    except Exception as e:
+        logging.error(f"Error creating community indexes: {e}")
 
 async def auto_sync_integrations():
     """
