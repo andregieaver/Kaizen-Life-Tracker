@@ -320,8 +320,6 @@
     "noFollowing": "Non segui ancora nessuno",
     "noUsersFound": "Nessun utente trovato",
     "removeFollower": "Rimuovi",
-    "blockUser": "Blocca",
-    "unfollowUser": "Smetti di seguire",
     "confirmRemoveFollower": "Sei sicuro di voler rimuovere questo follower?",
     "confirmUnfollow": "Sei sicuro di voler smettere di seguire questo utente?",
     "confirmBlockUser": "Sei sicuro di voler bloccare questo utente? Non potrà seguirti o inviarti messaggi.",
@@ -368,7 +366,6 @@
     },
     "searchNationality": "Cerca nazionalità...",
     "noNationalitiesFound": "Nessuna nazionalità trovata",
-    "findUser": "Trova Utente",
     "searchLanguage": "Cerca lingua...",
     "challenge": {
       "title": "Sfida",
@@ -2277,5 +2274,21 @@
     "messageButton": "Messaggio",
     "back": "Indietro",
     "searchEmoji": "Cerca emoji..."
+  },
+  "bodyScore": {
+    "title": "Punteggio Corporeo",
+    "description": "Salute e fitness complessivi",
+    "excellent": "Eccellente",
+    "good": "Buono",
+    "fair": "Discreto",
+    "poor": "Scarso",
+    "viewBreakdown": "Visualizza ripartizione componenti",
+    "componentsUsed": "Utilizzo di {{count}} su {{total}} componenti",
+    "topDrivers": "Principali punti di forza",
+    "topDrags": "Principali punti deboli",
+    "connectIntegrations": "Collega Oura, Strava o altre integrazioni per calcolare il tuo punteggio corporeo",
+    "missingData": "Dati mancanti",
+    "noData": "Nessun dato disponibile",
+    "error": "Caricamento non riuscito"
   }
 }

@@ -395,8 +395,6 @@
     "noFollowing": "Ne suit personne pour le moment",
     "noUsersFound": "Aucun utilisateur trouvé",
     "removeFollower": "Retirer",
-    "blockUser": "Bloquer",
-    "unfollowUser": "Ne plus suivre",
     "confirmRemoveFollower": "Êtes-vous sûr de vouloir retirer cet abonné?",
     "confirmUnfollow": "Êtes-vous sûr de vouloir ne plus suivre cet utilisateur?",
     "confirmBlockUser": "Êtes-vous sûr de vouloir bloquer cet utilisateur? Il ne pourra plus vous suivre ni vous envoyer de messages.",
@@ -443,7 +441,6 @@
     },
     "searchNationality": "Rechercher une nationalité...",
     "noNationalitiesFound": "Aucune nationalité trouvée",
-    "findUser": "Trouver un utilisateur",
     "searchLanguage": "Rechercher une langue...",
     "challenge": {
       "title": "Défi",
@@ -1958,5 +1955,21 @@
     "messageButton": "Message",
     "back": "Retour",
     "searchEmoji": "Rechercher un emoji..."
+  },
+  "bodyScore": {
+    "title": "Score Corporel",
+    "description": "Santé et forme physique générale",
+    "excellent": "Excellent",
+    "good": "Bon",
+    "fair": "Correct",
+    "poor": "Faible",
+    "viewBreakdown": "Voir la répartition des composants",
+    "componentsUsed": "Utilisation de {{count}} sur {{total}} composants",
+    "topDrivers": "Principaux moteurs",
+    "topDrags": "Principaux freins",
+    "connectIntegrations": "Connectez Oura, Strava ou d'autres intégrations pour calculer votre score corporel",
+    "missingData": "Données manquantes",
+    "noData": "Aucune donnée disponible",
+    "error": "Échec du chargement"
   }
 }

@@ -355,8 +355,6 @@
     "noFollowing": "Følger ingen ennå",
     "noUsersFound": "Ingen brukere funnet",
     "removeFollower": "Fjern",
-    "blockUser": "Blokker",
-    "unfollowUser": "Slutt å følge",
     "confirmRemoveFollower": "Er du sikker på at du vil fjerne denne følgeren?",
     "confirmUnfollow": "Er du sikker på at du vil slutte å følge denne brukeren?",
     "confirmBlockUser": "Er du sikker på at du vil blokkere denne brukeren? De vil ikke kunne følge eller sende melding til deg.",
@@ -403,7 +401,6 @@
     },
     "searchNationality": "Søk nasjonalitet...",
     "noNationalitiesFound": "Ingen nasjonaliteter funnet",
-    "findUser": "Finn bruker",
     "searchLanguage": "Søk språk...",
     "challenge": {
       "title": "Utfordring",
@@ -1412,8 +1409,7 @@
       "seoDescription": "Konfigurer søkemotoroptimaliseringsinnstillinger",
       "siteTitle": "Nettstedstittel",
       "metaDescription": "Meta-beskrivelse",
-      "metaDescriptionPlaceholder": "Skriv inn nettstedsbeskrivelse for søkemotorer",
-      "favicon": "Favicon",
+      "metaDescriptionPlaceholder": "En kort beskrivelse av nettstedet ditt for søkemotorer og sosiale medier",
       "ogImage": "Open Graph-bilde",
       "stripeSettings": "Stripe-innstillinger",
       "stripeDescription": "Konfigurer Stripe-betalingsintegrasjon",
@@ -1498,8 +1494,6 @@
       "createApplication": "Opprett en applikasjon eller bruk en eksisterende",
       "brandingDescription": "Konfigurer nettstedstittel, favicon og logo for applikasjonen din",
       "appNameHelp": "Vises i nettleserfaner, topptekster og bunntekster",
-      "metaDescription": "Meta-beskrivelse",
-      "metaDescriptionPlaceholder": "En kort beskrivelse av nettstedet ditt for søkemotorer og sosiale medier",
       "metaDescriptionHelp": "Vises i søkeresultater og delinger på sosiale medier (anbefalt: 150-160 tegn)",
       "faviconLabel": "Favicon (16x16 eller 32x32 anbefalt)",
       "faviconHelp": "Lite ikon som vises i nettleserfaner",
@@ -2329,5 +2323,21 @@
     "messageButton": "Melding",
     "back": "Tilbake",
     "searchEmoji": "Søk emoji..."
+  },
+  "bodyScore": {
+    "title": "Kroppsprofil",
+    "description": "Generell helse & kondisjon",
+    "excellent": "Utmerket",
+    "good": "Bra",
+    "fair": "OK",
+    "poor": "Svak",
+    "viewBreakdown": "Vis komponentoversikt",
+    "componentsUsed": "Bruker {{count}} av {{total}} komponenter",
+    "topDrivers": "Sterkeste faktorer",
+    "topDrags": "Svakeste faktorer",
+    "connectIntegrations": "Koble til Oura, Strava eller andre integrasjoner for å beregne din kroppsprofil",
+    "missingData": "Manglende data",
+    "noData": "Ingen data tilgjengelig",
+    "error": "Kunne ikke laste"
   }
 }

@@ -194,7 +194,7 @@
     "reportPost": "報告する",
     "followUser": "フォローする",
     "unfollowUser": "フォロー解除",
-    "blockUser": "ブロックする",
+    "blockUser": "ブロック",
     "muteUser": "ミュート",
     "sendMessage": "メッセージを送る",
     "viewProfile": "プロフィールを見る",
@@ -320,8 +320,6 @@
     "noFollowing": "まだ誰もフォローしていません",
     "noUsersFound": "ユーザーが見つかりませんでした",
     "removeFollower": "削除",
-    "blockUser": "ブロック",
-    "unfollowUser": "フォロー解除",
     "confirmRemoveFollower": "このフォロワーを削除してもよろしいですか？",
     "confirmUnfollow": "このユーザーのフォローを解除してもよろしいですか？",
     "confirmBlockUser": "このユーザーをブロックしてもよろしいですか？ブロックすると、フォローやメッセージの送信ができなくなります。",
@@ -368,7 +366,6 @@
     },
     "searchNationality": "国籍を検索...",
     "noNationalitiesFound": "国籍が見つかりません",
-    "findUser": "ユーザーを探す",
     "searchLanguage": "言語を検索...",
     "challenge": {
       "title": "チャレンジ",
@@ -2277,5 +2274,21 @@
     "messageButton": "メッセージ",
     "back": "戻る",
     "searchEmoji": "絵文字を検索..."
+  },
+  "bodyScore": {
+    "title": "ボディスコア",
+    "description": "全体的な健康とフィットネス",
+    "excellent": "優秀",
+    "good": "良好",
+    "fair": "普通",
+    "poor": "不良",
+    "viewBreakdown": "コンポーネント内訳を表示",
+    "componentsUsed": "{{total}}個中{{count}}個のコンポーネントを使用",
+    "topDrivers": "主な促進要因",
+    "topDrags": "主な阻害要因",
+    "connectIntegrations": "Oura、Strava、または他の統合を接続してボディスコアを計算",
+    "missingData": "不足データ",
+    "noData": "データなし",
+    "error": "読み込み失敗"
   }
 }

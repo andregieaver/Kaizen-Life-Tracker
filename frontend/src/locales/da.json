@@ -268,8 +268,8 @@
     "editPost": "Rediger",
     "reportPost": "Rapportér",
     "followUser": "Følg",
-    "unfollowUser": "Følg ikke længere",
-    "blockUser": "Blokér",
+    "unfollowUser": "Stop med at følge",
+    "blockUser": "Bloker",
     "muteUser": "Slå lyd fra",
     "sendMessage": "Send besked",
     "viewProfile": "Se profil",
@@ -395,8 +395,6 @@
     "noFollowing": "Følger ingen endnu",
     "noUsersFound": "Ingen brugere fundet",
     "removeFollower": "Fjern",
-    "blockUser": "Bloker",
-    "unfollowUser": "Stop med at følge",
     "confirmRemoveFollower": "Er du sikker på, at du vil fjerne denne følger?",
     "confirmUnfollow": "Er du sikker på, at du vil stoppe med at følge denne bruger?",
     "confirmBlockUser": "Er du sikker på, at du vil blokere denne bruger? De vil ikke kunne følge dig eller sende beskeder til dig.",
@@ -443,7 +441,6 @@
     },
     "searchNationality": "Søg nationalitet...",
     "noNationalitiesFound": "Ingen nationaliteter fundet",
-    "findUser": "Find bruger",
     "searchLanguage": "Søg sprog...",
     "challenge": {
       "title": "Udfordring",
@@ -1958,5 +1955,21 @@
     "messageButton": "Besked",
     "back": "Tilbage",
     "searchEmoji": "Søg emoji..."
+  },
+  "bodyScore": {
+    "title": "Kropsprofil",
+    "description": "Generel sundhed & kondition",
+    "excellent": "Fremragende",
+    "good": "God",
+    "fair": "OK",
+    "poor": "Svag",
+    "viewBreakdown": "Vis komponentoversigt",
+    "componentsUsed": "Bruger {{count}} af {{total}} komponenter",
+    "topDrivers": "Bedste faktorer",
+    "topDrags": "Svageste faktorer",
+    "connectIntegrations": "Tilslut Oura, Strava eller andre integrationer for at beregne din kropsprofil",
+    "missingData": "Manglende data",
+    "noData": "Ingen data tilgængelig",
+    "error": "Kunne ikke indlæse"
   }
 }

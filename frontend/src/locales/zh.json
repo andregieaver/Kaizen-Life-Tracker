@@ -320,8 +320,6 @@
     "noFollowing": "还没有关注任何人",
     "noUsersFound": "未找到用户",
     "removeFollower": "移除",
-    "blockUser": "屏蔽",
-    "unfollowUser": "取消关注",
     "confirmRemoveFollower": "确定要移除这个粉丝吗？",
     "confirmUnfollow": "确定要取消关注这个用户吗？",
     "confirmBlockUser": "确定要屏蔽这个用户吗？屏蔽后对方无法关注或给你发消息。",
@@ -368,7 +366,6 @@
     },
     "searchNationality": "搜索国籍...",
     "noNationalitiesFound": "未找到国籍",
-    "findUser": "查找用户",
     "searchLanguage": "搜索语言...",
     "challenge": {
       "title": "挑战",
@@ -2276,5 +2273,21 @@
     "messageButton": "消息",
     "back": "返回",
     "searchEmoji": "搜索表情符号..."
+  },
+  "bodyScore": {
+    "title": "身体评分",
+    "description": "整体健康与体能",
+    "excellent": "优秀",
+    "good": "良好",
+    "fair": "一般",
+    "poor": "较差",
+    "viewBreakdown": "查看组件分解",
+    "componentsUsed": "使用 {{count}} / {{total}} 个组件",
+    "topDrivers": "主要促进因素",
+    "topDrags": "主要阻碍因素",
+    "connectIntegrations": "连接Oura、Strava或其他集成来计算您的身体评分",
+    "missingData": "缺少数据",
+    "noData": "无可用数据",
+    "error": "加载失败"
   }
 }
