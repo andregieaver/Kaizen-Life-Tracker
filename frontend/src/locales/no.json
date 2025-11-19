@@ -101,6 +101,12 @@
       "title": "Fremgang",
       "subtitle": "Nylige testresultater"
     },
+    "strava": {
+      "title": "Strava-aktiviteter",
+      "notConnected": "Strava ikke tilkoblet",
+      "loading": "Laster aktiviteter...",
+      "noActivities": "Ingen nylige aktiviteter"
+    },
     "modals": {
       "referralRewards": "Henvisningsbelønninger",
       "notifications": "Varsler",
