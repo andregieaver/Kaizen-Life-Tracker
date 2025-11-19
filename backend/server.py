@@ -9843,9 +9843,13 @@ async def get_body_score_data(athlete_id: str):
         if oura_connection and oura_connection.get('access_token'):
             result['connected_integrations'].append('oura')
             
-            # Get latest Oura sleep data (for sleep score)
+            # Get latest Oura sleep data (for sleep score and RHR)
+            # Filter for sleep activities only (they have lowest_heart_rate)
             latest_sleep = await db.oura_activities.find_one(
-                {"user_id": athlete_id},
+                {
+                    "user_id": athlete_id,
+                    "raw_data.type": {"$exists": True}  # Sleep activities have type field
+                },
                 {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1},
                 sort=[("start_date", -1)]
             )
