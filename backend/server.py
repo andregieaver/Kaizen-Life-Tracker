@@ -9845,6 +9845,7 @@ async def get_body_score_data(athlete_id: str):
             
             # Get latest Oura sleep data (for sleep score and RHR)
             # Filter for sleep activities only (they have lowest_heart_rate)
+            # Try multiple approaches to find sleep data
             latest_sleep = await db.oura_activities.find_one(
                 {
                     "user_id": athlete_id,
@@ -9853,6 +9854,19 @@ async def get_body_score_data(athlete_id: str):
                 {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1},
                 sort=[("start_date", -1)]
             )
+            
+            # Fallback: If no sleep activity found, try finding any activity with score and lowest_heart_rate
+            if not latest_sleep or not latest_sleep.get('score'):
+                latest_sleep = await db.oura_activities.find_one(
+                    {
+                        "user_id": athlete_id,
+                        "score": {"$exists": True, "$ne": None},
+                        "raw_data.lowest_heart_rate": {"$exists": True, "$ne": None}
+                    },
+                    {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1},
+                    sort=[("start_date", -1)]
+                )
+            
             if latest_sleep:
                 # Get sleep score
                 if latest_sleep.get('score'):
