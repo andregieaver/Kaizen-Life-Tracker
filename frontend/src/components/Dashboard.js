@@ -1693,6 +1693,11 @@ const Dashboard = ({ athleteId }) => {
               <OuraVitalsCard athleteId={athleteId} />
             </div>
 
+            {/* Strava Activities */}
+            <div className="mb-3">
+              <StravaActivityCard athleteId={athleteId} />
+            </div>
+
             {/* Progress and Merits - Two Equal Columns on Desktop */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-3">
               {/* Column 1: Progress - Recent Test Results */}
