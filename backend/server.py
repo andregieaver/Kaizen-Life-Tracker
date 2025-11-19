@@ -9807,7 +9807,7 @@ async def get_body_score_data(athlete_id: str):
         if not athlete:
             raise HTTPException(status_code=404, detail="Athlete not found")
         
-        # Calculate age from birth date
+        # Calculate age from birth date or use existing age field
         age = None
         if athlete.get('birth_day') and athlete.get('birth_month') and athlete.get('birth_year'):
             try:
@@ -9820,6 +9820,10 @@ async def get_body_score_data(athlete_id: str):
                 age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
             except:
                 pass
+        
+        # Fallback to age field if birth date not available
+        if age is None and athlete.get('age'):
+            age = athlete.get('age')
         
         # Initialize result with profile data
         result = {
