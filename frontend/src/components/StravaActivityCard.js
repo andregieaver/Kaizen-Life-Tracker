@@ -38,7 +38,7 @@ const StravaActivityCard = ({ athleteId }) => {
           // Wait a moment for sync to complete
           await new Promise(resolve => setTimeout(resolve, 2000));
         } catch (syncError) {
-          logger.error(null, 'Error syncing Strava data:', syncError);
+          console.error('Error syncing Strava data:', syncError);
         }
       }
 
