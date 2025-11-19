@@ -104,6 +104,80 @@
 
 user_problem_statement: "Implement a comprehensive Body Score feature to replace the existing Readiness card on the dashboard. The Body Score should aggregate health metrics from multiple integrations (Oura, Strava, Garmin, Polar, Coros, Suunto) and calculate a weighted score (0-100) using age/sex-adjusted VO2max, HRV z-score, resting heart rate, ACWR, BMI, body fat %, sleep quality, and other metrics. Add a body_fat_percentage field to Account settings. Display the score with expandable component breakdown showing drivers and drags."
 
+backend:
+  - task: "Body Score Data Aggregation API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "BODY SCORE BACKEND API IMPLEMENTED - Created /api/health/body-score-data/{athlete_id} endpoint to aggregate health metrics from all integrations. IMPLEMENTATION DETAILS: 1) PROFILE DATA: Calculates age from birth date (day/month/year), retrieves gender, height, weight, body_fat_percentage, vo2_max_manual, max_heart_rate_manual from athlete profile. 2) OURA INTEGRATION: Fetches latest sleep score from oura_sleep_activities, fetches readiness score and body_age from oura_readiness_activities, calculates 7-day HRV average from recent sleep data, calculates 90-day HRV baseline (mean and standard deviation) for z-score calculation, extracts resting heart rate from latest sleep data. 3) STRAVA INTEGRATION: Fetches VO2max from latest activity with vo2_max field, calculates ACWR (Acute:Chronic Workload Ratio) using 7-day acute load vs 28-day chronic load based on moving time. 4) MULTI-INTEGRATION SUPPORT: Iterates through Garmin, Polar, Coros, Suunto integrations, checks if each service is connected, fetches latest activity data for VO2max and heart rate metrics if Strava data unavailable. 5) MISSING DATA TRACKING: Returns list of missing data points (age, gender, height, weight, vo2_max, hrv, resting_heart_rate, sleep_score), helps frontend display connection prompts. RESULT: Comprehensive health data aggregation from multiple sources with graceful fallbacks. Backend restarted successfully. TESTING NEEDED: 1) Test endpoint with athlete_id that has Oura connected, 2) Test with Strava connected athlete, 3) Test with no integrations (should return profile data only), 4) Verify missing_data array populates correctly, 5) Test ACWR calculation with various activity patterns."
+
+  - task: "Account Settings - Body Fat Percentage Field"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "BODY FAT PERCENTAGE FIELD ADDED TO ACCOUNT SETTINGS - Added new input field for body fat % in Personal Information tab. IMPLEMENTATION: 1) STATE MANAGEMENT: Added body_fat_percentage to personalForm state (line 328), added to form loading from API response (line 1043), included in handleSavePersonalInfo API payload as parseFloat (line 1527). 2) UI PLACEMENT: Added input field in Physical Information section between weight and vo2_max fields, uses Input component with type='number', step='0.1', placeholder='18.5', proper styling matching other fields (dark theme #111827 background). 3) LAYOUT: Changed grid from 3 columns (height, weight, vo2max) to 2x2 grid: Row 1: height, weight; Row 2: body_fat_percentage, vo2_max. Better mobile responsiveness and visual balance. 4) TRANSLATION: Added 'bodyFatPercentage' key to all 11 language files: English: 'Body Fat %', Swedish: 'Kroppsfett %', German: 'Körperfett %', Spanish: 'Grasa Corporal %', French: 'Graisse Corporelle %', Norwegian: 'Kroppsfett %', Danish: 'Kropsfedt %', Italian: 'Grasso Corporeo %', Japanese: '体脂肪率 %', Chinese: '体脂肪百分比 %'. Frontend hot-reload active. TESTING NEEDED: 1) Navigate to Account → Personal tab, 2) Verify body fat % input field visible in Physical Information section, 3) Enter value (e.g., 18.5), 4) Save and verify value persists after page reload, 5) Test with different languages to verify translations, 6) Verify field accepts decimal values with step 0.1."
+
+frontend:
+  - task: "Body Score Calculation Utilities"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/utils/bodyScoreCalculations.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "BODY SCORE CALCULATION UTILITIES CREATED - Implemented all pure calculation functions for Body Score algorithm. FUNCTIONS IMPLEMENTED: 1) VO2MAX SCORING: mapVo2RawToScore() - maps 20-90 ml/kg/min to 0-100 score, vo2PercentileFromRaw() - converts raw VO2max to age/sex-adjusted percentile using normal distribution, compressPercentile() - compresses extreme percentiles (factor 0.85) to prevent outliers from dominating, vo2AgeSexAdjustedScore() - full age/sex adjustment with elite exception (≥90 ml/kg/min or ≥98th percentile gets 100). 2) HRV SCORING: hrvZToScore() - converts z-score (capped at ±2) to 0-100 scale where z=0 maps to 50. 3) RHR SCORING: rhrSimpleToScore() - linear map where 40 bpm→100, 80 bpm→0. 4) WORKLOAD SCORING: acwrToScore() - sweet spot 0.8-1.3→100, decays to 0 at ≤0.5 or ≥1.8, tsbToScore() - |TSB|≤10→100, decays to 0 by |TSB|≥40. 5) BODY COMPOSITION: bmiToScore() - centered at 22.5 with quadratic penalty, bodyFatToScore() - sex-aware optimal ranges (male 10-18%, female 18-26%, other 14-22%), hrrToScore() - Heart Rate Reserve 35%→0, 60%→100. 6) AGE SCORING: bodyAgeToScore() - delta (Chronological - Body Age), positive delta is good. 7) MAIN FUNCTION: calculateBodyScore() - accepts health data object, extracts metrics from various sources (Oura, Strava, Garmin, Polar, manual), calculates all component scores, applies base weights (VO2:24, HRV:14, RHR:9, HRR:5, Fatigue:14, Sleep:10, Readiness:10, BodyAge:10, BodyComp:10), normalizes weights based on available components, calculates weighted total score, identifies top 2 drivers (positive contributors) and top 2 drags (negative contributors), returns totalScore, components array, drivers, drags. FEATURES: Graceful handling of missing data (null values), dynamic weight normalization ensures fair scoring regardless of available metrics, uses best available source for each metric (e.g., VO2max from Strava, Garmin, Polar, or manual input). TESTING NEEDED: Unit test individual scoring functions with known inputs, test calculateBodyScore() with various data combinations, verify weight normalization with different numbers of available components, test edge cases (all data missing, partial data, elite athlete values)."
+
+  - task: "Body Score Card Component"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/BodyScoreCard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "BODY SCORE CARD COMPONENT CREATED - New React component replacing ReadinessCard with comprehensive body score visualization. IMPLEMENTATION: 1) DATA FETCHING: useEffect hook fetches data from /api/health/body-score-data/{athleteId} on mount, loading state shows skeleton card, error state shows error message with retry button. 2) SCORE CALCULATION: useMemo hook calls calculateBodyScore() utility when healthData changes, recalculates only when data updates for performance. 3) UI STATES: Loading: Skeleton with glassmorphic card styling, Error: Error message with refresh button, No Data: Prompts user to connect integrations, shows missing_data list from backend, Success: Displays calculated body score with full breakdown. 4) SCORE DISPLAY: Large circular badge showing score (0-100), color-coded (≥85 green, ≥70 blue, ≥50 yellow, <50 red), status badge (Excellent/Good/Fair/Poor) with trending icon, shows 'Using X of Y components' count. 5) EXPANDABLE BREAKDOWN: Collapsible section with ChevronDown/Up toggle, lists all components with normalized weight percentages, progress bars for each component (0-100), blue progress bar color (#32D3FF) matching theme. 6) DRIVERS & DRAGS: Grid layout showing top 2 positive contributors (drivers) in green, top 2 negative contributors (drags) in red, only visible when breakdown expanded. 7) STYLING: Consistent glassmorphic effect matching other dashboard cards, complex box-shadow with multiple inset shadows for 'white shine' effect, blue theme throughout (#32D3FF for accents), responsive layout (works on mobile and desktop). 8) TRANSLATIONS: All text uses t() from react-i18next, keys: bodyScore.title, description, excellent, good, fair, poor, viewBreakdown, componentsUsed, topDrivers, topDrags, connectIntegrations, missingData, noData, error. Frontend compiled successfully. TESTING NEEDED: 1) Navigate to Dashboard page, 2) Verify Body Score card displays (replacing old Readiness card), 3) Check loading state on initial load, 4) Verify score calculation and color coding, 5) Click 'View Component Breakdown' to expand, 6) Verify all components display with correct weights and scores, 7) Check drivers and drags section shows correctly, 8) Test refresh button functionality, 9) Test with no integrations connected (should show connection prompt), 10) Test with different language settings to verify translations."
+
+  - task: "Dashboard Integration - Body Score Replacement"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "DASHBOARD UPDATED TO USE BODY SCORE CARD - Replaced ReadinessCard with new BodyScoreCard component. CHANGES: 1) IMPORT UPDATE: Changed 'import ReadinessCard from './ReadinessCard'' to 'import BodyScoreCard from './BodyScoreCard'' (line 11). 2) COMPONENT REPLACEMENT: Line 1692: Changed '<ReadinessCard athleteId={athleteId} readiness={readiness} />' to '<BodyScoreCard athleteId={athleteId} />'. Removed readiness prop as BodyScoreCard fetches own data. 3) PROP SIMPLIFICATION: BodyScoreCard only needs athleteId prop, manages own state internally, no longer depends on parent's readiness state. 4) LAYOUT: Maintained existing 2-column grid layout (Body Score | Oura Vitals), responsive breakpoint at lg (large screens). 5) OLD STATE: Left existing readiness state in Dashboard.js for backward compatibility, doesn't interfere with new BodyScoreCard functionality. RESULT: Dashboard now displays new Body Score card with comprehensive health metrics instead of simple readiness score. Frontend hot-reload active. TESTING NEEDED: 1) Navigate to /dashboard page, 2) Verify Body Score card appears in left column, 3) Verify Oura Vitals card still appears in right column, 4) Check responsive layout on mobile (cards should stack vertically), 5) Verify no console errors, 6) Test with different user accounts (with/without integrations connected)."
+
+  - task: "Internationalization - Body Score Translations"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/locales/*.json (all 11 files)"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "BODY SCORE TRANSLATIONS ADDED TO ALL 11 LANGUAGES - Complete i18n implementation for Body Score feature. TRANSLATION KEYS ADDED: bodyScore.title (Body Score / Kroppsprofil / Körperwert / etc.), bodyScore.description (Overall health & fitness / etc.), bodyScore.excellent, bodyScore.good, bodyScore.fair, bodyScore.poor (score labels), bodyScore.viewBreakdown (View Component Breakdown / etc.), bodyScore.componentsUsed (Using {{count}} of {{total}} components / etc.), bodyScore.topDrivers (Top Drivers / Starkaste faktorer / etc.), bodyScore.topDrags (Top Drags / Svagaste faktorer / etc.), bodyScore.connectIntegrations (connection prompt message), bodyScore.missingData, bodyScore.noData, bodyScore.error (error states). LANGUAGES UPDATED: English (en.json) ✓, Swedish (sv.json) ✓, German (de.json) ✓, Spanish (es.json) ✓, French (fr.json) ✓, Norwegian (no.json) ✓, Danish (da.json) ✓, Italian (it.json) ✓, Japanese (ja.json) ✓, Chinese (zh.json) ✓, en-full.json (reference file). TRANSLATION STRATEGY: Culturally appropriate terms for each language, Swedish/Norwegian use 'Kroppsprofil' (body profile), German uses 'Körperwert' (body value), Spanish uses 'Índice Corporal' (body index), French uses 'Score Corporel' (body score), consistent terminology across all keys for each language. JSON VALIDATION: All language files validated as proper JSON, no syntax errors, UTF-8 encoding preserved for special characters. TESTING NEEDED: 1) Change language in Account Settings to Swedish, 2) Navigate to Dashboard and verify Body Score card shows Swedish text, 3) Test all 11 languages one by one, 4) Verify parametrized translations work ({{count}}, {{total}}), 5) Check expanded breakdown section text in each language, 6) Verify drivers/drags labels translate correctly."
+
 frontend:
   - task: "Direct Messaging Chat Input Layout Fix"
     implemented: true
