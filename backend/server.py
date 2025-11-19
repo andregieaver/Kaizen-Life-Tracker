@@ -3772,6 +3772,9 @@ async def create_athlete_profile(profile: AthleteProfile):
 @api_router.post("/auth/login")
 async def login_athlete(login_data: LoginRequest):
     """Login athlete by email and password"""
+    # Debug logging
+    logging.info(f"[LOGIN] Attempt for email: {login_data.email}")
+    
     # Try athlete_profiles first (new collection)
     athlete = await db.athlete_profiles.find_one(
         {"email": login_data.email.lower().strip()}, 
@@ -3786,10 +3789,12 @@ async def login_athlete(login_data: LoginRequest):
         )
     
     if not athlete:
+        logging.warning(f"[LOGIN] User not found: {login_data.email}")
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
     # Verify password
     if not pwd_context.verify(login_data.password, athlete["password"]):
+        logging.warning(f"[LOGIN] Invalid password for: {login_data.email}")
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
     # Use id if it exists, otherwise use email as identifier
