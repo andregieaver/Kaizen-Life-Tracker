@@ -772,7 +772,8 @@ class AthleteProfile(BaseModel):
     # Personal Information Fields
     nationality: Optional[str] = None  # Nationality/Country
     height: Optional[float] = None  # Height in cm or inches based on unit preference
-    weight: Optional[float] = None  # Weight in kg or lbs based on unit preference  
+    weight: Optional[float] = None  # Weight in kg or lbs based on unit preference
+    body_fat_percentage: Optional[float] = None  # Body fat percentage (0-100)
     vo2_max: Optional[float] = None  # VO2 Max value
     max_heart_rate: Optional[int] = None  # Maximum heart rate in BPM
     gender: Optional[str] = None  # Gender: 'male', 'female', 'other', 'prefer_not_to_say'
