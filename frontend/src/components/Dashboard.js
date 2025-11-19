@@ -10,6 +10,7 @@ import { Home, MessageCircle, PlusCircle, Plus, BarChart3, User, Menu, X, Settin
 import * as LucideIcons from 'lucide-react';
 import ReadinessCard from './ReadinessCard';
 import OuraVitalsCard from './OuraVitalsCard';
+import StravaActivityCard from './StravaActivityCard';
 import CoachChat from './CoachChat';
 import Recommendations from './Recommendations';
 import WorkoutHistory from './WorkoutHistory';
