@@ -77,6 +77,9 @@ class OuraService(BaseIntegrationService):
                 if sleep_response.status_code == 200:
                     sleep_data = sleep_response.json()
                     for sleep in sleep_data.get("data", []):
+                        # Debug logging to see what fields Oura API returns
+                        logging.info(f"[OURA] Sleep data fields for {sleep.get('day')}: score={sleep.get('score')}, lowest_hr={sleep.get('lowest_heart_rate')}, avg_hrv={sleep.get('average_hrv')}")
+                        
                         # daily_sleep endpoint has timestamp instead of bedtime_start
                         timestamp_str = sleep.get("timestamp") or sleep.get("day")
                         if timestamp_str:
