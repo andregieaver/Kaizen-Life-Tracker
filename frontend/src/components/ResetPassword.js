@@ -26,24 +26,30 @@ const ResetPassword = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
   
-  // Auto-fill email and token from URL parameters
+  // Auto-fill token from URL parameters and verify it
   useEffect(() => {
-    const emailFromUrl = searchParams.get('email');
     const tokenFromUrl = searchParams.get('token');
     
-    logger.debug(null, 'Reset Password - Email from URL:', emailFromUrl);
     logger.debug(null, 'Reset Password - Token from URL:', tokenFromUrl);
     
-    if (emailFromUrl && tokenFromUrl) {
+    if (tokenFromUrl) {
       logger.debug(null, 'Valid reset link detected');
       setFormData(prev => ({ 
         ...prev, 
-        email: emailFromUrl,
         resetToken: tokenFromUrl 
       }));
-      setError(''); // Clear any previous errors
+      
+      // Verify token is valid
+      axios.post(`${API}/auth/verify-reset-token`, { token: tokenFromUrl })
+        .then(() => {
+          setError(''); // Token is valid
+        })
+        .catch((error) => {
+          logger.error(null, 'Invalid reset token:', error);
+          setError(error.response?.data?.detail || 'Invalid or expired reset link. Please request a new password reset.');
+        });
     } else {
-      logger.debug(null, 'Invalid reset link - missing parameters');
+      logger.debug(null, 'Invalid reset link - missing token');
       setError('Invalid reset link. Please request a new password reset from the login page.');
     }
   }, [searchParams]);
