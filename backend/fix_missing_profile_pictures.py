@@ -15,15 +15,12 @@ load_dotenv(env_path)
 
 # MongoDB connection - use localhost as we're running on the same machine
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
-# Append database name if not in URL
-if not MONGO_URL.endswith('/'):
-    MONGO_URL = MONGO_URL + '/trainsmart'
-else:
-    MONGO_URL = MONGO_URL + 'trainsmart'
+DB_NAME = os.getenv("DB_NAME", "test_database")
 
 print(f"Connecting to: {MONGO_URL}")
+print(f"Database: {DB_NAME}")
 client = AsyncIOMotorClient(MONGO_URL)
-db = client.trainsmart
+db = client[DB_NAME]
 
 async def fix_missing_profile_pictures():
     """Update all posts and comments with missing profile pictures"""
