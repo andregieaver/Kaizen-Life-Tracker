@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
-DB_NAME = 'trainsmart'
+DB_NAME = os.environ.get('DB_NAME', 'test_database')
 
 async def migrate_urls():
     # Connect to MongoDB
