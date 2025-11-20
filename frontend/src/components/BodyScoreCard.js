@@ -22,7 +22,18 @@ const BodyScoreCard = ({ athleteId }) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`${API}/health/body-score-data/${athleteId}`);
+      
+      // Add cache-busting headers to force fresh data
+      const response = await axios.get(`${API}/health/body-score-data/${athleteId}`, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        },
+        params: {
+          _t: Date.now() // Cache-busting timestamp
+        }
+      });
+      
       console.log('[BodyScoreCard] API Response:', response.data);
       console.log('[BodyScoreCard] oura_sleep_score:', response.data.oura_sleep_score);
       console.log('[BodyScoreCard] resting_heart_rate:', response.data.resting_heart_rate);
