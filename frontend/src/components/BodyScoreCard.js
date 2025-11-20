@@ -256,15 +256,18 @@ const BodyScoreCard = ({ athleteId }) => {
             variant="outline" 
             size="sm" 
             onClick={fetchHealthData}
+            disabled={loading}
             className="hover-lift"
             data-testid="refresh-body-score-btn"
             style={{ 
               borderColor: 'var(--border)', 
               background: 'var(--bg-700)',
-              color: 'var(--text-med)'
+              color: 'var(--text-med)',
+              opacity: loading ? 0.6 : 1,
+              cursor: loading ? 'not-allowed' : 'pointer'
             }}
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
         </div>
       </CardHeader>
