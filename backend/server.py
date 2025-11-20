@@ -9966,6 +9966,7 @@ async def get_user_daily_metrics(
 
 @api_router.get("/health/body-score-data/{athlete_id}")
 async def get_body_score_data(athlete_id: str):
+    # Updated 2025-11-20: Fixed MongoDB projections for Oura data
     """Aggregate health metrics from all integrations for body score calculation"""
     try:
         # Get user profile from athlete_profiles collection
