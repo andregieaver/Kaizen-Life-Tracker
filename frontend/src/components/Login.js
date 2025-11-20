@@ -307,31 +307,16 @@ const Login = ({ onAthleteLogin }) => {
               </div>
             </form>
 
-            {/* Sign Up Link - HIDDEN BUT NOT DELETED */}
-            <div className="hidden mt-6 text-center space-y-3">
+            {/* Forgot Password Link */}
+            <div className="mt-6 text-center space-y-3">
               <div>
                 <Link 
                   to="/forgot-password"
-                  className="text-sm font-medium hover:underline"
-                  style={{ color: '#00C2A8' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#009688'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#00C2A8'}
+                  className="text-sm font-medium transition-colors text-[#32D3FF] hover:text-[#1FC1FF] hover:underline"
                 >
                   {t('auth.forgotPassword')}
                 </Link>
               </div>
-              <p className="text-sm text-gray-300">
-                {t('auth.dontHaveAccount')}{' '}
-                <Link 
-                  to="/" 
-                  className="font-medium hover:underline"
-                  style={{ color: '#00C2A8' }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#009688'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#00C2A8'}
-                >
-                  {t('auth.signupHere')}
-                </Link>
-              </p>
             </div>
           </CardContent>
         </Card>
