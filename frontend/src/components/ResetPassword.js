@@ -80,9 +80,8 @@ const ResetPassword = () => {
 
     try {
       await axios.post(`${API}/auth/reset-password`, {
-        email: formData.email.trim(),
-        reset_token: formData.resetToken.trim(),
-        new_password: formData.newPassword
+        token: formData.resetToken.trim(),
+        password: formData.newPassword
       });
       
       setIsSuccess(true);
