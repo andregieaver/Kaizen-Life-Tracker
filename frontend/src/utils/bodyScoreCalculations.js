@@ -228,6 +228,15 @@ export const calculateBodyScore = (data) => {
   const bodyfat_score = (bodyFatPct != null && gender) ? bodyFatToScore(bodyFatPct, gender) : null;
   const bodycomp_score = bodyfat_score ?? bmi_score ?? null;
   
+  // Debug logging
+  console.log('[BodyScore Calculation] Inputs:', {
+    ouraSleep, ouraReadiness, rhrBpm, hrv7d, vo2Raw, acwr, bodyFatPct
+  });
+  console.log('[BodyScore Calculation] Scores:', {
+    vo2_score, hrv_score, rhr_score, hrr_score, fatigue_score,
+    sleep_score, readiness_score, bodyage_score, bodycomp_score
+  });
+  
   // Base weights
   const baseWeights = {
     vo2: 24,
