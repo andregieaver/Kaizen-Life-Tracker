@@ -3818,6 +3818,172 @@ async def login_athlete(login_data: LoginRequest):
         "email": athlete["email"]
     }
 
+@api_router.post("/auth/forgot-password")
+async def forgot_password(request: dict):
+    """Generate password reset token and send email"""
+    email = request.get("email", "").lower().strip()
+    
+    if not email:
+        raise HTTPException(status_code=400, detail="Email is required")
+    
+    # Find user
+    athlete = await db.athlete_profiles.find_one(
+        {"email": email},
+        {"_id": 0, "id": 1, "name": 1, "email": 1}
+    )
+    
+    # Always return success to prevent email enumeration
+    if not athlete:
+        logging.info(f"[FORGOT PASSWORD] Email not found: {email}")
+        return {"message": "If that email exists, a password reset link has been sent"}
+    
+    # Generate reset token
+    reset_token = secrets.token_urlsafe(32)
+    reset_token_expires = datetime.now(timezone.utc) + timedelta(hours=1)
+    
+    # Store token in database
+    await db.athlete_profiles.update_one(
+        {"id": athlete["id"]},
+        {"$set": {
+            "reset_token": reset_token,
+            "reset_token_expires": reset_token_expires.isoformat()
+        }}
+    )
+    
+    # Send reset email
+    try:
+        email_service = get_email_service()
+        if email_service and email_service.enabled:
+            # Get frontend URL from environment
+            frontend_url = os.environ.get('REACT_APP_BACKEND_URL', 'http://localhost:3000').replace('/api', '').replace(':8001', ':3000')
+            reset_link = f"{frontend_url}/reset-password?token={reset_token}"
+            
+            # Email content
+            subject = "Password Reset Request"
+            text_content = f"""
+Hello {athlete.get('name', 'there')},
+
+You requested to reset your password. Click the link below to reset it:
+
+{reset_link}
+
+This link will expire in 1 hour.
+
+If you didn't request this, please ignore this email.
+
+Best regards,
+My Health Tracker Team
+"""
+            
+            html_content = f"""
+<html>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #32D3FF;">Password Reset Request</h2>
+        <p>Hello {athlete.get('name', 'there')},</p>
+        <p>You requested to reset your password. Click the button below to reset it:</p>
+        <div style="margin: 30px 0; text-align: center;">
+            <a href="{reset_link}" style="background-color: #32D3FF; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Reset Password</a>
+        </div>
+        <p>Or copy and paste this link into your browser:</p>
+        <p style="word-break: break-all; color: #32D3FF;">{reset_link}</p>
+        <p style="color: #666; font-size: 14px;">This link will expire in 1 hour.</p>
+        <p style="color: #666; font-size: 14px;">If you didn't request this, please ignore this email.</p>
+        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+        <p style="color: #999; font-size: 12px;">Best regards,<br>My Health Tracker Team</p>
+    </div>
+</body>
+</html>
+"""
+            
+            await email_service.send_email(
+                to_email=email,
+                subject=subject,
+                text_content=text_content,
+                html_content=html_content
+            )
+            
+            logging.info(f"[FORGOT PASSWORD] Reset email sent to: {email}")
+        else:
+            logging.warning(f"[FORGOT PASSWORD] Email service not configured, token generated but not sent")
+    
+    except Exception as e:
+        logging.error(f"[FORGOT PASSWORD] Failed to send email: {str(e)}")
+        # Don't fail the request, just log the error
+    
+    return {"message": "If that email exists, a password reset link has been sent"}
+
+@api_router.post("/auth/verify-reset-token")
+async def verify_reset_token(request: dict):
+    """Verify if a reset token is valid"""
+    token = request.get("token", "")
+    
+    if not token:
+        raise HTTPException(status_code=400, detail="Token is required")
+    
+    # Find user with this token
+    athlete = await db.athlete_profiles.find_one(
+        {"reset_token": token},
+        {"_id": 0, "reset_token_expires": 1}
+    )
+    
+    if not athlete:
+        raise HTTPException(status_code=400, detail="Invalid or expired reset token")
+    
+    # Check if token is expired
+    expires_at = datetime.fromisoformat(athlete["reset_token_expires"])
+    if datetime.now(timezone.utc) > expires_at:
+        raise HTTPException(status_code=400, detail="Reset token has expired")
+    
+    return {"valid": True}
+
+@api_router.post("/auth/reset-password")
+async def reset_password(request: dict):
+    """Reset password using valid token"""
+    token = request.get("token", "")
+    new_password = request.get("password", "")
+    
+    if not token or not new_password:
+        raise HTTPException(status_code=400, detail="Token and password are required")
+    
+    if len(new_password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
+    
+    # Find user with this token
+    athlete = await db.athlete_profiles.find_one(
+        {"reset_token": token},
+        {"_id": 0, "id": 1, "email": 1, "reset_token_expires": 1}
+    )
+    
+    if not athlete:
+        raise HTTPException(status_code=400, detail="Invalid or expired reset token")
+    
+    # Check if token is expired
+    expires_at = datetime.fromisoformat(athlete["reset_token_expires"])
+    if datetime.now(timezone.utc) > expires_at:
+        raise HTTPException(status_code=400, detail="Reset token has expired")
+    
+    # Hash new password
+    new_hash = pwd_context.hash(new_password)
+    
+    # Update password and clear reset token
+    await db.athlete_profiles.update_one(
+        {"id": athlete["id"]},
+        {"$set": {
+            "password": new_hash,
+            "password_hash": new_hash
+        },
+        "$unset": {
+            "reset_token": "",
+            "reset_token_expires": ""
+        }}
+    )
+    
+    logging.info(f"[RESET PASSWORD] Password reset successful for: {athlete['email']}")
+    
+    return {"message": "Password reset successful"}
+
+
 @api_router.post("/auth/google-login")
 async def google_login(google_data: GoogleLoginRequest):
     """Handle Google OAuth login/registration"""
