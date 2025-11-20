@@ -23,6 +23,10 @@ const BodyScoreCard = ({ athleteId }) => {
       setLoading(true);
       setError(null);
       const response = await axios.get(`${API}/health/body-score-data/${athleteId}`);
+      console.log('[BodyScoreCard] API Response:', response.data);
+      console.log('[BodyScoreCard] oura_sleep_score:', response.data.oura_sleep_score);
+      console.log('[BodyScoreCard] resting_heart_rate:', response.data.resting_heart_rate);
+      console.log('[BodyScoreCard] missing_data:', response.data.missing_data);
       setHealthData(response.data);
     } catch (err) {
       console.error('Error fetching body score data:', err);
