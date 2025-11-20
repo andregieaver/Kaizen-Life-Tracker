@@ -111,6 +111,10 @@ const Dashboard = ({ athleteId }) => {
   const [initialMessageUserId, setInitialMessageUserId] = useState(null);
   const [backgroundImage, setBackgroundImage] = useState(null);
   
+  // Onboarding state
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [onboardingStatus, setOnboardingStatus] = useState(null);
+  
   // SEO settings state
   const [siteTitle, setSiteTitle] = useState('TrainSmart');
   const [logoUrl, setLogoUrl] = useState(null);
