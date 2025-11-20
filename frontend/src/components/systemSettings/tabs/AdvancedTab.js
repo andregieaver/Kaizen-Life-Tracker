@@ -300,7 +300,7 @@ const AdvancedTab = ({
                 />
               </div>
               {/* Callback Domain for OAuth integrations */}
-              {['strava', 'polar', 'fitbit', 'garmin', 'coros', 'whoop'].includes(integration) && (
+              {['strava', 'oura', 'polar', 'fitbit', 'garmin', 'coros', 'whoop', 'suunto'].includes(integration) && (
                 <div className="mt-2">
                   <input
                     type="text"
