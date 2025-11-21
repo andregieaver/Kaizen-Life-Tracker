@@ -725,6 +725,9 @@ const Dashboard = ({ athleteId }) => {
         calculateYTD(athleteRes.data);
       }
       
+      // Check onboarding status
+      checkOnboardingStatus();
+      
       return; // Skip the old Promise.all code
 
       logger.debug(null, 'Raw API response for athlete:', athleteRes.data);
