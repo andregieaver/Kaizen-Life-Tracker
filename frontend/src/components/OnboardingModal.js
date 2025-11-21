@@ -431,11 +431,11 @@ const StepPersonalInfo = ({ data, onChange }) => {
   const { t } = useTranslation();
   
   return (
-    <div className="space-y-4">
-      <h3 className="text-xl font-semibold text-white mb-4">{t('onboarding.steps.personalInfo.title')}</h3>
-      <p className="text-gray-400 mb-6">{t('onboarding.steps.personalInfo.description')}</p>
+    <div className="space-y-3 md:space-y-4">
+      <h3 className="text-base md:text-xl font-semibold text-white mb-2 md:mb-4">{t('onboarding.steps.personalInfo.title')}</h3>
+      <p className="text-sm md:text-base text-gray-400 mb-3 md:mb-6">{t('onboarding.steps.personalInfo.description')}</p>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
             {t('account.birthdate')} *
