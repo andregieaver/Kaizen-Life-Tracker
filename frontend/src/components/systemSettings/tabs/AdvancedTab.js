@@ -49,38 +49,47 @@ const AdvancedTab = ({
             <label className="block text-gray-300 mb-2 text-sm font-semibold">
               Logo / Header Image
             </label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={advancedSettings.seo?.logoUrl || ''}
-                onChange={(e) => onUpdateSEOSetting('logoUrl', e.target.value)}
-                className="flex-1 bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
-                placeholder="URL or upload image"
-              />
-              <Button
-                size="sm"
-                onClick={() => document.getElementById('logo-upload').click()}
-                className="bg-gray-700 hover:bg-gray-600"
-              >
-                <Upload className="w-4 h-4" />
-              </Button>
-              <input
-                id="logo-upload"
-                type="file"
-                accept="image/*"
-                onChange={(e) => e.target.files[0] && onUploadSEOImage('logoUrl', e.target.files[0])}
-                className="hidden"
-              />
-            </div>
-            {advancedSettings.seo?.logoUrl && (
-              <div className="mt-2">
-                <img 
-                  src={advancedSettings.seo.logoUrl.startsWith('http') ? advancedSettings.seo.logoUrl : `${process.env.REACT_APP_BACKEND_URL}${advancedSettings.seo.logoUrl}`}
-                  alt="Logo preview"
-                  className="h-12 object-contain bg-gray-900 p-2 rounded"
-                />
+            <div className="flex items-center gap-4 p-4 bg-gray-700 rounded-lg border border-gray-600">
+              {/* Logo Preview */}
+              <div className="relative flex-shrink-0">
+                {advancedSettings.seo?.logoUrl ? (
+                  <img
+                    src={advancedSettings.seo.logoUrl.startsWith('http') ? advancedSettings.seo.logoUrl : `${process.env.REACT_APP_BACKEND_URL}${advancedSettings.seo.logoUrl}`}
+                    alt="Logo"
+                    className="w-20 h-20 object-contain bg-gray-900 rounded border-2 border-gray-600"
+                  />
+                ) : (
+                  <div className="w-20 h-20 bg-gray-800 flex items-center justify-center rounded border-2 border-gray-600">
+                    <svg className="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                )}
               </div>
-            )}
+              
+              {/* Upload Button */}
+              <div className="flex-1">
+                <input
+                  type="file"
+                  id="logo-upload"
+                  accept="image/*"
+                  onChange={(e) => e.target.files[0] && onUploadSEOImage('logoUrl', e.target.files[0])}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="logo-upload"
+                  className="inline-flex items-center justify-center px-4 py-2 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-600 cursor-pointer transition-colors"
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                  {advancedSettings.seo?.logoUrl ? 'Change Logo' : 'Upload Logo'}
+                </label>
+                <p className="text-xs text-gray-400 mt-1">
+                  JPG, PNG or GIF. Max size 5MB
+                </p>
+              </div>
+            </div>
           </div>
 
           <div>
