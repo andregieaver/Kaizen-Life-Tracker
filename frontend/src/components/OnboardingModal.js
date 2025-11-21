@@ -422,7 +422,7 @@ const StepPersonalInfo = ({ data, onChange }) => {
             onChange={(e) => onChange({ ...data, gender: e.target.value })}
             className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           >
-            <option value="">{t('common.selectOption')}</option>
+            <option value="">Select gender...</option>
             <option value="male">{t('account.male')}</option>
             <option value="female">{t('account.female')}</option>
             <option value="other">{t('account.other')}</option>
