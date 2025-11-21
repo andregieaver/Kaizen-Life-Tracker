@@ -2558,6 +2558,22 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             <Trophy className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
           <button
+            onClick={() => {
+              setActiveTab('leaderboard');
+              setSelectedGroup(null);
+            }}
+            style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
+              activeTab === 'leaderboard'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
+            }`}
+            {...(activeTab === 'leaderboard' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
+            title="Leaderboard"
+          >
+            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
+          </button>
+          <button
             onClick={handleOpenAthletes}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
             className="flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all text-gray-400 hover:bg-gray-700/50 hover:text-white"
