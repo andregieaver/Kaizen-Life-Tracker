@@ -633,17 +633,17 @@ const StepIntegration = ({ athleteId, onConnect }) => {
           <button
             key={integration.id}
             onClick={() => onConnect(integration.id)}
-            className="p-6 bg-gray-800 rounded-xl border border-gray-700 hover:border-cyan-500 hover:bg-gray-750 transition-all text-left group"
+            className="p-3 md:p-6 bg-gray-800 rounded-lg md:rounded-xl border border-gray-700 hover:border-cyan-500 hover:bg-gray-750 transition-all text-left group"
           >
-            <div className="flex items-center gap-4">
-              <div className="text-4xl">{integration.icon}</div>
-              <div className="flex-1">
-                <h4 className="text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors">
+            <div className="flex items-center gap-2 md:gap-4">
+              <div className="text-2xl md:text-4xl">{integration.icon}</div>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm md:text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors truncate">
                   {integration.name}
                 </h4>
-                <p className="text-sm text-gray-400">{t('onboarding.clickToConnect')}</p>
+                <p className="text-xs md:text-sm text-gray-400">{t('onboarding.clickToConnect')}</p>
               </div>
-              <ChevronRight className="w-6 h-6 text-gray-600 group-hover:text-cyan-400 transition-colors" />
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-600 group-hover:text-cyan-400 transition-colors flex-shrink-0" />
             </div>
           </button>
         ))}
