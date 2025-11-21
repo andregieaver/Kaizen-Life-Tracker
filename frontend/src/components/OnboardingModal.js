@@ -455,7 +455,7 @@ const StepPersonalInfo = ({ data, onChange }) => {
           <select
             value={data.gender}
             onChange={(e) => onChange({ ...data, gender: e.target.value })}
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           >
             <option value="">Select gender...</option>
             <option value="male">{t('account.male')}</option>
@@ -475,7 +475,7 @@ const StepPersonalInfo = ({ data, onChange }) => {
             value={data.height}
             onChange={(e) => onChange({ ...data, height: e.target.value })}
             placeholder="175"
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           />
         </div>
         
@@ -489,7 +489,7 @@ const StepPersonalInfo = ({ data, onChange }) => {
             value={data.weight}
             onChange={(e) => onChange({ ...data, weight: e.target.value })}
             placeholder="70"
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           />
         </div>
         
@@ -503,7 +503,7 @@ const StepPersonalInfo = ({ data, onChange }) => {
             value={data.body_fat_percentage}
             onChange={(e) => onChange({ ...data, body_fat_percentage: e.target.value })}
             placeholder="18.5"
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           />
         </div>
         
@@ -517,7 +517,7 @@ const StepPersonalInfo = ({ data, onChange }) => {
             value={data.vo2_max}
             onChange={(e) => onChange({ ...data, vo2_max: e.target.value })}
             placeholder="50"
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           />
         </div>
         
@@ -530,7 +530,7 @@ const StepPersonalInfo = ({ data, onChange }) => {
             value={data.max_heart_rate}
             onChange={(e) => onChange({ ...data, max_heart_rate: e.target.value })}
             placeholder="190"
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           />
         </div>
       </div>
@@ -557,7 +557,7 @@ const StepPreferences = ({ data, onChange }) => {
           <select
             value={data.language}
             onChange={(e) => onChange({ ...data, language: e.target.value })}
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           >
             <option value="en">English</option>
             <option value="sv">Svenska</option>
@@ -579,7 +579,7 @@ const StepPreferences = ({ data, onChange }) => {
           <select
             value={data.measurement_system}
             onChange={(e) => onChange({ ...data, measurement_system: e.target.value })}
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           >
             <option value="metric">{t('account.metric')}</option>
             <option value="imperial">{t('account.imperial')}</option>
@@ -593,7 +593,7 @@ const StepPreferences = ({ data, onChange }) => {
           <select
             value={data.timezone}
             onChange={(e) => onChange({ ...data, timezone: e.target.value })}
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           >
             <option value="UTC">UTC</option>
             <option value="America/New_York">America/New York (EST)</option>
