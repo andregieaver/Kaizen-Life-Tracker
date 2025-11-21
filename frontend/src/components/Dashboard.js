@@ -2721,6 +2721,15 @@ const Dashboard = ({ athleteId }) => {
           }}
         />
       )}
+      
+      {/* Onboarding Modal */}
+      {showOnboarding && (
+        <OnboardingModal
+          athleteId={athleteId}
+          onComplete={handleOnboardingComplete}
+          onDismiss={handleOnboardingDismiss}
+        />
+      )}
     </div>
   );
 };
