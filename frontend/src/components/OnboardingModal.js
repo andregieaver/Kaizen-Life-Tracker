@@ -437,14 +437,14 @@ const StepPersonalInfo = ({ data, onChange }) => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-xs md:text-sm font-medium text-gray-300 mb-1 md:mb-2">
             {t('account.birthdate')} *
           </label>
           <input
             type="date"
             value={data.date_of_birth}
             onChange={(e) => onChange({ ...data, date_of_birth: e.target.value })}
-            className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
+            className="w-full px-3 py-2 md:px-4 md:py-3 bg-gray-800 text-white text-sm md:text-base rounded-lg md:rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           />
         </div>
         
