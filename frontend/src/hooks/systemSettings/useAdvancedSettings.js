@@ -257,17 +257,18 @@ const useAdvancedSettings = (athleteId) => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('type', imageType);
 
+      // Send image_type as query parameter, not in FormData
       const response = await axios.post(
-        `${API}/system/upload-seo-image?athlete_id=${athleteId}`,
+        `${API}/system/upload-seo-image?athlete_id=${athleteId}&image_type=${imageType}`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' }
         }
       );
 
-      const imageUrl = response.data.url;
+      // Backend returns 'path', not 'url'
+      const imageUrl = response.data.path;
       
       // Update the appropriate SEO field
       updateSEOSetting(imageType, imageUrl);
