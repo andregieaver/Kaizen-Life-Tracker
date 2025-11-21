@@ -705,8 +705,8 @@ const StepCommunityPost = ({ content, onContentChange, image, onImageChange }) =
         )}
       </div>
       
-      <div className="mt-6 p-4 bg-purple-900 bg-opacity-20 border border-purple-500 rounded-xl">
-        <p className="text-sm text-purple-300">
+      <div className="mt-3 md:mt-6 p-2 md:p-4 bg-purple-900 bg-opacity-20 border border-purple-500 rounded-lg md:rounded-xl">
+        <p className="text-xs md:text-sm text-purple-300">
           💬 {t('onboarding.steps.communityPost.hint')}
         </p>
       </div>
