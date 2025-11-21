@@ -651,12 +651,12 @@ const LandingPage = () => {
                 <img 
                   src={logoUrl.startsWith('http') ? logoUrl : `${BACKEND_URL}${logoUrl}`}
                   alt={siteTitle}
-                  className="w-11 h-11 md:w-8 md:h-8 object-contain"
+                  className="w-8 h-8 object-contain"
                 />
               ) : (
-                <Heart className="w-11 h-11 md:w-8 md:h-8 text-[#32D3FF]" />
+                <Heart className="w-8 h-8 text-[#32D3FF]" />
               )}
-              <span className="ml-2 text-xl font-bold text-white hidden md:inline" style={{ fontFamily: 'var(--font-logo)' }}>{siteTitle}</span>
+              <span className="ml-2 text-xl font-bold text-white" style={{ fontFamily: 'var(--font-logo)' }}>{siteTitle}</span>
             </div>
             <div className="flex items-center gap-4">
               {(logger.debug(null, 'Header menu length:', headerMenu.length, 'Items:', headerMenu), headerMenu.length > 0) ? (
