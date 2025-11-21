@@ -348,8 +348,8 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 pb-24 md:pb-4 overflow-y-auto">
-      <div className="bg-gray-900 rounded-2xl shadow-2xl w-full max-w-3xl my-8 border border-gray-700">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 pb-24 md:p-4 md:pb-4 overflow-y-auto">
+      <div className="bg-gray-900 rounded-xl md:rounded-2xl shadow-2xl w-full max-w-3xl my-2 md:my-8 border border-gray-700">
         {/* Header */}
         <div className="p-6 border-b border-gray-700">
           <div className="flex items-center justify-between mb-4">
