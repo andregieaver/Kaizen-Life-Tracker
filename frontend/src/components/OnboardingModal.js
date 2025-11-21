@@ -130,10 +130,29 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
   };
 
   const handleIntegrationConnect = async (integration) => {
-    // Trigger OAuth flow - this will open in new window
-    const callbackUrl = `${window.location.origin}/dashboard/account?tab=integrations`;
-    const authUrl = `${process.env.REACT_APP_BACKEND_URL}/api/${integration}/authorize?athlete_id=${athleteId}&callback_url=${encodeURIComponent(callbackUrl)}`;
-    window.open(authUrl, '_blank', 'width=600,height=700');
+    try {
+      // Get auth URL from backend
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/${integration}?user_id=${athleteId}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        
+        if (data.authorization_url || data.authUrl) {
+          // Store redirect info in localStorage for when we return
+          localStorage.setItem('integration_redirect', window.location.href);
+          localStorage.setItem('connecting_provider', integration);
+          
+          // Redirect to provider's OAuth page
+          window.location.href = data.authorization_url || data.authUrl;
+        }
+      } else {
+        console.error('Error getting auth URL:', await response.text());
+        alert(`Failed to connect to ${integration}. Please ensure credentials are configured in System Settings.`);
+      }
+    } catch (error) {
+      console.error('Error connecting to integration:', error);
+      alert(`An error occurred while connecting to ${integration}. Please try again.`);
+    }
   };
 
   const checkIntegrationStatus = async () => {
