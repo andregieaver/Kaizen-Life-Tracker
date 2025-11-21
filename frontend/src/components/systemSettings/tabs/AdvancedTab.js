@@ -47,6 +47,44 @@ const AdvancedTab = ({
 
           <div>
             <label className="block text-gray-300 mb-2 text-sm font-semibold">
+              Logo / Header Image
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={advancedSettings.seo?.logoUrl || ''}
+                onChange={(e) => onUpdateSEOSetting('logoUrl', e.target.value)}
+                className="flex-1 bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
+                placeholder="URL or upload image"
+              />
+              <Button
+                size="sm"
+                onClick={() => document.getElementById('logo-upload').click()}
+                className="bg-gray-700 hover:bg-gray-600"
+              >
+                <Upload className="w-4 h-4" />
+              </Button>
+              <input
+                id="logo-upload"
+                type="file"
+                accept="image/*"
+                onChange={(e) => e.target.files[0] && onUploadSEOImage('logoUrl', e.target.files[0])}
+                className="hidden"
+              />
+            </div>
+            {advancedSettings.seo?.logoUrl && (
+              <div className="mt-2">
+                <img 
+                  src={advancedSettings.seo.logoUrl.startsWith('http') ? advancedSettings.seo.logoUrl : `${process.env.REACT_APP_BACKEND_URL}${advancedSettings.seo.logoUrl}`}
+                  alt="Logo preview"
+                  className="h-12 object-contain bg-gray-900 p-2 rounded"
+                />
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-gray-300 mb-2 text-sm font-semibold">
               {t('systemSettings.advanced.metaDescription')}
             </label>
             <textarea
