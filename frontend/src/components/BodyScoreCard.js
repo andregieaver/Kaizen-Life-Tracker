@@ -48,25 +48,6 @@ const BodyScoreCard = ({ athleteId }) => {
     }
   };
   
-  useEffect(() => {
-    if (athleteId) {
-      fetchHealthData();
-    }
-  }, [athleteId]);
-  
-  // Calculate body score using the utility function
-  const scoreResult = useMemo(() => {
-    if (!healthData) return null;
-    const result = calculateBodyScore(healthData);
-    
-    // Save score to history
-    if (result && result.totalScore) {
-      saveBodyScore(result.totalScore);
-    }
-    
-    return result;
-  }, [healthData]);
-  
   // Save body score to history
   const saveBodyScore = async (score) => {
     try {
@@ -92,9 +73,23 @@ const BodyScoreCard = ({ athleteId }) => {
   
   useEffect(() => {
     if (athleteId) {
+      fetchHealthData();
       fetchStreak();
     }
   }, [athleteId]);
+  
+  // Calculate body score using the utility function
+  const scoreResult = useMemo(() => {
+    if (!healthData) return null;
+    const result = calculateBodyScore(healthData);
+    
+    // Save score to history
+    if (result && result.totalScore) {
+      saveBodyScore(result.totalScore);
+    }
+    
+    return result;
+  }, [healthData]);
   
   const getScoreColor = (score) => {
     if (score >= 85) return { text: '#22C55E', bg: 'rgba(34, 197, 94, 0.1)', border: 'rgba(34, 197, 94, 0.3)' };
