@@ -2751,6 +2751,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         />
       )}
 
+      {/* Leaderboard Tab */}
+      {activeTab === 'leaderboard' && (
+        <LeaderboardTab />
+      )}
 
       {/* Group Detail View */}
       {selectedGroup && (
