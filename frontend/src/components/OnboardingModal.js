@@ -545,9 +545,9 @@ const StepPreferences = ({ data, onChange }) => {
   const { t } = useTranslation();
   
   return (
-    <div className="space-y-4">
-      <h3 className="text-xl font-semibold text-white mb-4">{t('onboarding.steps.preferences.title')}</h3>
-      <p className="text-gray-400 mb-6">{t('onboarding.steps.preferences.description')}</p>
+    <div className="space-y-3 md:space-y-4">
+      <h3 className="text-base md:text-xl font-semibold text-white mb-2 md:mb-4">{t('onboarding.steps.preferences.title')}</h3>
+      <p className="text-sm md:text-base text-gray-400 mb-3 md:mb-6">{t('onboarding.steps.preferences.description')}</p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
