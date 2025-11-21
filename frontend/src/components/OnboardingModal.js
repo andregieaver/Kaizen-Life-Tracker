@@ -517,7 +517,7 @@ const StepPreferences = ({ data, onChange }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            {t('preferences.language')}
+            {t('account.language')}
           </label>
           <select
             value={data.language}
@@ -539,21 +539,21 @@ const StepPreferences = ({ data, onChange }) => {
         
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            {t('preferences.measurementSystem')}
+            {t('account.measurementSystem')}
           </label>
           <select
             value={data.measurement_system}
             onChange={(e) => onChange({ ...data, measurement_system: e.target.value })}
             className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"
           >
-            <option value="metric">{t('preferences.metric')}</option>
-            <option value="imperial">{t('preferences.imperial')}</option>
+            <option value="metric">{t('account.metric')}</option>
+            <option value="imperial">{t('account.imperial')}</option>
           </select>
         </div>
         
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            {t('preferences.timezone')}
+            {t('account.timezone')}
           </label>
           <select
             value={data.timezone}
