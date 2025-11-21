@@ -378,7 +378,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
         </div>
 
         {/* Step Content */}
-        <div className="p-6 pb-8 min-h-[400px] max-h-[60vh] overflow-y-auto">
+        <div className="p-3 pb-4 md:p-6 md:pb-8 min-h-[300px] md:min-h-[400px] max-h-[60vh] overflow-y-auto">
           {currentStep === 1 && <StepPersonalInfo data={personalInfo} onChange={setPersonalInfo} />}
           {currentStep === 2 && <StepPreferences data={preferences} onChange={setPreferences} />}
           {currentStep === 3 && <StepIntegration athleteId={athleteId} onConnect={handleIntegrationConnect} />}
