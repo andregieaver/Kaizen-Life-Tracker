@@ -57,8 +57,44 @@ const BodyScoreCard = ({ athleteId }) => {
   // Calculate body score using the utility function
   const scoreResult = useMemo(() => {
     if (!healthData) return null;
-    return calculateBodyScore(healthData);
+    const result = calculateBodyScore(healthData);
+    
+    // Save score to history
+    if (result && result.totalScore) {
+      saveBodyScore(result.totalScore);
+    }
+    
+    return result;
   }, [healthData]);
+  
+  // Save body score to history
+  const saveBodyScore = async (score) => {
+    try {
+      await axios.post(`${API}/body-score/save/${athleteId}`, null, {
+        params: { score }
+      });
+      // Fetch updated streak
+      fetchStreak();
+    } catch (err) {
+      console.error('Error saving body score:', err);
+    }
+  };
+  
+  // Fetch current streak
+  const fetchStreak = async () => {
+    try {
+      const response = await axios.get(`${API}/body-score/streak/${athleteId}`);
+      setStreak(response.data.streak || 0);
+    } catch (err) {
+      console.error('Error fetching streak:', err);
+    }
+  };
+  
+  useEffect(() => {
+    if (athleteId) {
+      fetchStreak();
+    }
+  }, [athleteId]);
   
   const getScoreColor = (score) => {
     if (score >= 85) return { text: '#22C55E', bg: 'rgba(34, 197, 94, 0.1)', border: 'rgba(34, 197, 94, 0.3)' };
