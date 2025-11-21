@@ -199,6 +199,9 @@ const Today = ({ athleteId }) => {
         <p className="text-xs md:text-sm text-right" style={{ color: 'var(--text-med)' }}>{formatDate()}</p>
       </div>
 
+      {/* Body Score Card */}
+      <BodyScoreCard athleteId={athleteId} />
+
       {/* Today's Habits Section */}
       {getTodayHabits().length > 0 && (
         <div className="border-0 shadow-lg overflow-hidden" style={{ 
