@@ -1622,7 +1622,7 @@ const Dashboard = ({ athleteId }) => {
             {/* Onboarding Resume Banner */}
             {onboardingStatus && !onboardingStatus.onboarding_completed && !onboardingStatus.onboarding_dismissed_permanently && (
               <div 
-                className="p-6 rounded-2xl cursor-pointer transition-all hover:scale-[1.02] border border-cyan-500"
+                className="p-3 md:p-6 rounded-xl md:rounded-2xl cursor-pointer transition-all hover:scale-[1.02] border border-cyan-500"
                 style={{
                   background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%)',
                   backdropFilter: 'blur(24px)',
@@ -1630,22 +1630,22 @@ const Dashboard = ({ athleteId }) => {
                 }}
                 onClick={handleResumeOnboarding}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
-                      <Sparkles className="w-7 h-7 text-white" />
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
+                    <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-5 h-5 md:w-7 md:h-7 text-white" />
                     </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-white mb-1">{t('onboarding.resumeBanner.title')}</h3>
-                      <p className="text-gray-300">{t('onboarding.resumeBanner.description')}</p>
-                      <div className="flex gap-2 mt-2">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-sm md:text-xl font-bold text-white mb-0.5 md:mb-1 truncate">{t('onboarding.resumeBanner.title')}</h3>
+                      <p className="text-xs md:text-base text-gray-300 hidden md:block">{t('onboarding.resumeBanner.description')}</p>
+                      <div className="flex gap-1 md:gap-2 mt-1 md:mt-2">
                         {[1, 2, 3, 4].map((step) => {
                           const stepNames = ['personal_info', 'preferences', 'integration', 'community_post'];
                           const isComplete = onboardingStatus[`${stepNames[step - 1]}_completed`];
                           return (
                             <div
                               key={step}
-                              className={`w-8 h-1.5 rounded-full ${
+                              className={`w-6 md:w-8 h-1 md:h-1.5 rounded-full ${
                                 isComplete ? 'bg-cyan-400' : 'bg-gray-600'
                               }`}
                             />
@@ -1654,7 +1654,7 @@ const Dashboard = ({ athleteId }) => {
                       </div>
                     </div>
                   </div>
-                  <ArrowRight className="w-6 h-6 text-cyan-400" />
+                  <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-cyan-400 flex-shrink-0" />
                 </div>
               </div>
             )}
