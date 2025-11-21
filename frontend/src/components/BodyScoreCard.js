@@ -339,6 +339,21 @@ const BodyScoreCard = ({ athleteId }) => {
               <span className="ml-1">{getScoreLabel(scoreResult.totalScore)}</span>
             </Badge>
           </div>
+          
+          {/* Streak Display */}
+          {streak > 0 && (
+            <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-lg" style={{
+              background: 'linear-gradient(135deg, rgba(255, 149, 0, 0.1) 0%, rgba(255, 204, 0, 0.1) 100%)',
+              border: '1px solid rgba(255, 149, 0, 0.3)'
+            }}>
+              <span className="text-2xl">🔥</span>
+              <div className="text-left">
+                <div className="text-lg font-bold" style={{ color: '#FF9500' }}>{streak}</div>
+                <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Day Streak</div>
+              </div>
+            </div>
+          )}
+          
           <p className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>
             {t('bodyScore.componentsUsed', { count: scoreResult.available, total: scoreResult.total })}
           </p>
