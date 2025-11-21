@@ -258,9 +258,17 @@ const useAdvancedSettings = (athleteId) => {
       const formData = new FormData();
       formData.append('file', file);
 
+      // Map frontend field names to backend types
+      const typeMap = {
+        'faviconUrl': 'favicon',
+        'logoUrl': 'logo',
+        'ogImage': 'og_image'
+      };
+      const backendType = typeMap[imageType] || imageType;
+
       // Send image_type as query parameter, not in FormData
       const response = await axios.post(
-        `${API}/system/upload-seo-image?athlete_id=${athleteId}&image_type=${imageType}`,
+        `${API}/system/upload-seo-image?athlete_id=${athleteId}&image_type=${backendType}`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' }
