@@ -1593,6 +1593,46 @@ const Dashboard = ({ athleteId }) => {
       >
         {activeTab === 'overview' && (
           <div className="space-y-2 md:space-y-6 pt-2 md:pt-6">
+            {/* Onboarding Resume Banner */}
+            {onboardingStatus && !onboardingStatus.onboarding_completed && !onboardingStatus.onboarding_dismissed_permanently && (
+              <div 
+                className="p-6 rounded-2xl cursor-pointer transition-all hover:scale-[1.02] border border-cyan-500"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%)',
+                  backdropFilter: 'blur(24px)',
+                  boxShadow: '0 8px 32px rgba(6, 182, 212, 0.2)'
+                }}
+                onClick={handleResumeOnboarding}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+                      <Sparkles className="w-7 h-7 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-1">{t('onboarding.resumeBanner.title')}</h3>
+                      <p className="text-gray-300">{t('onboarding.resumeBanner.description')}</p>
+                      <div className="flex gap-2 mt-2">
+                        {[1, 2, 3, 4].map((step) => {
+                          const stepNames = ['personal_info', 'preferences', 'integration', 'community_post'];
+                          const isComplete = onboardingStatus[`${stepNames[step - 1]}_completed`];
+                          return (
+                            <div
+                              key={step}
+                              className={`w-8 h-1.5 rounded-full ${
+                                isComplete ? 'bg-cyan-400' : 'bg-gray-600'
+                              }`}
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-6 h-6 text-cyan-400" />
+                </div>
+              </div>
+            )}
+            
             {/* Quick Actions Grid - Redesigned */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
               {/* Weekly Menu */}
