@@ -2366,5 +2366,53 @@
     "messageButton": "Message",
     "back": "Back",
     "searchEmoji": "Search emoji..."
+  },
+  "onboarding": {
+    "title": "Welcome! Let's Get Started",
+    "step": "Step {{current}} of {{total}}",
+    "skipStep": "Skip This Step",
+    "skipForNow": "Skip For Now",
+    "neverShow": "Never Show Again",
+    "confirmNeverShow": "Are you sure you want to permanently dismiss the onboarding guide? You can't undo this action.",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "requiredFields": "Required fields",
+    "optional": "Optional",
+    "pleaseConnectIntegration": "Please connect at least one integration to continue.",
+    "pleaseEnterPost": "Please enter some text for your first post.",
+    "clickToConnect": "Click to connect",
+    "resumeBanner": {
+      "title": "Complete Your Profile Setup",
+      "description": "Finish setting up your account to unlock all features"
+    },
+    "steps": {
+      "personalInfo": {
+        "title": "Personal Information",
+        "description": "Tell us about yourself to get personalized recommendations"
+      },
+      "preferences": {
+        "title": "Set Your Preferences",
+        "description": "Customize your experience with language and measurement units"
+      },
+      "integration": {
+        "title": "Connect Your Devices",
+        "description": "Connect at least one fitness tracker to sync your health data",
+        "hint": "After connecting, come back here to continue the onboarding process."
+      },
+      "communityPost": {
+        "title": "Join the Community",
+        "description": "Introduce yourself to the community with your first post",
+        "postContent": "Your First Post",
+        "placeholder": "Hi everyone! I'm excited to start my fitness journey...",
+        "addImage": "Add Image",
+        "hint": "Share something about your fitness goals or interests!"
+      }
+    },
+    "celebration": {
+      "title": "Welcome Aboard! 🎉",
+      "message": "You're all set to start your fitness journey!",
+      "cta": "Let's Go!"
+    }
   }
 }
