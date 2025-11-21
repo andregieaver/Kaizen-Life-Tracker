@@ -351,24 +351,24 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 pb-24 md:p-4 md:pb-4 overflow-y-auto">
       <div className="bg-gray-900 rounded-xl md:rounded-2xl shadow-2xl w-full max-w-3xl my-2 md:my-8 border border-gray-700">
         {/* Header */}
-        <div className="p-6 border-b border-gray-700">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-white">{t('onboarding.title')}</h2>
+        <div className="p-3 md:p-6 border-b border-gray-700">
+          <div className="flex items-center justify-between mb-2 md:mb-4">
+            <h2 className="text-lg md:text-2xl font-bold text-white">{t('onboarding.title')}</h2>
             <button
               onClick={handleSkipForNow}
               className="text-gray-400 hover:text-white transition-colors"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 md:w-6 md:h-6" />
             </button>
           </div>
           
           {/* Progress Bar */}
-          <div className="mb-2">
-            <div className="flex justify-between text-sm text-gray-400 mb-2">
+          <div className="mb-1 md:mb-2">
+            <div className="flex justify-between text-xs md:text-sm text-gray-400 mb-1 md:mb-2">
               <span>{t('onboarding.step', { current: currentStep, total: totalSteps })}</span>
               <span>{Math.round(progressPercentage)}%</span>
             </div>
-            <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+            <div className="w-full h-1.5 md:h-2 bg-gray-800 rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-300 ease-out"
                 style={{ width: `${progressPercentage}%` }}
