@@ -31,6 +31,7 @@ import EventCard from './community/cards/EventCard';
 import PostsList from './community/views/PostsList';
 import GroupDetailView from './community/views/GroupDetailView';
 import { CommunityEvents, CommunityChallenges, CommunityGroups, CommunityMyGroups, FeedTab, FollowingTab } from './community/tabs';
+import LeaderboardTab from './community/tabs/LeaderboardTab';
 import { useMediaUpload, useMentions, usePostActions, useComments, useNotifications } from '../hooks/community';
 
 import { logger } from '../utils/logger';
