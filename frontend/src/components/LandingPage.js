@@ -1000,7 +1000,7 @@ const LandingPage = () => {
               <div className="flex items-center mb-4">
                 {logoUrl ? (
                   <img 
-                    src={`${BACKEND_URL}${logoUrl}`} 
+                    src={logoUrl.startsWith('http') ? logoUrl : `${BACKEND_URL}${logoUrl}`}
                     alt={siteTitle}
                     className="w-6 h-6 object-contain"
                   />
