@@ -535,7 +535,7 @@ const StepPersonalInfo = ({ data, onChange }) => {
         </div>
       </div>
       
-      <p className="text-sm text-gray-500 mt-4">* {t('onboarding.requiredFields')}</p>
+      <p className="text-xs md:text-sm mt-2 md:mt-4" style={{ color: 'var(--text-muted)' }}>* {t('onboarding.requiredFields')}</p>
     </div>
   );
 };
