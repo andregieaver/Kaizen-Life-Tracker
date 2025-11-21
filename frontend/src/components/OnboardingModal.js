@@ -386,38 +386,38 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-700 flex items-center justify-between">
-          <div className="flex gap-3">
+        <div className="p-3 md:p-6 border-t border-gray-700 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2 md:gap-0">
+          <div className="flex gap-2 md:gap-3 text-xs md:text-base">
             <button
               onClick={handleSkipStep}
-              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              className="px-2 py-1.5 md:px-4 md:py-2 text-gray-400 hover:text-white transition-colors"
             >
               {t('onboarding.skipStep')}
             </button>
             <button
               onClick={handleNeverShowAgain}
-              className="px-4 py-2 text-red-400 hover:text-red-300 transition-colors text-sm"
+              className="px-2 py-1.5 md:px-4 md:py-2 text-red-400 hover:text-red-300 transition-colors text-xs md:text-sm"
             >
               {t('onboarding.neverShow')}
             </button>
           </div>
           
-          <div className="flex gap-3">
+          <div className="flex gap-2 md:gap-3">
             {currentStep > 1 && (
               <button
                 onClick={handleBack}
-                className="px-6 py-3 bg-gray-800 text-white rounded-xl hover:bg-gray-700 transition-colors flex items-center gap-2"
+                className="flex-1 md:flex-none px-3 py-2 md:px-6 md:py-3 bg-gray-800 text-white rounded-lg md:rounded-xl hover:bg-gray-700 transition-colors flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base"
               >
-                <ChevronLeft className="w-5 h-5" />
-                {t('onboarding.back')}
+                <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
+                <span className="hidden md:inline">{t('onboarding.back')}</span>
               </button>
             )}
             <button
               onClick={handleNext}
-              className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl hover:from-cyan-600 hover:to-blue-600 transition-all flex items-center gap-2"
+              className="flex-1 md:flex-none px-3 py-2 md:px-6 md:py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg md:rounded-xl hover:from-cyan-600 hover:to-blue-600 transition-all flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base"
             >
-              {currentStep === totalSteps ? t('onboarding.finish') : t('onboarding.next')}
-              {currentStep < totalSteps && <ChevronRight className="w-5 h-5" />}
+              <span>{currentStep === totalSteps ? t('onboarding.finish') : t('onboarding.next')}</span>
+              {currentStep < totalSteps && <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />}
             </button>
           </div>
         </div>
