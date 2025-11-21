@@ -749,6 +749,51 @@ const Dashboard = ({ athleteId }) => {
     }
   };
 
+
+  const checkOnboardingStatus = async () => {
+    try {
+      const response = await axios.get(`${API}/onboarding/status/${athleteId}`);
+      const status = response.data;
+      setOnboardingStatus(status);
+      
+      // Show onboarding modal if not complete and not dismissed
+      if (!status.onboarding_completed && !status.onboarding_dismissed_permanently) {
+        // Check if dismissed within last 24 hours
+        if (status.last_dismissed_at) {
+          const lastDismissed = new Date(status.last_dismissed_at);
+          const now = new Date();
+          const hoursSinceDismiss = (now - lastDismissed) / (1000 * 60 * 60);
+          
+          if (hoursSinceDismiss < 24) {
+            // Don't show yet - user dismissed within last 24 hours
+            return;
+          }
+        }
+        
+        // Show onboarding modal
+        setShowOnboarding(true);
+      }
+    } catch (error) {
+      logger.error(null, 'Error checking onboarding status:', error);
+    }
+  };
+  
+  const handleOnboardingComplete = () => {
+    setShowOnboarding(false);
+    setOnboardingStatus({ ...onboardingStatus, onboarding_completed: true });
+    // Refresh dashboard to show updated data
+    loadDashboardData();
+  };
+  
+  const handleOnboardingDismiss = () => {
+    setShowOnboarding(false);
+  };
+  
+  const handleResumeOnboarding = () => {
+    setShowOnboarding(true);
+  };
+
+
   const loadModuleSettings = async () => {
     try {
       const response = await axios.get(`${API}/system/settings?athlete_id=${athleteId}`);
