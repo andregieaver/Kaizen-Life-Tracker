@@ -682,7 +682,7 @@ const StepCommunityPost = ({ content, onContentChange, image, onImageChange }) =
           value={content}
           onChange={(e) => onContentChange(e.target.value)}
           placeholder={t('onboarding.steps.communityPost.placeholder')}
-          rows={6}
+          rows={4}
           className="w-full px-4 py-3 bg-gray-800 text-white rounded-xl border border-gray-700 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none resize-none"
         />
       </div>
