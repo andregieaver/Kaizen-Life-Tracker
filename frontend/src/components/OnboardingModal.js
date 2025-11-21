@@ -47,7 +47,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
 
   const loadAthleteData = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/athletes/${athleteId}`);
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/athlete/${athleteId}`);
       if (response.ok) {
         const data = await response.json();
         
@@ -76,8 +76,14 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
 
   const handlePersonalInfoSave = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/athletes/${athleteId}`, {
-        method: 'PATCH',
+      // Validate required fields
+      if (!personalInfo.date_of_birth || !personalInfo.gender || !personalInfo.height || !personalInfo.weight) {
+        alert('Please fill in all required fields (Birth Date, Gender, Height, Weight)');
+        return false;
+      }
+      
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/athlete/${athleteId}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(personalInfo)
       });
@@ -86,18 +92,23 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
         // Mark step as complete
         await markStepComplete('personal_info');
         return true;
+      } else {
+        const errorData = await response.json();
+        console.error('Error saving personal info:', errorData);
+        alert('Failed to save personal information. Please try again.');
+        return false;
       }
-      return false;
     } catch (error) {
       console.error('Error saving personal info:', error);
+      alert('An error occurred while saving. Please try again.');
       return false;
     }
   };
 
   const handlePreferencesSave = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/athletes/${athleteId}`, {
-        method: 'PATCH',
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/athlete/${athleteId}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(preferences)
       });
@@ -105,10 +116,15 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
       if (response.ok) {
         await markStepComplete('preferences');
         return true;
+      } else {
+        const errorData = await response.json();
+        console.error('Error saving preferences:', errorData);
+        alert('Failed to save preferences. Please try again.');
+        return false;
       }
-      return false;
     } catch (error) {
       console.error('Error saving preferences:', error);
+      alert('An error occurred while saving. Please try again.');
       return false;
     }
   };
