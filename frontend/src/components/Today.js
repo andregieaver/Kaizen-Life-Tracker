@@ -184,7 +184,7 @@ const Today = ({ athleteId }) => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen" style={{ background: 'var(--bg-950)' }}>
-        <LoadingSpinner size="lg" withBackground={true} />
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
