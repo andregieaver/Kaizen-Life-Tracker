@@ -212,6 +212,63 @@ class OuraService(BaseIntegrationService):
         
         return block
     
+    async def get_valid_token(self, user_id: str) -> str:
+        """Get a valid access token, using athlete_id field"""
+        connection = await self.db.oura_connections.find_one({"athlete_id": user_id})
+        if not connection:
+            raise HTTPException(status_code=404, detail="Oura not connected")
+        
+        expires_at = connection.get("expires_at")
+        if expires_at and expires_at.tzinfo is None:
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        
+        # Check if token is expired
+        if expires_at and datetime.now(timezone.utc) >= expires_at:
+            # Refresh token
+            return await self.refresh_token(user_id)
+        
+        return connection["access_token"]
+    
+    async def refresh_token(self, user_id: str) -> str:
+        """Refresh the access token, using athlete_id field"""
+        connection = await self.db.oura_connections.find_one({"athlete_id": user_id})
+        if not connection or not connection.get("refresh_token"):
+            raise HTTPException(status_code=404, detail="Cannot refresh token")
+        
+        provider_config = await self.load_settings()
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                self.oauth_token_url,
+                data={
+                    "client_id": provider_config["clientId"],
+                    "client_secret": provider_config["clientSecret"],
+                    "grant_type": "refresh_token",
+                    "refresh_token": connection["refresh_token"]
+                }
+            )
+            
+            if response.status_code != 200:
+                raise HTTPException(status_code=400, detail="Token refresh failed")
+            
+            token_data = response.json()
+        
+        # Update connection with new tokens
+        await self.db.oura_connections.update_one(
+            {"athlete_id": user_id},
+            {"$set": {
+                "access_token": token_data["access_token"],
+                "expires_at": datetime.fromtimestamp(
+                    token_data["expires_at"] if "expires_at" in token_data else 
+                    (datetime.now(timezone.utc).timestamp() + token_data.get("expires_in", 3600)),
+                    tz=timezone.utc
+                ),
+                "refresh_token": token_data.get("refresh_token", connection["refresh_token"])
+            }}
+        )
+        
+        return token_data["access_token"]
+    
     async def sync_activities(
         self, 
         user_id: str, 
