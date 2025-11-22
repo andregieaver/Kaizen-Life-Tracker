@@ -183,14 +183,14 @@ const Today = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: 'var(--c-brand-500)' }}></div>
+      <div className="flex items-center justify-center min-h-screen" style={{ background: 'var(--bg-950)' }}>
+        <LoadingSpinner size="lg" withBackground={true} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen px-4 py-6 md:p-6 md:pt-0 space-y-6">
+    <div className="min-h-screen px-4 py-6 md:p-6 md:pt-0 space-y-6" style={{ background: 'var(--bg-950)' }}>
       {/* Header */}
       <div className="flex items-center justify-between gap-2">
         <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
