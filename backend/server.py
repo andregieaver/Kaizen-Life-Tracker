@@ -8940,6 +8940,84 @@ async def get_oura_activities(athlete_id: str, limit: int = 30):
         }
         
     except Exception as e:
+
+# ==========================================
+# OTHER INTEGRATION STUB ENDPOINTS
+# ==========================================
+
+@api_router.get("/integrations/polar/{athlete_id}/status")
+async def get_polar_status(athlete_id: str):
+    """Get Polar integration status"""
+    connection = await db.polar_connections.find_one({"athlete_id": athlete_id})
+    if connection:
+        return {
+            "connected": True,
+            "last_sync": connection.get("last_sync_at"),
+            "has_credentials": True
+        }
+    return {"connected": False, "last_sync": None, "has_credentials": False}
+
+@api_router.get("/integrations/garmin/{athlete_id}/status")
+async def get_garmin_status(athlete_id: str):
+    """Get Garmin integration status"""
+    connection = await db.garmin_connections.find_one({"athlete_id": athlete_id})
+    if connection:
+        return {
+            "connected": True,
+            "last_sync": connection.get("last_sync_at"),
+            "has_credentials": True
+        }
+    return {"connected": False, "last_sync": None, "has_credentials": False}
+
+@api_router.get("/integrations/fitbit/{athlete_id}/status")
+async def get_fitbit_status(athlete_id: str):
+    """Get Fitbit integration status"""
+    connection = await db.fitbit_connections.find_one({"athlete_id": athlete_id})
+    if connection:
+        return {
+            "connected": True,
+            "last_sync": connection.get("last_sync_at"),
+            "has_credentials": True
+        }
+    return {"connected": False, "last_sync": None, "has_credentials": False}
+
+@api_router.get("/integrations/whoop/{athlete_id}/status")
+async def get_whoop_status(athlete_id: str):
+    """Get Whoop integration status"""
+    connection = await db.whoop_connections.find_one({"athlete_id": athlete_id})
+    if connection:
+        return {
+            "connected": True,
+            "last_sync": connection.get("last_sync_at"),
+            "has_credentials": True
+        }
+    return {"connected": False, "last_sync": None, "has_credentials": False}
+
+@api_router.get("/integrations/suunto/{athlete_id}/status")
+async def get_suunto_status(athlete_id: str):
+    """Get Suunto integration status"""
+    connection = await db.suunto_connections.find_one({"athlete_id": athlete_id})
+    if connection:
+        return {
+            "connected": True,
+            "last_sync": connection.get("last_sync_at"),
+            "has_credentials": True
+        }
+    return {"connected": False, "last_sync": None, "has_credentials": False}
+
+@api_router.get("/integrations/coros/{athlete_id}/status")
+async def get_coros_status(athlete_id: str):
+    """Get Coros integration status"""
+    connection = await db.coros_connections.find_one({"athlete_id": athlete_id})
+    if connection:
+        return {
+            "connected": True,
+            "last_sync": connection.get("last_sync_at"),
+            "has_credentials": True
+        }
+    return {"connected": False, "last_sync": None, "has_credentials": False}
+
+
         logging.error(f"Error fetching Oura activities: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
