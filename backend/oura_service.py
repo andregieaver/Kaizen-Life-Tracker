@@ -212,6 +212,77 @@ class OuraService(BaseIntegrationService):
         
         return block
     
+    async def exchange_code_for_tokens(self, code: str, state: str) -> Dict[str, Any]:
+        """Override to save connection with athlete_id field"""
+        # Verify and get OAuth state
+        oauth_state = await self.db.oura_oauth_state.find_one({"state": state})
+        if not oauth_state:
+            raise HTTPException(status_code=400, detail="Invalid OAuth state")
+        
+        user_id = oauth_state["user_id"]
+        
+        # Load settings
+        provider_config = await self.load_settings()
+        callback_url = self.get_callback_url(provider_config)
+        
+        # Exchange code for token
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                self.oauth_token_url,
+                data={
+                    "client_id": provider_config["clientId"],
+                    "client_secret": provider_config["clientSecret"],
+                    "code": code,
+                    "grant_type": "authorization_code",
+                    "redirect_uri": callback_url
+                }
+            )
+            
+            if response.status_code != 200:
+                logging.error(f"[OURA] Token exchange failed: {response.text}")
+                raise HTTPException(status_code=400, detail="Oura token exchange failed")
+            
+            token_data = response.json()
+        
+        # Fetch user profile
+        user_profile = await self.fetch_user_profile(token_data["access_token"])
+        
+        # Store connection with athlete_id (not user_id)
+        connection_data = {
+            "athlete_id": user_id,  # PRIMARY FIELD
+            "user_id": user_id,     # COMPATIBILITY
+            "access_token": token_data["access_token"],
+            "refresh_token": token_data.get("refresh_token"),
+            "expires_at": datetime.fromtimestamp(
+                token_data["expires_at"] if "expires_at" in token_data else 
+                (datetime.now(timezone.utc).timestamp() + token_data.get("expires_in", 3600)),
+                tz=timezone.utc
+            ),
+            "user_profile": user_profile,
+            "scopes": token_data.get("scope", "").split(),
+            "connected_at": datetime.now(timezone.utc),
+            "last_sync_at": None,
+            "sync_status": "pending"
+        }
+        
+        logging.info(f"[OURA] Saving connection with athlete_id: {user_id}")
+        result = await self.db.oura_connections.update_one(
+            {"athlete_id": user_id},  # Match on athlete_id
+            {"$set": connection_data},
+            upsert=True
+        )
+        logging.info(f"[OURA] Database save result: matched={result.matched_count}, modified={result.modified_count}")
+        
+        # Clean up OAuth state
+        await self.db.oura_oauth_state.delete_one({"_id": oauth_state["_id"]})
+        
+        return {
+            "connected": True,
+            "user_id": user_id,
+            "profile": user_profile,
+            "connected_at": connection_data["connected_at"].isoformat()
+        }
+    
     async def get_valid_token(self, user_id: str) -> str:
         """Get a valid access token, using athlete_id field"""
         connection = await self.db.oura_connections.find_one({"athlete_id": user_id})
