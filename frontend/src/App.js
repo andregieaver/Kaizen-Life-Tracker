@@ -299,7 +299,7 @@ function App() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-950)' }}>
-        <LoadingSpinner size="lg" withBackground={true} />
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
