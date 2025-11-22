@@ -54,6 +54,25 @@ const LoadingSpinner = ({ size = 'md', className = '', withBackground = false })
       />
     </svg>
   );
+
+  if (withBackground) {
+    return (
+      <div 
+        className="flex items-center justify-center"
+        style={{
+          background: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          borderRadius: '12px',
+          padding: '24px'
+        }}
+      >
+        {spinner}
+      </div>
+    );
+  }
+
+  return spinner;
 };
 
 export default LoadingSpinner;
