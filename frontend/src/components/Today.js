@@ -204,6 +204,9 @@ const Today = ({ athleteId }) => {
       {/* Body Score Card */}
       <BodyScoreCard athleteId={athleteId} />
 
+      {/* Weather Card */}
+      <WeatherCard />
+
       {/* Today's Habits Section */}
       {getTodayHabits().length > 0 && (
         <div className="border-0 shadow-lg overflow-hidden" style={{ 
