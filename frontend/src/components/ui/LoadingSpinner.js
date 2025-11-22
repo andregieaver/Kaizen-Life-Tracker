@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LoadingSpinner = ({ size = 'md', className = '' }) => {
+const LoadingSpinner = ({ size = 'md', className = '', withBackground = false }) => {
   const sizeClasses = {
     sm: 'w-8 h-6',
     md: 'w-16 h-12',
@@ -8,7 +8,7 @@ const LoadingSpinner = ({ size = 'md', className = '' }) => {
     xl: 'w-32 h-24'
   };
 
-  return (
+  const spinner = (
     <svg 
       viewBox="0 0 64 48" 
       className={`${sizeClasses[size]} ${className}`}
