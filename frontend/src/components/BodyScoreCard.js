@@ -139,7 +139,9 @@ const BodyScoreCard = ({ athleteId }) => {
           <CardDescription style={{ color: 'var(--text-muted)' }}>{t('common.loading')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="skeleton h-20 rounded-lg" style={{ background: 'var(--bg-700)' }}></div>
+          <div className="flex items-center justify-center py-8">
+            <LoadingSpinner size="md" />
+          </div>
         </CardContent>
       </Card>
     );
