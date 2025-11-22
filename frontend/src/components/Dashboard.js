@@ -8,7 +8,7 @@ import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { Home, MessageCircle, PlusCircle, Plus, BarChart3, User, Menu, X, Settings, BookOpen, Utensils, Calendar, Zap, Activity, FileText, LineChart, Mic, Pill, Brain, ChefHat, Calculator, Check, Users, Gift, Bell, Repeat, GlassWater, Edit3, UserPlus, Heart, Share2, Trophy, ArrowRight, ExternalLink, Circle, ShoppingCart, MessageSquare, Power, Sparkles, Lightbulb } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
-import ReadinessCard from './ReadinessCard';
+import BodyScoreCard from './BodyScoreCard';
 import OuraVitalsCard from './OuraVitalsCard';
 import CoachChat from './CoachChat';
 import Recommendations from './Recommendations';
