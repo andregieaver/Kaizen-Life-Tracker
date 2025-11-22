@@ -8921,6 +8921,29 @@ async def get_oura_integration_status(athlete_id: str):
         }
 
 # COROS (via Terra API) routes
+
+@api_router.get("/integrations/oura/{athlete_id}/activities")
+async def get_oura_activities(athlete_id: str, limit: int = 30):
+    """
+    Get recent Oura activities (Sleep, Readiness, Activity) from database
+    """
+    try:
+        # Fetch recent activities from oura_activities collection
+        activities = await db.oura_activities.find(
+            {"athlete_id": athlete_id}
+        ).sort("date", -1).limit(limit).to_list(length=limit)
+        
+        # Return formatted response
+        return {
+            "activities": activities,
+            "count": len(activities)
+        }
+        
+    except Exception as e:
+        logging.error(f"Error fetching Oura activities: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/auth/coros/{athlete_id}")
 async def initiate_coros_auth(athlete_id: str):
     """Initiate COROS OAuth via Terra API"""
