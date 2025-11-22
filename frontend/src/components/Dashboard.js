@@ -838,7 +838,7 @@ const Dashboard = ({ athleteId }) => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#D4F0E9] border-t-[#62D2C4] rounded-full animate-spin mx-auto mb-4"></div>
+          <LoadingSpinner size="lg" />
           <p className="text-lg text-gray-700">{t('common.loading')}</p>
         </div>
       </div>
