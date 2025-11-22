@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { formatDate as formatDateUtil } from '../utils/formatters';
 import BodyScoreCard from './BodyScoreCard';
+import LoadingSpinner from './ui/LoadingSpinner';
 
 import { logger } from '../utils/logger';
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
