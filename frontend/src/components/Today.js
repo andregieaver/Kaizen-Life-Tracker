@@ -314,7 +314,7 @@ const Today = ({ athleteId }) => {
       )}
 
       {/* Main Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Nutrition Overview */}
         <div className="border-0 shadow-lg overflow-hidden" style={{ 
           background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
