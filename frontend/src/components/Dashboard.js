@@ -850,13 +850,19 @@ const Dashboard = ({ athleteId }) => {
       <header 
         className="hidden md:block fixed top-0 left-0 right-0 z-40"
         style={{ 
-          background: 'var(--grad-surface)',
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(24px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(140%)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
           transform: `translate3d(0, ${(1 - headerProgress) * -100}%, 0)`,
           opacity: 0.08 + headerProgress * 0.92,
           pointerEvents: headerProgress > 0.05 ? 'auto' : 'none',
           willChange: 'transform, opacity',
           transition: 'box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1)',
-          boxShadow: 'none'
+          boxShadow: `
+            inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 8%), transparent),
+            0px 2px 8px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent)
+          `
         }}
       >
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
