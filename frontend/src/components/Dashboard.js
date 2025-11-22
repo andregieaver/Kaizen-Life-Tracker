@@ -1097,13 +1097,19 @@ const Dashboard = ({ athleteId }) => {
       <header 
         className="md:hidden shadow-lg fixed top-0 left-0 right-0 z-40"
         style={{ 
-          background: 'var(--grad-surface)',
+          background: 'rgba(15, 23, 42, 0.7)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
           transform: `translate3d(0, ${(1 - headerProgress) * -100}%, 0)`,
-          opacity: 0.08 + headerProgress * 0.92,
           pointerEvents: headerProgress > 0.05 ? 'auto' : 'none',
-          willChange: 'transform, opacity',
+          willChange: 'transform',
           transition: 'box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1)',
-          boxShadow: atTop ? 'none' : undefined
+          boxShadow: `
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+            inset 0 -1px 0 0 rgba(0, 0, 0, 0.2),
+            0px 4px 16px 0px rgba(0, 0, 0, 0.4)
+          `
         }}
       >
         <div className="px-4 py-3">
