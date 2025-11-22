@@ -18775,7 +18775,7 @@ async def get_platform_metrics():
         return {
             "languages": 10,
             "personalities": 10,
-            "integrations": 6,
+            "integrations": 8,
             "languagesList": ["English", "Norwegian", "Swedish", "Danish", "German", "Spanish", "French", "Italian", "Japanese", "Chinese"],
             "personalitiesList": [
                 {"name": "Zen Minimalist", "description": "Calm & simple"},
@@ -18789,7 +18789,7 @@ async def get_platform_metrics():
                 {"name": "Executive", "description": "Time-efficient"},
                 {"name": "Realist", "description": "Down-to-earth"}
             ],
-            "integrationsList": ["Strava", "Oura", "Polar", "Fitbit", "Garmin", "Whoop"]
+            "integrationsList": ["Strava", "Oura", "Polar", "Fitbit", "Garmin", "Whoop", "Coros", "Suunto"]
         }
 
 @api_router.post("/waiting-list")
