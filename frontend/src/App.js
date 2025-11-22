@@ -28,19 +28,10 @@ const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
 const TermsConditions = lazy(() => import('./components/TermsConditions'));
 const CmsPage = lazy(() => import('./components/CmsPage'));
 
-// Loading component shown during code splitting - uses custom LoadingSpinner
-const LoadingFallback = () => (
-  <div style={{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '100vh',
-    background: 'var(--bg-950)',
-    color: 'var(--text-hi)'
-  }}>
-    <LoadingSpinner size="lg" withBackground={true} />
-  </div>
-);
+// Loading component shown during code splitting
+// Returns null to prevent showing a loading spinner during lazy loading
+// Individual components handle their own loading states for better UX
+const LoadingFallback = () => null;
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
