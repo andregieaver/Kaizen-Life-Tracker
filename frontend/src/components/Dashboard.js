@@ -834,17 +834,9 @@ const Dashboard = ({ athleteId }) => {
     );
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center">
-        <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="text-lg text-gray-700">{t('common.loading')}</p>
-        </div>
-      </div>
-    );
-  }
-
+  // Removed full-page loading spinner to prevent double spinner issue
+  // Individual components (like BodyScoreCard) handle their own loading states
+  
   return (
     <div 
       className="min-h-screen flex flex-col" 
