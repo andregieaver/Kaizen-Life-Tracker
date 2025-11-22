@@ -298,8 +298,8 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-lg text-gray-600">{t('common.loading')}</div>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-950)' }}>
+        <LoadingSpinner size="lg" withBackground={true} />
       </div>
     );
   }
