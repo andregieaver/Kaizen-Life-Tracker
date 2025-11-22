@@ -8940,6 +8940,8 @@ async def get_oura_activities(athlete_id: str, limit: int = 30):
         }
         
     except Exception as e:
+        logging.error(f"Error fetching Oura activities: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # ==========================================
 # OTHER INTEGRATION STUB ENDPOINTS
