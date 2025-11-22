@@ -7,6 +7,7 @@ import axios from 'axios';
 import LandingPage from './components/LandingPage';
 import Login from './components/Login';
 import CookieBanner from './components/CookieBanner';
+import LoadingSpinner from './components/ui/LoadingSpinner';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { usePageViews } from './lib/usePageViews';
 import { logger } from './utils/logger';
@@ -27,7 +28,7 @@ const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
 const TermsConditions = lazy(() => import('./components/TermsConditions'));
 const CmsPage = lazy(() => import('./components/CmsPage'));
 
-// Loading component shown during code splitting
+// Loading component shown during code splitting - uses custom LoadingSpinner
 const LoadingFallback = () => (
   <div style={{
     display: 'flex',
@@ -37,18 +38,7 @@ const LoadingFallback = () => (
     background: 'var(--bg-950)',
     color: 'var(--text-hi)'
   }}>
-    <div style={{ textAlign: 'center' }}>
-      <div style={{
-        width: '40px',
-        height: '40px',
-        border: '4px solid var(--c-brand-500)',
-        borderTopColor: 'transparent',
-        borderRadius: '50%',
-        animation: 'spin 1s linear infinite',
-        margin: '0 auto 16px'
-      }} />
-      <p>Loading...</p>
-    </div>
+    <LoadingSpinner size="lg" withBackground={true} />
   </div>
 );
 
