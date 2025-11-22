@@ -18755,7 +18755,9 @@ async def get_platform_metrics():
             "Polar - Heart Rate Monitors",
             "Fitbit - Activity Tracking",
             "Garmin - GPS & Fitness",
-            "Whoop - Strain & Recovery"
+            "Whoop - Strain & Recovery",
+            "Coros - GPS & Training",
+            "Suunto - Outdoor Sports"
         ]
         integration_count = len(integrations_list)
         
