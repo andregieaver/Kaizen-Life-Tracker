@@ -445,8 +445,8 @@ profile:read_all      - Read detailed profile
 ### Development
 ```
 Callback Domain: multilingual-app-27.preview.emergentagent.com
-OAuth Redirect: https://kaizen-bodydata.preview.emergentagent.com/api/auth/strava/callback
-Webhook URL: https://kaizen-bodydata.preview.emergentagent.com/api/webhook/strava
+OAuth Redirect: https://health-dash-14.preview.emergentagent.com/api/auth/strava/callback
+Webhook URL: https://health-dash-14.preview.emergentagent.com/api/webhook/strava
 ```
 
 ### Production
