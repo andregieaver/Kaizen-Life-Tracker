@@ -43,6 +43,7 @@ import Emails from './Emails';
 import Drinks from './Drinks';
 import Support from './Support';
 import ThemeToggle from './ThemeToggle';
+import LoadingSpinner from './ui/LoadingSpinner';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
