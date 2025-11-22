@@ -72,7 +72,7 @@ const AnimatedMetrics = () => {
   const [metrics, setMetrics] = useState({
     languages: 10,
     personalities: 10,
-    integrations: 6,
+    integrations: 8,
     languagesList: [],
     personalitiesList: [],
     integrationsList: []
