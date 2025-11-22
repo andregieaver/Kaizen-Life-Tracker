@@ -9019,11 +9019,6 @@ async def get_coros_status(athlete_id: str):
         }
     return {"connected": False, "last_sync": None, "has_credentials": False}
 
-
-        logging.error(f"Error fetching Oura activities: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
 @api_router.get("/auth/coros/{athlete_id}")
 async def initiate_coros_auth(athlete_id: str):
     """Initiate COROS OAuth via Terra API"""
