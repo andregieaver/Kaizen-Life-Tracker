@@ -1692,7 +1692,7 @@ const Dashboard = ({ athleteId }) => {
             </div>
 
             {/* Progress and Merits - Two Equal Columns on Desktop */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-3">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Column 1: Progress - Recent Test Results */}
               <div className="border-0 shadow-lg overflow-hidden" style={{ 
                 background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
