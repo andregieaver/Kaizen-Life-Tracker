@@ -1681,7 +1681,7 @@ const Dashboard = ({ athleteId }) => {
 
             {/* Body Score and Oura */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-3 mb-3">
-              <ReadinessCard athleteId={athleteId} readiness={readiness} />
+              <BodyScoreCard athleteId={athleteId} />
               <OuraVitalsCard athleteId={athleteId} />
             </div>
 
