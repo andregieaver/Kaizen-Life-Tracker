@@ -212,6 +212,71 @@ class OuraService(BaseIntegrationService):
         
         return block
     
+    async def sync_activities(
+        self, 
+        user_id: str, 
+        since: Optional[datetime] = None, 
+        force_full_sync: bool = False
+    ) -> Dict[str, Any]:
+        """Override to handle both user_id and athlete_id"""
+        logging.info(f"[OURA SYNC] user_id={user_id}, force_full_sync={force_full_sync}")
+        
+        # Check connection with athlete_id (our field name)
+        connection = await self.db.oura_connections.find_one({"athlete_id": user_id})
+        if not connection:
+            raise HTTPException(status_code=404, detail="Oura not connected")
+        
+        # Determine starting point
+        if since is None:
+            if force_full_sync:
+                since = datetime.fromtimestamp(0, tz=timezone.utc)
+                logging.info(f"[OURA SYNC] FULL SYNC MODE: Fetching ALL historical data")
+            else:
+                since = connection.get("last_sync_at") or connection["connected_at"]
+            
+            if since and not since.tzinfo:
+                since = since.replace(tzinfo=timezone.utc)
+        
+        logging.info(f"[OURA SYNC] Fetching data since: {since}")
+        
+        # Get valid token
+        token = await self.get_valid_token(user_id)
+        
+        # Fetch activities
+        activities = await self.fetch_activities(token, since)
+        logging.info(f"[OURA SYNC] Fetched {len(activities)} activities")
+        
+        # Store activities with athlete_id
+        imported_count = 0
+        for activity in activities:
+            activity["athlete_id"] = user_id  # Use athlete_id instead of user_id
+            activity["user_id"] = user_id  # Also store user_id for compatibility
+            
+            # Convert datetime to string for MongoDB
+            if isinstance(activity.get("start_date"), datetime):
+                activity["date"] = activity["start_date"].strftime("%Y-%m-%d")
+            
+            await self.db.oura_activities.update_one(
+                {"athlete_id": user_id, "activity_id": activity.get("activity_id")},
+                {"$set": activity},
+                upsert=True
+            )
+            imported_count += 1
+        
+        # Update last sync time
+        await self.db.oura_connections.update_one(
+            {"athlete_id": user_id},
+            {"$set": {
+                "last_sync_at": datetime.now(timezone.utc),
+                "sync_status": "completed"
+            }}
+        )
+        
+        return {
+            "imported": imported_count,
+            "total_activities": len(activities)
+        }
+    
     async def get_stats(self, user_id: str) -> Dict[str, Any]:
         """Get Oura statistics (last 30 days)"""
         ytd_start = datetime(2025, 1, 1, 0, 0, 0)
