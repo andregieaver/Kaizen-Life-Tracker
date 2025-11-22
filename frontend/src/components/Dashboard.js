@@ -1532,7 +1532,7 @@ const Dashboard = ({ athleteId }) => {
             ? 'w-full pt-20 md:pt-24'
             : activeTab === 'community'
             ? 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-8 pb-24 md:pb-8 pt-16 md:pt-24'
-            : 'w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-24 md:pb-8'
+            : 'w-full max-w-[1600px] mx-auto px-2 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-24 md:pb-8'
         }
         style={{ minHeight: 'calc(100vh + 300px)' }}
       >
