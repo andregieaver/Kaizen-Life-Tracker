@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
   Heart, MessageCircle, Share2, Send, Edit2, Trash2, 
-  Globe, Lock, X, Camera, Video, GripVertical, RefreshCw 
+  Globe, Lock, X, Camera, Video, GripVertical, RefreshCw, Bookmark 
 } from 'lucide-react';
 import { Button } from '../../ui/button';
 import ImageCarousel from '../../ImageCarousel';
