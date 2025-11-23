@@ -100,8 +100,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   // Posts state
   const [posts, setPosts] = useState([]);
   const [followingPosts, setFollowingPosts] = useState([]);
+  const [bookmarkedPosts, setBookmarkedPosts] = useState([]);
   const [postsLoaded, setPostsLoaded] = useState(false);
   const [followingPostsLoaded, setFollowingPostsLoaded] = useState(false);
+  const [bookmarksLoaded, setBookmarksLoaded] = useState(false);
+  const [bookmarkedPostIds, setBookmarkedPostIds] = useState(new Set());
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostImage, setNewPostImage] = useState(null);
   const [newPostImagePreview, setNewPostImagePreview] = useState(null);
