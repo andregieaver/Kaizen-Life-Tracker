@@ -200,7 +200,7 @@ const WeatherCard = () => {
             {Math.round(current.temperature)}°
           </span>
           <span className="ml-2 text-sm" style={{ color: 'var(--text-med)' }}>
-            Feels like {Math.round(current.feels_like)}°
+            {t('weather.feelsLike')} {Math.round(current.feels_like)}°
           </span>
         </div>
       </div>
