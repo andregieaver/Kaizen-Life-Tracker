@@ -6,7 +6,7 @@ import SubscriptionBadge from '../../SubscriptionBadge';
 
 const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility, showComments, commentText,
   setEditingPost, setEditContent, setEditVisibility, setCommentText, handleEditPost, handleDeletePost,
-  handleToggleLike, toggleComments, handleAddComment, handleSharePost, loadAthleteProfile }) => (
+  handleToggleLike, toggleComments, handleAddComment, handleSharePost, loadAthleteProfile, bookmarkedPostIds, onToggleBookmark }) => (
   <div className="space-y-6">
     {posts.map(post => (
       <div key={post.id} className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
