@@ -210,7 +210,7 @@ const WeatherCard = () => {
         <div className="flex items-center gap-2">
           <Wind className="w-4 h-4" style={{ color: 'var(--c-brand-500)' }} />
           <div>
-            <p className="text-xs" style={{ color: 'var(--text-med)' }}>Wind</p>
+            <p className="text-xs" style={{ color: 'var(--text-med)' }}>{t('weather.wind')}</p>
             <p className="text-sm font-semibold" style={{ color: 'var(--text-hi)' }}>
               {current.wind_speed ? `${Math.round(current.wind_speed)} m/s` : 'N/A'}
             </p>
