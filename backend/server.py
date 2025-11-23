@@ -11318,6 +11318,9 @@ async def get_bookmarks(athlete_id: str, limit: int = 50, skip: int = 0):
         for bookmark in bookmarks:
             post = posts_map.get(bookmark["post_id"])
             if post:
+                # Remove MongoDB ObjectId before returning
+                if "_id" in post:
+                    del post["_id"]
                 # Add bookmark info to post
                 post["bookmarked_at"] = bookmark["created_at"]
                 ordered_posts.append(post)
