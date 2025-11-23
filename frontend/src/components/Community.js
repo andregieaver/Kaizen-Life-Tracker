@@ -1503,6 +1503,41 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
+  const handleVotePoll = async (postId, optionId) => {
+    try {
+      const response = await axios.post(
+        `${API}/community/polls/${postId}/vote?athlete_id=${athleteId}`,
+        { option_id: optionId }
+      );
+      
+      // Update posts in feed with new poll data
+      setPosts(posts.map(post => 
+        post.id === postId 
+          ? { ...post, poll_data: response.data.poll_data }
+          : post
+      ));
+      
+      // Update posts in following feed
+      setFollowingPosts(followingPosts.map(post => 
+        post.id === postId 
+          ? { ...post, poll_data: response.data.poll_data }
+          : post
+      ));
+      
+      // Update bookmarked posts
+      setBookmarkedPosts(bookmarkedPosts.map(post => 
+        post.id === postId 
+          ? { ...post, poll_data: response.data.poll_data }
+          : post
+      ));
+    } catch (error) {
+      logger.error(null, 'Error voting on poll:', error);
+      if (error.response?.data?.detail) {
+        alert(error.response.data.detail);
+      }
+    }
+  };
+
   const handleAddComment = async (postId) => {
     // Use modal's post if no postId provided
     const targetPostId = postId || selectedPostForComments?.id;
