@@ -2658,4 +2658,44 @@
       "cta": "Let's Go!"
     }
   }
+  ,
+  "weather": {
+    "title": "Tiempo actual",
+    "temperature": "Temperatura",
+    "feelsLike": "Sensación térmica",
+    "wind": "Viento",
+    "humidity": "Humedad",
+    "precipitation": "Precipitación (1h)",
+    "pressure": "Presión",
+    "refresh": "Actualizar",
+    "loading": "Cargando clima...",
+    "errors": {
+      "permissionDenied": "Permiso de ubicación denegado",
+      "locationUnavailable": "Ubicación no disponible",
+      "timeout": "Tiempo de espera de ubicación agotado",
+      "failedToGetLocation": "No se pudo obtener tu ubicación",
+      "notSupported": "La geolocalización no es compatible con tu navegador"
+    },
+    "tryAgain": "Intentar de nuevo",
+    "recommendations": {
+      "good": "Buenas condiciones para entrenamiento al aire libre",
+      "caution": "Condiciones desafiantes",
+      "poor": "Se recomienda entrenamiento en interior",
+      "coldWeather": "Clima frío - abrígate bien",
+      "coolWeather": "Clima fresco - vístete en capas",
+      "hotWeather": "Clima caluroso - mantente hidratado",
+      "veryHot": "Muy caluroso - se recomienda entrenamiento en interior",
+      "highWinds": "Vientos fuertes - condiciones desafiantes",
+      "moderateWinds": "Vientos moderados - ajusta el ritmo",
+      "heavyRain": "Lluvia intensa - se recomienda entrenamiento en interior",
+      "lightRain": "Se espera lluvia - trae equipo apropiado",
+      "idealConditions": "Condiciones ideales para actividades al aire libre",
+      "layerUp": "Vístete en capas y calienta gradualmente",
+      "bringWater": "Trae agua extra y considera entrenar temprano en la mañana/tarde",
+      "heatRisk": "Alto riesgo de calor - considera alternativas en interior",
+      "windWarning": "Los vientos fuertes pueden afectar las actividades al aire libre",
+      "rainfallExpected": "Se espera precipitación significativa",
+      "lightRainExpected": "Se espera lluvia ligera"
+    }
+  }
 }
