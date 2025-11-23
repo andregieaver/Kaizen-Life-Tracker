@@ -52,8 +52,31 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
   return (
     <div className="space-y-4">
       {/* Poll Question */}
-      <div className="text-white font-semibold text-lg">
-        {question}
+      <div>
+        <div className="text-white font-semibold text-lg">
+          {translatedPosts?.[post.id]?.isTranslated 
+            ? translatedPosts[post.id].translated_text 
+            : question}
+        </div>
+        {/* Translation Button */}
+        {onTranslatePost && (
+          <button
+            onClick={() => onTranslatePost(post.id, question)}
+            disabled={translatingPosts?.[post.id]}
+            className="text-[#00FFFF] hover:text-[#00d4d4] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 mt-2"
+          >
+            {translatingPosts?.[post.id] ? (
+              <>
+                <RefreshCw className="w-3 h-3 animate-spin" />
+                {t('community.post.translating')}
+              </>
+            ) : translatedPosts?.[post.id]?.isTranslated ? (
+              t('community.post.seeOriginal')
+            ) : (
+              t('community.post.seeTranslation')
+            )}
+          </button>
+        )}
       </div>
 
       {/* Poll Options */}
