@@ -1374,7 +1374,28 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }
       };
 
-      const response = await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, pollData);
+      if (isEditMode && editingPostId) {
+        // Update existing poll
+        const response = await axios.put(`${API}/community/posts/${editingPostId}?athlete_id=${athleteId}`, pollData);
+        
+        // Update posts in state
+        const updatePost = (post) => post.id === editingPostId ? { ...post, ...response.data } : post;
+        setPosts(posts.map(updatePost));
+        setFollowingPosts(followingPosts.map(updatePost));
+        setBookmarkedPosts(bookmarkedPosts.map(updatePost));
+      } else {
+        // Create new poll
+        const response = await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, pollData);
+        
+        // Reload appropriate feed
+        if (activeTab === 'feed') {
+          setPostsLoaded(false);
+          loadPosts();
+        } else if (activeTab === 'following') {
+          setFollowingPostsLoaded(false);
+          loadFollowingPosts();
+        }
+      }
       
       // Clear modal state
       setPollQuestion('');
@@ -1383,18 +1404,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setWritePostVisibility('public');
       setShowWritePostModal(false);
       setCreateModalTab('post');
-      
-      // Reload appropriate feed
-      if (activeTab === 'feed') {
-        setPostsLoaded(false);
-        loadPosts();
-      } else if (activeTab === 'following') {
-        setFollowingPostsLoaded(false);
-        loadFollowingPosts();
-      }
+      setIsEditMode(false);
+      setEditingPostId(null);
     } catch (error) {
-      logger.error(null, 'Error creating poll:', error);
-      alert(`Failed to create poll: ${error.response?.data?.detail || error.message}`);
+      logger.error(null, isEditMode ? 'Error updating poll:' : 'Error creating poll:', error);
+      alert(`Failed to ${isEditMode ? 'update' : 'create'} poll: ${error.response?.data?.detail || error.message}`);
     }
   };
 
