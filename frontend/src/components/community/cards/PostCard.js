@@ -103,22 +103,32 @@ const PostCard = ({
             </div>
           </div>
           
-          {(post.athlete_id === athleteId || isSuperAdmin) && (
-            <div className="flex space-x-2">
-              <button
-                onClick={() => onStartEditPost(post)}
-                className="p-2 hover:bg-gray-600 rounded-full transition-colors"
-              >
-                <Edit2 className="w-4 h-4 text-blue-400" />
-              </button>
-              <button
-                onClick={() => onDeletePost(post.id)}
-                className="p-2 hover:bg-gray-600 rounded-full transition-colors"
-              >
-                <Trash2 className="w-4 h-4 text-red-400" />
-              </button>
-            </div>
-          )}
+          <div className="flex space-x-2">
+            {(post.athlete_id === athleteId || isSuperAdmin) && (
+              <>
+                <button
+                  onClick={() => onStartEditPost(post)}
+                  className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 text-blue-400" />
+                </button>
+                <button
+                  onClick={() => onDeletePost(post.id)}
+                  className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Trash2 className="w-4 h-4 text-red-400" />
+                </button>
+              </>
+            )}
+            {onToggleBookmark && (
+              <div className="p-2">
+                <AnimatedBookmark 
+                  isBookmarked={bookmarkedPostIds && bookmarkedPostIds.has(post.id)}
+                  onClick={() => onToggleBookmark(post.id)}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
