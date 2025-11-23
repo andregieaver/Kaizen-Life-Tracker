@@ -130,6 +130,8 @@ const FollowingTab = ({
                 translatedPosts={translatedPosts}
                 translatingPosts={translatingPosts}
                 onTranslatePost={onTranslatePost}
+                bookmarkedPostIds={bookmarkedPostIds}
+                onToggleBookmark={onToggleBookmark}
               />
             );
           }
