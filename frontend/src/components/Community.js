@@ -2785,6 +2785,59 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       )}
 
 
+
+      {/* Bookmarks Tab */}
+      {activeTab === 'bookmarks' && !selectedGroup && (
+        <FollowingTab
+          followingPosts={bookmarkedPosts}
+          isLoading={isLoading}
+          onRSVP={handleRSVP}
+          onEditEvent={handleOpenEditEvent}
+          onDeleteEvent={handleDeleteEvent}
+          onOpenEventDetail={handleOpenEventDetail}
+          athleteId={athleteId}
+          isSuperAdmin={isSuperAdmin}
+          editingPost={editingPost}
+          editContent={editContent}
+          editVisibility={editVisibility}
+          editMedia={editMedia}
+          isUploadingEditMedia={isUploadingEditMedia}
+          draggedIndex={draggedIndex}
+          expandedPosts={expandedPosts}
+          showComments={showComments}
+          commentText={commentText}
+          commentRefs={commentRefs}
+          showMentionDropdown={showMentionDropdown}
+          mentionResults={mentionResults}
+          onLoadAthleteProfile={loadAthleteProfile}
+          onStartEditPost={handleStartEditPost}
+          onDeletePost={handleDeletePost}
+          onEditMediaSelect={handleEditMediaSelect}
+          onRemoveEditMedia={handleRemoveEditMedia}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+          onSetEditContent={setEditContent}
+          onSetEditVisibility={setEditVisibility}
+          onSetEditingPost={setEditingPost}
+          onSetEditMedia={setEditMedia}
+          onEditPost={handleEditPost}
+          onToggleExpandPost={toggleExpandPost}
+          onToggleLike={handleToggleLike}
+          onToggleComments={toggleComments}
+          onSharePost={handleSharePost}
+          onCommentContentChange={handleCommentContentChange}
+          onAddComment={handleAddComment}
+          onSelectCommentMention={handleSelectCommentMention}
+          translatedPosts={translatedPosts}
+          translatingPosts={translatingPosts}
+          onTranslatePost={handleTranslatePost}
+          bookmarkedPostIds={bookmarkedPostIds}
+          onToggleBookmark={toggleBookmark}
+        />
+      )}
+
+
       {/* Groups Tab */}
       {activeTab === 'groups' && !selectedGroup && (
         <CommunityGroups
