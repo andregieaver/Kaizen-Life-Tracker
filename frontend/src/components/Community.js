@@ -683,7 +683,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       
       if (isBookmarked) {
         // Remove bookmark
-        await axios.delete(`${API}/api/bookmarks/${athleteId}/${postId}`);
+        await axios.delete(`${API}/bookmarks/${athleteId}/${postId}`);
         setBookmarkedPostIds(prev => {
           const newSet = new Set(prev);
           newSet.delete(postId);
@@ -693,7 +693,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         setBookmarkedPosts(prev => prev.filter(p => p.id !== postId));
       } else {
         // Add bookmark
-        await axios.post(`${API}/api/bookmarks/${athleteId}/${postId}`);
+        await axios.post(`${API}/bookmarks/${athleteId}/${postId}`);
         setBookmarkedPostIds(prev => new Set([...prev, postId]));
       }
     } catch (error) {
