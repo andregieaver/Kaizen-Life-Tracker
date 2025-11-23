@@ -1315,6 +1315,73 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
+  // Poll creation handlers
+  const handleAddPollOption = () => {
+    if (pollOptions.length < 10) {
+      setPollOptions([...pollOptions, '']);
+    }
+  };
+
+  const handleRemovePollOption = (index) => {
+    if (pollOptions.length > 2) {
+      setPollOptions(pollOptions.filter((_, i) => i !== index));
+    }
+  };
+
+  const handlePollOptionChange = (index, value) => {
+    const newOptions = [...pollOptions];
+    newOptions[index] = value;
+    setPollOptions(newOptions);
+  };
+
+  const handleCreatePoll = async () => {
+    if (!pollQuestion.trim()) {
+      alert('Please enter a poll question');
+      return;
+    }
+
+    const validOptions = pollOptions.filter(opt => opt.trim());
+    if (validOptions.length < 2) {
+      alert('Please provide at least 2 options');
+      return;
+    }
+
+    try {
+      const pollData = {
+        type: 'poll',
+        content: pollQuestion,
+        visibility: writePostVisibility,
+        poll_data: {
+          question: pollQuestion,
+          options: validOptions,
+          duration_days: pollDuration
+        }
+      };
+
+      const response = await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, pollData);
+      
+      // Clear modal state
+      setPollQuestion('');
+      setPollOptions(['', '']);
+      setPollDuration(7);
+      setWritePostVisibility('public');
+      setShowWritePostModal(false);
+      setCreateModalTab('post');
+      
+      // Reload appropriate feed
+      if (activeTab === 'feed') {
+        setPostsLoaded(false);
+        loadPosts();
+      } else if (activeTab === 'following') {
+        setFollowingPostsLoaded(false);
+        loadFollowingPosts();
+      }
+    } catch (error) {
+      logger.error(null, 'Error creating poll:', error);
+      alert(`Failed to create poll: ${error.response?.data?.detail || error.message}`);
+    }
+  };
+
   const handleWritePostImageSelect = async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
