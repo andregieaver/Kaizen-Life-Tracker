@@ -3751,6 +3751,138 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   </Button>
                 </div>
               </div>
+              </>
+              )}
+
+              {/* Poll Tab Content */}
+              {createModalTab === 'poll' && (
+                <>
+                  {/* Poll Question */}
+                  <div className="relative">
+                    <textarea
+                      value={pollQuestion}
+                      onChange={(e) => setPollQuestion(e.target.value)}
+                      placeholder="Ask a question..."
+                      className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[100px] resize-vertical"
+                    />
+                  </div>
+
+                  {/* Poll Options */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-white font-semibold text-sm">Poll Options</span>
+                      <span className="text-gray-400 text-xs">{pollOptions.length}/10</span>
+                    </div>
+                    
+                    {pollOptions.map((option, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <div className="flex items-center justify-center w-8 h-8 bg-gray-700 rounded-full text-white text-sm font-semibold">
+                          {index + 1}
+                        </div>
+                        <input
+                          type="text"
+                          value={option}
+                          onChange={(e) => handlePollOptionChange(index, e.target.value)}
+                          placeholder={`Option ${index + 1}`}
+                          className="flex-1 bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                        />
+                        {pollOptions.length > 2 && (
+                          <button
+                            onClick={() => handleRemovePollOption(index)}
+                            className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+                          >
+                            <X className="w-5 h-5 text-red-400" />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+
+                    {pollOptions.length < 10 && (
+                      <button
+                        onClick={handleAddPollOption}
+                        className="w-full py-2 border-2 border-dashed border-gray-600 hover:border-[#00C2A8] rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors flex items-center justify-center space-x-2"
+                      >
+                        <PlusCircle className="w-5 h-5" />
+                        <span className="text-sm font-semibold">Add Option</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Poll Duration */}
+                  <div className="bg-gray-700 rounded-lg p-4 space-y-3">
+                    <label className="text-white font-semibold text-sm">Poll Duration</label>
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="range"
+                        min="1"
+                        max="30"
+                        value={pollDuration}
+                        onChange={(e) => setPollDuration(parseInt(e.target.value))}
+                        className="flex-1 accent-[#00C2A8]"
+                      />
+                      <span className="text-white font-semibold bg-gray-600 px-3 py-1 rounded-lg min-w-[80px] text-center">
+                        {pollDuration} {pollDuration === 1 ? 'day' : 'days'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Visibility Toggle */}
+                  <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 p-4 bg-gray-700 rounded-lg">
+                    <span className="text-white font-semibold text-sm sm:text-base">Visibility:</span>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => setWritePostVisibility('public')}
+                        className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg transition-colors ${
+                          writePostVisibility === 'public'
+                            ? 'bg-[#00C2A8] text-white'
+                            : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                        }`}
+                      >
+                        <div className="flex items-center justify-center space-x-2">
+                          <Globe className="w-4 h-4" />
+                          <span className="text-sm">{t('community.post.public')}</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setWritePostVisibility('private')}
+                        className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg transition-colors ${
+                          writePostVisibility === 'private'
+                            ? 'bg-[#00C2A8] text-white'
+                            : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                        }`}
+                      >
+                        <div className="flex items-center justify-center space-x-2">
+                          <Lock className="w-4 h-4" />
+                          <span className="text-sm">{t('community.post.private')}</span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex items-center space-x-3 pt-4 border-t border-gray-600">
+                    <Button
+                      onClick={() => {
+                        setShowWritePostModal(false);
+                        setCreateModalTab('post');
+                        setPollQuestion('');
+                        setPollOptions(['', '']);
+                        setPollDuration(7);
+                      }}
+                      className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-white"
+                    >
+                      {t('common.cancel')}
+                    </Button>
+                    <Button
+                      onClick={handleCreatePoll}
+                      disabled={!pollQuestion.trim() || pollOptions.filter(o => o.trim()).length < 2}
+                      className="flex-1 sm:flex-none bg-[#00C2A8] hover:bg-[#00a890] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Create Poll
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
