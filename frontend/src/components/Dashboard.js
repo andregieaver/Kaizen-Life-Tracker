@@ -1094,25 +1094,13 @@ const Dashboard = ({ athleteId }) => {
       <header 
         className="md:hidden shadow-lg fixed top-0 left-0 right-0 z-40"
         style={{ 
-          backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
-          backdropFilter: 'blur(8px) saturate(150%)',
-          WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+          backgroundColor: 'transparent',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
           transform: `translate3d(0, ${(1 - headerProgress) * -100}%, 0)`,
           opacity: 0.08 + headerProgress * 0.92,
           pointerEvents: headerProgress > 0.05 ? 'auto' : 'none',
           willChange: 'transform, opacity',
-          boxShadow: `
-            inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-            inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
-            inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 35%), transparent),
-            inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 25%), transparent),
-            inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
-            inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
-            inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
-            inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
-            0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
-            0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent)
-          `,
           transition: 'background-color 400ms cubic-bezier(1, 0, 0.4, 1), box-shadow 400ms cubic-bezier(1, 0, 0.4, 1)'
         }}
       >
