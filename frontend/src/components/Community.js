@@ -3449,6 +3449,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
             {/* Content */}
             <div className="p-6 space-y-4">
+              {createModalTab === 'post' && (
+                <>
               {/* Textarea with Emoji Button */}
               <div className="relative">
                 <textarea
