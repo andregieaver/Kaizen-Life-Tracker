@@ -421,6 +421,8 @@
     "poll": {
       "vote": "vote",
       "votes": "votes",
+      "votesCount": "{{count}} vote",
+      "votesCount_plural": "{{count}} votes",
       "pollEnded": "Poll ended",
       "daysLeft": "{{count}} day left",
       "daysLeft_plural": "{{count}} days left",
