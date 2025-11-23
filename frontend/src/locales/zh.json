@@ -156,6 +156,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "当前天气",
+    "temperature": "温度",
+    "feelsLike": "体感温度",
+    "wind": "风",
+    "humidity": "湿度",
+    "precipitation": "降水量（1小时）",
+    "pressure": "气压",
+    "refresh": "刷新",
+    "loading": "正在加载天气...",
+    "errors": {
+      "permissionDenied": "位置权限被拒绝",
+      "locationUnavailable": "位置不可用",
+      "timeout": "位置请求超时",
+      "failedToGetLocation": "无法获取您的位置",
+      "notSupported": "您的浏览器不支持地理定位"
+    },
+    "tryAgain": "重试",
+    "recommendations": {
+      "good": "适合户外训练的好天气",
+      "caution": "具有挑战性的条件",
+      "poor": "建议室内训练",
+      "coldWeather": "寒冷天气 - 保暖穿衣",
+      "coolWeather": "凉爽天气 - 分层穿衣",
+      "hotWeather": "炎热天气 - 保持水分",
+      "veryHot": "非常炎热 - 建议室内训练",
+      "highWinds": "大风 - 具有挑战性的条件",
+      "moderateWinds": "中等风力 - 调整配速",
+      "heavyRain": "大雨 - 建议室内训练",
+      "lightRain": "预计有雨 - 带上合适的装备",
+      "idealConditions": "户外活动的理想条件",
+      "layerUp": "分层穿衣并逐渐热身",
+      "bringWater": "带上额外的水并考虑清晨/傍晚训练",
+      "heatRisk": "高温风险 - 考虑室内替代方案",
+      "windWarning": "强风可能影响户外活动",
+      "rainfallExpected": "预计有大降雨",
+      "lightRainExpected": "预计有小雨"
+    }
   }
 }
   },
