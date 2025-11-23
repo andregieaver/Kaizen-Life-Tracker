@@ -3025,8 +3025,7 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
-  }
-},
+  },
   "weather": {
     "title": "Meteo attuale",
     "temperature": "Temperatura",
