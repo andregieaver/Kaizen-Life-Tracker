@@ -528,6 +528,8 @@ const Dashboard = ({ athleteId }) => {
         return <MessageCircle className="w-5 h-5 text-teal-400" />;
       case 'share':
         return <Share2 className="w-5 h-5 text-purple-400" />;
+      case 'bookmark':
+        return <Bookmark className="w-5 h-5 text-yellow-400" />;
       case 'group_join':
       case 'group_invite':
         return <Users className="w-5 h-5 text-green-400" />;
