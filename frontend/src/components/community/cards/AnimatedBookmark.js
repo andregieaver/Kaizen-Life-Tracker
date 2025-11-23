@@ -179,13 +179,13 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
             linear-gradient(
                 to bottom,
                 transparent calc(10% + var(--fade-out)),
-                #8ba3e8,
-                #8ba3e8,
+                rgba(139, 163, 232, 0.3),
+                rgba(139, 163, 232, 0.3),
                 transparent calc(50% + var(--fade-out))
               )
               content-box,
-            linear-gradient(to bottom, #f3f5fb, #ebebeb, #f3f5fb) content-box,
-            white padding-box;
+            linear-gradient(to bottom, transparent, transparent, transparent) content-box,
+            transparent padding-box;
           position: absolute;
           right: calc(0px - var(--inner-p));
           top: var(--inner-p);
@@ -193,7 +193,7 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
           clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
           transform-origin: top;
           transition: all 0.3s ease;
-          box-shadow: inset 0px 0 3.28px rgba(250, 250, 250, 0.4);
+          box-shadow: inset 0px 0 2px rgba(139, 163, 232, 0.2);
           opacity: 0;
           scale: 0.6;
         }
