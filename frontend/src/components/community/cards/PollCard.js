@@ -116,7 +116,7 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
                           <CheckCircle className="w-5 h-5 text-[#00C2A8] flex-shrink-0" />
                         )}
                         <span className={`text-sm ${isSelected ? 'text-white font-semibold' : 'text-gray-300'}`}>
-                          {option.text}
+                          {isTranslated && translatedOptions[option.id] ? translatedOptions[option.id] : option.text}
                         </span>
                       </div>
                       <span className="text-white font-bold text-sm ml-2">
