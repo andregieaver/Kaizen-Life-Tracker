@@ -63,6 +63,13 @@ const PostCard = ({
 }) => {
   const { t } = useTranslation();
 
+  // Debug log
+  console.log('PostCard rendering:', { 
+    postId: post.id, 
+    postType: post.type,
+    hasPollData: !!post.poll_data 
+  });
+
   return (
     <div 
       key={post.id} 
