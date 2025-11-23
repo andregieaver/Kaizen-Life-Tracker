@@ -191,14 +191,17 @@ const PostCard = ({
             
         {/* Poll Display */}
         {post.type === 'poll' && post.poll_data && (
-              <div className="px-4 pb-3">
-                <PollCard 
-                  post={post} 
-                  athleteId={athleteId}
-                  onVote={onVotePoll}
-                />
-              </div>
-            )}
+          <div className="px-4 pb-3">
+            <PollCard 
+              post={post} 
+              athleteId={athleteId}
+              onVote={onVotePoll}
+              translatedPosts={translatedPosts}
+              translatingPosts={translatingPosts}
+              onTranslatePost={onTranslatePost}
+            />
+          </div>
+        )}
             
             {/* Display media (images and videos) */}
             {(() => {
