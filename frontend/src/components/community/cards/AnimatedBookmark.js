@@ -213,7 +213,7 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
           position: absolute;
           right: 3.2px;
           bottom: -2px;
-          background: rgb(0 49 188 / 58%);
+          background: rgba(0, 0, 0, 0.3);
           width: 17.6px;
           height: 7.2px;
           rotate: -33deg;
