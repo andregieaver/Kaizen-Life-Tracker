@@ -3408,14 +3408,41 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
-              <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('community.modals.createPost')}</h3>
+            <div className="p-4 pb-0" style={{ borderBottom: '1px solid var(--border)' }}>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Create</h3>
                 <button
-                  onClick={() => setShowWritePostModal(false)}
+                  onClick={() => {
+                    setShowWritePostModal(false);
+                    setCreateModalTab('post');
+                  }}
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              {/* Tabs */}
+              <div className="flex space-x-1">
+                <button
+                  onClick={() => setCreateModalTab('post')}
+                  className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors rounded-t-lg ${
+                    createModalTab === 'post'
+                      ? 'bg-gray-700 text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                      : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
+                  }`}
+                >
+                  Post
+                </button>
+                <button
+                  onClick={() => setCreateModalTab('poll')}
+                  className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors rounded-t-lg ${
+                    createModalTab === 'poll'
+                      ? 'bg-gray-700 text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                      : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
+                  }`}
+                >
+                  Poll
                 </button>
               </div>
             </div>
