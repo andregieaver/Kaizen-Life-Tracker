@@ -34,9 +34,9 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
         }
 
         .animated-bookmark-container {
-          --w: 20px;
-          --h: 28px;
-          --gi: 0.8px;
+          --w: 16px;
+          --h: 22px;
+          --gi: 0.6px;
           --gih: calc(var(--gi) / 2);
           --gihn: calc(var(--gi) / -2);
           position: relative;
