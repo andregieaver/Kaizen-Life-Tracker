@@ -136,7 +136,7 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
                       : 'border-gray-600 bg-gray-700/50 hover:border-[#00C2A8] hover:bg-[#00C2A8]/10'
                   }`}
                 >
-                  <span className="text-white text-sm">{option.text}</span>
+                  <span className="text-white text-sm">{isTranslated && translatedOptions[option.id] ? translatedOptions[option.id] : option.text}</span>
                 </button>
               )}
             </div>
