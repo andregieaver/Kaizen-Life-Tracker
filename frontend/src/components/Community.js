@@ -652,9 +652,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
 
   const loadBookmarks = async (forceReload = false) => {
-    try {
+    try:
       setIsLoading(true);
-      const response = await axios.get(`${API}/api/bookmarks/${athleteId}?limit=100`);
+      const response = await axios.get(`${API}/bookmarks/${athleteId}?limit=100`);
       logger.debug(null, 'Bookmarks loaded:', response.data);
       
       if (response.data && response.data.posts) {
