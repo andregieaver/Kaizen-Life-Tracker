@@ -3988,7 +3988,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       disabled={!pollQuestion.trim() || pollOptions.filter(o => o.trim()).length < 2}
                       className="flex-1 sm:flex-none bg-[#00C2A8] hover:bg-[#00a890] text-white disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Create Poll
+                      {isEditMode ? 'Update Poll' : 'Create Poll'}
                     </Button>
                   </div>
                 </>
