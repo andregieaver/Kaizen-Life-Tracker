@@ -628,6 +628,58 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
+
+  const loadBookmarks = async (forceReload = false) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`${API}/bookmarks/${athleteId}?limit=100`);
+      logger.debug(null, 'Bookmarks loaded:', response.data);
+      
+      if (response.data && response.data.posts) {
+        setBookmarkedPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
+        // Create a Set of bookmarked post IDs for quick lookup
+        const bookmarkIds = new Set(response.data.posts.map(p => p.id));
+        setBookmarkedPostIds(bookmarkIds);
+      } else {
+        setBookmarkedPosts([]);
+        setBookmarkedPostIds(new Set());
+      }
+      
+      setBookmarksLoaded(true);
+      setIsLoading(false);
+    } catch (error) {
+      logger.error(null, 'Error loading bookmarks:', error);
+      setBookmarkedPosts([]);
+      setBookmarkedPostIds(new Set());
+      setIsLoading(false);
+    }
+  };
+
+  const toggleBookmark = async (postId) => {
+    try {
+      const isBookmarked = bookmarkedPostIds.has(postId);
+      
+      if (isBookmarked) {
+        // Remove bookmark
+        await axios.delete(`${API}/bookmarks/${athleteId}/${postId}`);
+        setBookmarkedPostIds(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(postId);
+          return newSet;
+        });
+        // Remove from bookmarked posts list if we're on bookmarks tab
+        setBookmarkedPosts(prev => prev.filter(p => p.id !== postId));
+      } else {
+        // Add bookmark
+        await axios.post(`${API}/bookmarks/${athleteId}/${postId}`);
+        setBookmarkedPostIds(prev => new Set([...prev, postId]));
+      }
+    } catch (error) {
+      logger.error(null, 'Error toggling bookmark:', error);
+    }
+  };
+
+
   // Handle nationality filter change
   const handleNationalityFilterChange = (value) => {
     setNationalityFilter(value);
