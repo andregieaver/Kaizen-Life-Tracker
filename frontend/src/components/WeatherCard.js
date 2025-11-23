@@ -24,7 +24,7 @@ const WeatherCard = () => {
 
       // Request geolocation
       if (!navigator.geolocation) {
-        setLocationError('Geolocation is not supported by your browser');
+        setLocationError(t('weather.errors.notSupported'));
         setLoading(false);
         return;
       }
