@@ -1400,12 +1400,16 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
 
   const handleStartEditPost = (post) => {
-    setEditingPost(post.id);
-    setEditContent(post.content);
-    setEditVisibility(post.visibility || 'public');
+    // Open modal in edit mode
+    setIsEditMode(true);
+    setEditingPostId(post.id);
+    setWritePostContent(post.content);
+    setWritePostVisibility(post.visibility || 'public');
+    setCreateModalTab('post');
+    
     // Load existing media for editing
     if (post.media && post.media.length > 0) {
-      setEditMedia(post.media.map((m, i) => ({
+      setSelectedMedia(post.media.map((m, i) => ({
         id: `existing-${i}`,
         type: m.type,
         url: m.url,
@@ -1414,7 +1418,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         uploading: false
       })));
     } else if (post.image_urls && post.image_urls.length > 0) {
-      setEditMedia(post.image_urls.map((url, i) => ({
+      setSelectedMedia(post.image_urls.map((url, i) => ({
         id: `existing-img-${i}`,
         type: 'image',
         url: url,
@@ -1422,8 +1426,20 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         uploading: false
       })));
     } else {
-      setEditMedia([]);
+      setSelectedMedia([]);
     }
+    
+    // Load YouTube preview if exists
+    if (post.youtube_data) {
+      setYoutubePreview(post.youtube_data);
+    }
+    
+    // Load URL preview if exists
+    if (post.url_preview) {
+      setUrlPreview(post.url_preview);
+    }
+    
+    setShowWritePostModal(true);
   };
 
   const handleEditPost = async (postId) => {
