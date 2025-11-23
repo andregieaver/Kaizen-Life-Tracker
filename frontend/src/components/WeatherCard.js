@@ -287,7 +287,7 @@ const WeatherCard = () => {
             color: 'var(--text-med)'
           }}
         >
-          Refresh
+          {t('weather.refresh')}
         </button>
       </div>
     </div>
