@@ -186,10 +186,11 @@ const PostCard = ({
                   </button>
                 )}
               </div>
-            </div>
+          </div>
+        )}
             
-            {/* Poll Display */}
-            {post.type === 'poll' && post.poll_data && (
+        {/* Poll Display */}
+        {post.type === 'poll' && post.poll_data && (
               <div className="px-4 pb-3">
                 <PollCard 
                   post={post} 
