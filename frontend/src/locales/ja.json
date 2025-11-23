@@ -156,6 +156,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
+    }
   }
 }
   },
@@ -568,6 +607,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
+    }
   }
 }
   },
@@ -946,6 +1024,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
+    }
   }
 }
     },
@@ -1010,6 +1127,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
     }
   }
 }
@@ -1369,6 +1525,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
+    }
   }
 }
     },
@@ -1450,6 +1645,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
     }
   }
 }
@@ -1549,6 +1783,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
     }
   }
 }
@@ -2057,6 +2330,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
+    }
   }
 }
   },
@@ -2135,6 +2447,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
     }
   }
 }
@@ -2228,6 +2579,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
     }
   }
 }
@@ -2421,6 +2811,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
+    }
   }
 }
     ,
@@ -2470,6 +2899,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
     }
   }
 }
@@ -2780,6 +3248,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
+    }
   }
 }
   },
@@ -2975,6 +3482,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
+    }
   }
 }
 ,
@@ -3024,6 +3570,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "現在の天気",
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "wind": "風",
+    "humidity": "湿度",
+    "precipitation": "降水量（1時間）",
+    "pressure": "気圧",
+    "refresh": "更新",
+    "loading": "天気を読み込み中...",
+    "errors": {
+      "permissionDenied": "位置情報の許可が拒否されました",
+      "locationUnavailable": "位置情報が利用できません",
+      "timeout": "位置情報のリクエストがタイムアウトしました",
+      "failedToGetLocation": "位置情報の取得に失敗しました",
+      "notSupported": "お使いのブラウザは位置情報に対応していません"
+    },
+    "tryAgain": "再試行",
+    "recommendations": {
+      "good": "屋外トレーニングに最適な条件",
+      "caution": "困難な条件",
+      "poor": "屋内トレーニングをお勧めします",
+      "coldWeather": "寒い天気 - 暖かい服装で",
+      "coolWeather": "涼しい天気 - 重ね着してください",
+      "hotWeather": "暑い天気 - 水分補給を",
+      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+      "highWinds": "強風 - 困難な条件",
+      "moderateWinds": "適度な風 - ペースを調整してください",
+      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+      "lightRain": "雨が予想されます - 適切な装備を",
+      "idealConditions": "屋外活動に最適な条件",
+      "layerUp": "重ね着してゆっくりウォームアップ",
+      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+      "windWarning": "強風は屋外活動に影響する可能性があります",
+      "rainfallExpected": "大雨が予想されます",
+      "lightRainExpected": "小雨が予想されます"
     }
   }
 }
