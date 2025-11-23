@@ -2380,5 +2380,44 @@
     "missingData": "Manglende data",
     "noData": "Ingen data tilgjengelig",
     "error": "Kunne ikke laste"
+  },
+  "weather": {
+    "title": "Nåværende vær",
+    "temperature": "Temperatur",
+    "feelsLike": "Føles som",
+    "wind": "Vind",
+    "humidity": "Luftfuktighet",
+    "precipitation": "Nedbør (1t)",
+    "pressure": "Trykk",
+    "refresh": "Oppdater",
+    "loading": "Laster vær...",
+    "errors": {
+      "permissionDenied": "Plasseringstillatelse nektet",
+      "locationUnavailable": "Plassering utilgjengelig",
+      "timeout": "Tidsavbrudd for plasseringsforespørsel",
+      "failedToGetLocation": "Kunne ikke hente din plassering",
+      "notSupported": "Geolokasjon støttes ikke av nettleseren din"
+    },
+    "tryAgain": "Prøv igjen",
+    "recommendations": {
+      "good": "Gode forhold for utendørs trening",
+      "caution": "Utfordrende forhold",
+      "poor": "Innendørs trening anbefales",
+      "coldWeather": "Kaldt vær - kle deg varmt",
+      "coolWeather": "Kjølig vær - kle deg i lag",
+      "hotWeather": "Varmt vær - hold deg hydrert",
+      "veryHot": "Veldig varmt - innendørs trening anbefales",
+      "highWinds": "Sterk vind - utfordrende forhold",
+      "moderateWinds": "Moderat vind - juster tempo",
+      "heavyRain": "Kraftig regn - innendørs trening anbefales",
+      "lightRain": "Regn forventet - ta med passende utstyr",
+      "idealConditions": "Ideelle forhold for utendørs aktiviteter",
+      "layerUp": "Kle deg i lag og varm opp gradvis",
+      "bringWater": "Ta med ekstra vann og vurder tidlig morgen/kveldstrening",
+      "heatRisk": "Høy varmerisiko - vurder innendørs alternativer",
+      "windWarning": "Sterk vind kan påvirke utendørs aktiviteter",
+      "rainfallExpected": "Betydelig nedbør forventet",
+      "lightRainExpected": "Lett regn forventet"
+    }
   }
 }
