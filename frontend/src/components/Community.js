@@ -664,7 +664,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       logger.debug(null, 'Bookmarks loaded:', response.data);
       
       if (response.data && response.data.posts) {
-        setBookmarkedPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
+        setBookmarkedPosts(response.data.posts.map(p => ({ ...p, type: p.type || 'post' })));
         // Create a Set of bookmarked post IDs for quick lookup
         const bookmarkIds = new Set(response.data.posts.map(p => p.id));
         setBookmarkedPostIds(bookmarkIds);
