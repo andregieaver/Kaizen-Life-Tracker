@@ -1417,40 +1417,55 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     // Open modal in edit mode
     setIsEditMode(true);
     setEditingPostId(post.id);
-    setWritePostContent(post.content);
     setWritePostVisibility(post.visibility || 'public');
-    setCreateModalTab('post');
     
-    // Load existing media for editing
-    if (post.media && post.media.length > 0) {
-      setSelectedMedia(post.media.map((m, i) => ({
-        id: `existing-${i}`,
-        type: m.type,
-        url: m.url,
-        thumbnail: m.thumbnail,
-        preview: m.type === 'video' ? m.thumbnail : m.url,
-        uploading: false
-      })));
-    } else if (post.image_urls && post.image_urls.length > 0) {
-      setSelectedMedia(post.image_urls.map((url, i) => ({
-        id: `existing-img-${i}`,
-        type: 'image',
-        url: url,
-        preview: url,
-        uploading: false
-      })));
+    // Check if it's a poll or regular post
+    if (post.type === 'poll' && post.poll_data) {
+      // Edit poll
+      setCreateModalTab('poll');
+      setPollQuestion(post.poll_data.question);
+      setPollOptions(post.poll_data.options.map(opt => opt.text));
+      // Calculate remaining days
+      const endDate = new Date(post.poll_data.end_date);
+      const now = new Date();
+      const daysLeft = Math.max(1, Math.ceil((endDate - now) / (1000 * 60 * 60 * 24)));
+      setPollDuration(daysLeft);
     } else {
-      setSelectedMedia([]);
-    }
-    
-    // Load YouTube preview if exists
-    if (post.youtube_data) {
-      setYoutubePreview(post.youtube_data);
-    }
-    
-    // Load URL preview if exists
-    if (post.url_preview) {
-      setUrlPreview(post.url_preview);
+      // Edit regular post
+      setCreateModalTab('post');
+      setWritePostContent(post.content);
+      
+      // Load existing media for editing
+      if (post.media && post.media.length > 0) {
+        setSelectedMedia(post.media.map((m, i) => ({
+          id: `existing-${i}`,
+          type: m.type,
+          url: m.url,
+          thumbnail: m.thumbnail,
+          preview: m.type === 'video' ? m.thumbnail : m.url,
+          uploading: false
+        })));
+      } else if (post.image_urls && post.image_urls.length > 0) {
+        setSelectedMedia(post.image_urls.map((url, i) => ({
+          id: `existing-img-${i}`,
+          type: 'image',
+          url: url,
+          preview: url,
+          uploading: false
+        })));
+      } else {
+        setSelectedMedia([]);
+      }
+      
+      // Load YouTube preview if exists
+      if (post.youtube_data) {
+        setYoutubePreview(post.youtube_data);
+      }
+      
+      // Load URL preview if exists
+      if (post.url_preview) {
+        setUrlPreview(post.url_preview);
+      }
     }
     
     setShowWritePostModal(true);
