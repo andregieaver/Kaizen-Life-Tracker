@@ -122,7 +122,7 @@ const PostCard = ({
                   }}
                   className="p-2 hover:bg-gray-600 rounded-full transition-colors"
                 >
-                  <Edit2 className="w-4 h-4 text-[#00FFFF]" />
+                  <Edit2 className="w-4 h-4" style={{ color: '#00FFFF' }} />
                 </button>
                 <button
                   onClick={() => onDeletePost(post.id)}
