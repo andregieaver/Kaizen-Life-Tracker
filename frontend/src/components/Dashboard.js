@@ -493,7 +493,7 @@ const Dashboard = ({ athleteId }) => {
       } else if (notification.type === 'follow') {
         // Navigate to follower's profile
         navigate(`/dashboard/community?view=profile&athleteId=${notification.from_athlete_id}`);
-      } else if (notification.type === 'like' || notification.type === 'comment') {
+      } else if (notification.type === 'like' || notification.type === 'comment' || notification.type === 'bookmark') {
         // Navigate to post (Community component will handle opening post modal)
         navigate(`/dashboard/community?view=post&postId=${notification.post_id}`);
       } else if (notification.type === 'group_join' || notification.type === 'group_invite') {
