@@ -52,10 +52,10 @@ const WeatherCard = () => {
         (err) => {
           console.error('Geolocation error:', err);
           setLocationError(
-            err.code === 1 ? 'Location permission denied' :
-            err.code === 2 ? 'Location unavailable' :
-            err.code === 3 ? 'Location request timeout' :
-            'Failed to get your location'
+            err.code === 1 ? t('weather.errors.permissionDenied') :
+            err.code === 2 ? t('weather.errors.locationUnavailable') :
+            err.code === 3 ? t('weather.errors.timeout') :
+            t('weather.errors.failedToGetLocation')
           );
           setLoading(false);
         },
