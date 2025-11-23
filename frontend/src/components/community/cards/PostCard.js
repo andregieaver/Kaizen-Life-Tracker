@@ -54,7 +54,9 @@ const PostCard = ({
   onSelectCommentMention,
   translatedPosts,
   translatingPosts,
-  onTranslatePost
+  onTranslatePost,
+  bookmarkedPostIds,
+  onToggleBookmark
 }) => {
   const { t } = useTranslation();
 
