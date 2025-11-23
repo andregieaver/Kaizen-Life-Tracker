@@ -2017,28 +2017,25 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     
     try {
       console.log('Calling translation API...');
-      const response = await axios.post(`${API}/community/posts/translate`, {
-        text: originalContent,
-        target_language: targetLanguage
-      });
-
-      console.log('Translation response:', response.data);
-
-      // Parse poll options if this is a poll translation
-      let translatedOptions = {};
-      if (pollOptions && response.data.translated_text) {
-        const translatedLines = response.data.translated_text.split('\n');
-        const translatedQuestion = translatedLines[0];
-        
-        // Map translated options to their IDs
-        pollOptions.forEach((option, index) => {
-          const translatedLine = translatedLines[index + 1]; // +1 to skip question line
-          if (translatedLine) {
-            // Remove the numbering (e.g., "1. " from "1. Translated option")
-            const translatedText = translatedLine.replace(/^\d+\.\s*/, '');
-            translatedOptions[option.id] = translatedText;
-          }
+      
+      if (pollOptions) {
+        // For polls, translate question and each option separately
+        const questionResponse = await axios.post(`${API}/community/posts/translate`, {
+          text: originalContent,
+          target_language: targetLanguage
         });
+        
+        const translatedQuestion = questionResponse.data.translated_text;
+        
+        // Translate each option
+        const translatedOptions = {};
+        for (const option of pollOptions) {
+          const optionResponse = await axios.post(`${API}/community/posts/translate`, {
+            text: option.text,
+            target_language: targetLanguage
+          });
+          translatedOptions[option.id] = optionResponse.data.translated_text;
+        }
         
         setTranslatedPosts(prev => ({
           ...prev,
@@ -2050,6 +2047,14 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           }
         }));
       } else {
+        // For regular posts, translate normally
+        const response = await axios.post(`${API}/community/posts/translate`, {
+          text: originalContent,
+          target_language: targetLanguage
+        });
+
+        console.log('Translation response:', response.data);
+
         setTranslatedPosts(prev => ({
           ...prev,
           [postId]: {
