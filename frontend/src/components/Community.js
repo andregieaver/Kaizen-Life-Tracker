@@ -3496,29 +3496,31 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 </button>
               </div>
               
-              {/* Tabs */}
-              <div className="flex space-x-1">
-                <button
-                  onClick={() => setCreateModalTab('post')}
-                  className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors rounded-t-lg ${
-                    createModalTab === 'post'
-                      ? 'bg-gray-700 text-[#00C2A8] border-b-2 border-[#00C2A8]'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
-                  }`}
-                >
-                  Post
-                </button>
-                <button
-                  onClick={() => setCreateModalTab('poll')}
-                  className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors rounded-t-lg ${
-                    createModalTab === 'poll'
-                      ? 'bg-gray-700 text-[#00C2A8] border-b-2 border-[#00C2A8]'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
-                  }`}
-                >
-                  Poll
-                </button>
-              </div>
+              {/* Tabs (hidden in edit mode) */}
+              {!isEditMode && (
+                <div className="flex space-x-1">
+                  <button
+                    onClick={() => setCreateModalTab('post')}
+                    className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors rounded-t-lg ${
+                      createModalTab === 'post'
+                        ? 'bg-gray-700 text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                        : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
+                    }`}
+                  >
+                    Post
+                  </button>
+                  <button
+                    onClick={() => setCreateModalTab('poll')}
+                    className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors rounded-t-lg ${
+                      createModalTab === 'poll'
+                        ? 'bg-gray-700 text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                        : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
+                    }`}
+                  >
+                    Poll
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Content */}
