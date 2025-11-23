@@ -148,7 +148,7 @@ const WeatherCard = () => {
               className="mt-3 px-4 py-2 text-xs rounded-lg"
               style={{ background: 'var(--c-brand-500)', color: 'white' }}
             >
-              Try Again
+              {t('weather.tryAgain')}
             </button>
           )}
         </div>
