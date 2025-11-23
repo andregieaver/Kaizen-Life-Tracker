@@ -11377,6 +11377,73 @@ async def check_bookmark(athlete_id: str, post_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ==========================================
+# POLL ENDPOINTS
+# ==========================================
+
+@api_router.post("/community/polls/{post_id}/vote")
+async def vote_on_poll(post_id: str, vote_data: dict, athlete_id: str = Query(...)):
+    """Vote on a poll"""
+    try:
+        option_id = vote_data.get("option_id")
+        if not option_id:
+            raise HTTPException(status_code=400, detail="option_id is required")
+        
+        # Get the post
+        post = await db.community_posts.find_one({"id": post_id})
+        if not post:
+            raise HTTPException(status_code=404, detail="Poll not found")
+        
+        if post.get("type") != "poll" or not post.get("poll_data"):
+            raise HTTPException(status_code=400, detail="Post is not a poll")
+        
+        poll_data = post.get("poll_data")
+        
+        # Check if poll is still active
+        end_date = datetime.fromisoformat(poll_data.get("end_date"))
+        if datetime.now(timezone.utc) > end_date or not poll_data.get("is_active", True):
+            raise HTTPException(status_code=400, detail="Poll has ended")
+        
+        # Check if user has already voted
+        for option in poll_data.get("options", []):
+            if athlete_id in option.get("voters", []):
+                raise HTTPException(status_code=400, detail="You have already voted on this poll")
+        
+        # Find the option and add vote
+        option_found = False
+        for option in poll_data.get("options", []):
+            if option.get("id") == option_id:
+                option["votes"] = option.get("votes", 0) + 1
+                if "voters" not in option:
+                    option["voters"] = []
+                option["voters"].append(athlete_id)
+                option_found = True
+                break
+        
+        if not option_found:
+            raise HTTPException(status_code=404, detail="Option not found")
+        
+        # Update total votes
+        poll_data["total_votes"] = poll_data.get("total_votes", 0) + 1
+        
+        # Update the post in database
+        await db.community_posts.update_one(
+            {"id": post_id},
+            {"$set": {"poll_data": poll_data}}
+        )
+        
+        # Return updated poll data
+        return {
+            "message": "Vote recorded successfully",
+            "poll_data": poll_data
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error voting on poll: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 # ==========================================
 # IMAGE UPLOAD ENDPOINTS
