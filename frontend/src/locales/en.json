@@ -355,6 +355,7 @@
     "tabs": {
       "feed": "Feed",
       "following": "Following",
+      "bookmarks": "Bookmarks",
       "challenges": "Challenges",
       "events": "Events",
       "myGroups": "My Groups",
