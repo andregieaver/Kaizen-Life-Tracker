@@ -3920,7 +3920,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
                   {/* Poll Duration */}
                   <div className="bg-gray-700 rounded-lg p-4 space-y-3">
-                    <label className="text-white font-semibold text-sm">Poll Duration</label>
+                    <label className="text-white font-semibold text-sm">{t('community.poll.duration')}</label>
                     <div className="flex items-center space-x-3">
                       <input
                         type="range"
@@ -3931,7 +3931,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         className="flex-1 accent-[#00C2A8]"
                       />
                       <span className="text-white font-semibold bg-gray-600 px-3 py-1 rounded-lg min-w-[80px] text-center">
-                        {pollDuration} {pollDuration === 1 ? 'day' : 'days'}
+                        {pollDuration} {t(`community.poll.${pollDuration === 1 ? 'day' : 'days'}`)}
                       </span>
                     </div>
                   </div>
