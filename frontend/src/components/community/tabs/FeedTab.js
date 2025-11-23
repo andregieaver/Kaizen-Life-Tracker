@@ -59,7 +59,9 @@ const FeedTab = ({
   onSharePost,
   onCommentContentChange,
   onAddComment,
-  onSelectCommentMention
+  onSelectCommentMention,
+  bookmarkedPostIds,
+  onToggleBookmark
 }) => {
   const { t } = useTranslation();
 
