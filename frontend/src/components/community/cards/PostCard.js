@@ -12,6 +12,7 @@ import OnlineStatusIndicator from '../../OnlineStatusIndicator';
 import { formatMentions } from '../../../utils/mentionUtils';
 import { logger } from '../../../utils/logger';
 import AnimatedBookmark from './AnimatedBookmark';
+import PollCard from './PollCard';
 
 /**
  * PostCard - Renders an individual community post with all interactions
