@@ -441,6 +441,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       loadPosts();
     } else if (activeTab === 'following' && !followingPostsLoaded) {
       loadFollowingPosts();
+    } else if (activeTab === 'bookmarks' && !bookmarksLoaded) {
+      loadBookmarks();
     } else if (activeTab === 'groups' && !groupsLoaded) {
       loadAllGroups();
     } else if (activeTab === 'mygroups' && !myGroupsLoaded) {
