@@ -136,6 +136,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "Météo actuelle",
+    "temperature": "Température",
+    "feelsLike": "Ressenti",
+    "wind": "Vent",
+    "humidity": "Humidité",
+    "precipitation": "Précipitations (1h)",
+    "pressure": "Pression",
+    "refresh": "Actualiser",
+    "loading": "Chargement météo...",
+    "errors": {
+      "permissionDenied": "Permission de localisation refusée",
+      "locationUnavailable": "Localisation indisponible",
+      "timeout": "Délai de demande de localisation dépassé",
+      "failedToGetLocation": "Impossible d'obtenir votre position",
+      "notSupported": "La géolocalisation n'est pas prise en charge par votre navigateur"
+    },
+    "tryAgain": "Réessayer",
+    "recommendations": {
+      "good": "Bonnes conditions pour l'entraînement en extérieur",
+      "caution": "Conditions difficiles",
+      "poor": "Entraînement en intérieur recommandé",
+      "coldWeather": "Temps froid - habillez-vous chaudement",
+      "coolWeather": "Temps frais - habillez-vous en couches",
+      "hotWeather": "Temps chaud - restez hydraté",
+      "veryHot": "Très chaud - entraînement en intérieur recommandé",
+      "highWinds": "Vents forts - conditions difficiles",
+      "moderateWinds": "Vents modérés - ajustez le rythme",
+      "heavyRain": "Pluie forte - entraînement en intérieur recommandé",
+      "lightRain": "Pluie attendue - apportez l'équipement approprié",
+      "idealConditions": "Conditions idéales pour les activités en extérieur",
+      "layerUp": "Habillez-vous en couches et échauffez-vous progressivement",
+      "bringWater": "Apportez de l'eau supplémentaire et envisagez un entraînement tôt le matin/soir",
+      "heatRisk": "Risque élevé de chaleur - envisagez des alternatives en intérieur",
+      "windWarning": "Les vents forts peuvent affecter les activités en extérieur",
+      "rainfallExpected": "Précipitations importantes attendues",
+      "lightRainExpected": "Pluie légère attendue"
+    }
   }
 }
   },
