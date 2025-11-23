@@ -640,7 +640,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       logger.debug(null, 'Following posts loaded:', response.data);
       
       if (response.data && response.data.posts) {
-        setFollowingPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
+        setFollowingPosts(response.data.posts.map(p => ({ ...p, type: p.type || 'post' })));
       } else {
         logger.error(null, 'No following posts in response:', response.data);
         setFollowingPosts([]);
