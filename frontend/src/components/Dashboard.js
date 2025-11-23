@@ -555,7 +555,7 @@ const Dashboard = ({ athleteId }) => {
     }
     
     if (notificationTab === 'posts') {
-      return notifications.filter(n => ['like', 'comment', 'share'].includes(n.type));
+      return notifications.filter(n => ['like', 'comment', 'share', 'bookmark'].includes(n.type));
     }
     
     if (notificationTab === 'groups') {
