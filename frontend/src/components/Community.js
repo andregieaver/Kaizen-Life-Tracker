@@ -3811,8 +3811,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   <Button
                     onClick={() => {
                       setShowWritePostModal(false);
+                      setIsEditMode(false);
+                      setEditingPostId(null);
                       // Clear media state when closing
                       setSelectedMedia([]);
+                      setWritePostContent('');
+                      setYoutubePreview(null);
+                      setUrlPreview(null);
                     }}
                     className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-white"
                   >
