@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
   Heart, MessageCircle, Share2, Send, Edit2, Trash2, 
-  Globe, Lock, X, Camera, Video, GripVertical, RefreshCw, Bookmark 
+  Globe, Lock, X, Camera, Video, GripVertical, RefreshCw 
 } from 'lucide-react';
 import { Button } from '../../ui/button';
 import ImageCarousel from '../../ImageCarousel';
@@ -11,6 +11,7 @@ import FlagIcon from '../../FlagIcon';
 import OnlineStatusIndicator from '../../OnlineStatusIndicator';
 import { formatMentions } from '../../../utils/mentionUtils';
 import { logger } from '../../../utils/logger';
+import AnimatedBookmark from './AnimatedBookmark';
 
 /**
  * PostCard - Renders an individual community post with all interactions
