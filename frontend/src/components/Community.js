@@ -2948,6 +2948,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           onTranslatePost={handleTranslatePost}
           bookmarkedPostIds={bookmarkedPostIds}
           onToggleBookmark={toggleBookmark}
+          onVotePoll={handleVotePoll}
         />
       )}
 
