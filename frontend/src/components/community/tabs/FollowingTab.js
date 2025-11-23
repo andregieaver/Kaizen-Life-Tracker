@@ -56,7 +56,8 @@ const FollowingTab = ({
   translatingPosts,
   onTranslatePost,
   bookmarkedPostIds,
-  onToggleBookmark
+  onToggleBookmark,
+  onVotePoll
 }) => {
   const { t } = useTranslation();
 
