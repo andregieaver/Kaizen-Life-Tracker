@@ -347,6 +347,18 @@ frontend:
         agent: "main"
         comment: "THIRD FIX - ROOT CAUSE FINALLY IDENTIFIED! Console logs revealed NO debug output from dynamic menu items, meaning the app is using FALLBACK menu items (menuItems.header_logged_in.length === 0), not menu editor items. The fallback menu items (lines 740-830) were still using OLD logic: data-active={activeTab === 'account'} instead of location.pathname comparison. This is why Account remained highlighted - activeTab was still 'account' even after navigating to Today. COMPREHENSIVE FIX IMPLEMENTED: 1) Updated all 5 fallback header menu items (lines 747-829) to use location.pathname comparison instead of activeTab. 2) Updated all 5 bottom tab bar items (lines 1697-1897) to use location.pathname comparison. 3) Added special case for dashboard root (/dashboard or /dashboard/overview) to match overview tab. 4) Removed debug logging (no longer needed). RESULT: Both fallback header menu AND bottom navbar now use consistent location.pathname logic. When URL is /dashboard/today, only Today button gets data-active=true. When URL is /dashboard/account, only Account button gets data-active=true. Glass bubble will now position correctly on ALL navigation. Frontend recompiled successfully. TESTING NEEDED: Navigate between pages and verify glass bubble follows correctly."
 
+  - task: "Animated Bookmark Feature in Community Posts"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/community/cards/AnimatedBookmark.js, /app/frontend/src/components/community/cards/PostCard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "ANIMATED BOOKMARK FEATURE TESTING ATTEMPTED - Unable to complete full end-to-end testing due to authentication issue, but comprehensive code verification completed. AUTHENTICATION ISSUE: Test credentials andre@humanweb.no / test1234 returned 401 'Invalid credentials' error from /api/auth/login endpoint, preventing access to Community section for live testing. CODE VERIFICATION COMPLETED: ✅ AnimatedBookmark.js component exists with complex CSS animations using blue theme colors (#00C2A8, #32D3FF), 20x28px dimensions as specified, active/inactive states with smooth transitions, hover effects for unbookmarked state, complex animation keyframes for bookmark-top, bookmark-outline, shadows, and pulse effects. ✅ PostCard.js correctly imports AnimatedBookmark component (line 14), replaces simple Bookmark icon with AnimatedBookmark component (lines 511-516), passes isBookmarked and onClick props correctly. ✅ Community.js has complete bookmark functionality: toggleBookmark function (lines 680-700), bookmarkedPostIds state management, loadBookmarks function, Bookmarks tab in navigation (lines 2794-2840). IMPLEMENTATION VERIFIED: The animated bookmark feature is properly implemented with all required functionality: bookmark toggle with API calls (POST/DELETE /api/bookmarks), visual feedback with blue animated effects, dedicated Bookmarks tab for viewing saved posts, proper state management across components. TESTING LIMITATION: Full functionality testing requires valid authentication to access Community section. RECOMMENDATION: Main agent should provide valid test credentials or verify existing credentials to complete end-to-end testing of the animated bookmark feature."
+
   - task: "Mobile-Friendly Integration Cards"
     implemented: true
     working: true
