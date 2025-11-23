@@ -191,7 +191,7 @@ const PostCard = ({
             
         {/* Poll Display */}
         {post.type === 'poll' && post.poll_data && (
-          <div className="px-4 pb-3">
+          <div className="pt-3 mb-4">
             <PollCard 
               post={post} 
               athleteId={athleteId}
