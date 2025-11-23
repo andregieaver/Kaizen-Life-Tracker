@@ -142,7 +142,7 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
       {/* Poll Footer */}
       <div className="flex items-center justify-between text-gray-400 text-sm pt-2 border-t border-gray-700">
         <span>
-          {total_votes} {total_votes === 1 ? 'vote' : 'votes'}
+          {total_votes} {t(`community.poll.${total_votes === 1 ? 'vote' : 'votes'}`)}
         </span>
         <div className="flex items-center space-x-1">
           <Clock className="w-4 h-4" />
