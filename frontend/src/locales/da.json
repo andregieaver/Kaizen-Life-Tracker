@@ -136,6 +136,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "Aktuelt vejr",
+    "temperature": "Temperatur",
+    "feelsLike": "Føles som",
+    "wind": "Vind",
+    "humidity": "Luftfugtighed",
+    "precipitation": "Nedbør (1t)",
+    "pressure": "Tryk",
+    "refresh": "Opdater",
+    "loading": "Indlæser vejr...",
+    "errors": {
+      "permissionDenied": "Lokaliseringstilladelse nægtet",
+      "locationUnavailable": "Lokalisering utilgængelig",
+      "timeout": "Timeout for lokaliseringsanmodning",
+      "failedToGetLocation": "Kunne ikke hente din lokalisering",
+      "notSupported": "Geolokalisering understøttes ikke af din browser"
+    },
+    "tryAgain": "Prøv igen",
+    "recommendations": {
+      "good": "Gode forhold for udendørs træning",
+      "caution": "Udfordrende forhold",
+      "poor": "Indendørs træning anbefales",
+      "coldWeather": "Koldt vejr - klæd dig varmt",
+      "coolWeather": "Køligt vejr - klæd dig i lag",
+      "hotWeather": "Varmt vejr - hold dig hydreret",
+      "veryHot": "Meget varmt - indendørs træning anbefales",
+      "highWinds": "Kraftig vind - udfordrende forhold",
+      "moderateWinds": "Moderat vind - juster tempo",
+      "heavyRain": "Kraftig regn - indendørs træning anbefales",
+      "lightRain": "Regn forventet - medbring passende udstyr",
+      "idealConditions": "Ideelle forhold for udendørs aktiviteter",
+      "layerUp": "Klæd dig i lag og varm op gradvist",
+      "bringWater": "Medbring ekstra vand og overvej tidlig morgen/aften træning",
+      "heatRisk": "Høj varmerisiko - overvej indendørs alternativer",
+      "windWarning": "Kraftig vind kan påvirke udendørs aktiviteter",
+      "rainfallExpected": "Betydelig nedbør forventet",
+      "lightRainExpected": "Let regn forventet"
+    }
   }
 }
   },
