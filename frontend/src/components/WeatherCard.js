@@ -220,7 +220,7 @@ const WeatherCard = () => {
         <div className="flex items-center gap-2">
           <Droplets className="w-4 h-4" style={{ color: 'var(--c-brand-500)' }} />
           <div>
-            <p className="text-xs" style={{ color: 'var(--text-med)' }}>Humidity</p>
+            <p className="text-xs" style={{ color: 'var(--text-med)' }}>{t('weather.humidity')}</p>
             <p className="text-sm font-semibold" style={{ color: 'var(--text-hi)' }}>
               {current.humidity ? `${Math.round(current.humidity)}%` : 'N/A'}
             </p>
