@@ -1970,7 +1970,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }));
   };
 
-  const handleTranslatePost = async (postId, originalContent) => {
+  const handleTranslatePost = async (postId, originalContent, pollOptions = null) => {
     console.log('Translation requested for post:', postId);
     console.log('Current language:', i18n.language);
     console.log('Original content:', originalContent);
