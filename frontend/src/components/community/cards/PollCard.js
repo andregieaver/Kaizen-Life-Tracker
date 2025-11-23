@@ -21,16 +21,16 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
   
   // Calculate time remaining
   const timeRemaining = () => {
-    if (hasEnded) return 'Poll ended';
+    if (hasEnded) return t('community.poll.pollEnded');
     
     const now = new Date();
     const diff = endDate - now;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     
-    if (days > 0) return `${days} day${days > 1 ? 's' : ''} left`;
-    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} left`;
-    return 'Less than 1 hour left';
+    if (days > 0) return t('community.poll.daysLeft', { count: days });
+    if (hours > 0) return t('community.poll.hoursLeft', { count: hours });
+    return t('community.poll.lessThanHourLeft');
   };
 
   const handleVote = async (optionId) => {
