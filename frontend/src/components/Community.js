@@ -3823,7 +3823,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     disabled={!writePostContent.trim() || isUploadingMedia}
                     className="flex-1 sm:flex-none bg-[#00C2A8] hover:bg-[#00a890] text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isUploadingMedia ? 'Uploading...' : 'Post'}
+                    {isUploadingMedia ? 'Uploading...' : (isEditMode ? 'Update' : 'Post')}
                   </Button>
                 </div>
               </div>
