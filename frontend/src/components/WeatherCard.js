@@ -240,7 +240,7 @@ const WeatherCard = () => {
         <div className="flex items-center gap-2">
           <Gauge className="w-4 h-4" style={{ color: 'var(--c-brand-500)' }} />
           <div>
-            <p className="text-xs" style={{ color: 'var(--text-med)' }}>Pressure</p>
+            <p className="text-xs" style={{ color: 'var(--text-med)' }}>{t('weather.pressure')}</p>
             <p className="text-sm font-semibold" style={{ color: 'var(--text-hi)' }}>
               {current.pressure ? `${Math.round(current.pressure)} hPa` : 'N/A'}
             </p>
