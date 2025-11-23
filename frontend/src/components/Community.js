@@ -3872,7 +3872,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     <textarea
                       value={pollQuestion}
                       onChange={(e) => setPollQuestion(e.target.value)}
-                      placeholder="Ask a question..."
+                      placeholder={t('community.poll.question')}
                       className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[100px] resize-vertical"
                     />
                   </div>
@@ -3880,7 +3880,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   {/* Poll Options */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-white font-semibold text-sm">Poll Options</span>
+                      <span className="text-white font-semibold text-sm">{t('community.poll.options')}</span>
                       <span className="text-gray-400 text-xs">{pollOptions.length}/10</span>
                     </div>
                     
@@ -3893,7 +3893,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           type="text"
                           value={option}
                           onChange={(e) => handlePollOptionChange(index, e.target.value)}
-                          placeholder={`Option ${index + 1}`}
+                          placeholder={t('community.poll.option', { number: index + 1 })}
                           className="flex-1 bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                         />
                         {pollOptions.length > 2 && (
@@ -3913,7 +3913,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         className="w-full py-2 border-2 border-dashed border-gray-600 hover:border-[#00C2A8] rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors flex items-center justify-center space-x-2"
                       >
                         <PlusCircle className="w-5 h-5" />
-                        <span className="text-sm font-semibold">Add Option</span>
+                        <span className="text-sm font-semibold">{t('community.poll.addOption')}</span>
                       </button>
                     )}
                   </div>
