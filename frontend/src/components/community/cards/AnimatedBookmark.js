@@ -225,7 +225,7 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
           top: -4px;
           border-radius: 48px 48px 20.8px 0;
           rotate: 45deg;
-          background: linear-gradient(181deg, rgba(0, 0, 0, 0.25), transparent 90%);
+          background: linear-gradient(181deg, rgba(0, 0, 0, 0.15), transparent 90%);
           width: calc(var(--w) * 1.7);
           height: calc(var(--h) * 1.7);
           filter: blur(1.68px);
@@ -236,7 +236,7 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
           bottom: -6px;
           border-radius: 48px 48px 20.8px 0;
           rotate: 352deg;
-          background: linear-gradient(-135deg, rgba(0, 0, 0, 0.3), transparent 50%);
+          background: linear-gradient(-135deg, rgba(0, 0, 0, 0.2), transparent 50%);
           width: calc(var(--w) * 1.8);
           filter: blur(0.8px);
           height: calc(var(--h) * 0.35);
@@ -247,7 +247,7 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
           bottom: -5px;
           border-radius: 48px 48px 20.8px 0;
           rotate: 367deg;
-          background: linear-gradient(-135deg, rgba(0, 0, 0, 0.3), transparent 50%);
+          background: linear-gradient(-135deg, rgba(0, 0, 0, 0.2), transparent 50%);
           width: calc(var(--w) * 1.1);
           height: calc(var(--h) * 0.4);
           transform: scaleX(-1);
@@ -258,7 +258,7 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
           right: 0;
           bottom: 0px;
           border-radius: 48px 48px 33.6px 0;
-          background: radial-gradient(circle at 50% 100%, transparent 30%, #00000075);
+          background: radial-gradient(circle at 50% 100%, transparent 30%, rgba(0, 0, 0, 0.3));
           width: calc(var(--w) * 1.05);
           height: calc(var(--h) * 0.7);
           transform: scaleX(-1);
