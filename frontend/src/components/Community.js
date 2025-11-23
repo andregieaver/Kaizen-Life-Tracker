@@ -240,6 +240,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   // Write post modal state
   const [showWritePostModal, setShowWritePostModal] = useState(false);
   const [createModalTab, setCreateModalTab] = useState('post'); // 'post' or 'poll'
+  const [isEditMode, setIsEditMode] = useState(false); // Track if editing existing post
+  const [editingPostId, setEditingPostId] = useState(null); // ID of post being edited
   const [writePostContent, setWritePostContent] = useState('');
   const [writePostImage, setWritePostImage] = useState(null);
   const [writePostImagePreview, setWritePostImagePreview] = useState(null);
