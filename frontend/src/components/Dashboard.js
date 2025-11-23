@@ -1093,15 +1093,16 @@ const Dashboard = ({ athleteId }) => {
 
       {/* Mobile Header */}
       <header 
-        className="md:hidden shadow-lg fixed top-0 left-0 right-0 z-40"
+        className="md:hidden fixed top-0 left-0 right-0 z-40"
         style={{ 
-          backgroundColor: 'transparent',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
+          backgroundColor: 'rgba(11, 18, 32, 0.7)',
+          backdropFilter: 'blur(12px) saturate(120%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(120%)',
           transform: `translate3d(0, ${(1 - headerProgress) * -100}%, 0)`,
           opacity: 0.08 + headerProgress * 0.92,
           pointerEvents: headerProgress > 0.05 ? 'auto' : 'none',
           willChange: 'transform, opacity',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
           transition: 'background-color 400ms cubic-bezier(1, 0, 0.4, 1), box-shadow 400ms cubic-bezier(1, 0, 0.4, 1)'
         }}
       >
