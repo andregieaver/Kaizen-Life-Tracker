@@ -580,6 +580,26 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   }, [effectiveShowNotifications]);
 
+
+  // Load bookmarked post IDs on mount to show bookmark status on posts
+  useEffect(() => {
+    const loadBookmarkIds = async () => {
+      try {
+        const response = await axios.get(`${API}/bookmarks/${athleteId}?limit=100`);
+        if (response.data && response.data.posts) {
+          const bookmarkIds = new Set(response.data.posts.map(p => p.id));
+          setBookmarkedPostIds(bookmarkIds);
+        }
+      } catch (error) {
+        logger.error(null, 'Error loading bookmark IDs:', error);
+      }
+    };
+    if (athleteId) {
+      loadBookmarkIds();
+    }
+  }, [athleteId]);
+
+
   const loadPosts = async (forceReload = false) => {
     try {
       setIsLoading(true);
