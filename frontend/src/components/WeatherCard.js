@@ -117,7 +117,7 @@ const WeatherCard = () => {
         }}
       >
         <div className="flex items-center justify-center h-32">
-          <div className="animate-pulse text-gray-400">Loading weather...</div>
+          <div className="animate-pulse text-gray-400">{t('weather.loading')}</div>
         </div>
       </div>
     );
