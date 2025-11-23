@@ -2572,6 +2572,22 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           </button>
           <button
             onClick={() => {
+              setActiveTab('bookmarks');
+              setSelectedGroup(null);
+            }}
+            style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
+              activeTab === 'bookmarks'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
+            }`}
+            {...(activeTab === 'bookmarks' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
+            title={t('community.tabs.bookmarks')}
+          >
+            <Bookmark className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
+          </button>
+          <button
+            onClick={() => {
               setActiveTab('groups');
               setSelectedGroup(null);
             }}
