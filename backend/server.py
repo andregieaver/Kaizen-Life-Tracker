@@ -11266,6 +11266,31 @@ async def bookmark_post(athlete_id: str, post_id: str):
             return {"message": "Post already bookmarked", "bookmark_id": existing["id"]}
         
         await db.bookmarks.insert_one(bookmark)
+        
+        # Get post details to find the post author
+        post = await db.community_posts.find_one({"id": post_id})
+        
+        if post and post.get("athlete_id") != athlete_id:
+            # Only notify if someone else bookmarked the post (not the author)
+            # Get bookmarker's details
+            bookmarker = await db.accounts.find_one({"athlete_id": athlete_id})
+            
+            if bookmarker:
+                # Create notification for post author
+                notification = {
+                    "id": str(uuid.uuid4()),
+                    "athlete_id": post.get("athlete_id"),
+                    "type": "bookmark",
+                    "message": f"{bookmarker.get('name', 'Someone')} bookmarked your post",
+                    "from_athlete_id": athlete_id,
+                    "from_athlete_name": bookmarker.get('name', 'Unknown'),
+                    "post_id": post_id,
+                    "read": False,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                notification_for_mongo = prepare_for_mongo(notification.copy())
+                await db.community_notifications.insert_one(notification_for_mongo)
+        
         return {"message": "Post bookmarked successfully", "bookmark_id": bookmark["id"]}
     except Exception as e:
         logging.error(f"Error bookmarking post: {e}")
