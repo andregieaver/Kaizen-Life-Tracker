@@ -239,6 +239,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   
   // Write post modal state
   const [showWritePostModal, setShowWritePostModal] = useState(false);
+  const [createModalTab, setCreateModalTab] = useState('post'); // 'post' or 'poll'
   const [writePostContent, setWritePostContent] = useState('');
   const [writePostImage, setWritePostImage] = useState(null);
   const [writePostImagePreview, setWritePostImagePreview] = useState(null);
@@ -248,6 +249,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   const [youtubePreview, setYoutubePreview] = useState(null);
   const [urlPreview, setUrlPreview] = useState(null);
   const [fetchingPreview, setFetchingPreview] = useState(false);
+  
+  // Poll creation state
+  const [pollQuestion, setPollQuestion] = useState('');
+  const [pollOptions, setPollOptions] = useState(['', '']);
+  const [pollDuration, setPollDuration] = useState(7); // days
   
   // Share post modal state
   const [showShareModal, setShowShareModal] = useState(false);
