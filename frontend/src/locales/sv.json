@@ -2019,5 +2019,44 @@
       "message": "Du är redo att starta din träningsresa!",
       "cta": "Låt oss köra!"
     }
+  },
+  "weather": {
+    "title": "Aktuellt väder",
+    "temperature": "Temperatur",
+    "feelsLike": "Känns som",
+    "wind": "Vind",
+    "humidity": "Luftfuktighet",
+    "precipitation": "Nederbörd (1h)",
+    "pressure": "Tryck",
+    "refresh": "Uppdatera",
+    "loading": "Laddar väder...",
+    "errors": {
+      "permissionDenied": "Platstillstånd nekad",
+      "locationUnavailable": "Plats otillgänglig",
+      "timeout": "Timeout för platsbegäran",
+      "failedToGetLocation": "Kunde inte hämta din plats",
+      "notSupported": "Geolokalisering stöds inte av din webbläsare"
+    },
+    "tryAgain": "Försök igen",
+    "recommendations": {
+      "good": "Bra förhållanden för utomhusträning",
+      "caution": "Utmanande förhållanden",
+      "poor": "Inomhusträning rekommenderas",
+      "coldWeather": "Kallt väder - klä dig varmt",
+      "coolWeather": "Svalt väder - klä dig i lager",
+      "hotWeather": "Varmt väder - håll dig hydrerad",
+      "veryHot": "Mycket varmt - inomhusträning rekommenderas",
+      "highWinds": "Hård vind - utmanande förhållanden",
+      "moderateWinds": "Måttlig vind - justera tempot",
+      "heavyRain": "Kraftigt regn - inomhusträning rekommenderas",
+      "lightRain": "Regn förväntas - ta med lämplig utrustning",
+      "idealConditions": "Ideala förhållanden för utomhusaktiviteter",
+      "layerUp": "Klä dig i lager och värm upp gradvis",
+      "bringWater": "Ta med extra vatten och överväg träning tidigt på morgonen/kvällen",
+      "heatRisk": "Hög värmerisk - överväg inomhusalternativ",
+      "windWarning": "Stark vind kan påverka utomhusaktiviteter",
+      "rainfallExpected": "Betydande nederbörd förväntas",
+      "lightRainExpected": "Lätt regn förväntas"
+    }
   }
 }
