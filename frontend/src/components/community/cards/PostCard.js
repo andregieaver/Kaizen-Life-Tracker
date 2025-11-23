@@ -116,7 +116,10 @@ const PostCard = ({
             {(post.athlete_id === athleteId || isSuperAdmin) && (
               <>
                 <button
-                  onClick={() => onStartEditPost(post)}
+                  onClick={() => {
+                    console.log('Edit button clicked - Edit icon should be cyan #00FFFF');
+                    onStartEditPost(post);
+                  }}
                   className="p-2 hover:bg-gray-600 rounded-full transition-colors"
                 >
                   <Edit2 className="w-4 h-4 text-[#00FFFF]" />
