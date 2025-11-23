@@ -224,5 +224,44 @@
     "processing": "Processing...",
     "importedActivities": "Imported {{count}} activities",
     "importedSleepRecords": "Imported {{count}} sleep records"
+  },
+  "weather": {
+    "title": "Current Weather",
+    "temperature": "Temperature",
+    "feelsLike": "Feels like",
+    "wind": "Wind",
+    "humidity": "Humidity",
+    "precipitation": "Precipitation (1h)",
+    "pressure": "Pressure",
+    "refresh": "Refresh",
+    "loading": "Loading weather...",
+    "errors": {
+      "permissionDenied": "Location permission denied",
+      "locationUnavailable": "Location unavailable",
+      "timeout": "Location request timeout",
+      "failedToGetLocation": "Failed to get your location",
+      "notSupported": "Geolocation is not supported by your browser"
+    },
+    "tryAgain": "Try Again",
+    "recommendations": {
+      "good": "Good conditions for outdoor training",
+      "caution": "Challenging conditions",
+      "poor": "Indoor training recommended",
+      "coldWeather": "Cold conditions - dress warmly",
+      "coolWeather": "Cool weather - dress in layers",
+      "hotWeather": "Hot conditions - stay hydrated",
+      "veryHot": "Very hot - indoor training recommended",
+      "highWinds": "High winds - challenging conditions",
+      "moderateWinds": "Moderate winds - adjust pacing",
+      "heavyRain": "Heavy rain - indoor training recommended",
+      "lightRain": "Rain expected - bring appropriate gear",
+      "idealConditions": "Ideal conditions for outdoor activities",
+      "layerUp": "Layer up and warm up gradually",
+      "bringWater": "Bring extra water and consider early morning/evening training",
+      "heatRisk": "High heat risk - consider indoor alternatives",
+      "windWarning": "Strong winds may affect outdoor activities",
+      "rainfallExpected": "Significant rainfall expected",
+      "lightRainExpected": "Light rain forecasted"
+    }
   }
 }
