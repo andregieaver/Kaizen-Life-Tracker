@@ -49,18 +49,18 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
         .bookmark-inside {
           width: calc(var(--w) - var(--gi));
           height: calc(var(--h) - var(--gi));
-          background: #b5bbc8;
+          background: #1a2332;
           position: absolute;
           right: var(--gih);
           top: var(--gih);
           border-radius: 2px 2px 0 0;
           box-shadow:
             inset -0.8px 0.8px 2.4px var(--inner-shadow, transparent),
-            inset 0.4px 0 0.08px rgba(255, 255, 255, 0.3),
-            inset -0.4px 0.08px 0px rgba(255, 255, 255, 0.3),
-            inset 0.32px 0 0.04px rgba(0, 0, 0, 0.3),
-            inset -0.32px 0 0.04px rgba(0, 0, 0, 0.3),
-            inset 0px 0 0.8px rgba(0, 0, 0, 0.1);
+            inset 0 0 0 1px #00C2A8,
+            inset 0.4px 0 0.08px rgba(0, 194, 168, 0.3),
+            inset -0.4px 0.08px 0px rgba(0, 194, 168, 0.3),
+            inset 0.32px 0 0.04px rgba(0, 194, 168, 0.3),
+            inset -0.32px 0 0.04px rgba(0, 194, 168, 0.3);
           clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
           transition: all 0.3s ease;
         }
