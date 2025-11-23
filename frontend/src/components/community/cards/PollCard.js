@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { CheckCircle, Clock } from 'lucide-react';
+import { CheckCircle, Clock, RefreshCw } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
-const PollCard = ({ post, athleteId, onVote }) => {
+const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, onTranslatePost }) => {
+  const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState(null);
   const [hasVoted, setHasVoted] = useState(false);
 
