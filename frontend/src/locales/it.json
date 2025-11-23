@@ -3026,4 +3026,44 @@
       "cta": "Let's Go!"
     }
   }
+},
+  "weather": {
+    "title": "Meteo attuale",
+    "temperature": "Temperatura",
+    "feelsLike": "Percepito",
+    "wind": "Vento",
+    "humidity": "Umidità",
+    "precipitation": "Precipitazioni (1h)",
+    "pressure": "Pressione",
+    "refresh": "Aggiorna",
+    "loading": "Caricamento meteo...",
+    "errors": {
+      "permissionDenied": "Permesso di localizzazione negato",
+      "locationUnavailable": "Posizione non disponibile",
+      "timeout": "Timeout richiesta localizzazione",
+      "failedToGetLocation": "Impossibile ottenere la tua posizione",
+      "notSupported": "La geolocalizzazione non è supportata dal tuo browser"
+    },
+    "tryAgain": "Riprova",
+    "recommendations": {
+      "good": "Buone condizioni per l'allenamento all'aperto",
+      "caution": "Condizioni impegnative",
+      "poor": "Allenamento al chiuso consigliato",
+      "coldWeather": "Tempo freddo - vestiti pesante",
+      "coolWeather": "Tempo fresco - vestiti a strati",
+      "hotWeather": "Tempo caldo - rimani idratato",
+      "veryHot": "Molto caldo - allenamento al chiuso consigliato",
+      "highWinds": "Vento forte - condizioni impegnative",
+      "moderateWinds": "Vento moderato - regola il ritmo",
+      "heavyRain": "Pioggia intensa - allenamento al chiuso consigliato",
+      "lightRain": "Pioggia prevista - porta attrezzatura adeguata",
+      "idealConditions": "Condizioni ideali per attività all'aperto",
+      "layerUp": "Vestiti a strati e riscaldati gradualmente",
+      "bringWater": "Porta acqua extra e considera l'allenamento al mattino presto/sera",
+      "heatRisk": "Alto rischio di calore - considera alternative al chiuso",
+      "windWarning": "Il vento forte può influenzare le attività all'aperto",
+      "rainfallExpected": "Precipitazioni significative previste",
+      "lightRainExpected": "Pioggia leggera prevista"
+    }
+  }
 }
