@@ -66,7 +66,11 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
         {/* Translation Button */}
         {onTranslatePost && (
           <button
-            onClick={() => onTranslatePost(post.id, question)}
+            onClick={() => {
+              // Create combined text for translation: question + all options
+              const fullPollText = `${question}\n${options.map((opt, i) => `${i + 1}. ${opt.text}`).join('\n')}`;
+              onTranslatePost(post.id, fullPollText, options);
+            }}
             disabled={translatingPosts?.[post.id]}
             className="text-[#00FFFF] hover:text-[#00d4d4] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 mt-2"
           >
