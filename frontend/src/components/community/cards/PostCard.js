@@ -136,9 +136,10 @@ const PostCard = ({
 
       {/* Post Content */}
       <div className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
-        {/* Post Content with Show More/Less */}
-        <div className="mb-4">
-          <p 
+        {/* Post Content with Show More/Less (hide for polls) */}
+        {post.type !== 'poll' && (
+          <div className="mb-4">
+            <p 
                 className={`text-white whitespace-pre-wrap pt-3 ${
                   !expandedPosts[post.id] ? 'line-clamp-2' : ''
                 }`}
