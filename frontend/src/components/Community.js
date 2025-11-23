@@ -1289,7 +1289,28 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         url_preview: urlPreview
       };
 
-      const response = await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, postData);
+      if (isEditMode && editingPostId) {
+        // Update existing post
+        const response = await axios.put(`${API}/community/posts/${editingPostId}?athlete_id=${athleteId}`, postData);
+        
+        // Update posts in state
+        const updatePost = (post) => post.id === editingPostId ? { ...post, ...response.data } : post;
+        setPosts(posts.map(updatePost));
+        setFollowingPosts(followingPosts.map(updatePost));
+        setBookmarkedPosts(bookmarkedPosts.map(updatePost));
+      } else {
+        // Create new post
+        const response = await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, postData);
+        
+        // Reload appropriate feed
+        if (activeTab === 'feed') {
+          setPostsLoaded(false);
+          loadPosts();
+        } else if (activeTab === 'following') {
+          setFollowingPostsLoaded(false);
+          loadFollowingPosts();
+        }
+      }
       
       // Clear modal state
       setWritePostContent('');
@@ -1297,23 +1318,16 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setWritePostImagePreview(null);
       setWritePostVisibility('public');
       setShowWritePostModal(false);
+      setIsEditMode(false);
+      setEditingPostId(null);
       // Clear media state
       setSelectedMedia([]);
       // Clear preview states
       setYoutubePreview(null);
       setUrlPreview(null);
-      
-      // Reload appropriate feed
-      if (activeTab === 'feed') {
-        setPostsLoaded(false);
-        loadPosts();
-      } else if (activeTab === 'following') {
-        setFollowingPostsLoaded(false);
-        loadFollowingPosts();
-      }
     } catch (error) {
-      logger.error(null, 'Error creating post:', error);
-      alert(`Failed to create post: ${error.response?.data?.detail || error.message}`);
+      logger.error(null, isEditMode ? 'Error updating post:' : 'Error creating post:', error);
+      alert(`Failed to ${isEditMode ? 'update' : 'create'} post: ${error.response?.data?.detail || error.message}`);
     }
   };
 
