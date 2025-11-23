@@ -11624,6 +11624,7 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
             "athlete_name": athlete.get("name", "Unknown"),
             "athlete_profile_picture": athlete.get("profile_picture"),
             "content": content,
+            "type": post_data.get("type", "post"),  # 'post' or 'poll'
             "image_urls": post_data.get("image_urls", []),  # Array of image URLs (backward compatibility)
             "media": post_data.get("media", []),  # Array of media items [{type, url, thumbnail}]
             "visibility": post_data.get("visibility", "public"),  # Default to public
@@ -11636,6 +11637,26 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
             "youtube_data": post_data.get("youtube_data"),  # YouTube video metadata
             "url_preview": post_data.get("url_preview")  # Website URL preview metadata
         }
+        
+        # If it's a poll, add poll-specific data
+        if post_data.get("type") == "poll" and post_data.get("poll_data"):
+            poll_data = post_data.get("poll_data")
+            end_date = datetime.now(timezone.utc) + timedelta(days=poll_data.get("duration_days", 7))
+            post["poll_data"] = {
+                "question": poll_data.get("question"),
+                "options": [
+                    {
+                        "id": str(uuid.uuid4()),
+                        "text": option,
+                        "votes": 0,
+                        "voters": []
+                    }
+                    for option in poll_data.get("options", [])
+                ],
+                "total_votes": 0,
+                "end_date": end_date.isoformat(),
+                "is_active": True
+            }
         
         # Prepare for MongoDB and insert
         post_for_mongo = prepare_for_mongo(post.copy())
