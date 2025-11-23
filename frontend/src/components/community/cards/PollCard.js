@@ -67,11 +67,13 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
         {onTranslatePost && (
           <button
             onClick={() => {
+              console.log('Poll translation button clicked');
               // Pass question and options separately
               onTranslatePost(post.id, question, options);
             }}
             disabled={translatingPosts?.[post.id]}
-            className="text-[#00FFFF] hover:text-[#00d4d4] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 mt-2"
+            className="text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 mt-2 hover:opacity-80 transition-opacity"
+            style={{ color: '#00FFFF' }}
           >
             {translatingPosts?.[post.id] ? (
               <>
