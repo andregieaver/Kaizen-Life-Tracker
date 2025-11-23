@@ -11,6 +11,11 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
 
   const { question, options, total_votes, end_date, is_active } = post.poll_data;
   
+  // Get translated options if available
+  const translatedData = translatedPosts?.[post.id];
+  const isTranslated = translatedData?.isTranslated;
+  const translatedOptions = translatedData?.translated_options || {};
+  
   // Check if user has already voted
   const userVote = options.find(opt => opt.voters && opt.voters.includes(athleteId));
   const userHasVoted = !!userVote || hasVoted;
