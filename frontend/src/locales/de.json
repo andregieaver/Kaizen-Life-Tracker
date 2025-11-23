@@ -136,6 +136,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
+    }
   }
 }
   },
@@ -299,6 +338,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
     }
   }
 }
@@ -692,6 +770,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
+    }
   }
 }
   },
@@ -1050,6 +1167,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
+    }
   }
 }
     },
@@ -1131,6 +1287,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
     }
   }
 }
@@ -1230,6 +1425,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
     }
   }
 }
@@ -1738,6 +1972,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
+    }
   }
 }
   },
@@ -1806,6 +2079,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
     }
   }
 }
@@ -1899,6 +2211,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
     }
   }
 }
@@ -2076,6 +2427,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
+    }
   }
 }
     ,
@@ -2125,6 +2515,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
     }
   }
 }
@@ -2424,6 +2853,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
+    }
   }
 }
   },
@@ -2607,6 +3075,45 @@
       "message": "You're all set!",
       "cta": "Let's Go!"
     }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
+    }
   }
 }
 ,
@@ -2656,6 +3163,45 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
+    }
+  },
+  "weather": {
+    "title": "Aktuelles Wetter",
+    "temperature": "Temperatur",
+    "feelsLike": "Fühlt sich an wie",
+    "wind": "Wind",
+    "humidity": "Luftfeuchtigkeit",
+    "precipitation": "Niederschlag (1h)",
+    "pressure": "Druck",
+    "refresh": "Aktualisieren",
+    "loading": "Lade Wetter...",
+    "errors": {
+      "permissionDenied": "Standortberechtigung verweigert",
+      "locationUnavailable": "Standort nicht verfügbar",
+      "timeout": "Standortanfrage-Timeout",
+      "failedToGetLocation": "Standort konnte nicht abgerufen werden",
+      "notSupported": "Geolokalisierung wird von Ihrem Browser nicht unterstützt"
+    },
+    "tryAgain": "Erneut versuchen",
+    "recommendations": {
+      "good": "Gute Bedingungen für Outdoor-Training",
+      "caution": "Herausfordernde Bedingungen",
+      "poor": "Indoor-Training empfohlen",
+      "coldWeather": "Kaltes Wetter - warm anziehen",
+      "coolWeather": "Kühles Wetter - in Schichten kleiden",
+      "hotWeather": "Heißes Wetter - hydratisiert bleiben",
+      "veryHot": "Sehr heiß - Indoor-Training empfohlen",
+      "highWinds": "Starker Wind - herausfordernde Bedingungen",
+      "moderateWinds": "Mäßiger Wind - Tempo anpassen",
+      "heavyRain": "Starker Regen - Indoor-Training empfohlen",
+      "lightRain": "Regen erwartet - passende Ausrüstung mitbringen",
+      "idealConditions": "Ideale Bedingungen für Outdoor-Aktivitäten",
+      "layerUp": "In Schichten anziehen und allmählich aufwärmen",
+      "bringWater": "Zusätzliches Wasser mitbringen und frühes Morgen-/Abendtraining in Betracht ziehen",
+      "heatRisk": "Hohes Hitzerisiko - Indoor-Alternativen in Betracht ziehen",
+      "windWarning": "Starker Wind kann Outdoor-Aktivitäten beeinträchtigen",
+      "rainfallExpected": "Erheblicher Niederschlag erwartet",
+      "lightRainExpected": "Leichter Regen erwartet"
     }
   }
 }
