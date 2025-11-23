@@ -230,7 +230,7 @@ const WeatherCard = () => {
         <div className="flex items-center gap-2">
           <CloudRain className="w-4 h-4" style={{ color: 'var(--c-brand-500)' }} />
           <div>
-            <p className="text-xs" style={{ color: 'var(--text-med)' }}>Precipitation (1h)</p>
+            <p className="text-xs" style={{ color: 'var(--text-med)' }}>{t('weather.precipitation')}</p>
             <p className="text-sm font-semibold" style={{ color: 'var(--text-hi)' }}>
               {forecast?.next_1h?.precipitation ? `${forecast.next_1h.precipitation} mm` : '0 mm'}
             </p>
