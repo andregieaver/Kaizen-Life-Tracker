@@ -3480,11 +3480,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             {/* Header */}
             <div className="p-4 pb-0" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Create</h3>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+                  {isEditMode ? 'Edit Post' : 'Create'}
+                </h3>
                 <button
                   onClick={() => {
                     setShowWritePostModal(false);
                     setCreateModalTab('post');
+                    setIsEditMode(false);
+                    setEditingPostId(null);
                   }}
                   className="text-gray-400 hover:text-white transition-colors"
                 >
