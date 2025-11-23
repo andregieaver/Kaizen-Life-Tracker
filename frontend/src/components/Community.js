@@ -585,7 +585,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   useEffect(() => {
     const loadBookmarkIds = async () => {
       try {
-        const response = await axios.get(`${API}/bookmarks/${athleteId}?limit=100`);
+        const response = await axios.get(`${API}/api/bookmarks/${athleteId}?limit=100`);
         if (response.data && response.data.posts) {
           const bookmarkIds = new Set(response.data.posts.map(p => p.id));
           setBookmarkedPostIds(bookmarkIds);
