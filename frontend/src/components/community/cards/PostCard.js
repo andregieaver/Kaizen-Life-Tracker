@@ -341,6 +341,17 @@ const PostCard = ({
               </div>
             </div>
             
+            {/* Poll Display */}
+            {post.type === 'poll' && post.poll_data && (
+              <div className="px-4 pb-3">
+                <PollCard 
+                  post={post} 
+                  athleteId={athleteId}
+                  onVote={onVotePoll}
+                />
+              </div>
+            )}
+            
             {/* Display media (images and videos) */}
             {(() => {
               logger.debug(null, '🔍 Post media check:', {
