@@ -55,15 +55,9 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
           top: var(--gih);
           border-radius: 2px 2px 0 0;
           box-shadow:
-            inset -0.8px 0.8px 2.4px var(--inner-shadow, transparent),
-            inset 1px 0 0 0 #00C2A8,
-            inset -1px 0 0 0 #00C2A8,
-            inset 0 1px 0 0 #00C2A8,
-            inset 0 -1px 0 0 #00C2A8,
-            inset 1px 1px 0 0 #00C2A8,
-            inset -1px 1px 0 0 #00C2A8,
-            inset 1px -1px 0 0 #00C2A8,
-            inset -1px -1px 0 0 #00C2A8;
+            inset 0 0 4px rgba(0, 194, 168, 0.4),
+            inset 0 1px 2px rgba(0, 194, 168, 0.3),
+            inset -0.8px 0.8px 2.4px var(--inner-shadow, transparent);
           clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
           transition: all 0.3s ease;
         }
