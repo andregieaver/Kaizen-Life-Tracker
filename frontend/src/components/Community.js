@@ -2024,14 +2024,41 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
       console.log('Translation response:', response.data);
 
-      setTranslatedPosts(prev => ({
-        ...prev,
-        [postId]: {
-          original_text: originalContent,
-          translated_text: response.data.translated_text,
-          isTranslated: true
-        }
-      }));
+      // Parse poll options if this is a poll translation
+      let translatedOptions = {};
+      if (pollOptions && response.data.translated_text) {
+        const translatedLines = response.data.translated_text.split('\n');
+        const translatedQuestion = translatedLines[0];
+        
+        // Map translated options to their IDs
+        pollOptions.forEach((option, index) => {
+          const translatedLine = translatedLines[index + 1]; // +1 to skip question line
+          if (translatedLine) {
+            // Remove the numbering (e.g., "1. " from "1. Translated option")
+            const translatedText = translatedLine.replace(/^\d+\.\s*/, '');
+            translatedOptions[option.id] = translatedText;
+          }
+        });
+        
+        setTranslatedPosts(prev => ({
+          ...prev,
+          [postId]: {
+            original_text: originalContent,
+            translated_text: translatedQuestion,
+            translated_options: translatedOptions,
+            isTranslated: true
+          }
+        }));
+      } else {
+        setTranslatedPosts(prev => ({
+          ...prev,
+          [postId]: {
+            original_text: originalContent,
+            translated_text: response.data.translated_text,
+            isTranslated: true
+          }
+        }));
+      }
       
       console.log('Translation successful');
     } catch (error) {
