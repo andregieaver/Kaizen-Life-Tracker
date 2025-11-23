@@ -616,7 +616,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       logger.debug(null, 'First post comments_count:', response.data.posts?.[0]?.comments_count);
       
       if (response.data && response.data.posts) {
-        setPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
+        setPosts(response.data.posts.map(p => ({ ...p, type: p.type || 'post' })));
       } else {
         logger.error(null, 'No posts in response:', response.data);
         setPosts([]);
