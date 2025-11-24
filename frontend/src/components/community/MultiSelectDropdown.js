@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, X, Check } from 'lucide-react';
+import { createPortal } from 'react-dom';
 
 const MultiSelectDropdown = ({ 
   value = [], 
@@ -11,12 +12,27 @@ const MultiSelectDropdown = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  // Update dropdown position when opened
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width
+      });
+    }
+  }, [isOpen]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target) &&
+          buttonRef.current && !buttonRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
@@ -47,9 +63,70 @@ const MultiSelectDropdown = ({
       .map(opt => opt.label);
   };
 
+  const dropdownContent = isOpen ? (
+    <div 
+      ref={dropdownRef}
+      style={{
+        position: 'fixed',
+        top: `${dropdownPosition.top}px`,
+        left: `${dropdownPosition.left}px`,
+        width: `${dropdownPosition.width}px`,
+        zIndex: 9999,
+        marginTop: '8px'
+      }}
+      className="rounded-lg shadow-xl overflow-hidden"
+    >
+      <div
+        style={{
+          background: 'rgba(17, 24, 39, 0.95)',
+          border: '1px solid rgba(71, 85, 105, 0.3)',
+          backdropFilter: 'blur(10px)'
+        }}
+      >
+        <div className="p-2">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder={searchPlaceholder}
+            className="w-full px-3 py-2 text-sm text-white rounded focus:ring-2 focus:ring-[#32D3FF] focus:outline-none"
+            style={{
+              background: 'rgba(31, 41, 55, 0.5)',
+              border: '1px solid rgba(71, 85, 105, 0.3)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+
+        <div className="max-h-60 overflow-y-auto custom-scrollbar">
+          {filteredOptions.length === 0 ? (
+            <div className="px-4 py-3 text-sm text-gray-400 text-center">
+              {emptyText}
+            </div>
+          ) : (
+            filteredOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => handleToggle(option.value)}
+                className="w-full px-4 py-2.5 text-left text-sm text-white hover:bg-gray-700/50 transition-colors flex items-center justify-between"
+              >
+                <span>{option.label}</span>
+                {value.includes(option.value) && (
+                  <Check className="w-4 h-4 text-[#32D3FF]" />
+                )}
+              </button>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  ) : null;
+
   return (
-    <div className="relative w-full" ref={dropdownRef}>
+    <div className="relative w-full">
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-4 py-3 text-left text-white rounded-lg focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent transition-all flex items-center justify-between"
@@ -94,53 +171,7 @@ const MultiSelectDropdown = ({
         />
       </button>
 
-      {isOpen && (
-        <div 
-          className="absolute z-50 w-full mt-2 rounded-lg shadow-xl overflow-hidden"
-          style={{
-            background: 'rgba(17, 24, 39, 0.95)',
-            border: '1px solid rgba(71, 85, 105, 0.3)',
-            backdropFilter: 'blur(10px)'
-          }}
-        >
-          <div className="p-2">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder={searchPlaceholder}
-              className="w-full px-3 py-2 text-sm text-white rounded focus:ring-2 focus:ring-[#32D3FF] focus:outline-none"
-              style={{
-                background: 'rgba(31, 41, 55, 0.5)',
-                border: '1px solid rgba(71, 85, 105, 0.3)'
-              }}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
-
-          <div className="max-h-60 overflow-y-auto custom-scrollbar">
-            {filteredOptions.length === 0 ? (
-              <div className="px-4 py-3 text-sm text-gray-400 text-center">
-                {emptyText}
-              </div>
-            ) : (
-              filteredOptions.map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => handleToggle(option.value)}
-                  className="w-full px-4 py-2.5 text-left text-sm text-white hover:bg-gray-700/50 transition-colors flex items-center justify-between"
-                >
-                  <span>{option.label}</span>
-                  {value.includes(option.value) && (
-                    <Check className="w-4 h-4 text-[#32D3FF]" />
-                  )}
-                </button>
-              ))
-            )}
-          </div>
-        </div>
-      )}
+      {typeof document !== 'undefined' && createPortal(dropdownContent, document.body)}
     </div>
   );
 };
