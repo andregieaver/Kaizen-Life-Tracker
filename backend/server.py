@@ -10161,27 +10161,29 @@ async def get_body_score_data(athlete_id: str, response: Response):
             result['connected_integrations'].append('oura')
             
             # Get latest Oura sleep data (for sleep score and RHR)
-            # Filter for sleep activities only (they have lowest_heart_rate)
-            # Try multiple approaches to find sleep data - support both athlete_id and user_id
+            # Look for Sleep type activities with complete data first
             latest_sleep = await db.oura_activities.find_one(
                 {
                     "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
-                    "raw_data.type": {"$exists": True}  # Sleep activities have type field
+                    "type": "Sleep",
+                    "$or": [
+                        {"lowest_heart_rate": {"$ne": None}},
+                        {"score": {"$ne": None}}
+                    ]
                 },
-                {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1, "lowest_heart_rate": 1, "average_hrv": 1},
-                sort=[("start_date", -1)]
+                {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1, "lowest_heart_rate": 1, "average_hrv": 1, "date": 1, "type": 1},
+                sort=[("date", -1)]
             )
             
-            # Fallback: If no sleep activity found, try finding any activity with score and lowest_heart_rate
-            if not latest_sleep or not latest_sleep.get('score'):
+            # If still no sleep found, just get the latest Sleep activity regardless of data completeness
+            if not latest_sleep:
                 latest_sleep = await db.oura_activities.find_one(
                     {
                         "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
-                        "score": {"$exists": True, "$ne": None},
-                        "raw_data.lowest_heart_rate": {"$exists": True, "$ne": None}
+                        "type": "Sleep"
                     },
-                    {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1, "lowest_heart_rate": 1, "average_hrv": 1},
-                    sort=[("start_date", -1)]
+                    {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1, "lowest_heart_rate": 1, "average_hrv": 1, "date": 1, "type": 1},
+                    sort=[("date", -1)]
                 )
             
             if latest_sleep:
