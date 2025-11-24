@@ -2028,7 +2028,7 @@ const Account = ({ athleteId }) => {
               <span className="text-lg font-bold">?</span>
             </Button>
           </div>
-          {athlete?.is_super_admin && (
+          {(athlete?.is_super_admin || athlete?.role === 'super_admin') && (
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap w-full justify-between sm:justify-start">
               <Button
                 onClick={() => navigate('/dashboard/pages')}
