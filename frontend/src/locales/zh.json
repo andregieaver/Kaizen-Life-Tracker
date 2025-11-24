@@ -2048,8 +2048,17 @@
       "monthlyRecurringRevenue": "月度经常性收入",
       "annualRecurringRevenue": "年度经常性收入",
       "averageRevenuePerUser": "每用户平均收入",
-      "averageRevenuePerPaidUser": "每付费用户平均收入"
-    ,
+      "averageRevenuePerPaidUser": "每付费用户平均收入",
+      "totalSubscribers": "总订阅者数",
+      "active": "活跃",
+      "trial": "试用",
+      "cancelled": "已取消",
+      "comparedToPrevious": "与上一时期相比",
+      "subscriberGrowth": "订阅者增长",
+      "loading": "加载中...",
+      "noData": "无可用数据"
+    }
+  },
   "onboarding": {
     "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
