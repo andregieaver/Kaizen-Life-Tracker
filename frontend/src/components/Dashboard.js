@@ -873,7 +873,7 @@ const Dashboard = ({ athleteId }) => {
               <div className="flex items-center mr-8 cursor-pointer hover:opacity-90 transition-opacity relative" onClick={() => navigate('/dashboard')}>
                 {logoUrl && (
                   <img 
-                    src={`${BACKEND_URL}${logoUrl}`} 
+                    src={logoUrl} 
                     alt={siteTitle}
                     className="w-8 h-8 object-contain mr-2"
                   />
