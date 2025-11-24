@@ -3574,7 +3574,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     onClick={() => setCreateModalTab('poll')}
                     className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors rounded-t-lg ${
                       createModalTab === 'poll'
-                        ? 'bg-gray-700 text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                        ? 'bg-gray-700 text-[#32D3FF] border-b-2 border-[#32D3FF]'
                         : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
                     }`}
                   >
