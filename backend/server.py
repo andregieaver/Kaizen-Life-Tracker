@@ -8959,7 +8959,8 @@ async def get_oura_activities(athlete_id: str, limit: int = 30, response: Respon
         # Fetch recent activities from oura_activities collection
         # Support both athlete_id and user_id for backwards compatibility
         activities = await db.oura_activities.find(
-            {"$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]}
+            {"$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]},
+            {"_id": 0}  # Exclude MongoDB _id to avoid ObjectId serialization issues
         ).sort("date", -1).limit(limit).to_list(length=limit)
         
         logging.info(f"Fetching Oura activities for athlete_id: {athlete_id}, found {len(activities)} activities")
