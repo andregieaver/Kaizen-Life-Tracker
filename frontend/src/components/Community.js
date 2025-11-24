@@ -3862,7 +3862,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   
                   {/* Show media count */}
                   {selectedMedia.length > 0 && (
-                    <span className="text-sm text-white bg-[#00C2A8] px-2 py-1 rounded-full">
+                    <span className="text-sm text-white bg-[#32D3FF] px-2 py-1 rounded-full">
                       {selectedMedia.length}/5
                     </span>
                   )}
