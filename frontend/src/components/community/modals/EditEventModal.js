@@ -85,7 +85,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
               type="text"
               value={eventData.name}
               onChange={(e) => setEventData({ ...eventData, name: e.target.value })}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
             />
           </div>
           
@@ -94,7 +94,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
             <textarea
               value={eventData.description}
               onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none resize-none"
               rows="3"
             />
           </div>
@@ -106,7 +106,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
                 type="date"
                 value={eventData.event_date}
                 onChange={(e) => setEventData({ ...eventData, event_date: e.target.value })}
-                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
               />
             </div>
             <div>
@@ -115,7 +115,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
                 type="time"
                 value={eventData.event_time}
                 onChange={(e) => setEventData({ ...eventData, event_time: e.target.value })}
-                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
               />
             </div>
           </div>
@@ -126,7 +126,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
               type="text"
               value={eventData.location}
               onChange={(e) => setEventData({ ...eventData, location: e.target.value })}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
             />
           </div>
           
@@ -135,7 +135,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
             <select
               value={eventData.visibility}
               onChange={(e) => setEventData({ ...eventData, visibility: e.target.value })}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
             >
               <option value="open">Open</option>
               <option value="private">Private</option>
@@ -147,7 +147,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
             <select
               value={eventData.group_id || ''}
               onChange={(e) => setEventData({ ...eventData, group_id: e.target.value || null })}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
             >
               <option value="">No group</option>
               {myGroups.map(group => (
@@ -158,7 +158,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
         </div>
         
         <div className="flex space-x-3 mt-6">
-          <Button onClick={onSave} className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white">
+          <Button onClick={onSave} className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white">
             {t('common.saveChanges')}
           </Button>
           <Button onClick={onClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white">
