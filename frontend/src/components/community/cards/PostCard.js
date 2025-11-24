@@ -452,7 +452,7 @@ const PostCard = ({
               </div>
               <Button
                 onClick={() => onAddComment(post.id)}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
               >
                 <Send className="w-4 h-4" />
               </Button>
