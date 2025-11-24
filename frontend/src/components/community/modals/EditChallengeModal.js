@@ -27,7 +27,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold text-white flex items-center">
-              <Edit2 className="w-6 h-6 mr-2 text-[#00C2A8]" />
+              <Edit2 className="w-6 h-6 mr-2 text-[#32D3FF]" />
               Edit Challenge
             </h2>
             <button onClick={onClose} className="text-gray-400 hover:text-white">
@@ -98,7 +98,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleImageUpload(e, 'cover_photo')}
-                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#00C2A8] file:text-white hover:file:bg-[#00a890]"
+                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#32D3FF] file:text-white hover:file:bg-[#2ab8e6]"
                 />
                 {challengeData.cover_photo && (
                   <img src={challengeData.cover_photo} alt="Cover preview" className="mt-2 w-full h-32 object-cover rounded-lg" />
@@ -128,7 +128,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
               </button>
               <button
                 onClick={onSave}
-                className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+                className="px-6 py-2 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white rounded-lg transition-colors"
               >
                 <Trophy className="w-4 h-4 inline mr-2" />
                 Save Changes
