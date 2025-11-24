@@ -741,8 +741,8 @@ const TestsAnalytics = ({ athleteId }) => {
                             backgroundColor: (context) => {
                               const ctx = context.chart.ctx;
                               const gradient = ctx.createLinearGradient(0, 0, 0, 350);
-                              gradient.addColorStop(0, 'rgba(0, 194, 168, 0.4)');
-                              gradient.addColorStop(1, 'rgba(0, 194, 168, 0)');
+                              gradient.addColorStop(0, 'rgba(50, 211, 255, 0.4)');
+                              gradient.addColorStop(1, 'rgba(50, 211, 255, 0)');
                               return gradient;
                             },
                             borderWidth: 3,

@@ -853,7 +853,7 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
               value={adjustedServings}
               onChange={(e) => setAdjustedServings(parseInt(e.target.value))}
               className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-              style={{ backgroundColor: 'rgba(0, 194, 168, 0.3)' }}
+              style={{ backgroundColor: 'rgba(50, 211, 255, 0.3)' }}
             />
           </div>
 

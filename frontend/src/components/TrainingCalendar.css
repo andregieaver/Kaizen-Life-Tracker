@@ -158,18 +158,18 @@
 
 /* Selection styles */
 .rbc-slot-selecting {
-  background-color: rgba(0, 194, 168, 0.1);
+  background-color: rgba(50, 211, 255, 0.1);
   border: 1px dashed #32D3FF;
 }
 
 .rbc-slot-selection {
-  background-color: rgba(0, 194, 168, 0.2);
+  background-color: rgba(50, 211, 255, 0.2);
   border: 2px solid #32D3FF;
 }
 
 /* Today highlighting */
 .rbc-today {
-  background-color: rgba(0, 194, 168, 0.1);
+  background-color: rgba(50, 211, 255, 0.1);
 }
 
 /* Mobile responsive adjustments */
