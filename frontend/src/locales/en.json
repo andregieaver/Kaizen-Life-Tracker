@@ -1776,7 +1776,15 @@
       "monthlyRecurringRevenue": "Monthly Recurring Revenue",
       "annualRecurringRevenue": "Annual Recurring Revenue",
       "averageRevenuePerUser": "Average Revenue Per User",
-      "averageRevenuePerPaidUser": "Average Revenue Per Paid User"
+      "averageRevenuePerPaidUser": "Average Revenue Per Paid User",
+      "totalSubscribers": "Total Subscribers",
+      "active": "Active",
+      "trial": "Trial",
+      "cancelled": "Cancelled",
+      "comparedToPrevious": "Compared to previous period",
+      "subscriberGrowth": "Subscriber Growth",
+      "loading": "Loading...",
+      "noData": "No data available"
     }
   },
   "merits": {
