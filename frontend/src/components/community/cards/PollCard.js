@@ -73,7 +73,7 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
             }}
             disabled={translatingPosts?.[post.id]}
             className="text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 mt-2 hover:opacity-80 transition-opacity"
-            style={{ color: '#00FFFF' }}
+            style={{ color: '#32D3FF' }}
           >
             {translatingPosts?.[post.id] ? (
               <>
