@@ -157,7 +157,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
           </div>
         </div>
         
-        <div className="flex space-x-3 mt-6">
+        <div className="flex space-x-3 mt-6 pb-20 md:pb-0">
           <Button onClick={onSave} className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white">
             {t('common.saveChanges')}
           </Button>
