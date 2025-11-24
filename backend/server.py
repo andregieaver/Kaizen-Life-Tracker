@@ -10168,10 +10168,12 @@ async def get_body_score_data(athlete_id: str):
             # Get last 7 activities with HRV data (check both raw_data and top-level)
             recent_activities = await db.oura_activities.find(
                 {
-                    "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
-                    "$or": [
-                        {"raw_data.average_hrv": {"$exists": True, "$ne": None}},
-                        {"average_hrv": {"$exists": True, "$ne": None}}
+                    "$and": [
+                        {"$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]},
+                        {"$or": [
+                            {"raw_data.average_hrv": {"$exists": True, "$ne": None}},
+                            {"average_hrv": {"$exists": True, "$ne": None}}
+                        ]}
                     ]
                 },
                 {"_id": 0, "raw_data.average_hrv": 1, "average_hrv": 1, "raw_data.day": 1}
@@ -10189,10 +10191,12 @@ async def get_body_score_data(athlete_id: str):
             # Get all activities with HRV for baseline calculation
             all_activities = await db.oura_activities.find(
                 {
-                    "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
-                    "$or": [
-                        {"raw_data.average_hrv": {"$exists": True, "$ne": None}},
-                        {"average_hrv": {"$exists": True, "$ne": None}}
+                    "$and": [
+                        {"$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]},
+                        {"$or": [
+                            {"raw_data.average_hrv": {"$exists": True, "$ne": None}},
+                            {"average_hrv": {"$exists": True, "$ne": None}}
+                        ]}
                     ]
                 },
                 {"_id": 0, "raw_data.average_hrv": 1, "average_hrv": 1}
