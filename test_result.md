@@ -3064,3 +3064,16 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: "PENDING TASKS COMPLETED - Both weather recommendations i18n and bookmarks translations are now complete. Weather recommendations were already correctly implemented with matching translation keys between backend and frontend. Bookmarks translation key has been added to all 8 remaining language files (da, de, es, fr, it, ja, sv, zh) with culturally appropriate translations. All locale files now have the bookmarks key in community.tabs section. Frontend hot-reload will apply changes automatically. No testing agent needed as these are translation additions only."
+
+frontend:
+  - task: "Logo Image Source Fix for Custom Domain"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "LOGO IMAGE BROKEN ON PRODUCTION CUSTOM DOMAIN - Fixed hardcoded backend URL issue. PROBLEM IDENTIFIED: Logo image was not displaying on production (kaizenlifetracker.com) because it was using hardcoded BACKEND_URL from .env file (https://fitpoll-dash.preview.emergentagent.com). When frontend rendered logo with src={`${BACKEND_URL}${logoUrl}`}, it tried to load from preview domain instead of production domain, causing broken image. ROOT CAUSE: Dashboard.js lines 876 and 1125 were using ${BACKEND_URL}${logoUrl} which hardcodes the preview domain. Since logoUrl already contains the full path with /api/ prefix (e.g., /api/uploaded_images/seo/logo_xxx.png), it should be used as a relative path. FIX IMPLEMENTED: 1) Line 876: Changed src={`${BACKEND_URL}${logoUrl}`} to src={logoUrl}, 2) Line 1125: Changed src={`${BACKEND_URL}${logoUrl}`} to src={logoUrl}. RESULT: Logo now uses relative path, automatically resolving to current domain. Works on both preview (fitpoll-dash.preview.emergentagent.com) and production (kaizenlifetracker.com) domains without hardcoding. Frontend hot-reload applied changes. Logo will display correctly on production after deployment."
