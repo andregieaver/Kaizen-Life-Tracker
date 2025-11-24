@@ -195,7 +195,7 @@ const OrderDetail = ({ athleteId }) => {
       <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-0 shadow-lg mb-6">
         <CardHeader>
           <CardTitle className="text-2xl text-white flex items-center gap-2">
-            <ShoppingCart className="w-6 h-6 text-[#00C2A8]" />
+            <ShoppingCart className="w-6 h-6 text-[#32D3FF]" />
             Order Details
           </CardTitle>
         </CardHeader>
@@ -225,7 +225,7 @@ const OrderDetail = ({ athleteId }) => {
               <Button
                 onClick={() => navigate(`/dashboard/crm/user/${orderData.athlete_id}`)}
                 variant="link"
-                className="p-0 h-auto text-[#00C2A8] hover:text-[#009688] flex items-center gap-1"
+                className="p-0 h-auto text-[#32D3FF] hover:text-[#009688] flex items-center gap-1"
               >
                 <User className="w-4 h-4" />
                 {orderData.athlete_name}
@@ -238,7 +238,7 @@ const OrderDetail = ({ athleteId }) => {
             <div>
               <p className="text-sm text-gray-400 mb-1">Order Date</p>
               <div className="flex items-center gap-2 text-white">
-                <Calendar className="w-4 h-4 text-[#00C2A8]" />
+                <Calendar className="w-4 h-4 text-[#32D3FF]" />
                 {formatDate(orderData.order_date)}
               </div>
             </div>
@@ -247,7 +247,7 @@ const OrderDetail = ({ athleteId }) => {
             <div>
               <p className="text-sm text-gray-400 mb-1">Amount</p>
               <div className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-[#00C2A8]" />
+                <DollarSign className="w-5 h-5 text-[#32D3FF]" />
                 <span className="text-2xl font-bold text-white">
                   {formatCurrency(orderData.amount, orderData.currency)}
                 </span>
@@ -293,7 +293,7 @@ const OrderDetail = ({ athleteId }) => {
           <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="text-xl text-white flex items-center gap-2">
-                <Clock className="w-5 h-5 text-[#00C2A8]" />
+                <Clock className="w-5 h-5 text-[#32D3FF]" />
                 Complete Order History for {orderData.athlete_name}
               </CardTitle>
             </CardHeader>
@@ -306,7 +306,7 @@ const OrderDetail = ({ athleteId }) => {
                       onClick={() => order.order_id !== orderId && navigate(`/dashboard/orders/${order.order_id}`)}
                       className={`p-4 rounded-lg border transition-all ${
                         order.order_id === orderId
-                          ? 'bg-[#00C2A8]/20 border-[#00C2A8]'
+                          ? 'bg-[#32D3FF]/20 border-[#32D3FF]'
                           : 'bg-gray-800/50 border-gray-600 hover:bg-gray-700/50 cursor-pointer'
                       }`}
                     >
@@ -356,7 +356,7 @@ const OrderDetail = ({ athleteId }) => {
           <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-0 shadow-lg sticky top-6">
             <CardHeader>
               <CardTitle className="text-xl text-white flex items-center gap-2">
-                <CreditCard className="w-5 h-5 text-[#00C2A8]" />
+                <CreditCard className="w-5 h-5 text-[#32D3FF]" />
                 Refund Order
               </CardTitle>
             </CardHeader>

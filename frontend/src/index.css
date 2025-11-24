@@ -762,8 +762,8 @@ code {
 }
 
 .rdw-option-active {
-  background: #00C2A8 !important;
-  border-color: #00C2A8 !important;
+  background: #32D3FF !important;
+  border-color: #32D3FF !important;
   box-shadow: none !important;
 }
 
@@ -816,7 +816,7 @@ code {
 }
 
 .rdw-dropdownoption-active {
-  background: #00C2A8;
+  background: #32D3FF;
   color: white;
 }
 
@@ -841,11 +841,11 @@ code {
 
 .rdw-link-modal-input:focus {
   outline: none;
-  border-color: #00C2A8;
+  border-color: #32D3FF;
 }
 
 .rdw-link-modal-btn {
-  background: #00C2A8;
+  background: #32D3FF;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -906,8 +906,8 @@ code {
 
 /* Active state visibility */
 .rdw-option-wrapper.rdw-option-active {
-  background: #00C2A8 !important;
-  border-color: #00C2A8 !important;
+  background: #32D3FF !important;
+  border-color: #32D3FF !important;
 }
 
 .rdw-dropdown-wrapper.rdw-dropdown-open {
@@ -972,7 +972,7 @@ code {
 }
 
 .cms-content a {
-  color: #00C2A8;
+  color: #32D3FF;
   text-decoration: underline;
 }
 

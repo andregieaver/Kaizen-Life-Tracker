@@ -177,7 +177,7 @@ const CRM = ({ athleteId }) => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-display font-bold text-white flex items-center gap-2">
-            <Users className="w-8 h-8" style={{ color: '#00C2A8' }} />
+            <Users className="w-8 h-8" style={{ color: '#32D3FF' }} />
             {t('crm.title')}
           </h1>
           <p className="text-gray-300 mt-1">
@@ -191,9 +191,9 @@ const CRM = ({ athleteId }) => {
           <Button
             onClick={exportToCSV}
             className="text-white border-0"
-            style={{ backgroundColor: '#00C2A8' }}
+            style={{ backgroundColor: '#32D3FF' }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
           >
             <Download className="w-4 h-4 mr-2" />
             {t('crm.exportCSV')}

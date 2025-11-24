@@ -737,7 +737,7 @@ const TestsAnalytics = ({ athleteId }) => {
                           datasets: [{
                             label: testName,
                             data: chartData.map(item => item.value),
-                            borderColor: '#00C2A8',
+                            borderColor: '#32D3FF',
                             backgroundColor: (context) => {
                               const ctx = context.chart.ctx;
                               const gradient = ctx.createLinearGradient(0, 0, 0, 350);
@@ -748,12 +748,12 @@ const TestsAnalytics = ({ athleteId }) => {
                             borderWidth: 3,
                             fill: true,
                             tension: 0.4,
-                            pointBackgroundColor: '#00C2A8',
+                            pointBackgroundColor: '#32D3FF',
                             pointBorderColor: '#fff',
                             pointBorderWidth: 3,
                             pointRadius: 5,
                             pointHoverRadius: 8,
-                            pointHoverBackgroundColor: '#00C2A8',
+                            pointHoverBackgroundColor: '#32D3FF',
                             pointHoverBorderColor: '#fff',
                             pointHoverBorderWidth: 3,
                           }]
@@ -783,8 +783,8 @@ const TestsAnalytics = ({ athleteId }) => {
                             tooltip: {
                               backgroundColor: 'rgba(0, 0, 0, 0.9)',
                               titleColor: '#ffffff',
-                              bodyColor: '#00C2A8',
-                              borderColor: '#00C2A8',
+                              bodyColor: '#32D3FF',
+                              borderColor: '#32D3FF',
                               borderWidth: 1,
                               borderRadius: 12,
                               padding: 16,

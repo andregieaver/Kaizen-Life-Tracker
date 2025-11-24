@@ -296,7 +296,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: '#00C2A8' }}></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: '#32D3FF' }}></div>
           <p className="text-gray-300">{t('weeklyMenu.loadingMenus')}</p>
         </div>
       </div>
@@ -314,9 +314,9 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
           <Button
             onClick={createNewMenu}
             className="text-white border-0"
-            style={{ backgroundColor: '#00C2A8' }}
+            style={{ backgroundColor: '#32D3FF' }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
           >
             <Plus className="w-4 h-4 mr-2" />
             {t('weeklyMenu.newMenu')}
@@ -358,9 +358,9 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 <Button 
                   onClick={saveMenu} 
                   className="text-white border-0"
-                  style={{ backgroundColor: '#00C2A8' }}
+                  style={{ backgroundColor: '#32D3FF' }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                 >
                   <Save className="w-4 h-4 mr-2" />
                   {t('weeklyMenu.saveMenu')}
@@ -419,7 +419,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                               <button
                                 onClick={() => selectRecipeForSlot(day, meal)}
                                 className="w-full px-3 py-2 text-sm border-2 border-dashed border-gray-600 hover:border-teal-500 transition-colors"
-                                style={{ color: '#00C2A8' }}
+                                style={{ color: '#32D3FF' }}
                               >
                                 <Plus className="w-4 h-4 mx-auto" />
                               </button>
@@ -449,7 +449,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
             </div>
           ) : (
             menus.map(menu => (
-              <div key={menu.id} className="bg-gradient-to-br from-gray-800 to-gray-900 p-6" style={menu.is_active ? { boxShadow: '0 0 0 2px #00C2A8' } : {}}>
+              <div key={menu.id} className="bg-gradient-to-br from-gray-800 to-gray-900 p-6" style={menu.is_active ? { boxShadow: '0 0 0 2px #32D3FF' } : {}}>
                 <div className="mb-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -533,7 +533,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                               <h4 className="font-semibold text-white capitalize text-lg">{day}</h4>
                               <div className="flex flex-wrap gap-2 text-xs text-white">
-                                <span className="px-2 py-1 font-medium" style={{ backgroundColor: '#00C2A8' }}>{Math.round(dailyNutrition.calories)} cal</span>
+                                <span className="px-2 py-1 font-medium" style={{ backgroundColor: '#32D3FF' }}>{Math.round(dailyNutrition.calories)} cal</span>
                                 <span className="bg-gray-600 text-white px-2 py-1 font-medium">{Math.round(dailyNutrition.protein)}g protein</span>
                                 <span className="bg-gray-600 text-white px-2 py-1 font-medium">{Math.round(dailyNutrition.carbs)}g carbs</span>
                                 <span className="bg-red-900/30 text-red-400 px-2 py-1 font-medium">{Math.round(dailyNutrition.fat)}g fat</span>
@@ -584,7 +584,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                     <div className="p-3">
                                       <div className="text-xs font-semibold text-gray-400 uppercase mb-1 flex items-center gap-1">
                                         {mealIcon} {mealType}
-                                        {nutritionEntry && <span className="text-white px-1.5 py-0.5 text-xs" style={{ backgroundColor: '#00C2A8' }}>Logged</span>}
+                                        {nutritionEntry && <span className="text-white px-1.5 py-0.5 text-xs" style={{ backgroundColor: '#32D3FF' }}>Logged</span>}
                                       </div>
                                       <div className="font-medium text-white text-sm line-clamp-2 mb-2">
                                         {mealName}
@@ -663,7 +663,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
               {/* AI Generated Recipes Section */}
               <div>
                 <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                  <ChefHat className="w-5 h-5" style={{ color: '#00C2A8' }} />
+                  <ChefHat className="w-5 h-5" style={{ color: '#32D3FF' }} />
                   AI Generated Recipes
                 </h3>
                 {(() => {
@@ -766,7 +766,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <h3 className="font-semibold text-white">{entry.description || 'Meal Entry'}</h3>
-                                <span className="text-white px-2 py-0.5 text-xs" style={{ backgroundColor: '#00C2A8' }}>Logged</span>
+                                <span className="text-white px-2 py-0.5 text-xs" style={{ backgroundColor: '#32D3FF' }}>Logged</span>
                               </div>
                               <p className="text-sm text-gray-300">
                                 {entry.calories} cal • {entry.protein}g protein • {entry.carbs}g carbs • {entry.fat}g fat
@@ -841,10 +841,10 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
           <div className="bg-gray-700 p-6 border border-gray-600">
             <div className="flex items-center justify-between mb-4">
               <label className="text-lg font-semibold text-white flex items-center gap-2">
-                <Users className="w-5 h-5" style={{ color: '#00C2A8' }} />
+                <Users className="w-5 h-5" style={{ color: '#32D3FF' }} />
                 Servings
               </label>
-              <span className="text-2xl font-bold" style={{ color: '#00C2A8' }}>{adjustedServings}</span>
+              <span className="text-2xl font-bold" style={{ color: '#32D3FF' }}>{adjustedServings}</span>
             </div>
             <input
               type="range"
@@ -892,7 +892,7 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
               <ul className="space-y-3">
                 {getScaledIngredients().map((ingredient, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="w-6 h-6 text-white flex items-center justify-center text-sm font-semibold flex-shrink-0" style={{ backgroundColor: '#00C2A8' }}>
+                    <span className="w-6 h-6 text-white flex items-center justify-center text-sm font-semibold flex-shrink-0" style={{ backgroundColor: '#32D3FF' }}>
                       {index + 1}
                     </span>
                     <span className="text-gray-300">{ingredient}</span>
@@ -912,11 +912,11 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
                     <li key={index} className="group relative">
                       <div className="flex gap-4">
                         <div className="relative flex-shrink-0">
-                          <span className="w-10 h-10 text-white flex items-center justify-center text-base font-bold group-hover:scale-110 transition-transform duration-200" style={{ backgroundColor: '#00C2A8' }}>
+                          <span className="w-10 h-10 text-white flex items-center justify-center text-base font-bold group-hover:scale-110 transition-transform duration-200" style={{ backgroundColor: '#32D3FF' }}>
                             {index + 1}
                           </span>
                           {index < recipe.instructions.length - 1 && (
-                            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-0.5 h-5" style={{ background: 'linear-gradient(to bottom, #00C2A8, transparent)' }}></div>
+                            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-0.5 h-5" style={{ background: 'linear-gradient(to bottom, #32D3FF, transparent)' }}></div>
                           )}
                         </div>
                         <div className="flex-1 pt-1.5">
@@ -935,9 +935,9 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
             <Button 
               onClick={onClose} 
               className="text-white border-0"
-              style={{ backgroundColor: '#00C2A8' }}
+              style={{ backgroundColor: '#32D3FF' }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
             >
               Close
             </Button>

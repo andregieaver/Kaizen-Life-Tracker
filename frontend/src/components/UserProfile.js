@@ -131,10 +131,10 @@ const UserProfile = ({ athleteId }) => {
                     <img
                       src={userData.profile_picture}
                       alt={userData.name}
-                      className="w-32 h-32 rounded-full object-cover border-4 border-[#00C2A8]"
+                      className="w-32 h-32 rounded-full object-cover border-4 border-[#32D3FF]"
                     />
                   ) : (
-                    <div className="w-32 h-32 rounded-full bg-[#00C2A8] flex items-center justify-center border-4 border-[#00C2A8]">
+                    <div className="w-32 h-32 rounded-full bg-[#32D3FF] flex items-center justify-center border-4 border-[#32D3FF]">
                       <span className="text-4xl font-bold text-white">
                         {userData.name.charAt(0).toUpperCase()}
                       </span>
@@ -145,7 +145,7 @@ const UserProfile = ({ athleteId }) => {
                 {/* User Info Grid */}
                 <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-start gap-3">
-                    <User className="w-5 h-5 text-[#00C2A8] mt-1" />
+                    <User className="w-5 h-5 text-[#32D3FF] mt-1" />
                     <div>
                       <p className="text-sm text-gray-400">Username</p>
                       <p className="text-white font-medium">{userData.name}</p>
@@ -153,7 +153,7 @@ const UserProfile = ({ athleteId }) => {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <Mail className="w-5 h-5 text-[#00C2A8] mt-1" />
+                    <Mail className="w-5 h-5 text-[#32D3FF] mt-1" />
                     <div>
                       <p className="text-sm text-gray-400">Email Address</p>
                       <p className="text-white font-medium break-all">{userData.email}</p>
@@ -161,7 +161,7 @@ const UserProfile = ({ athleteId }) => {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <Globe className="w-5 h-5 text-[#00C2A8] mt-1" />
+                    <Globe className="w-5 h-5 text-[#32D3FF] mt-1" />
                     <div>
                       <p className="text-sm text-gray-400">Nationality</p>
                       <p className="text-white font-medium">{userData.nationality || 'Not specified'}</p>
@@ -169,7 +169,7 @@ const UserProfile = ({ athleteId }) => {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <CreditCard className="w-5 h-5 text-[#00C2A8] mt-1" />
+                    <CreditCard className="w-5 h-5 text-[#32D3FF] mt-1" />
                     <div>
                       <p className="text-sm text-gray-400">Current Plan</p>
                       <div className="flex items-center gap-2 mt-1">
@@ -186,7 +186,7 @@ const UserProfile = ({ athleteId }) => {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <Calendar className="w-5 h-5 text-[#00C2A8] mt-1" />
+                    <Calendar className="w-5 h-5 text-[#32D3FF] mt-1" />
                     <div>
                       <p className="text-sm text-gray-400">Member Since</p>
                       <p className="text-white font-medium">{formatDate(userData.created_at)}</p>
@@ -194,7 +194,7 @@ const UserProfile = ({ athleteId }) => {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <DollarSign className="w-5 h-5 text-[#00C2A8] mt-1" />
+                    <DollarSign className="w-5 h-5 text-[#32D3FF] mt-1" />
                     <div>
                       <p className="text-sm text-gray-400">Lifetime Value</p>
                       <p className="text-white font-medium text-lg">{formatCurrency(userData.lifetime_value)}</p>
@@ -213,25 +213,25 @@ const UserProfile = ({ athleteId }) => {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="flex flex-col items-center p-4 bg-gray-800/50 rounded-lg">
-                  <FileText className="w-8 h-8 text-[#00C2A8] mb-2" />
+                  <FileText className="w-8 h-8 text-[#32D3FF] mb-2" />
                   <p className="text-2xl font-bold text-white">{userData.community_stats.posts_added}</p>
                   <p className="text-sm text-gray-400">Posts Added</p>
                 </div>
 
                 <div className="flex flex-col items-center p-4 bg-gray-800/50 rounded-lg">
-                  <MessageSquare className="w-8 h-8 text-[#00C2A8] mb-2" />
+                  <MessageSquare className="w-8 h-8 text-[#32D3FF] mb-2" />
                   <p className="text-2xl font-bold text-white">{userData.community_stats.comments_created}</p>
                   <p className="text-sm text-gray-400">Comments</p>
                 </div>
 
                 <div className="flex flex-col items-center p-4 bg-gray-800/50 rounded-lg">
-                  <CalendarCheck className="w-8 h-8 text-[#00C2A8] mb-2" />
+                  <CalendarCheck className="w-8 h-8 text-[#32D3FF] mb-2" />
                   <p className="text-2xl font-bold text-white">{userData.community_stats.events_created}</p>
                   <p className="text-sm text-gray-400">Events Created</p>
                 </div>
 
                 <div className="flex flex-col items-center p-4 bg-gray-800/50 rounded-lg">
-                  <Target className="w-8 h-8 text-[#00C2A8] mb-2" />
+                  <Target className="w-8 h-8 text-[#32D3FF] mb-2" />
                   <p className="text-2xl font-bold text-white">{userData.community_stats.challenges_done}</p>
                   <p className="text-sm text-gray-400">Challenges Done</p>
                 </div>
@@ -247,7 +247,7 @@ const UserProfile = ({ athleteId }) => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex flex-col items-center p-4 bg-gray-800/50 rounded-lg">
-                  <Users className="w-8 h-8 text-[#00C2A8] mb-2" />
+                  <Users className="w-8 h-8 text-[#32D3FF] mb-2" />
                   <p className="text-2xl font-bold text-white">{userData.referral_stats.referrals_count}</p>
                   <p className="text-sm text-gray-400">Referrals</p>
                 </div>
@@ -273,7 +273,7 @@ const UserProfile = ({ athleteId }) => {
           <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-0 shadow-lg sticky top-6">
             <CardHeader>
               <CardTitle className="text-xl text-white flex items-center gap-2">
-                <Clock className="w-5 h-5 text-[#00C2A8]" />
+                <Clock className="w-5 h-5 text-[#32D3FF]" />
                 Interactions Timeline
               </CardTitle>
             </CardHeader>
@@ -283,7 +283,7 @@ const UserProfile = ({ athleteId }) => {
                   {userData.interactions.map((interaction, index) => (
                     <div key={index} className="flex gap-3 pb-4 border-b border-gray-600 last:border-0">
                       <div className="flex-shrink-0">
-                        <div className="w-2 h-2 rounded-full bg-[#00C2A8] mt-2"></div>
+                        <div className="w-2 h-2 rounded-full bg-[#32D3FF] mt-2"></div>
                       </div>
                       <div className="flex-1">
                         <p className="text-white font-medium text-sm">{interaction.description}</p>

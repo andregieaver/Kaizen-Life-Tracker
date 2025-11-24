@@ -84,7 +84,7 @@ const useSubscriptionStats = (athleteId, autoLoad = false) => {
         {
           label: 'Subscribers',
           data,
-          borderColor: '#00C2A8',
+          borderColor: '#32D3FF',
           backgroundColor: 'rgba(0, 194, 168, 0.1)',
           fill: true,
           tension: 0.4
@@ -109,7 +109,7 @@ const useSubscriptionStats = (athleteId, autoLoad = false) => {
           padding: 12,
           titleColor: '#fff',
           bodyColor: '#fff',
-          borderColor: '#00C2A8',
+          borderColor: '#32D3FF',
           borderWidth: 1
         }
       },

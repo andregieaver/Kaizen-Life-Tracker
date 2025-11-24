@@ -419,9 +419,9 @@ const Documents = ({ athleteId }) => {
         <Button 
           onClick={openUploadModal}
           className="text-white border-0"
-          style={{ backgroundColor: '#00C2A8' }}
+          style={{ backgroundColor: '#32D3FF' }}
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
         >
           <Plus className="w-4 h-4 mr-2" />
           Upload Document
@@ -691,7 +691,7 @@ const Documents = ({ athleteId }) => {
               ? 'text-white' 
               : 'bg-gray-700 text-white hover:bg-gray-600'
           }`}
-          style={selectedCategory === 'all' ? { backgroundColor: '#00C2A8' } : {}}
+          style={selectedCategory === 'all' ? { backgroundColor: '#32D3FF' } : {}}
           onMouseEnter={(e) => {
             if (selectedCategory === 'all') {
               e.currentTarget.style.backgroundColor = '#009688';
@@ -699,7 +699,7 @@ const Documents = ({ athleteId }) => {
           }}
           onMouseLeave={(e) => {
             if (selectedCategory === 'all') {
-              e.currentTarget.style.backgroundColor = '#00C2A8';
+              e.currentTarget.style.backgroundColor = '#32D3FF';
             }
           }}
         >
@@ -717,7 +717,7 @@ const Documents = ({ athleteId }) => {
                   ? 'text-white' 
                   : 'bg-gray-700 text-white hover:bg-gray-600'
               }`}
-              style={selectedCategory === cat.value ? { backgroundColor: '#00C2A8' } : {}}
+              style={selectedCategory === cat.value ? { backgroundColor: '#32D3FF' } : {}}
               onMouseEnter={(e) => {
                 if (selectedCategory === cat.value) {
                   e.currentTarget.style.backgroundColor = '#009688';
@@ -725,7 +725,7 @@ const Documents = ({ athleteId }) => {
               }}
               onMouseLeave={(e) => {
                 if (selectedCategory === cat.value) {
-                  e.currentTarget.style.backgroundColor = '#00C2A8';
+                  e.currentTarget.style.backgroundColor = '#32D3FF';
                 }
               }}
             >
@@ -739,7 +739,7 @@ const Documents = ({ athleteId }) => {
       {/* Documents List */}
       {isLoadingDocs && filteredDocuments.length === 0 ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto" style={{ borderColor: '#00C2A8' }}></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto" style={{ borderColor: '#32D3FF' }}></div>
           <p className="mt-4 text-gray-300">Loading documents...</p>
         </div>
       ) : filteredDocuments.length === 0 ? (

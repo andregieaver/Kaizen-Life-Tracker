@@ -91,7 +91,7 @@ const EmojiPickerButton = ({ onEmojiSelect }) => {
         onClick={() => setShowPicker(!showPicker)}
         className="p-2 hover:bg-gray-600 rounded-lg transition-colors"
       >
-        <Smile className="w-5 h-5 text-[#00C2A8]" />
+        <Smile className="w-5 h-5 text-[#32D3FF]" />
       </button>
 
       {showPicker && (

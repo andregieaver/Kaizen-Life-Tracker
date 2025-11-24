@@ -326,7 +326,7 @@ const Emails = () => {
           </div>
           <Button
             onClick={handleCreateNewEmail}
-            className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+            className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
           >
             <Plus className="w-4 h-4 mr-2" />
             {t('emails.createEmail')}
@@ -349,7 +349,7 @@ const Emails = () => {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <CardTitle className="text-white flex items-center gap-2">
-                        <Mail className="w-5 h-5 text-[#00C2A8]" />
+                        <Mail className="w-5 h-5 text-[#32D3FF]" />
                         {email.name}
                       </CardTitle>
                       <CardDescription className="text-gray-400 mt-1">
@@ -382,7 +382,7 @@ const Emails = () => {
                     </div>
                     <Button
                       onClick={() => handleSendCustomEmail(email.id)}
-                      className="w-full bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                      className="w-full bg-[#32D3FF] hover:bg-[#00a890] text-white"
                       disabled={sendingEmail}
                     >
                       <Send className="w-4 h-4 mr-2" />
@@ -405,7 +405,7 @@ const Emails = () => {
       {/* Email Templates List */}
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -415,12 +415,12 @@ const Emails = () => {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <CardTitle className="text-white flex items-center gap-2">
-                      <Mail className="w-5 h-5 text-[#00C2A8]" />
+                      <Mail className="w-5 h-5 text-[#32D3FF]" />
                       {template.id === 'reset_password' ? t('emails.passwordReset') :
                        template.id === 'welcome' ? t('emails.welcomeEmail') :
                        template.id === 'email_changed' ? t('emails.emailChanged') : template.name}
                       {template.isCustomized && (
-                        <span className="text-xs bg-[#00C2A8] text-white px-2 py-1 rounded">Customized</span>
+                        <span className="text-xs bg-[#32D3FF] text-white px-2 py-1 rounded">Customized</span>
                       )}
                     </CardTitle>
                     <CardDescription className="text-gray-400 mt-1">
@@ -431,7 +431,7 @@ const Emails = () => {
                   </div>
                   <Button
                     onClick={() => handleEditClick(template)}
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                    className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
                     size="sm"
                   >
                     <Edit3 className="w-4 h-4 mr-1" />
@@ -449,7 +449,7 @@ const Emails = () => {
                     <p className="text-xs text-gray-500 mb-1">{t('emails.availableVariables')}:</p>
                     <div className="flex flex-wrap gap-1">
                       {template.variables.map((variable) => (
-                        <code key={variable} className="text-xs bg-gray-900 text-[#00C2A8] px-2 py-1 rounded">
+                        <code key={variable} className="text-xs bg-gray-900 text-[#32D3FF] px-2 py-1 rounded">
                           {variable}
                         </code>
                       ))}
@@ -470,7 +470,7 @@ const Emails = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                    <Mail className="w-6 h-6 text-[#00C2A8]" />
+                    <Mail className="w-6 h-6 text-[#32D3FF]" />
                     Edit {selectedTemplate.name}
                   </h2>
                   <p className="text-gray-400 text-sm mt-1">{selectedTemplate.description}</p>
@@ -508,7 +508,7 @@ const Emails = () => {
                 <p className="text-white font-semibold mb-2">{t('emails.availableVariables')}:</p>
                 <div className="flex flex-wrap gap-2">
                   {selectedTemplate.variables.map((variable) => (
-                    <code key={variable} className="text-sm bg-gray-800 text-[#00C2A8] px-3 py-1 rounded border border-gray-700">
+                    <code key={variable} className="text-sm bg-gray-800 text-[#32D3FF] px-3 py-1 rounded border border-gray-700">
                       {variable}
                     </code>
                   ))}
@@ -584,7 +584,7 @@ const Emails = () => {
                   id="body"
                   value={editForm.body}
                   onChange={(e) => setEditForm({ ...editForm, body: e.target.value })}
-                  className="w-full min-h-[200px] p-3 bg-gray-700 border border-gray-600 text-white rounded-md resize-vertical focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
+                  className="w-full min-h-[200px] p-3 bg-gray-700 border border-gray-600 text-white rounded-md resize-vertical focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                   required
                 />
                 <p className="text-gray-500 text-xs">{t('emails.plainTextVersionHint')}</p>
@@ -597,7 +597,7 @@ const Emails = () => {
                   id="htmlBody"
                   value={editForm.htmlBody}
                   onChange={(e) => setEditForm({ ...editForm, htmlBody: e.target.value })}
-                  className="w-full min-h-[300px] p-3 bg-gray-700 border border-gray-600 text-white rounded-md resize-vertical focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent font-mono text-sm"
+                  className="w-full min-h-[300px] p-3 bg-gray-700 border border-gray-600 text-white rounded-md resize-vertical focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent font-mono text-sm"
                   required
                 />
                 <p className="text-gray-500 text-xs">HTML version with styling and formatting</p>
@@ -622,7 +622,7 @@ const Emails = () => {
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                    className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
                   >
                     Save Template
                   </Button>
@@ -675,7 +675,7 @@ const Emails = () => {
                     id="target-audience"
                     value={customEmailForm.targetAudience}
                     onChange={(e) => setCustomEmailForm({ ...customEmailForm, targetAudience: e.target.value })}
-                    className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                    className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
                   >
                     <option value="all">{t('emails.allUsers')}</option>
                     <option value="waitlist">{t('emails.waitlistUsers')}</option>
@@ -713,7 +713,7 @@ const Emails = () => {
                     value={customEmailForm.body}
                     onChange={(e) => setCustomEmailForm({ ...customEmailForm, body: e.target.value })}
                     placeholder={t('emails.plainTextBodyPlaceholder')}
-                    className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                    className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
                     rows="8"
                     required
                   />
@@ -728,7 +728,7 @@ const Emails = () => {
                     value={customEmailForm.htmlBody}
                     onChange={(e) => setCustomEmailForm({ ...customEmailForm, htmlBody: e.target.value })}
                     placeholder={t('emails.htmlBodyPlaceholder')}
-                    className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none font-mono text-sm"
+                    className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none font-mono text-sm"
                     rows="8"
                   />
                   <p className="text-xs text-gray-400 mt-1">{t('emails.htmlVersionHint')}</p>
@@ -759,7 +759,7 @@ const Emails = () => {
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                  className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
                 >
                   {isCreatingNew ? t('emails.createEmailButton') : t('emails.updateEmail')}
                 </Button>

@@ -226,7 +226,7 @@ const Subscriptions = ({ athleteId }) => {
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-          <Users className="w-8 h-8 text-[#00C2A8]" />
+          <Users className="w-8 h-8 text-[#32D3FF]" />
           {t('subscriptions.title')}
         </h1>
         <p className="text-gray-400">{t('subscriptions.description')}</p>
@@ -241,7 +241,7 @@ const Subscriptions = ({ athleteId }) => {
                 <p className="text-gray-400 text-sm">{t('subscriptions.totalSubscriptions')}</p>
                 <p className="text-3xl font-bold text-white mt-1">{filteredSubscriptions.length}</p>
               </div>
-              <Users className="w-12 h-12 text-[#00C2A8] opacity-50" />
+              <Users className="w-12 h-12 text-[#32D3FF] opacity-50" />
             </div>
           </CardContent>
         </Card>
@@ -263,9 +263,9 @@ const Subscriptions = ({ athleteId }) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">{t('subscriptions.totalRevenue')}</p>
-                <p className="text-3xl font-bold text-[#00C2A8] mt-1">{formatCurrency(totalRevenue)}</p>
+                <p className="text-3xl font-bold text-[#32D3FF] mt-1">{formatCurrency(totalRevenue)}</p>
               </div>
-              <DollarSign className="w-12 h-12 text-[#00C2A8] opacity-50" />
+              <DollarSign className="w-12 h-12 text-[#32D3FF] opacity-50" />
             </div>
           </CardContent>
         </Card>
@@ -274,15 +274,15 @@ const Subscriptions = ({ athleteId }) => {
       {/* Search and Export */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div className="flex items-center gap-2">
-          <Badge className="bg-[#00C2A8] text-white">
+          <Badge className="bg-[#32D3FF] text-white">
             {filteredSubscriptions.length} {filteredSubscriptions.length === 1 ? t('subscriptions.subscription') : t('subscriptions.subscriptions')}
           </Badge>
           <Button
             onClick={exportToCSV}
             className="text-white border-0"
-            style={{ backgroundColor: '#00C2A8' }}
+            style={{ backgroundColor: '#32D3FF' }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
           >
             <Download className="w-4 h-4 mr-2" />
             {t('subscriptions.exportCSV')}
@@ -457,7 +457,7 @@ const Subscriptions = ({ athleteId }) => {
                       <td className="px-4 py-3 text-gray-300 text-sm">
                         {sub.next_renewal ? (
                           <div className="flex items-center gap-1">
-                            <Calendar className="w-4 h-4 text-[#00C2A8]" />
+                            <Calendar className="w-4 h-4 text-[#32D3FF]" />
                             {formatDate(sub.next_renewal)}
                           </div>
                         ) : (
@@ -510,7 +510,7 @@ const Subscriptions = ({ athleteId }) => {
                       onClick={() => setCurrentPage(pageNum)}
                       className={`min-w-[40px] border-0 ${
                         currentPage === pageNum
-                          ? 'bg-[#00C2A8] text-white'
+                          ? 'bg-[#32D3FF] text-white'
                           : 'bg-gray-700 text-white hover:bg-gray-600'
                       }`}
                     >

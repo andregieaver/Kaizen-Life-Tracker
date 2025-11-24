@@ -359,7 +359,7 @@ const PageEditor = ({ athleteId, pageId }) => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00C2A8] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#32D3FF] mx-auto mb-4"></div>
           <p className="text-gray-400">Loading page...</p>
         </div>
       </div>
@@ -390,7 +390,7 @@ const PageEditor = ({ athleteId, pageId }) => {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-5 h-5" />
               {saving ? 'Saving...' : 'Save Page'}
@@ -401,7 +401,7 @@ const PageEditor = ({ athleteId, pageId }) => {
         {/* Page Section */}
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-[#00C2A8]" />
+            <FileText className="w-5 h-5 text-[#32D3FF]" />
             Page Details
           </h2>
 
@@ -416,7 +416,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 value={formData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
                 placeholder="e.g., About Us"
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#00C2A8]"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#32D3FF]"
               />
             </div>
 
@@ -438,7 +438,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                   type="button"
                   onClick={() => handleInputChange('is_home', !formData.is_home)}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    formData.is_home ? 'bg-[#00C2A8]' : 'bg-gray-700'
+                    formData.is_home ? 'bg-[#32D3FF]' : 'bg-gray-700'
                   }`}
                 >
                   <span
@@ -466,7 +466,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 onChange={(e) => handleInputChange('url_slug', e.target.value)}
                 placeholder="/about-us"
                 disabled={formData.is_home}
-                className={`w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#00C2A8] ${
+                className={`w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#32D3FF] ${
                   formData.is_home ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               />
@@ -487,7 +487,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 <select
                   value={formData.status}
                   onChange={(e) => handleInputChange('status', e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#00C2A8]"
+                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#32D3FF]"
                 >
                   <option value="draft">Draft</option>
                   <option value="pending">Pending Review</option>
@@ -503,7 +503,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 <select
                   value={formData.index_status}
                   onChange={(e) => handleInputChange('index_status', e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#00C2A8]"
+                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#32D3FF]"
                 >
                   <option value="indexed">Indexed</option>
                   <option value="no-index">No-Index</option>
@@ -534,7 +534,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                   </button>
                 </div>
               ) : (
-                <label className="flex items-center justify-center w-48 h-32 bg-gray-900 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-[#00C2A8] transition-colors">
+                <label className="flex items-center justify-center w-48 h-32 bg-gray-900 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-[#32D3FF] transition-colors">
                   <input
                     type="file"
                     accept="image/*"
@@ -548,7 +548,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 </label>
               )}
               {uploadingThumbnail && (
-                <p className="text-sm text-[#00C2A8] mt-2">Uploading...</p>
+                <p className="text-sm text-[#32D3FF] mt-2">Uploading...</p>
               )}
             </div>
           </div>
@@ -557,7 +557,7 @@ const PageEditor = ({ athleteId, pageId }) => {
         {/* CMS Content Section */}
         <div className="bg-gray-800 rounded-lg p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-[#00C2A8]" />
+            <FileText className="w-5 h-5 text-[#32D3FF]" />
             Page Content
           </h2>
 
@@ -579,7 +579,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 type="button"
                 onClick={() => handleInputChange('use_cms_content', !formData.use_cms_content)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  formData.use_cms_content ? 'bg-[#00C2A8]' : 'bg-gray-700'
+                  formData.use_cms_content ? 'bg-[#32D3FF]' : 'bg-gray-700'
                 }`}
               >
                 <span
@@ -615,7 +615,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                       onClick={() => setViewMode('visual')}
                       className={`px-3 py-1 text-xs rounded transition-colors ${
                         viewMode === 'visual' 
-                          ? 'bg-[#00C2A8] text-white' 
+                          ? 'bg-[#32D3FF] text-white' 
                           : 'text-gray-400 hover:text-white'
                       }`}
                     >
@@ -626,7 +626,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                       onClick={() => setViewMode('html')}
                       className={`px-3 py-1 text-xs rounded transition-colors ${
                         viewMode === 'html' 
-                          ? 'bg-[#00C2A8] text-white' 
+                          ? 'bg-[#32D3FF] text-white' 
                           : 'text-gray-400 hover:text-white'
                       }`}
                     >
@@ -637,7 +637,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 <button
                   type="button"
                   onClick={addContentBlock}
-                  className="flex items-center gap-2 bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                  className="flex items-center gap-2 bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg text-sm transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                   Add Content Block
@@ -660,7 +660,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 className={`bg-gray-900 border rounded-lg overflow-hidden transition-shadow ${
-                                  snapshot.isDragging ? 'border-[#00C2A8] shadow-lg' : 'border-gray-700'
+                                  snapshot.isDragging ? 'border-[#32D3FF] shadow-lg' : 'border-gray-700'
                                 }`}
                               >
                                 <div className="flex items-center justify-between p-3 bg-gray-800 border-b border-gray-700">
@@ -725,7 +725,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                                       <textarea
                                         value={block.content || ''}
                                         onChange={(e) => updateContentBlockHtml(block.id, e.target.value)}
-                                        className="w-full bg-gray-950 text-gray-300 border border-gray-700 rounded p-3 font-mono text-sm min-h-[300px] focus:outline-none focus:border-[#00C2A8]"
+                                        className="w-full bg-gray-950 text-gray-300 border border-gray-700 rounded p-3 font-mono text-sm min-h-[300px] focus:outline-none focus:border-[#32D3FF]"
                                         placeholder="<p>Enter your HTML here...</p>"
                                         spellCheck={false}
                                       />
@@ -763,7 +763,7 @@ const PageEditor = ({ athleteId, pageId }) => {
         {/* SEO Section */}
         <div className="bg-gray-800 rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-[#00C2A8]" />
+            <FileText className="w-5 h-5 text-[#32D3FF]" />
             SEO Settings
           </h2>
 
@@ -778,7 +778,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 value={formData.meta_title}
                 onChange={(e) => handleInputChange('meta_title', e.target.value)}
                 placeholder="Leave empty to use page title"
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#00C2A8]"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#32D3FF]"
               />
               <p className="text-xs text-gray-400 mt-1">
                 {(formData.meta_title || formData.title).length} / 60 characters (recommended)
@@ -795,7 +795,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 onChange={(e) => handleInputChange('meta_description', e.target.value)}
                 placeholder="Brief description for search engines"
                 rows="3"
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#00C2A8]"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#32D3FF]"
               />
               <p className="text-xs text-gray-400 mt-1">
                 {(formData.meta_description || '').length} / 160 characters (recommended)
@@ -812,7 +812,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 value={formData.focus_keyword}
                 onChange={(e) => handleInputChange('focus_keyword', e.target.value)}
                 placeholder="e.g., running coach"
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#00C2A8]"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#32D3FF]"
               />
             </div>
 
@@ -842,7 +842,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                   </button>
                 </div>
               ) : (
-                <label className="flex items-center justify-center w-64 h-32 bg-gray-900 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-[#00C2A8] transition-colors">
+                <label className="flex items-center justify-center w-64 h-32 bg-gray-900 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-[#32D3FF] transition-colors">
                   <input
                     type="file"
                     accept="image/*"
@@ -856,7 +856,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 </label>
               )}
               {uploadingOgImage && (
-                <p className="text-sm text-[#00C2A8] mt-2">Uploading...</p>
+                <p className="text-sm text-[#32D3FF] mt-2">Uploading...</p>
               )}
             </div>
           </div>
@@ -867,7 +867,7 @@ const PageEditor = ({ athleteId, pageId }) => {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-8 py-3 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-8 py-3 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save className="w-5 h-5" />
             {saving ? 'Saving...' : 'Save Page'}

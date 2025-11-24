@@ -130,7 +130,7 @@ const Pages = ({ athleteId }) => {
           </div>
           <button
             onClick={() => navigate('/dashboard/pages/new')}
-            className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
+            className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
           >
             <Plus className="w-5 h-5" />
             {t('pages.newPage')}
@@ -149,7 +149,7 @@ const Pages = ({ athleteId }) => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   placeholder={t('pages.searchPlaceholder')}
-                  className="w-full bg-gray-900 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#00C2A8]"
+                  className="w-full bg-gray-900 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#32D3FF]"
                 />
                 <Search className="w-5 h-5 text-gray-500 absolute left-3 top-2.5" />
               </div>
@@ -160,7 +160,7 @@ const Pages = ({ athleteId }) => {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#00C2A8]"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#32D3FF]"
               >
                 <option value="">{t('pages.allStatus')}</option>
                 <option value="draft">{t('pages.draft')}</option>
@@ -175,7 +175,7 @@ const Pages = ({ athleteId }) => {
               <select
                 value={indexFilter}
                 onChange={(e) => setIndexFilter(e.target.value)}
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#00C2A8]"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#32D3FF]"
               >
                 <option value="">{t('pages.allIndexStatus')}</option>
                 <option value="indexed">{t('pages.indexed')}</option>
@@ -186,7 +186,7 @@ const Pages = ({ athleteId }) => {
 
           <button
             onClick={handleSearch}
-            className="mt-4 bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg transition-colors"
+            className="mt-4 bg-[#32D3FF] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg transition-colors"
           >
             {t('pages.search')}
           </button>
@@ -289,7 +289,7 @@ const Pages = ({ athleteId }) => {
                           className="p-2 hover:bg-gray-700 rounded transition-colors"
                           title={t('pages.edit')}
                         >
-                          <Edit className="w-4 h-4 text-[#00C2A8]" />
+                          <Edit className="w-4 h-4 text-[#32D3FF]" />
                         </button>
                         <button
                           onClick={() => handleDelete(page.id, page.title)}

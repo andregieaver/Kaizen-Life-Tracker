@@ -21,8 +21,8 @@ const SubscriptionBadge = ({ subscriptionTier }) => {
       {isPro ? (
         <Shield 
           className="w-4 h-4" 
-          style={{ color: '#00C2A8' }}
-          fill="#00C2A8"
+          style={{ color: '#32D3FF' }}
+          fill="#32D3FF"
         />
       ) : (
         <Crown 

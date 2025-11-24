@@ -191,9 +191,9 @@ const Supplements = ({ athleteId }) => {
         <Button 
           onClick={openNewSupplementModal}
           className="text-white border-0"
-          style={{ backgroundColor: '#00C2A8' }}
+          style={{ backgroundColor: '#32D3FF' }}
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Supplement
@@ -223,9 +223,9 @@ const Supplements = ({ athleteId }) => {
             <Button 
               onClick={openNewSupplementModal}
               className="text-white border-0"
-              style={{ backgroundColor: '#00C2A8' }}
+              style={{ backgroundColor: '#32D3FF' }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
             >
               <Plus className="w-4 h-4 mr-2" />
               Add First Supplement

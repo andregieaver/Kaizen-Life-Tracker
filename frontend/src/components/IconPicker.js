@@ -142,7 +142,7 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search icons... (e.g., home, user, calendar)"
-              className="w-full bg-gray-900 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-[#00C2A8]"
+              className="w-full bg-gray-900 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-[#32D3FF]"
               autoFocus
             />
           </div>
@@ -169,16 +169,16 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
                   key={iconName}
                   onClick={() => handleSelect(iconName)}
                   className={`flex flex-col items-center justify-center p-3 rounded-lg transition-all hover:bg-gray-700 ${
-                    isSelected ? 'bg-[#00C2A8] bg-opacity-20 border-2 border-[#00C2A8]' : 'border-2 border-transparent'
+                    isSelected ? 'bg-[#32D3FF] bg-opacity-20 border-2 border-[#32D3FF]' : 'border-2 border-transparent'
                   }`}
                   title={iconName}
                 >
                   {IconComponent ? (
                     React.createElement(IconComponent, {
-                      className: `w-6 h-6 mb-1 ${isSelected ? 'text-[#00C2A8]' : 'text-gray-300'}`
+                      className: `w-6 h-6 mb-1 ${isSelected ? 'text-[#32D3FF]' : 'text-gray-300'}`
                     })
                   ) : (
-                    <div className={`w-6 h-6 mb-1 flex items-center justify-center text-xs border border-gray-600 rounded ${isSelected ? 'text-[#00C2A8]' : 'text-gray-300'}`}>
+                    <div className={`w-6 h-6 mb-1 flex items-center justify-center text-xs border border-gray-600 rounded ${isSelected ? 'text-[#32D3FF]' : 'text-gray-300'}`}>
                       {iconName[0]}
                     </div>
                   )}
@@ -203,7 +203,7 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
           <div className="text-sm text-gray-400">
             {currentIcon && (
               <span>
-                Current: <span className="text-[#00C2A8] font-semibold">{currentIcon}</span>
+                Current: <span className="text-[#32D3FF] font-semibold">{currentIcon}</span>
               </span>
             )}
           </div>

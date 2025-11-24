@@ -232,7 +232,7 @@ const Schedules = ({ athleteId }) => {
             </div>
             <Button 
               onClick={handleAddScheduleClick}
-              className="bg-[#00C2A8] hover:bg-[#00a890] text-white btn-transition w-full md:w-auto"
+              className="bg-[#32D3FF] hover:bg-[#00a890] text-white btn-transition w-full md:w-auto"
               data-testid="add-schedule-btn"
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -335,7 +335,7 @@ const Schedules = ({ athleteId }) => {
                       id="schedule-active"
                       checked={scheduleForm.active}
                       onChange={(e) => setScheduleForm(prev => ({ ...prev, active: e.target.checked }))}
-                      className="w-4 h-4 text-[#00C2A8] border-gray-500 rounded focus:ring-[#00C2A8] bg-gray-600"
+                      className="w-4 h-4 text-[#32D3FF] border-gray-500 rounded focus:ring-[#32D3FF] bg-gray-600"
                     />
                     <Label htmlFor="schedule-active" className="ml-2 text-sm text-gray-300">
                       Active
@@ -356,7 +356,7 @@ const Schedules = ({ athleteId }) => {
                 </Button>
                 <Button 
                   type="submit"
-                  className="w-full sm:w-auto bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                  className="w-full sm:w-auto bg-[#32D3FF] hover:bg-[#00a890] text-white"
                   data-testid="save-schedule-btn"
                 >
                   Save Schedule
@@ -496,7 +496,7 @@ const Schedules = ({ athleteId }) => {
                 style={{ 
                   borderColor: '#4b5563'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#00C2A8'}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#32D3FF'}
                 onMouseLeave={(e) => e.currentTarget.style.borderColor = '#4b5563'}
                 onClick={() => handleTemplateClick(template)}
               >
@@ -538,7 +538,7 @@ const Schedules = ({ athleteId }) => {
                   Cancel
                 </Button>
                 <Button 
-                  className="w-full sm:w-auto bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                  className="w-full sm:w-auto bg-[#32D3FF] hover:bg-[#00a890] text-white"
                   onClick={() => {
                     setShowScheduleLimitModal(false);
                     navigate('/dashboard/account?tab=subscriptions');

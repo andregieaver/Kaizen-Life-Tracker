@@ -93,7 +93,7 @@ const FeedTab = ({
       <div className="space-y-0 sm:space-y-6">
         {isLoading ? (
           <div className="flex justify-center py-12">
-            <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : posts.length === 0 ? (
           <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>

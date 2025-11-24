@@ -108,7 +108,7 @@ const AnimatedBookmark = ({ isBookmarked, onClick, className = '' }) => {
               )
               padding-box,
             linear-gradient(
-                #00C2A8 calc(0% + var(--fade-out) + var(--pulse)),
+                #32D3FF calc(0% + var(--fade-out) + var(--pulse)),
                 #32D3FF calc(20% + var(--fade-out) + var(--pulse)),
                 #0077ff calc(40% + var(--fade-out) + var(--pulse)),
                 #0066dd

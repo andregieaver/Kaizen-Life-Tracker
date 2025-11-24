@@ -2715,7 +2715,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -4058,7 +4058,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 value={shareCommentary}
                 onChange={(e) => setShareCommentary(e.target.value)}
                 placeholder={t('community.post.addThoughts')}
-                className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[100px] resize-vertical"
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none min-h-[100px] resize-vertical"
               />
 
               {/* Original Post Preview (Twitter-style embedded quote) */}
@@ -4076,7 +4076,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       </>
                     ) : (
                       <>
-                        <div className="w-10 h-10 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold">
+                        <div className="w-10 h-10 rounded-full bg-[#32D3FF] flex items-center justify-center text-white font-semibold">
                           {sharePostData.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
                         </div>
                         <FlagIcon nationality={sharePostData.nationality} />
@@ -4217,7 +4217,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   <div
                     key={notification.id}
                     className={`mb-2 rounded-none md:rounded-3xl hover:opacity-90 active:opacity-80 cursor-pointer transition-all overflow-hidden ${
-                      !notification.read ? 'ring-2 ring-[#00C2A8]/30' : ''
+                      !notification.read ? 'ring-2 ring-[#32D3FF]/30' : ''
                     }`}
                     style={{ background: 'var(--grad-surface)' }}
                     onClick={() => handleNotificationClick(notification)}

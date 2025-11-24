@@ -191,7 +191,7 @@ const Orders = ({ athleteId }) => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-display font-bold text-white flex items-center gap-2">
-            <ShoppingCart className="w-8 h-8" style={{ color: '#00C2A8' }} />
+            <ShoppingCart className="w-8 h-8" style={{ color: '#32D3FF' }} />
             {t('orders.title')}
           </h1>
           <p className="text-gray-300 mt-1">
@@ -202,15 +202,15 @@ const Orders = ({ athleteId }) => {
           <Badge className="bg-gray-700 text-white">
             {t('orders.ordersCount', { filtered: filteredOrders.length, total: orders.length })}
           </Badge>
-          <Badge className="bg-[#00C2A8] text-white">
+          <Badge className="bg-[#32D3FF] text-white">
             {t('orders.totalRevenue', { amount: formatAmount(calculateTotalRevenue(), 'EUR') })}
           </Badge>
           <Button
             onClick={exportToCSV}
             className="text-white border-0"
-            style={{ backgroundColor: '#00C2A8' }}
+            style={{ backgroundColor: '#32D3FF' }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
           >
             <Download className="w-4 h-4 mr-2" />
             {t('orders.exportCSV')}
@@ -423,7 +423,7 @@ const Orders = ({ athleteId }) => {
                       onClick={() => setCurrentPage(pageNum)}
                       className={`min-w-[40px] border-0 ${
                         currentPage === pageNum
-                          ? 'bg-[#00C2A8] text-white'
+                          ? 'bg-[#32D3FF] text-white'
                           : 'bg-gray-700 text-white hover:bg-gray-600'
                       }`}
                     >

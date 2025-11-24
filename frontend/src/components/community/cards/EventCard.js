@@ -21,7 +21,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
               <img src={event.profile_image} alt={event.name} className="w-16 h-16 rounded-full object-cover border-4 border-gray-800 shadow-lg" />
             ) : (
               <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center border-4 border-gray-800 shadow-lg">
-                <Calendar className="w-8 h-8 text-[#00C2A8]" />
+                <Calendar className="w-8 h-8 text-[#32D3FF]" />
               </div>
             )}
           </div>
@@ -98,7 +98,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
             }}
             className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
               event.user_status === 'going'
-                ? 'bg-[#00C2A8] text-white'
+                ? 'bg-[#32D3FF] text-white'
                 : 'bg-gray-600 hover:bg-gray-500 text-white'
             }`}
           >

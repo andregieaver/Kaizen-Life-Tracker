@@ -22,7 +22,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
       <div className="p-4" className="p-6">
         <button
           onClick={onBack}
-          className="text-[#00C2A8] hover:underline mb-4 flex items-center"
+          className="text-[#32D3FF] hover:underline mb-4 flex items-center"
         >
           ← {t('community.group.backToGroups')}
         </button>
@@ -54,7 +54,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             <div className="flex items-center space-x-4 text-sm">
               <span className="text-gray-400">{group.members_count} {t('community.group.members')}</span>
               {group.member_role && (
-                <span className="text-[#00C2A8] font-semibold flex items-center">
+                <span className="text-[#32D3FF] font-semibold flex items-center">
                   {group.member_role === 'admin' && <Crown className="w-4 h-4 mr-1" />}
                   {group.member_role === 'moderator' && <Shield className="w-4 h-4 mr-1" />}
                   {t(`community.group.${group.member_role}`)}
@@ -67,7 +67,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             {group.member_role === 'admin' && (
               <button
                 onClick={onEditGroup}
-                className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-lg transition-colors"
+                className="p-2 bg-[#32D3FF] hover:bg-[#00a890] rounded-lg transition-colors"
                 title={t('community.actions.editGroup')}
               >
                 <Edit2 className="w-5 h-5 text-white" />
@@ -143,7 +143,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                         alert('Failed to approve member');
                       }
                     }}
-                    className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-lg transition-colors"
+                    className="p-2 bg-[#32D3FF] hover:bg-[#00a890] rounded-lg transition-colors"
                     title="Approve"
                   >
                     <ThumbsUp className="w-5 h-5 text-white" />
@@ -243,7 +243,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                           alert(error.response?.data?.detail || 'Failed to change role');
                         }
                       }}
-                      className="bg-gray-700 text-white text-sm rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                      className="bg-gray-700 text-white text-sm rounded-lg px-3 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
                     >
                       <option value="member">Member</option>
                       <option value="moderator">Moderator</option>
@@ -267,7 +267,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             value={newPostContent}
             onChange={(e) => setNewPostContent(e.target.value)}
             placeholder={t('community.post.shareWithGroup')}
-            className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+            className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none resize-none"
             rows="3"
           />
           
@@ -295,7 +295,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                 className="hidden"
               />
               <div className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition-colors">
-                <Camera className="w-5 h-5 text-[#00C2A8]" />
+                <Camera className="w-5 h-5 text-[#32D3FF]" />
                 <span className="text-white text-sm">{t('community.actions.addPhoto')}</span>
               </div>
             </label>
@@ -303,7 +303,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             <Button
               onClick={handleCreateGroupPost}
               disabled={!newPostContent.trim()}
-              className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-4 h-4 mr-2" />
               Post

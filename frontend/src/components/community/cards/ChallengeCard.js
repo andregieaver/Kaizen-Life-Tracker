@@ -127,13 +127,13 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
             <div className="mb-4">
               <div className="flex justify-between text-sm mb-1">
                 <span className="text-gray-400">{translate('community.challenge.yourProgress')}</span>
-                <span className="text-[#00C2A8] font-semibold">
+                <span className="text-[#32D3FF] font-semibold">
                   {progress.toFixed(1)} / {goalValue} {challenge.goal_unit}
                 </span>
               </div>
               <div className="w-full bg-gray-600 rounded-full h-2">
                 <div 
-                  className="bg-gradient-to-r from-[#00C2A8] to-green-500 h-2 rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-[#32D3FF] to-green-500 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${percentage}%` }}
                 />
               </div>
@@ -161,7 +161,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                   e.stopPropagation();
                   onJoin();
                 }}
-                className="flex-1 px-4 py-2 rounded-lg bg-[#00C2A8] hover:bg-[#00a890] text-white transition-colors"
+                className="flex-1 px-4 py-2 rounded-lg bg-[#32D3FF] hover:bg-[#00a890] text-white transition-colors"
               >
                 <Trophy className="w-4 h-4 inline mr-2" />
                 {translate('community.challenge.joinChallenge')}

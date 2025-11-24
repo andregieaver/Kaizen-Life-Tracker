@@ -875,7 +875,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                   onClick={() => setSelectedBillingCycle('monthly')}
                   className={`px-6 py-2 rounded-full font-medium transition-all ${
                     selectedBillingCycle === 'monthly'
-                      ? 'bg-[#00C2A8] text-white shadow-md'
+                      ? 'bg-[#32D3FF] text-white shadow-md'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
@@ -885,7 +885,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                   onClick={() => setSelectedBillingCycle('annual')}
                   className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
                     selectedBillingCycle === 'annual'
-                      ? 'bg-[#00C2A8] text-white shadow-md'
+                      ? 'bg-[#32D3FF] text-white shadow-md'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
@@ -897,7 +897,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
               </div>
 
               {/* Pricing Display */}
-              <div className="p-4 bg-[#00C2A8]/20 border border-[#00C2A8] rounded-lg">
+              <div className="p-4 bg-[#32D3FF]/20 border border-[#32D3FF] rounded-lg">
                 <div className="text-center">
                   <p className="text-3xl font-bold text-white">
                     {selectedBillingCycle === 'monthly' ? '€9.99/mo' : '€99/year'}
@@ -929,7 +929,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                   Go Back
                 </Button>
                 <Button 
-                  className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                  className="flex-1 bg-[#32D3FF] hover:bg-[#00a890] text-white"
                   onClick={handleUpgrade}
                 >
                   Upgrade to Pro

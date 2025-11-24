@@ -109,14 +109,14 @@ const Drinks = ({ athleteId }) => {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-3xl font-bold text-white flex items-center gap-2">
-              <GlassWater className="w-8 h-8 text-[#00C2A8]" />
+              <GlassWater className="w-8 h-8 text-[#32D3FF]" />
               Hydration Tracker
             </h1>
             <p className="text-gray-400 mt-1">Track your daily fluid intake</p>
           </div>
           <Button
             onClick={() => setShowAddModal(true)}
-            className="bg-gradient-to-r from-[#00C2A8] to-[#00a890] hover:from-[#00a890] hover:to-[#00C2A8] text-white"
+            className="bg-gradient-to-r from-[#32D3FF] to-[#00a890] hover:from-[#00a890] hover:to-[#32D3FF] text-white"
           >
             <Plus className="w-4 h-4 mr-2" />
             Log Drink
@@ -129,7 +129,7 @@ const Drinks = ({ athleteId }) => {
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
+            className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
           />
         </div>
 
@@ -158,7 +158,7 @@ const Drinks = ({ athleteId }) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-[#00C2A8] to-[#00a890] border-0">
+        <Card className="bg-gradient-to-br from-[#32D3FF] to-[#00a890] border-0">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -219,7 +219,7 @@ const Drinks = ({ athleteId }) => {
               <p className="text-gray-400">No drinks logged for this day</p>
               <Button
                 onClick={() => setShowAddModal(true)}
-                className="mt-4 bg-gradient-to-r from-[#00C2A8] to-[#00a890] hover:from-[#00a890] hover:to-[#00C2A8] text-white"
+                className="mt-4 bg-gradient-to-r from-[#32D3FF] to-[#00a890] hover:from-[#00a890] hover:to-[#32D3FF] text-white"
               >
                 Log Your First Drink
               </Button>
@@ -239,7 +239,7 @@ const Drinks = ({ athleteId }) => {
                       </div>
                       <div>
                         <p className="text-white font-semibold">{drinkInfo.label}</p>
-                        <p className="text-[#00C2A8] text-sm font-medium">{drink.amount_ml} ml</p>
+                        <p className="text-[#32D3FF] text-sm font-medium">{drink.amount_ml} ml</p>
                         <div className="flex items-center gap-3 text-xs text-gray-400 mt-1">
                           <span className="flex items-center gap-1">
                             <Clock className="w-3 h-3" />
@@ -269,7 +269,7 @@ const Drinks = ({ athleteId }) => {
           <div className="bg-gray-800 rounded-lg max-w-md w-full p-6 shadow-2xl border border-gray-700">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-white flex items-center gap-2">
-                <GlassWater className="w-6 h-6 text-[#00C2A8]" />
+                <GlassWater className="w-6 h-6 text-[#32D3FF]" />
                 Log Drink
               </h3>
               <button
@@ -291,7 +291,7 @@ const Drinks = ({ athleteId }) => {
                       onClick={() => setNewDrink({ ...newDrink, drink_type: type.value })}
                       className={`p-3 rounded-lg border-2 transition-all ${
                         newDrink.drink_type === type.value
-                          ? 'border-[#00C2A8] bg-[#00C2A8]/20'
+                          ? 'border-[#32D3FF] bg-[#32D3FF]/20'
                           : 'border-gray-600 bg-gray-700 hover:border-gray-500'
                       }`}
                     >
@@ -314,7 +314,7 @@ const Drinks = ({ athleteId }) => {
                       onClick={() => setNewDrink({ ...newDrink, amount_ml: amount })}
                       className={`py-2 px-3 rounded-lg border transition-all text-sm ${
                         newDrink.amount_ml === amount
-                          ? 'border-[#00C2A8] bg-[#00C2A8]/20 text-white'
+                          ? 'border-[#32D3FF] bg-[#32D3FF]/20 text-white'
                           : 'border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-500'
                       }`}
                     >
@@ -326,7 +326,7 @@ const Drinks = ({ athleteId }) => {
                   type="number"
                   value={newDrink.amount_ml}
                   onChange={(e) => setNewDrink({ ...newDrink, amount_ml: parseInt(e.target.value) || 0 })}
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                   placeholder="Custom amount"
                 />
               </div>
@@ -339,7 +339,7 @@ const Drinks = ({ athleteId }) => {
                     type="date"
                     value={newDrink.log_date}
                     onChange={(e) => setNewDrink({ ...newDrink, log_date: e.target.value })}
-                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
+                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -348,7 +348,7 @@ const Drinks = ({ athleteId }) => {
                     type="time"
                     value={newDrink.log_time}
                     onChange={(e) => setNewDrink({ ...newDrink, log_time: e.target.value })}
-                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
+                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                   />
                 </div>
               </div>
@@ -360,7 +360,7 @@ const Drinks = ({ athleteId }) => {
                   type="text"
                   value={newDrink.notes}
                   onChange={(e) => setNewDrink({ ...newDrink, notes: e.target.value })}
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                   placeholder="e.g., Pre-workout, With meal"
                 />
               </div>
@@ -375,7 +375,7 @@ const Drinks = ({ athleteId }) => {
                 </Button>
                 <Button
                   onClick={handleAddDrink}
-                  className="flex-1 bg-gradient-to-r from-[#00C2A8] to-[#00a890] hover:from-[#00a890] hover:to-[#00C2A8] text-white"
+                  className="flex-1 bg-gradient-to-r from-[#32D3FF] to-[#00a890] hover:from-[#00a890] hover:to-[#32D3FF] text-white"
                 >
                   Log Drink
                 </Button>

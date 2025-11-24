@@ -806,7 +806,7 @@ const Dashboard = ({ athleteId }) => {
 
     const IconComponent = getIconComponent(item.icon);
     const isActive = location.pathname === item.url;
-    const highlightColor = item.highlight_color || '#00C2A8';
+    const highlightColor = item.highlight_color || '#32D3FF';
     const displayLabel = getMenuLabel(item);
 
     return (
@@ -2194,10 +2194,10 @@ const Dashboard = ({ athleteId }) => {
                 onClick={() => setNotificationTab('all')}
                 className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
                   notificationTab === 'all'
-                    ? 'text-[#00C2A8]'
+                    ? 'text-[#32D3FF]'
                     : 'border-transparent hover:text-white'
                 }`}
-                style={notificationTab === 'all' ? { borderBottomColor: '#00C2A8', color: '#00C2A8' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
+                style={notificationTab === 'all' ? { borderBottomColor: '#32D3FF', color: '#32D3FF' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
               >
                 <Bell className="w-4 h-4" />
                 {t('notifications.all')}
@@ -2279,7 +2279,7 @@ const Dashboard = ({ athleteId }) => {
                   <div
                     key={notification.id}
                     className={`mb-2 rounded-none md:rounded-3xl hover:opacity-90 active:opacity-80 cursor-pointer transition-all overflow-hidden ${
-                      !notification.read ? 'ring-2 ring-[#00C2A8]/30' : ''
+                      !notification.read ? 'ring-2 ring-[#32D3FF]/30' : ''
                     }`}
                     style={{ background: 'var(--grad-surface)' }}
                     onClick={() => handleNotificationClick(notification)}
@@ -2324,7 +2324,7 @@ const Dashboard = ({ athleteId }) => {
                 <button
                   onClick={() => setNotificationTab('all')}
                   className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
-                  style={notificationTab === 'all' ? { borderBottomColor: '#00C2A8', color: '#00C2A8' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
+                  style={notificationTab === 'all' ? { borderBottomColor: '#32D3FF', color: '#32D3FF' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Bell className="w-4 h-4" />
                   {t('notifications.all')}

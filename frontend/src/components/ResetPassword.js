@@ -126,9 +126,9 @@ const ResetPassword = () => {
               <Button
                 onClick={() => navigate('/login')}
                 className="w-full text-white font-medium py-3 btn-transition border-0"
-                style={{ backgroundColor: '#00C2A8' }}
+                style={{ backgroundColor: '#32D3FF' }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
               >
                 {t('auth.loginNow')}
               </Button>
@@ -163,7 +163,7 @@ const ResetPassword = () => {
         <Card className="border-0 shadow-xl bg-gradient-to-br from-gray-600 to-gray-800">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl flex items-center justify-center text-white">
-              <Lock className="w-6 h-6 mr-2" style={{ color: '#00C2A8' }} />
+              <Lock className="w-6 h-6 mr-2" style={{ color: '#32D3FF' }} />
               {t('auth.resetPassword')}
             </CardTitle>
             <CardDescription className="text-gray-300">
@@ -221,9 +221,9 @@ const ResetPassword = () => {
               <Button
                 type="submit"
                 className="w-full text-white font-medium py-3 btn-transition border-0"
-                style={{ backgroundColor: '#00C2A8' }}
+                style={{ backgroundColor: '#32D3FF' }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -246,9 +246,9 @@ const ResetPassword = () => {
                 <Link 
                   to="/login" 
                   className="font-medium hover:underline"
-                  style={{ color: '#00C2A8' }}
+                  style={{ color: '#32D3FF' }}
                   onMouseEnter={(e) => e.currentTarget.style.color = '#009688'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#00C2A8'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#32D3FF'}
                 >
                   {t('auth.loginHere')}
                 </Link>

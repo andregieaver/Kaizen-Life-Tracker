@@ -84,7 +84,7 @@ const ChangePassword = ({ athleteId }) => {
     <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
       <CardHeader>
         <CardTitle className="flex items-center text-lg text-white">
-          <Lock className="w-5 h-5 mr-2 text-[#00C2A8]" />
+          <Lock className="w-5 h-5 mr-2 text-[#32D3FF]" />
           {t('account.changePassword')}
         </CardTitle>
         <CardDescription className="text-gray-400">

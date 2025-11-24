@@ -180,7 +180,7 @@ const Community = ({ athleteId }) => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -241,7 +241,7 @@ const Community = ({ athleteId }) => {
             value={newPostContent}
             onChange={(e) => setNewPostContent(e.target.value)}
             placeholder="What's on your mind?"
-            className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+            className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none resize-none"
             rows="3"
           />
           
@@ -269,7 +269,7 @@ const Community = ({ athleteId }) => {
                 className="hidden"
               />
               <div className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition-colors">
-                <Camera className="w-5 h-5 text-[#00C2A8]" />
+                <Camera className="w-5 h-5 text-[#32D3FF]" />
                 <span className="text-white text-sm">Add Photo</span>
               </div>
             </label>
@@ -277,7 +277,7 @@ const Community = ({ athleteId }) => {
             <Button
               onClick={handleCreatePost}
               disabled={!newPostContent.trim()}
-              className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-4 h-4 mr-2" />
               Post
@@ -344,13 +344,13 @@ const Community = ({ athleteId }) => {
                   <textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    className="w-full bg-gray-600 text-white rounded-lg p-3 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+                    className="w-full bg-gray-600 text-white rounded-lg p-3 border border-gray-500 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none resize-none"
                     rows="3"
                   />
                   <div className="flex space-x-2">
                     <Button
                       onClick={() => handleEditPost(post.id)}
-                      className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg"
+                      className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg"
                     >
                       Save
                     </Button>
@@ -441,12 +441,12 @@ const Community = ({ athleteId }) => {
                           onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
                           onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
                           placeholder="Write a comment..."
-                          className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                          className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
                         />
                         <Button
                           onClick={() => handleAddComment(post.id)}
                           disabled={!commentText[post.id]?.trim()}
-                          className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <Send className="w-4 h-4" />
                         </Button>

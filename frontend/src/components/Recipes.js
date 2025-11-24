@@ -220,7 +220,7 @@ const Recipes = ({ athleteId }) => {
                 value={selectedMealType}
                 onChange={(e) => setSelectedMealType(e.target.value)}
                 className="w-full px-4 py-2.5 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:border-transparent"
-                style={{ focusRingColor: '#00C2A8' }}
+                style={{ focusRingColor: '#32D3FF' }}
                 disabled={isGenerating}
               >
                 <option value="breakfast">{t('recipes.mealTypes.breakfast')}</option>
@@ -232,9 +232,9 @@ const Recipes = ({ athleteId }) => {
               onClick={generateRecipe}
               disabled={isGenerating}
               className="text-white border-0 whitespace-nowrap h-[42px] sm:h-auto px-6 py-2.5"
-              style={{ backgroundColor: '#00C2A8' }}
+              style={{ backgroundColor: '#32D3FF' }}
               onMouseEnter={(e) => !isGenerating && (e.currentTarget.style.backgroundColor = '#009688')}
-              onMouseLeave={(e) => !isGenerating && (e.currentTarget.style.backgroundColor = '#00C2A8')}
+              onMouseLeave={(e) => !isGenerating && (e.currentTarget.style.backgroundColor = '#32D3FF')}
             >
               {isGenerating ? (
                 <>
@@ -262,7 +262,7 @@ const Recipes = ({ athleteId }) => {
             value={filterMealType}
             onChange={(e) => setFilterMealType(e.target.value)}
             className="px-4 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2"
-            style={{ focusRingColor: '#00C2A8' }}
+            style={{ focusRingColor: '#32D3FF' }}
           >
             <option value="all">{t('recipes.allMeals')}</option>
             <option value="breakfast">{t('recipes.mealTypes.breakfast')}</option>

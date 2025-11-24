@@ -28,7 +28,7 @@ const CommunityChallenges = ({
               onClick={() => onFilterChange(filter)}
               className={`flex-1 sm:flex-none px-4 py-2 rounded-none md:rounded-lg text-sm font-medium transition-all ${
                 challengeFilter === filter
-                  ? 'bg-[#00C2A8] text-white'
+                  ? 'bg-[#32D3FF] text-white'
                   : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
               }`}
             >

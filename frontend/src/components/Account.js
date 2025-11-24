@@ -2639,7 +2639,7 @@ const Account = ({ athleteId }) => {
                       onClick={() => setPersonalForm(prev => ({...prev, privacy_level: 'public'}))}
                       className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                         personalForm.privacy_level === 'public'
-                          ? 'bg-[#00C2A8] text-white'
+                          ? 'bg-[#32D3FF] text-white'
                           : 'text-gray-400 hover:text-white'
                       }`}
                     >
@@ -2650,7 +2650,7 @@ const Account = ({ athleteId }) => {
                       onClick={() => setPersonalForm(prev => ({...prev, privacy_level: 'guarded'}))}
                       className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                         personalForm.privacy_level === 'guarded'
-                          ? 'bg-[#00C2A8] text-white'
+                          ? 'bg-[#32D3FF] text-white'
                           : 'text-gray-400 hover:text-white'
                       }`}
                     >
@@ -2661,7 +2661,7 @@ const Account = ({ athleteId }) => {
                       onClick={() => setPersonalForm(prev => ({...prev, privacy_level: 'private'}))}
                       className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                         personalForm.privacy_level === 'private'
-                          ? 'bg-[#00C2A8] text-white'
+                          ? 'bg-[#32D3FF] text-white'
                           : 'text-gray-400 hover:text-white'
                       }`}
                     >

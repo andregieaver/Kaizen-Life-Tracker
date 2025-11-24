@@ -342,7 +342,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                 <input
                   type="text"
                   placeholder={t('messages.searchConversations')}
-                  className="w-full pl-10 pr-3 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00C2A8]"
+                  className="w-full pl-10 pr-3 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#32D3FF]"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -455,7 +455,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                           <div
                             className={`max-w-[70%] md:max-w-[60%] ${
                               msg.sender_id === athleteId
-                                ? 'bg-[#00C2A8] text-white'
+                                ? 'bg-[#32D3FF] text-white'
                                 : 'bg-gray-700 text-white'
                             } rounded-2xl overflow-hidden`}
                           >
@@ -610,7 +610,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                       onChange={handleMessageTextChange}
                       onKeyPress={handleKeyPress}
                       placeholder={t('messages.typeMessage')}
-                      className="flex-1 p-3 bg-gray-800 text-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#00C2A8] min-h-[44px] max-h-32"
+                      className="flex-1 p-3 bg-gray-800 text-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#32D3FF] min-h-[44px] max-h-32"
                       rows="1"
                       disabled={sending}
                       style={{ fontSize: '16px' }} // Prevents zoom on iOS
@@ -625,7 +625,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                     <Button
                       onClick={handleSendMessage}
                       disabled={!messageText.trim() || sending}
-                      className="p-3 min-w-[44px] min-h-[44px] bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg disabled:opacity-50 flex items-center justify-center"
+                      className="p-3 min-w-[44px] min-h-[44px] bg-[#32D3FF] hover:bg-[#00a890] text-white rounded-lg disabled:opacity-50 flex items-center justify-center"
                     >
                       <Send className="w-5 h-5" />
                     </Button>

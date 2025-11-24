@@ -76,13 +76,13 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
                   e.stopPropagation();
                   onJoin(group.id, group.rules);
                 }}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white text-sm px-4 py-1"
+                className="bg-[#32D3FF] hover:bg-[#00a890] text-white text-sm px-4 py-1"
               >
                 Join
               </Button>
             )}
             {group.member_role && (
-              <span className="text-[#00C2A8] text-sm font-semibold flex items-center">
+              <span className="text-[#32D3FF] text-sm font-semibold flex items-center">
                 {group.member_role === 'admin' && <Crown className="w-4 h-4 mr-1" />}
                 {group.member_role === 'manager' && <Shield className="w-4 h-4 mr-1" />}
                 {group.member_role === 'moderator' && <Shield className="w-4 h-4 mr-1" />}

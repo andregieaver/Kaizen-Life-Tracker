@@ -78,7 +78,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
               <textarea
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
-                className="w-full bg-gray-600 text-white rounded-lg p-3 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+                className="w-full bg-gray-600 text-white rounded-lg p-3 border border-gray-500 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none resize-none"
                 rows="3"
               />
               
@@ -90,7 +90,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                     onClick={() => setEditVisibility('public')}
                     className={`px-3 py-1.5 rounded-lg transition-colors text-sm ${
                       editVisibility === 'public'
-                        ? 'bg-[#00C2A8] text-white'
+                        ? 'bg-[#32D3FF] text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-500'
                     }`}
                   >
@@ -103,7 +103,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                     onClick={() => setEditVisibility('private')}
                     className={`px-3 py-1.5 rounded-lg transition-colors text-sm ${
                       editVisibility === 'private'
-                        ? 'bg-[#00C2A8] text-white'
+                        ? 'bg-[#32D3FF] text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-500'
                     }`}
                   >
@@ -118,7 +118,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
               <div className="flex space-x-2">
                 <Button
                   onClick={() => handleEditPost(post.id)}
-                  className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg"
+                  className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg"
                 >
                   Save
                 </Button>
@@ -168,7 +168,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                           </>
                         ) : (
                           <>
-                            <div className="w-10 h-10 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold">
+                            <div className="w-10 h-10 rounded-full bg-[#32D3FF] flex items-center justify-center text-white font-semibold">
                               {post.shared_post_data.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
                             </div>
                             <FlagIcon nationality={post.shared_post_data.nationality} />
@@ -244,7 +244,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                     {post.content && post.content.length > 100 && (
                       <button
                         onClick={() => toggleExpandPost(post.id)}
-                        className="text-[#00C2A8] hover:text-[#00a890] text-sm font-semibold mt-1"
+                        className="text-[#32D3FF] hover:text-[#00a890] text-sm font-semibold mt-1"
                       >
                         {expandedPosts[post.id] ? 'Show less' : 'Show more'}
                       </button>
@@ -270,7 +270,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
 
                 <button
                   onClick={() => toggleComments(post.id)}
-                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#32D3FF] transition-colors"
                 >
                   <MessageCircle className="w-5 h-5" />
                   <span className="text-sm">{post.comments_count || 0}</span>
@@ -278,7 +278,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
 
                 <button
                   onClick={() => handleSharePost(post)}
-                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#32D3FF] transition-colors"
                 >
                   <Share2 className="w-5 h-5" />
                   <span className="text-sm">{post.shares_count || 0}</span>
@@ -349,12 +349,12 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                       onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
                       onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
                       placeholder={t('community.post.writeComment')}
-                      className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                      className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
                     />
                     <Button
                       onClick={() => handleAddComment(post.id)}
                       disabled={!commentText[post.id]?.trim()}
-                      className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Send className="w-4 h-4" />
                     </Button>

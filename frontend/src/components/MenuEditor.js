@@ -210,7 +210,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
           <div>
             <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-              <MenuIcon className="w-5 h-5 text-[#00C2A8]" />
+              <MenuIcon className="w-5 h-5 text-[#32D3FF]" />
               {title}
             </h2>
             <p className="text-sm text-gray-400 mt-1">{description}</p>
@@ -253,7 +253,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           className={`bg-gray-900 border rounded-lg transition-shadow ${
-                            snapshot.isDragging ? 'border-[#00C2A8] shadow-lg' : 'border-gray-700'
+                            snapshot.isDragging ? 'border-[#32D3FF] shadow-lg' : 'border-gray-700'
                           }`}
                         >
                           {item.is_separator ? (
@@ -288,7 +288,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                     type="text"
                                     value={item.label}
                                     onChange={(e) => updateMenuItem(menuType, item.id, 'label', e.target.value)}
-                                    className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#00C2A8]"
+                                    className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#32D3FF]"
                                     placeholder={t('menus.menuLabelPlaceholder')}
                                   />
                                 </div>
@@ -299,7 +299,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                     type="text"
                                     value={item.url}
                                     onChange={(e) => updateMenuItem(menuType, item.id, 'url', e.target.value)}
-                                    className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#00C2A8]"
+                                    className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#32D3FF]"
                                     placeholder={t('menus.urlPlaceholder')}
                                   />
                                 </div>
@@ -311,13 +311,13 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                       type="text"
                                       value={item.icon || ''}
                                       onChange={(e) => updateMenuItem(menuType, item.id, 'icon', e.target.value)}
-                                      className="flex-1 bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#00C2A8]"
+                                      className="flex-1 bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#32D3FF]"
                                       placeholder={t('menus.iconPlaceholder')}
                                     />
                                     <button
                                       type="button"
                                       onClick={() => openIconPicker(menuType, item.id)}
-                                      className="px-3 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded text-sm transition-colors whitespace-nowrap"
+                                      className="px-3 py-2 bg-[#32D3FF] hover:bg-[#00a890] text-white rounded text-sm transition-colors whitespace-nowrap"
                                       title={t('menus.chooseIconTitle')}
                                     >
                                       <span className="hidden sm:inline">{t('menus.pickIcon')}</span>
@@ -333,7 +333,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                       type="button"
                                       onClick={() => updateMenuItem(menuType, item.id, 'highlighted', !item.highlighted)}
                                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                                        item.highlighted ? 'bg-[#00C2A8]' : 'bg-gray-700'
+                                        item.highlighted ? 'bg-[#32D3FF]' : 'bg-gray-700'
                                       }`}
                                     >
                                       <span
@@ -345,7 +345,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                     {item.highlighted && (
                                       <input
                                         type="color"
-                                        value={item.highlight_color || '#00C2A8'}
+                                        value={item.highlight_color || '#32D3FF'}
                                         onChange={(e) => updateMenuItem(menuType, item.id, 'highlight_color', e.target.value)}
                                         className="w-8 h-8 rounded border border-gray-700 cursor-pointer"
                                         title={t('menus.chooseHighlightColor')}
@@ -392,7 +392,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00C2A8] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#32D3FF] mx-auto mb-4"></div>
           <p className="text-gray-400">{t('menus.loadingMenus')}</p>
         </div>
       </div>
