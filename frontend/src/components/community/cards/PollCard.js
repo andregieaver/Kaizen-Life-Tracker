@@ -104,7 +104,7 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
                   <div 
                     className={`relative overflow-hidden rounded-lg border-2 transition-all ${
                       isSelected 
-                        ? 'border-[#00C2A8] bg-[#00C2A8]/10' 
+                        ? 'border-[#32D3FF] bg-[#32D3FF]/10' 
                         : 'border-gray-600 bg-gray-700/50'
                     }`}
                   >
