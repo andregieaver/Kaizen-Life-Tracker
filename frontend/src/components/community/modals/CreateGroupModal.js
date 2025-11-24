@@ -151,7 +151,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
           </div>
         </div>
         
-        <div className="p-6 pt-4 flex space-x-3">
+        <div className="p-6 pt-4 pb-20 md:pb-6 flex space-x-3">
           <Button
             onClick={onCreate}
             className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
