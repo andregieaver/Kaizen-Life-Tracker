@@ -10195,6 +10195,21 @@ async def get_body_score_data(athlete_id: str, response: Response):
                 # Get RHR from lowest_heart_rate - check both locations
                 rhr = (latest_sleep.get('raw_data', {}).get('lowest_heart_rate') or 
                        latest_sleep.get('lowest_heart_rate'))
+                
+                # If current sleep doesn't have RHR, look for most recent sleep with RHR
+                if not rhr:
+                    sleep_with_rhr = await db.oura_activities.find_one(
+                        {
+                            "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
+                            "type": "Sleep",
+                            "lowest_heart_rate": {"$ne": None, "$exists": True}
+                        },
+                        {"_id": 0, "lowest_heart_rate": 1},
+                        sort=[("date", -1)]
+                    )
+                    if sleep_with_rhr:
+                        rhr = sleep_with_rhr.get('lowest_heart_rate')
+                
                 if rhr:
                     result['resting_heart_rate'] = rhr
             
