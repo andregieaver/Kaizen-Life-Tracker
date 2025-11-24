@@ -1691,8 +1691,17 @@
       "monthlyRecurringRevenue": "Revenu récurrent mensuel",
       "annualRecurringRevenue": "Revenu récurrent annuel",
       "averageRevenuePerUser": "Revenu moyen par utilisateur",
-      "averageRevenuePerPaidUser": "Revenu moyen par utilisateur payant"
-    ,
+      "averageRevenuePerPaidUser": "Revenu moyen par utilisateur payant",
+      "totalSubscribers": "Total de Suscriptores",
+      "active": "Activos",
+      "trial": "Prueba",
+      "cancelled": "Cancelados",
+      "comparedToPrevious": "Comparado con período anterior",
+      "subscriberGrowth": "Crecimiento de Suscriptores",
+      "loading": "Cargando...",
+      "noData": "No hay datos disponibles"
+    }
+  },
   "onboarding": {
     "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
