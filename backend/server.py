@@ -8937,8 +8937,9 @@ async def get_oura_activities(athlete_id: str, limit: int = 30):
     """
     try:
         # Fetch recent activities from oura_activities collection
+        # Support both athlete_id and user_id for backwards compatibility
         activities = await db.oura_activities.find(
-            {"athlete_id": athlete_id}
+            {"$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]}
         ).sort("date", -1).limit(limit).to_list(length=limit)
         
         # Return formatted response
