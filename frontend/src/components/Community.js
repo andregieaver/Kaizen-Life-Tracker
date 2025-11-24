@@ -3942,7 +3942,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     {pollOptions.length < 10 && (
                       <button
                         onClick={handleAddPollOption}
-                        className="w-full py-2 border-2 border-dashed border-gray-600 hover:border-[#00C2A8] rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors flex items-center justify-center space-x-2"
+                        className="w-full py-2 border-2 border-dashed border-gray-600 hover:border-[#32D3FF] rounded-lg text-gray-400 hover:text-[#32D3FF] transition-colors flex items-center justify-center space-x-2"
                       >
                         <PlusCircle className="w-5 h-5" />
                         <span className="text-sm font-semibold">{t('community.poll.addOption')}</span>
