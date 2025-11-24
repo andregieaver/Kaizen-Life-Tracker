@@ -71,10 +71,12 @@ class OuraService(BaseIntegrationService):
             # First, fetch detailed sleep sessions (has HRV, RHR, duration) - Gen 3 and Gen 4 compatible
             sleep_sessions = {}
             try:
+                # The /sleep endpoint requires end_date to be +1 day to include the last day
+                sleep_end_date = (datetime.fromisoformat(end_date) + timedelta(days=1)).strftime("%Y-%m-%d")
                 sleep_session_response = await client.get(
                     f"{self.api_base_url}/sleep",
                     headers={"Authorization": f"Bearer {access_token}"},
-                    params={"start_date": start_date, "end_date": end_date}
+                    params={"start_date": start_date, "end_date": sleep_end_date}
                 )
                 
                 if sleep_session_response.status_code == 200:
