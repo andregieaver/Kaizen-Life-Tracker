@@ -8844,6 +8844,15 @@ async def oura_auth_callback(
         result = await service.exchange_code_for_tokens(code, state)
         
         logging.info(f"[OURA] Successfully connected for user: {result['user_id']}")
+        
+        # Trigger initial sync in background (non-blocking)
+        try:
+            import asyncio
+            asyncio.create_task(service.sync_activities(result['user_id'], force_full_sync=True))
+            logging.info(f"[OURA] Initial sync triggered for user: {result['user_id']}")
+        except Exception as sync_error:
+            logging.warning(f"[OURA] Failed to trigger initial sync: {sync_error}")
+        
         return RedirectResponse(url=f"/dashboard/account?tab=integrations&oura=connected")
         
     except HTTPException:
