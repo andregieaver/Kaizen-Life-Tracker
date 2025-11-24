@@ -133,3 +133,7 @@ frontend/node_modules/.cache/default-development/12.pack_
 # Environment files are needed for Emergent deployments - DO NOT IGNORE
 # *.env
 # *.env.*
+-e 
+# Environment files
+*.env
+*.env.*
