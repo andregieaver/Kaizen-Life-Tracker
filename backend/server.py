@@ -8931,16 +8931,26 @@ async def get_oura_integration_status(athlete_id: str):
 # COROS (via Terra API) routes
 
 @api_router.get("/integrations/oura/{athlete_id}/activities")
-async def get_oura_activities(athlete_id: str, limit: int = 30):
+async def get_oura_activities(athlete_id: str, limit: int = 30, response: Response = None):
     """
     Get recent Oura activities (Sleep, Readiness, Activity) from database
     """
     try:
+        # Add cache control headers to prevent stale data
+        if response:
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
+        
         # Fetch recent activities from oura_activities collection
         # Support both athlete_id and user_id for backwards compatibility
         activities = await db.oura_activities.find(
             {"$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]}
         ).sort("date", -1).limit(limit).to_list(length=limit)
+        
+        logging.info(f"Fetching Oura activities for athlete_id: {athlete_id}, found {len(activities)} activities")
+        if activities:
+            logging.debug(f"Sample activity types: {[a.get('type') for a in activities[:5]]}")
         
         # Return formatted response
         return {
