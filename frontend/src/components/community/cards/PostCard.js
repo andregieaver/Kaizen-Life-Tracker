@@ -266,7 +266,7 @@ const PostCard = ({
                 href={post.url_preview.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="block mb-4 -mx-3 sm:mx-0 border border-gray-600 rounded-none sm:rounded-lg overflow-hidden hover:border-[#00C2A8] transition-colors"
+                className="block mb-4 -mx-3 sm:mx-0 border border-gray-600 rounded-none sm:rounded-lg overflow-hidden hover:border-[#32D3FF] transition-colors"
               >
                 {post.url_preview.image && (
                   <img 
@@ -290,7 +290,7 @@ const PostCard = ({
             {/* Embedded Shared Post */}
             {post.shared_post_data && (
               <div 
-                className="mb-4 border-2 border-gray-600 rounded-lg overflow-hidden bg-gray-800/50 cursor-pointer hover:border-[#00C2A8] transition-colors"
+                className="mb-4 border-2 border-gray-600 rounded-lg overflow-hidden bg-gray-800/50 cursor-pointer hover:border-[#32D3FF] transition-colors"
                 onClick={() => onToggleComments(post.shared_post_data.id)}
               >
                 {/* Shared Post Header */}
@@ -376,7 +376,7 @@ const PostCard = ({
 
           <button
             onClick={() => onToggleComments(post.id)}
-            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#32D3FF] transition-colors"
           >
             <MessageCircle className="w-5 h-5" />
             <span className="text-sm">{post.comments_count || 0}</span>
@@ -384,7 +384,7 @@ const PostCard = ({
 
           <button
             onClick={() => onSharePost(post)}
-            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#32D3FF] transition-colors"
           >
             <Share2 className="w-5 h-5" />
             <span className="text-sm">{post.shares_count || 0}</span>
