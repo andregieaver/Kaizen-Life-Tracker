@@ -65,6 +65,8 @@ class OuraService(BaseIntegrationService):
         
         end_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         
+        logging.info(f"[OURA] Syncing date range: {start_date} to {end_date}")
+        
         async with httpx.AsyncClient() as client:
             # First, fetch detailed sleep sessions (has HRV, RHR, duration) - Gen 3 and Gen 4 compatible
             sleep_sessions = {}
