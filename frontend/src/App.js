@@ -401,6 +401,16 @@ function App() {
             } 
           />
           <Route 
+            path="/account" 
+            element={
+              athleteId ? (
+                <Navigate to="/dashboard/account" replace />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
             path="/auth/oura/callback" 
             element={<OuraCallback />} 
           />
