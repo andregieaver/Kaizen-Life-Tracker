@@ -441,8 +441,8 @@ em-emoji-picker button:hover {
 }
 
 em-emoji-picker button[aria-selected="true"] {
-  color: rgb(0, 194, 168) !important;
-  border-bottom-color: rgb(0, 194, 168) !important;
+  color: rgb(50, 211, 255) !important;
+  border-bottom-color: rgb(50, 211, 255) !important;
 }
 
 /* Emoji picker scrollbar */
