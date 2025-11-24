@@ -375,7 +375,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                             className="w-12 h-12 rounded-full object-cover"
                           />
                         ) : (
-                          <div className="w-12 h-12 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                          <div className="w-12 h-12 bg-[#32D3FF] rounded-full flex items-center justify-center">
                             <span className="text-white font-bold">
                               {conv.other_user.name?.charAt(0).toUpperCase()}
                             </span>
@@ -393,7 +393,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                       </div>
                       
                       {conv.unread_count > 0 && (
-                        <div className="w-6 h-6 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                        <div className="w-6 h-6 bg-[#32D3FF] rounded-full flex items-center justify-center">
                           <span className="text-white text-xs font-bold">{conv.unread_count}</span>
                         </div>
                       )}
@@ -425,7 +425,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                         className="w-10 h-10 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-[#32D3FF] rounded-full flex items-center justify-center">
                         <span className="text-white font-bold">
                           {selectedConversation.other_user.name?.charAt(0).toUpperCase()}
                         </span>
