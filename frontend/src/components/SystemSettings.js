@@ -2564,7 +2564,7 @@ const SystemSettings = ({ athleteId }) => {
           {/* Statistics Tab */}
           <TabsContent value="statistics">
             <StatisticsTab
-              stats={statsHook.subscriberStats}
+              subscriberStats={statsHook.subscriberStats}
               selectedPeriod={statsHook.selectedPeriod}
               compareEnabled={statsHook.compareEnabled}
               chartData={statsHook.chartData}
