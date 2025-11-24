@@ -98,7 +98,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (
           <>
@@ -126,7 +126,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                   </>
                 ) : (
                   <>
-                    <div className="w-20 h-20 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                    <div className="w-20 h-20 bg-[#32D3FF] rounded-full flex items-center justify-center">
                       <span className="text-white font-bold text-2xl">
                         {profile.name?.charAt(0).toUpperCase()}
                       </span>
@@ -151,7 +151,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 onClick={() => setActiveTab('about')}
                 className={`px-4 py-2 font-semibold transition-colors ${
                   activeTab === 'about'
-                    ? 'text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                    ? 'text-[#32D3FF] border-b-2 border-[#32D3FF]'
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
@@ -161,7 +161,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 onClick={() => setActiveTab('posts')}
                 className={`px-4 py-2 font-semibold transition-colors ${
                   activeTab === 'posts'
-                    ? 'text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                    ? 'text-[#32D3FF] border-b-2 border-[#32D3FF]'
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
@@ -208,7 +208,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                       {profile.interests.map((interest, idx) => (
                         <span
                           key={idx}
-                          className="px-3 py-1 bg-[#00C2A8]/20 text-[#00C2A8] rounded-full text-sm"
+                          className="px-3 py-1 bg-[#32D3FF]/20 text-[#32D3FF] rounded-full text-sm"
                         >
                           {translateInterest(interest)}
                         </span>
@@ -219,7 +219,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count || 0}</p>
+                    <p className="text-2xl font-bold text-[#32D3FF]">{profile.posts_count || 0}</p>
                     <p className="text-gray-400 text-sm">{t('community.posts')}</p>
                   </div>
                   <div 
@@ -229,7 +229,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                       setShowFollowersModal(true);
                     }}
                   >
-                    <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count || 0}</p>
+                    <p className="text-2xl font-bold text-[#32D3FF]">{profile.followers_count || 0}</p>
                     <p className="text-gray-400 text-sm">{t('community.followers')}</p>
                   </div>
                   <div 
@@ -239,7 +239,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                       setShowFollowersModal(true);
                     }}
                   >
-                    <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count || 0}</p>
+                    <p className="text-2xl font-bold text-[#32D3FF]">{profile.following_count || 0}</p>
                     <p className="text-gray-400 text-sm">{t('community.following')}</p>
                   </div>
                 </div>
@@ -251,7 +251,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
               <div className="space-y-4">
                 {postsLoading ? (
                   <div className="flex justify-center py-12">
-                    <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin"></div>
                   </div>
                 ) : userPosts.length > 0 ? (
                   userPosts.map(post => (
@@ -265,7 +265,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                             className="w-10 h-10 rounded-full object-cover"
                           />
                         ) : (
-                          <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                          <div className="w-10 h-10 bg-[#32D3FF] rounded-full flex items-center justify-center">
                             <span className="text-white font-bold">
                               {post.athlete_name?.charAt(0).toUpperCase()}
                             </span>
@@ -317,7 +317,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 
                         <button
                           onClick={() => handleToggleComments && handleToggleComments(post.id)}
-                          className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
+                          className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#32D3FF] transition-colors"
                         >
                           <MessageCircle className="w-5 h-5" />
                           <span className="text-sm">{post.comments_count || 0}</span>
@@ -325,7 +325,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 
                         <button
                           onClick={() => handleShare(post.id)}
-                          className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
+                          className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#32D3FF] transition-colors"
                         >
                           <Share2 className="w-5 h-5" />
                           <span className="text-sm">{post.shares_count || 0}</span>
@@ -347,7 +347,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                     <>
                       <Button
                         onClick={() => onAcceptFollowRequest && onAcceptFollowRequest(profile.requestContext.requestId)}
-                        className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                        className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                       >
                         {t('athlete.acceptRequest')}
                       </Button>
@@ -364,7 +364,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                     <>
                       <Button
                         onClick={() => onAcceptMessageRequest && onAcceptMessageRequest(profile.requestContext.requestId)}
-                        className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                        className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                       >
                         {t('athlete.acceptRequest')}
                       </Button>
@@ -389,7 +389,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                               ? 'bg-gray-700 hover:bg-gray-600'
                               : profile.follow_request_sent
                               ? 'bg-gray-600 cursor-default'
-                              : 'bg-[#00C2A8] hover:bg-[#00a890]'
+                              : 'bg-[#32D3FF] hover:bg-[#2ab8e6]'
                           } text-white`}
                           disabled={profile.follow_request_sent}
                         >

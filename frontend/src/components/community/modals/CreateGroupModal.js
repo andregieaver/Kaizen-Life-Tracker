@@ -112,7 +112,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
               value={groupData.name}
               onChange={(e) => setGroupData({ ...groupData, name: e.target.value })}
               placeholder={t('community.group.enterGroupName')}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
             />
           </div>
           
@@ -122,7 +122,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
               value={groupData.description}
               onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
               placeholder={t('community.group.describeGroup')}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none resize-none"
               rows="3"
             />
           </div>
@@ -132,7 +132,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
             <select
               value={groupData.privacy}
               onChange={(e) => setGroupData({ ...groupData, privacy: e.target.value })}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
             >
               <option value="public">{t('community.group.privacyPublic')}</option>
               <option value="private">{t('community.group.privacyPrivate')}</option>
@@ -144,7 +144,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
               value={groupData.rules}
               onChange={(e) => setGroupData({ ...groupData, rules: e.target.value })}
               placeholder={t('community.group.enterGroupRules')}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none resize-none"
               rows="4"
             />
             <p className="text-gray-400 text-xs mt-1">{t('community.group.rulesHelpText')}</p>
@@ -154,7 +154,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
         <div className="p-6 pt-4 flex space-x-3">
           <Button
             onClick={onCreate}
-            className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+            className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
           >
             {t('community.modals.createGroup')}
           </Button>

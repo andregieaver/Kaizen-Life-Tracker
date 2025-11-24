@@ -13,7 +13,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg p-8">
-          <RefreshCw className="w-8 h-8 text-[#00C2A8] animate-spin mx-auto" />
+          <RefreshCw className="w-8 h-8 text-[#32D3FF] animate-spin mx-auto" />
           <p className="text-white mt-4">{t('community.challenge.loadingChallenge')}</p>
         </div>
       </div>
@@ -70,7 +70,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
-                  <Target className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <Target className="w-5 h-5 mr-2 text-[#32D3FF]" />
                   <span className="font-semibold">{t('community.challenge.goal')}</span>
                 </div>
                 <p className="text-gray-300 text-lg">
@@ -85,7 +85,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
-                  <Calendar className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <Calendar className="w-5 h-5 mr-2 text-[#32D3FF]" />
                   <span className="font-semibold">{t('community.challenge.duration')}</span>
                 </div>
                 <p className="text-gray-300 text-sm">
@@ -100,7 +100,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
-                  <UsersIcon className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <UsersIcon className="w-5 h-5 mr-2 text-[#32D3FF]" />
                   <span className="font-semibold">{t('community.challenge.participants')}</span>
                 </div>
                 <p className="text-gray-300 text-2xl">
@@ -112,7 +112,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
-                  {challengeData.visibility === 'public' ? <Globe className="w-5 h-5 mr-2 text-[#00C2A8]" /> : <Lock className="w-5 h-5 mr-2 text-[#00C2A8]" />}
+                  {challengeData.visibility === 'public' ? <Globe className="w-5 h-5 mr-2 text-[#32D3FF]" /> : <Lock className="w-5 h-5 mr-2 text-[#32D3FF]" />}
                   <span className="font-semibold">{t('community.challenge.visibility')}</span>
                 </div>
                 <p className="text-gray-300 capitalize">
@@ -134,17 +134,17 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
 
           {/* User Progress */}
           {hasJoined && (
-            <div className="border-0 bg-gradient-to-r from-[#00C2A8]/20 to-green-500/20 mb-6" style={{ background: 'var(--grad-surface)' }}>
+            <div className="border-0 bg-gradient-to-r from-[#32D3FF]/20 to-green-500/20 mb-6" style={{ background: 'var(--grad-surface)' }}>
               <div className="p-4" className="p-4">
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="text-white font-semibold">{t('community.challenge.yourProgress')}</h3>
-                  <span className="text-[#00C2A8] font-bold text-lg">
+                  <span className="text-[#32D3FF] font-bold text-lg">
                     {progress.toFixed(1)} / {goalValue} {challengeData.goal_unit}
                   </span>
                 </div>
                 <div className="w-full bg-gray-600 rounded-full h-3 mb-2">
                   <div 
-                    className="bg-gradient-to-r from-[#00C2A8] to-green-500 h-3 rounded-full transition-all duration-300"
+                    className="bg-gradient-to-r from-[#32D3FF] to-green-500 h-3 rounded-full transition-all duration-300"
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
@@ -189,7 +189,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                         </span>
                       </div>
                       <div className="text-right">
-                        <p className="text-[#00C2A8] font-semibold">
+                        <p className="text-[#32D3FF] font-semibold">
                           {participant.current_progress.toFixed(1)} {challengeData.goal_unit}
                         </p>
                         <p className="text-gray-400 text-xs">{participant.percentage_complete.toFixed(1)}%</p>
@@ -218,7 +218,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 />
                 <button
                   onClick={handleAddComment}
-                  className="px-4 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+                  className="px-4 py-2 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white rounded-lg transition-colors"
                 >
                   <Send className="w-4 h-4" />
                 </button>
@@ -269,7 +269,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 ) : (
                   <button
                     onClick={onJoin}
-                    className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+                    className="px-6 py-2 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white rounded-lg transition-colors"
                   >
                     <Trophy className="w-4 h-4 inline mr-2" />
                     {t('community.challenge.joinChallenge')}

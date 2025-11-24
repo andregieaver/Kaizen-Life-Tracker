@@ -54,7 +54,7 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                   </>
                 ) : (
                   <>
-                    <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#32D3FF] rounded-full flex items-center justify-center">
                       <span className="text-white font-bold">
                         {post.athlete_name?.charAt(0).toUpperCase()}
                       </span>
@@ -103,7 +103,7 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                         </>
                       ) : (
                         <>
-                          <div className="w-8 h-8 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold text-sm">
+                          <div className="w-8 h-8 rounded-full bg-[#32D3FF] flex items-center justify-center text-white font-semibold text-sm">
                             {post.shared_post_data.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
                           </div>
                           <FlagIcon nationality={post.shared_post_data.nationality} />
@@ -177,7 +177,7 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                       </>
                     ) : (
                       <>
-                        <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 bg-[#32D3FF] rounded-full flex items-center justify-center flex-shrink-0">
                           <span className="text-white font-bold text-xs">
                             {comment.athlete_name?.charAt(0).toUpperCase()}
                           </span>
@@ -239,7 +239,7 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   placeholder={t('community.post.writeCommentMention')}
-                  className="w-full bg-gray-600 text-white rounded-lg pl-4 pr-12 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                  className="w-full bg-gray-600 text-white rounded-lg pl-4 pr-12 py-2 border border-gray-500 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
                   onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
                 />
                 {/* Emoji Button - Inside Input on Right */}
@@ -249,7 +249,7 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
               </div>
               <Button
                 onClick={onAddComment}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white p-2"
+                className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white p-2"
               >
                 <Send className="w-4 h-4" />
               </Button>

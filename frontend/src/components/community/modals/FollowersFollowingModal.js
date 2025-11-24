@@ -136,7 +136,7 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
               }}
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                 activeTab === 'followers'
-                  ? 'bg-[#00C2A8] text-white'
+                  ? 'bg-[#32D3FF] text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
@@ -149,7 +149,7 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
               }}
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
                 activeTab === 'following'
-                  ? 'bg-[#00C2A8] text-white'
+                  ? 'bg-[#32D3FF] text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
@@ -168,7 +168,7 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('community.searchUsers')}
-                className="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                className="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-3 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
               />
             </div>
           </div>
@@ -177,7 +177,7 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
           <div className="flex-1 overflow-y-auto space-y-3">
             {loading ? (
               <div className="flex justify-center py-12">
-                <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin"></div>
               </div>
             ) : filteredList.length === 0 ? (
               <div className="text-center py-12">

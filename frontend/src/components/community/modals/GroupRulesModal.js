@@ -32,7 +32,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4">
         <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
           <div className="flex justify-center py-12">
-            <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin"></div>
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
                   type="checkbox"
                   checked={rulesAccepted}
                   onChange={(e) => setRulesAccepted(e.target.checked)}
-                  className="w-5 h-5 text-[#00C2A8] bg-gray-700 border-gray-600 rounded focus:ring-[#00C2A8] focus:ring-2"
+                  className="w-5 h-5 text-[#32D3FF] bg-gray-700 border-gray-600 rounded focus:ring-[#32D3FF] focus:ring-2"
                 />
                 <span className="text-white">I agree to follow the group rules</span>
               </label>
@@ -76,7 +76,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
               <Button
                 onClick={onAccept}
                 disabled={!rulesAccepted}
-                className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Join Group
               </Button>

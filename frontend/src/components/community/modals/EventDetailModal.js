@@ -17,7 +17,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
       >
         <div className="bg-gray-800 rounded-lg p-8 text-white">
           <div className="flex items-center space-x-3">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#00C2A8]"></div>
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#32D3FF]"></div>
             <p>{t('community.event.loadingEventDetails')}</p>
           </div>
         </div>
@@ -48,7 +48,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
               {eventData.profile_image ? (
                 <img src={eventData.profile_image} alt={eventData.name} className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover flex-shrink-0" />
               ) : (
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#32D3FF] rounded-full flex items-center justify-center flex-shrink-0">
                   <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
               )}
@@ -67,7 +67,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                     </div>
                   )}
                   <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm mt-2">
-                    <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} {t('community.event.going')}</span>
+                    <span className="text-[#32D3FF] font-semibold">{eventData.going_count || 0} {t('community.event.going')}</span>
                     <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} {t('community.event.interested')}</span>
                   </div>
                 </div>
@@ -114,7 +114,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                         </>
                       ) : (
                         <>
-                          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#32D3FF] rounded-full flex items-center justify-center flex-shrink-0">
                             <span className="text-white font-semibold text-xs sm:text-sm">
                               {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
                             </span>
@@ -203,7 +203,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                           className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover flex-shrink-0"
                         />
                       ) : (
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#32D3FF] rounded-full flex items-center justify-center flex-shrink-0">
                           <span className="text-white font-bold text-xs">
                             {comment.athlete_name?.charAt(0).toUpperCase()}
                           </span>
@@ -249,12 +249,12 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 placeholder={t('community.event.writeComment')}
-                className="flex-1 bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                className="flex-1 bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
                 onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
               />
               <Button
                 onClick={onAddComment}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white p-2 sm:px-4 sm:py-2"
+                className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white p-2 sm:px-4 sm:py-2"
               >
                 <Send className="w-4 h-4" />
               </Button>

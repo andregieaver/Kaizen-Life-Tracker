@@ -44,7 +44,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
               value={searchQuery}
               onChange={onSearchChange}
               placeholder={t('community.group.searchByName')}
-              className="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              className="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-3 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
             />
           </div>
         </div>
@@ -54,7 +54,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
           <select
             value={nationalityFilter}
             onChange={(e) => setNationalityFilter(e.target.value)}
-            className="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
+            className="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none text-sm"
           >
             <option value="all">{t('community.post.allNationalities')}</option>
             {uniqueNationalities.map(nationality => (
@@ -67,7 +67,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
         <div className="flex-1 overflow-y-auto space-y-3">
           {loading ? (
             <div className="flex justify-center py-12">
-              <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : filteredAthletes.length === 0 ? (
             <div className="text-center py-12">
@@ -99,7 +99,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                       </>
                     ) : (
                       <>
-                        <div className="w-14 h-14 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                        <div className="w-14 h-14 bg-[#32D3FF] rounded-full flex items-center justify-center">
                           <span className="text-white font-bold text-xl">
                             {athlete.name?.charAt(0).toUpperCase()}
                           </span>
@@ -140,7 +140,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                             ? 'bg-gray-600 hover:bg-gray-500'
                             : athlete.follow_request_sent
                             ? 'bg-gray-600 cursor-default'
-                            : 'bg-[#00C2A8] hover:bg-[#00a890]'
+                            : 'bg-[#32D3FF] hover:bg-[#2ab8e6]'
                         } text-white text-sm p-2`}
                         title={
                           athlete.is_following 
