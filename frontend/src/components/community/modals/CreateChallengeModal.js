@@ -244,7 +244,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </div>
             </div>
 
-            <div className="flex justify-end space-x-3 pt-4">
+            <div className="flex justify-end space-x-3 pt-4 pb-20 md:pb-4">
               <button
                 onClick={onClose}
                 className="px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
