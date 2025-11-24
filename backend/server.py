@@ -94,6 +94,15 @@ scheduler = AsyncIOScheduler()
 # Create the main app without a prefix
 app = FastAPI()
 
+# Configure CORS middleware for production deployment
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins for flexibility
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Middleware to update last_active_at for authenticated requests
 @app.middleware("http")
 async def update_last_active(request: Request, call_next):
