@@ -3960,7 +3960,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         max="30"
                         value={pollDuration}
                         onChange={(e) => setPollDuration(parseInt(e.target.value))}
-                        className="flex-1 accent-[#00C2A8]"
+                        className="flex-1 accent-[#32D3FF]"
                       />
                       <span className="text-white font-semibold bg-gray-600 px-3 py-1 rounded-lg min-w-[80px] text-center">
                         {pollDuration} {t(`community.poll.${pollDuration === 1 ? 'day' : 'days'}`)}
