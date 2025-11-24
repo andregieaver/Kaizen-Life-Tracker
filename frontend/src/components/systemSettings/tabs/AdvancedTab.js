@@ -368,7 +368,7 @@ const AdvancedTab = ({
         <Button
           onClick={onSaveAdvancedSettings}
           disabled={isSaving}
-          className="px-6 py-2 bg-[#32D3FF] hover:bg-[#00a890] text-white rounded-lg transition-colors flex items-center gap-2"
+          className="px-6 py-2 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white rounded-lg transition-colors flex items-center gap-2"
         >
           <Save className="w-4 h-4" />
           {isSaving ? t('systemSettings.advanced.saving') : t('systemSettings.advanced.saveSettings')}

@@ -232,7 +232,7 @@ const Schedules = ({ athleteId }) => {
             </div>
             <Button 
               onClick={handleAddScheduleClick}
-              className="bg-[#32D3FF] hover:bg-[#00a890] text-white btn-transition w-full md:w-auto"
+              className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white btn-transition w-full md:w-auto"
               data-testid="add-schedule-btn"
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -356,7 +356,7 @@ const Schedules = ({ athleteId }) => {
                 </Button>
                 <Button 
                   type="submit"
-                  className="w-full sm:w-auto bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                  className="w-full sm:w-auto bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                   data-testid="save-schedule-btn"
                 >
                   Save Schedule
@@ -538,7 +538,7 @@ const Schedules = ({ athleteId }) => {
                   Cancel
                 </Button>
                 <Button 
-                  className="w-full sm:w-auto bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                  className="w-full sm:w-auto bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                   onClick={() => {
                     setShowScheduleLimitModal(false);
                     navigate('/dashboard/account?tab=subscriptions');

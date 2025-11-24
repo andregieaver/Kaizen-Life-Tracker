@@ -121,7 +121,7 @@ const CouponsTab = ({
           <div className="mt-6">
             <Button
               onClick={onCreateCoupon}
-              className="w-full sm:w-auto bg-[#32D3FF] hover:bg-[#00a890] text-white"
+              className="w-full sm:w-auto bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
               {t('systemSettings.coupons.createCoupon')}

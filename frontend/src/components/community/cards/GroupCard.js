@@ -76,7 +76,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
                   e.stopPropagation();
                   onJoin(group.id, group.rules);
                 }}
-                className="bg-[#32D3FF] hover:bg-[#00a890] text-white text-sm px-4 py-1"
+                className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white text-sm px-4 py-1"
               >
                 Join
               </Button>

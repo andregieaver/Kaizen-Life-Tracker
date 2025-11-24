@@ -161,7 +161,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                   e.stopPropagation();
                   onJoin();
                 }}
-                className="flex-1 px-4 py-2 rounded-lg bg-[#32D3FF] hover:bg-[#00a890] text-white transition-colors"
+                className="flex-1 px-4 py-2 rounded-lg bg-[#32D3FF] hover:bg-[#2ab8e6] text-white transition-colors"
               >
                 <Trophy className="w-4 h-4 inline mr-2" />
                 {translate('community.challenge.joinChallenge')}

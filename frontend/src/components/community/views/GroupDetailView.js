@@ -67,7 +67,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             {group.member_role === 'admin' && (
               <button
                 onClick={onEditGroup}
-                className="p-2 bg-[#32D3FF] hover:bg-[#00a890] rounded-lg transition-colors"
+                className="p-2 bg-[#32D3FF] hover:bg-[#2ab8e6] rounded-lg transition-colors"
                 title={t('community.actions.editGroup')}
               >
                 <Edit2 className="w-5 h-5 text-white" />
@@ -143,7 +143,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                         alert('Failed to approve member');
                       }
                     }}
-                    className="p-2 bg-[#32D3FF] hover:bg-[#00a890] rounded-lg transition-colors"
+                    className="p-2 bg-[#32D3FF] hover:bg-[#2ab8e6] rounded-lg transition-colors"
                     title="Approve"
                   >
                     <ThumbsUp className="w-5 h-5 text-white" />
@@ -303,7 +303,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             <Button
               onClick={handleCreateGroupPost}
               disabled={!newPostContent.trim()}
-              className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-4 h-4 mr-2" />
               Post

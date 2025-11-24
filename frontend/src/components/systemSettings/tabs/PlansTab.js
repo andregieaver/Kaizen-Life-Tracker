@@ -66,7 +66,7 @@ const PlansTab = ({
             <Button
               size="sm"
               onClick={() => onAddFeature(planKey)}
-              className="bg-[#32D3FF] hover:bg-[#00a890] text-white text-xs"
+              className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white text-xs"
             >
               <Plus className="w-3 h-3 mr-1" />
               {t('systemSettings.plans.addFeature')}
@@ -126,7 +126,7 @@ const PlansTab = ({
         <Button
           onClick={onSavePlanSettings}
           disabled={isSaving}
-          className="px-6 py-2 bg-[#32D3FF] hover:bg-[#00a890] text-white rounded-lg transition-colors flex items-center gap-2"
+          className="px-6 py-2 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white rounded-lg transition-colors flex items-center gap-2"
         >
           <Save className="w-4 h-4" />
           {isSaving ? t('systemSettings.plans.saving') : t('systemSettings.plans.savePlanSettings')}

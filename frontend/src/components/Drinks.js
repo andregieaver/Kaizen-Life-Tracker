@@ -116,7 +116,7 @@ const Drinks = ({ athleteId }) => {
           </div>
           <Button
             onClick={() => setShowAddModal(true)}
-            className="bg-gradient-to-r from-[#32D3FF] to-[#00a890] hover:from-[#00a890] hover:to-[#32D3FF] text-white"
+            className="bg-gradient-to-r from-[#32D3FF] to-[#2ab8e6] hover:from-[#2ab8e6] hover:to-[#32D3FF] text-white"
           >
             <Plus className="w-4 h-4 mr-2" />
             Log Drink
@@ -158,7 +158,7 @@ const Drinks = ({ athleteId }) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-[#32D3FF] to-[#00a890] border-0">
+        <Card className="bg-gradient-to-br from-[#32D3FF] to-[#2ab8e6] border-0">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -219,7 +219,7 @@ const Drinks = ({ athleteId }) => {
               <p className="text-gray-400">No drinks logged for this day</p>
               <Button
                 onClick={() => setShowAddModal(true)}
-                className="mt-4 bg-gradient-to-r from-[#32D3FF] to-[#00a890] hover:from-[#00a890] hover:to-[#32D3FF] text-white"
+                className="mt-4 bg-gradient-to-r from-[#32D3FF] to-[#2ab8e6] hover:from-[#2ab8e6] hover:to-[#32D3FF] text-white"
               >
                 Log Your First Drink
               </Button>
@@ -375,7 +375,7 @@ const Drinks = ({ athleteId }) => {
                 </Button>
                 <Button
                   onClick={handleAddDrink}
-                  className="flex-1 bg-gradient-to-r from-[#32D3FF] to-[#00a890] hover:from-[#00a890] hover:to-[#32D3FF] text-white"
+                  className="flex-1 bg-gradient-to-r from-[#32D3FF] to-[#2ab8e6] hover:from-[#2ab8e6] hover:to-[#32D3FF] text-white"
                 >
                   Log Drink
                 </Button>

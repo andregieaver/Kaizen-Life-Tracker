@@ -625,7 +625,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                     <Button
                       onClick={handleSendMessage}
                       disabled={!messageText.trim() || sending}
-                      className="p-3 min-w-[44px] min-h-[44px] bg-[#32D3FF] hover:bg-[#00a890] text-white rounded-lg disabled:opacity-50 flex items-center justify-center"
+                      className="p-3 min-w-[44px] min-h-[44px] bg-[#32D3FF] hover:bg-[#2ab8e6] text-white rounded-lg disabled:opacity-50 flex items-center justify-center"
                     >
                       <Send className="w-5 h-5" />
                     </Button>

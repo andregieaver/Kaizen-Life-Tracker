@@ -130,7 +130,7 @@ const Pages = ({ athleteId }) => {
           </div>
           <button
             onClick={() => navigate('/dashboard/pages/new')}
-            className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
+            className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
           >
             <Plus className="w-5 h-5" />
             {t('pages.newPage')}
@@ -186,7 +186,7 @@ const Pages = ({ athleteId }) => {
 
           <button
             onClick={handleSearch}
-            className="mt-4 bg-[#32D3FF] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg transition-colors"
+            className="mt-4 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white px-6 py-2 rounded-lg transition-colors"
           >
             {t('pages.search')}
           </button>

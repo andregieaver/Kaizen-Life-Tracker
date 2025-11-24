@@ -317,7 +317,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                     <button
                                       type="button"
                                       onClick={() => openIconPicker(menuType, item.id)}
-                                      className="px-3 py-2 bg-[#32D3FF] hover:bg-[#00a890] text-white rounded text-sm transition-colors whitespace-nowrap"
+                                      className="px-3 py-2 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white rounded text-sm transition-colors whitespace-nowrap"
                                       title={t('menus.chooseIconTitle')}
                                     >
                                       <span className="hidden sm:inline">{t('menus.pickIcon')}</span>

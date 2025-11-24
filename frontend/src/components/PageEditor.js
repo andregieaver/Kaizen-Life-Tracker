@@ -390,7 +390,7 @@ const PageEditor = ({ athleteId, pageId }) => {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-5 h-5" />
               {saving ? 'Saving...' : 'Save Page'}
@@ -637,7 +637,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 <button
                   type="button"
                   onClick={addContentBlock}
-                  className="flex items-center gap-2 bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                  className="flex items-center gap-2 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white px-4 py-2 rounded-lg text-sm transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                   Add Content Block
@@ -867,7 +867,7 @@ const PageEditor = ({ athleteId, pageId }) => {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-8 py-3 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white px-8 py-3 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save className="w-5 h-5" />
             {saving ? 'Saving...' : 'Save Page'}

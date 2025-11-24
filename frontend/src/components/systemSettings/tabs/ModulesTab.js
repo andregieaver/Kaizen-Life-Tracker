@@ -149,7 +149,7 @@ const ModulesTab = ({
           <Button
             onClick={saveModuleSettings}
             disabled={isSaving}
-            className="w-full sm:w-auto px-6 py-2 bg-[#32D3FF] hover:bg-[#00a890] text-white rounded-lg transition-colors flex items-center gap-2"
+            className="w-full sm:w-auto px-6 py-2 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white rounded-lg transition-colors flex items-center gap-2"
           >
             <Save className="w-4 h-4" />
             {isSaving ? 'Saving...' : 'Save Module Settings'}

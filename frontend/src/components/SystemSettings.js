@@ -1523,7 +1523,7 @@ const SystemSettings = ({ athleteId }) => {
             </div>
             <Button
               onClick={() => navigate('/dashboard/account')}
-              className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
+              className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
               title={t('systemSettings.accountSettings')}
             >
               <User className="w-5 h-5" />
@@ -1646,7 +1646,7 @@ const SystemSettings = ({ athleteId }) => {
                   </Button>
                   <Button 
                     onClick={() => setShowCreatePlanModal(true)}
-                    className="bg-[#32D3FF] hover:bg-[#00a890] text-white w-full sm:w-auto"
+                    className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white w-full sm:w-auto"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Create Custom Plan
@@ -1947,7 +1947,7 @@ const SystemSettings = ({ athleteId }) => {
                   <div className="px-6 pb-6 flex gap-3">
                     <Button
                       onClick={createPlan}
-                      className="flex-1 bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                      className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                     >
                       Create Plan
                     </Button>
@@ -2151,7 +2151,7 @@ const SystemSettings = ({ athleteId }) => {
                         });
                         setShowEditPlanModal(false);
                       }}
-                      className="flex-1 bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                      className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                     >
                       Save Changes
                     </Button>
@@ -2240,7 +2240,7 @@ const SystemSettings = ({ athleteId }) => {
                   <div className="px-6 pb-6 flex gap-3">
                     <Button
                       onClick={createVariation}
-                      className="flex-1 bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                      className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                     >
                       Create Variation
                     </Button>
@@ -2431,7 +2431,7 @@ const SystemSettings = ({ athleteId }) => {
                 <div className="mt-6 flex justify-end">
                   <Button 
                     onClick={createCoupon}
-                    className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                    className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                   >
                     Create Coupon
                   </Button>

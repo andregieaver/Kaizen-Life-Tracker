@@ -118,7 +118,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
               <div className="flex space-x-2">
                 <Button
                   onClick={() => handleEditPost(post.id)}
-                  className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg"
+                  className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white px-4 py-2 rounded-lg"
                 >
                   Save
                 </Button>
@@ -244,7 +244,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                     {post.content && post.content.length > 100 && (
                       <button
                         onClick={() => toggleExpandPost(post.id)}
-                        className="text-[#32D3FF] hover:text-[#00a890] text-sm font-semibold mt-1"
+                        className="text-[#32D3FF] hover:text-[#2ab8e6] text-sm font-semibold mt-1"
                       >
                         {expandedPosts[post.id] ? 'Show less' : 'Show more'}
                       </button>
@@ -354,7 +354,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                     <Button
                       onClick={() => handleAddComment(post.id)}
                       disabled={!commentText[post.id]?.trim()}
-                      className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Send className="w-4 h-4" />
                     </Button>

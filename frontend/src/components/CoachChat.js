@@ -929,7 +929,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                   Go Back
                 </Button>
                 <Button 
-                  className="flex-1 bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                  className="flex-1 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                   onClick={handleUpgrade}
                 >
                   Upgrade to Pro

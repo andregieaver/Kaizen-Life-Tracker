@@ -326,7 +326,7 @@ const Emails = () => {
           </div>
           <Button
             onClick={handleCreateNewEmail}
-            className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
+            className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
           >
             <Plus className="w-4 h-4 mr-2" />
             {t('emails.createEmail')}
@@ -382,7 +382,7 @@ const Emails = () => {
                     </div>
                     <Button
                       onClick={() => handleSendCustomEmail(email.id)}
-                      className="w-full bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                      className="w-full bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                       disabled={sendingEmail}
                     >
                       <Send className="w-4 h-4 mr-2" />
@@ -431,7 +431,7 @@ const Emails = () => {
                   </div>
                   <Button
                     onClick={() => handleEditClick(template)}
-                    className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                    className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                     size="sm"
                   >
                     <Edit3 className="w-4 h-4 mr-1" />
@@ -622,7 +622,7 @@ const Emails = () => {
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                    className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                   >
                     Save Template
                   </Button>
@@ -759,7 +759,7 @@ const Emails = () => {
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
+                  className="bg-[#32D3FF] hover:bg-[#2ab8e6] text-white"
                 >
                   {isCreatingNew ? t('emails.createEmailButton') : t('emails.updateEmail')}
                 </Button>
