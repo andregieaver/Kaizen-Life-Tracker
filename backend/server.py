@@ -11191,49 +11191,49 @@ def generate_training_recommendations(weather_data: dict) -> dict:
     
     recommendations = {
         "overall": "good",
-        "message": "Good conditions for outdoor training",
-        "details": []
+        "message_key": "weather.recommendations.goodConditions",
+        "details_keys": []
     }
     
     # Temperature recommendations
     if temp is not None:
         if temp < 0:
             recommendations["overall"] = "caution"
-            recommendations["message"] = "Cold conditions - dress warmly"
-            recommendations["details"].append("Layer up and warm up gradually")
+            recommendations["message_key"] = "weather.recommendations.coldConditions"
+            recommendations["details_keys"].append("weather.recommendations.layerUpGradually")
         elif temp < 5:
-            recommendations["details"].append("Cool weather - dress in layers")
+            recommendations["details_keys"].append("weather.recommendations.coolWeatherLayers")
         elif temp > 25:
             recommendations["overall"] = "caution"
-            recommendations["message"] = "Hot conditions - stay hydrated"
-            recommendations["details"].append("Bring extra water and consider early morning/evening training")
+            recommendations["message_key"] = "weather.recommendations.hotConditions"
+            recommendations["details_keys"].append("weather.recommendations.bringWaterMorningEvening")
         elif temp > 30:
             recommendations["overall"] = "poor"
-            recommendations["message"] = "Very hot - indoor training recommended"
-            recommendations["details"].append("High heat risk - consider indoor alternatives")
+            recommendations["message_key"] = "weather.recommendations.veryHotIndoor"
+            recommendations["details_keys"].append("weather.recommendations.highHeatRisk")
     
     # Wind recommendations
     if wind_speed > 15:
         recommendations["overall"] = "poor"
-        recommendations["message"] = "High winds - challenging conditions"
-        recommendations["details"].append("Strong winds may affect outdoor activities")
+        recommendations["message_key"] = "weather.recommendations.highWinds"
+        recommendations["details_keys"].append("weather.recommendations.strongWindsAffect")
     elif wind_speed > 10:
         recommendations["overall"] = "caution"
-        recommendations["details"].append("Moderate winds - adjust pacing")
+        recommendations["details_keys"].append("weather.recommendations.moderateWindsPacing")
     
     # Precipitation recommendations
     if precipitation > 5:
         recommendations["overall"] = "poor"
-        recommendations["message"] = "Heavy rain - indoor training recommended"
-        recommendations["details"].append("Significant rainfall expected")
+        recommendations["message_key"] = "weather.recommendations.heavyRainIndoor"
+        recommendations["details_keys"].append("weather.recommendations.significantRainfall")
     elif precipitation > 1:
         recommendations["overall"] = "caution"
-        recommendations["message"] = "Rain expected - bring appropriate gear"
-        recommendations["details"].append("Light rain forecasted")
+        recommendations["message_key"] = "weather.recommendations.rainExpectedGear"
+        recommendations["details_keys"].append("weather.recommendations.lightRainForecasted")
     
     # If no warnings, set positive message
-    if recommendations["overall"] == "good" and not recommendations["details"]:
-        recommendations["details"].append("Ideal conditions for outdoor activities")
+    if recommendations["overall"] == "good" and not recommendations["details_keys"]:
+        recommendations["details_keys"].append("weather.recommendations.idealConditions")
     
     return recommendations
 
