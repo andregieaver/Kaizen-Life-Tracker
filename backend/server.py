@@ -3828,7 +3828,8 @@ async def login_athlete(login_data: LoginRequest):
     return {
         "athlete_id": athlete_identifier,
         "name": athlete["name"],
-        "email": athlete["email"]
+        "email": athlete["email"],
+        "role": athlete.get("role", "user")  # Include role for frontend access control
     }
 
 @api_router.post("/auth/forgot-password")
