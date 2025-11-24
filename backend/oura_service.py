@@ -66,7 +66,40 @@ class OuraService(BaseIntegrationService):
         end_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         
         async with httpx.AsyncClient() as client:
-            # Fetch daily sleep data (includes sleep score)
+            # First, fetch detailed sleep sessions (has HRV, RHR, duration) - Gen 3 and Gen 4 compatible
+            sleep_sessions = {}
+            try:
+                sleep_session_response = await client.get(
+                    f"{self.api_base_url}/sleep",
+                    headers={"Authorization": f"Bearer {access_token}"},
+                    params={"start_date": start_date, "end_date": end_date}
+                )
+                
+                if sleep_session_response.status_code == 200:
+                    session_data = sleep_session_response.json()
+                    # Build a map of date -> session data for quick lookup
+                    for session in session_data.get("data", []):
+                        session_day = session.get("day")
+                        if session_day:
+                            # Store first (primary) session for each day
+                            if session_day not in sleep_sessions:
+                                sleep_sessions[session_day] = {
+                                    "duration": session.get("total_sleep_duration"),
+                                    "lowest_heart_rate": session.get("lowest_heart_rate"),
+                                    "average_hrv": session.get("average_hrv"),
+                                    "average_heart_rate": session.get("average_heart_rate"),
+                                    "deep_sleep": session.get("deep_sleep_duration"),
+                                    "rem_sleep": session.get("rem_sleep_duration"),
+                                    "light_sleep": session.get("light_sleep_duration"),
+                                    "efficiency": session.get("efficiency")
+                                }
+                                logging.info(f"[OURA] Sleep session for {session_day}: RHR={session.get('lowest_heart_rate')}, HRV={session.get('average_hrv')}, Duration={session.get('total_sleep_duration')}")
+                else:
+                    logging.warning(f"Failed to fetch Oura sleep sessions: {sleep_session_response.status_code}")
+            except Exception as e:
+                logging.error(f"Error fetching Oura sleep session data: {e}")
+            
+            # Now fetch daily sleep data (has sleep score)
             try:
                 sleep_response = await client.get(
                     f"{self.api_base_url}/daily_sleep",
@@ -77,36 +110,39 @@ class OuraService(BaseIntegrationService):
                 if sleep_response.status_code == 200:
                     sleep_data = sleep_response.json()
                     for sleep in sleep_data.get("data", []):
-                        # Debug logging to see what fields Oura API returns
-                        logging.info(f"[OURA] Sleep data fields for {sleep.get('day')}: score={sleep.get('score')}, lowest_hr={sleep.get('lowest_heart_rate')}, avg_hrv={sleep.get('average_hrv')}")
+                        day = sleep.get('day')
+                        
+                        # Merge session data with daily score data
+                        session_metrics = sleep_sessions.get(day, {})
                         
                         # daily_sleep endpoint has timestamp instead of bedtime_start
-                        timestamp_str = sleep.get("timestamp") or sleep.get("day")
+                        timestamp_str = sleep.get("timestamp") or day
                         if timestamp_str:
-                            # Parse the timestamp or use day as date
                             try:
                                 start_date_parsed = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
                             except:
-                                # Fallback to day field
-                                start_date_parsed = datetime.fromisoformat(sleep["day"] + "T00:00:00+00:00")
+                                start_date_parsed = datetime.fromisoformat(day + "T00:00:00+00:00")
                         else:
                             start_date_parsed = datetime.now()
                         
+                        # Use session data if available, fallback to daily_sleep data
                         activities.append({
                             "activity_id": f"sleep_{sleep['id']}",
                             "type": "Sleep",
                             "start_date": start_date_parsed,
-                            "duration": sleep.get("total_sleep_duration"),
-                            "score": sleep.get("score"),  # daily_sleep has score!
-                            "deep_sleep": sleep.get("deep_sleep_duration"),
-                            "rem_sleep": sleep.get("rem_sleep_duration"),
-                            "light_sleep": sleep.get("light_sleep_duration"),
-                            "efficiency": sleep.get("efficiency"),
-                            "lowest_heart_rate": sleep.get("lowest_heart_rate"),
-                            "average_heart_rate": sleep.get("average_heart_rate"),
-                            "average_hrv": sleep.get("average_hrv"),
+                            "duration": session_metrics.get("duration") or sleep.get("total_sleep_duration"),
+                            "score": sleep.get("score"),
+                            "deep_sleep": session_metrics.get("deep_sleep") or sleep.get("deep_sleep_duration"),
+                            "rem_sleep": session_metrics.get("rem_sleep") or sleep.get("rem_sleep_duration"),
+                            "light_sleep": session_metrics.get("light_sleep") or sleep.get("light_sleep_duration"),
+                            "efficiency": session_metrics.get("efficiency") or sleep.get("efficiency"),
+                            "lowest_heart_rate": session_metrics.get("lowest_heart_rate"),
+                            "average_heart_rate": session_metrics.get("average_heart_rate"),
+                            "average_hrv": session_metrics.get("average_hrv"),
                             "raw_data": sleep
                         })
+                        
+                        logging.info(f"[OURA] Merged sleep for {day}: score={sleep.get('score')}, RHR={session_metrics.get('lowest_heart_rate')}, HRV={session_metrics.get('average_hrv')}")
                 else:
                     logging.warning(f"Failed to fetch Oura daily_sleep: {sleep_response.status_code}")
             except Exception as e:
