@@ -1418,6 +1418,7 @@ class WaitingListEntry(BaseModel):
     name: str
     email: str
     nationality: str
+    integrations: List[str] = []  # List of interested integrations
     status: str = "pending"  # pending, contacted, converted
     source: str = "homepage"  # homepage, referral, etc.
     notes: Optional[str] = None
