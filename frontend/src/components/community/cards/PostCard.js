@@ -122,7 +122,7 @@ const PostCard = ({
                   }}
                   className="p-2 hover:bg-gray-600 rounded-full transition-colors"
                 >
-                  <span style={{ color: '#00FFFF', display: 'inline-flex' }}>
+                  <span style={{ color: '#FF0000', display: 'inline-flex' }}>
                     <Edit2 className="w-4 h-4" />
                   </span>
                 </button>
