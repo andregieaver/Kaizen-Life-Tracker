@@ -340,7 +340,7 @@ const WaitingListSection = () => {
         type: 'success',
         message: '🎉 Success! You\'re on the waiting list. We\'ll be in touch soon!'
       });
-      setFormData({ name: '', email: '', nationality: '' });
+      setFormData({ name: '', email: '', nationality: '', integrations: [], notes: '' });
     } catch (error) {
       setSubmitStatus({
         type: 'error',
