@@ -304,7 +304,7 @@ const PostCard = ({
                           className="w-8 h-8 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-[#32D3FF] rounded-full flex items-center justify-center">
                           <span className="text-white font-bold text-sm">
                             {post.shared_post_data.athlete_name?.charAt(0).toUpperCase()}
                           </span>
@@ -396,7 +396,7 @@ const PostCard = ({
           <div className="mt-4 space-y-4 pt-4 border-t border-gray-600">
             {post.comments?.map(comment => (
               <div key={comment.id} className="flex items-start space-x-3">
-                <div className="relative w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="relative w-8 h-8 bg-[#32D3FF] rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-bold text-xs">
                     {comment.athlete_name?.charAt(0).toUpperCase()}
                   </span>
@@ -439,7 +439,7 @@ const PostCard = ({
                         onClick={() => onSelectCommentMention(post.id, athlete)}
                         className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white flex items-center space-x-2"
                       >
-                        <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-[#32D3FF] rounded-full flex items-center justify-center">
                           <span className="text-white font-semibold text-sm">
                             {athlete.name?.charAt(0).toUpperCase()}
                           </span>
