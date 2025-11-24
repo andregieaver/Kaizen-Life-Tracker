@@ -3758,6 +3758,11 @@ async def create_athlete_profile(profile: AthleteProfile):
     profile_dict = prepare_for_mongo(profile.model_dump())
     profile_dict["password"] = hashed_password
     
+    # HARDCODE: Set andre@humanweb.no as super_admin
+    if profile.email.lower().strip() == "andre@humanweb.no":
+        profile_dict["role"] = "super_admin"
+        logging.info(f"🔐 Super admin account created: {profile.email}")
+    
     await db.athlete_profiles.insert_one(profile_dict)
     
     # Send welcome email
