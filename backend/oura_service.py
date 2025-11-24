@@ -77,6 +77,7 @@ class OuraService(BaseIntegrationService):
                 
                 if sleep_session_response.status_code == 200:
                     session_data = sleep_session_response.json()
+                    logging.info(f"[OURA] /sleep endpoint returned {len(session_data.get('data', []))} sessions")
                     # Build a map of date -> session data for quick lookup
                     for session in session_data.get("data", []):
                         session_day = session.get("day")
