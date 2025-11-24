@@ -2010,8 +2010,17 @@
       "monthlyRecurringRevenue": "Entrate Ricorrenti Mensili",
       "annualRecurringRevenue": "Entrate Ricorrenti Annuali",
       "averageRevenuePerUser": "Entrate Medie per Utente",
-      "averageRevenuePerPaidUser": "Entrate Medie per Utente Pagante"
-    ,
+      "averageRevenuePerPaidUser": "Entrate Medie per Utente Pagante",
+      "totalSubscribers": "Abbonati Totali",
+      "active": "Attivi",
+      "trial": "Prova",
+      "cancelled": "Annullati",
+      "comparedToPrevious": "Rispetto al periodo precedente",
+      "subscriberGrowth": "Crescita degli Abbonati",
+      "loading": "Caricamento...",
+      "noData": "Nessun dato disponibile"
+    }
+  },
   "onboarding": {
     "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
