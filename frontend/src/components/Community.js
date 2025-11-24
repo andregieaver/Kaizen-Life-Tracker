@@ -3675,7 +3675,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       Selected Media ({selectedMedia.length}/5) {selectedMedia.filter(m => m.type === 'video').length > 0 && '🎥'}
                     </span>
                     {isUploadingMedia && (
-                      <span className="text-[#00C2A8] text-sm flex items-center gap-2">
+                      <span className="text-[#32D3FF] text-sm flex items-center gap-2">
                         <RefreshCw className="w-4 h-4 animate-spin" />
                         Uploading...
                       </span>
