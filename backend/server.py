@@ -8893,11 +8893,17 @@ async def sync_oura_data(athlete_id: str, force_full: bool = False):
         raise HTTPException(status_code=500, detail=str(e) or f"Sync failed: {type(e).__name__}")
 
 @api_router.get("/integrations/oura/{athlete_id}/status")
-async def get_oura_integration_status(athlete_id: str):
+async def get_oura_integration_status(athlete_id: str, response: Response = None):
     """
     Get Oura integration status - now uses OuraService
     """
     try:
+        # Add cache control headers to prevent stale data
+        if response:
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
+        
         service = OuraService(db)
         status = await service.get_connection_status(athlete_id)
         
@@ -8911,6 +8917,8 @@ async def get_oura_integration_status(athlete_id: str):
                 oura_config.get("clientId") and 
                 oura_config.get("clientSecret")
             )
+        
+        logging.info(f"Oura status for athlete_id {athlete_id}: connected={status.get('connected')}, last_sync={status.get('last_sync_at')}")
         
         return {
             "connected": status.get("connected", False),
