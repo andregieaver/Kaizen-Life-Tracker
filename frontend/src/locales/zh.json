@@ -392,6 +392,7 @@
     "tabs": {
       "feed": "动态",
       "following": "关注中",
+      "bookmarks": "书签",
       "challenges": "挑战",
       "events": "活动",
       "myGroups": "我的群组",
