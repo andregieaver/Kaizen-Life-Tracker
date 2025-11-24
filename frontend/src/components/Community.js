@@ -3636,7 +3636,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                             backgroundColor: '#1f2937',
                             border: 'none',
                             '--rgb-background': '31, 41, 55',
-                            '--rgb-accent': '0, 194, 168',
+                            '--rgb-accent': '50, 211, 255',
                             '--rgb-input': '55, 65, 81',
                             '--rgb-color': '255, 255, 255',
                           }}

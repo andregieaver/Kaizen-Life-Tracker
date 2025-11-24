@@ -412,7 +412,7 @@ p {
 em-emoji-picker {
   --background-rgb: 31, 41, 55 !important;
   --rgb-background: 31, 41, 55 !important;
-  --rgb-accent: 0, 194, 168 !important;
+  --rgb-accent: 50, 211, 255 !important;
   --rgb-input: 55, 65, 81 !important;
   --rgb-color: 255, 255, 255 !important;
   --border-radius: 0.75rem !important;
