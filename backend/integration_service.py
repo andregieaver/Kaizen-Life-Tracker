@@ -324,8 +324,10 @@ class BaseIntegrationService(ABC):
         }
     
     async def get_connection_status(self, user_id: str) -> Dict[str, Any]:
-        """Get connection status"""
-        connection = await self.db[f"{self.provider_name}_connections"].find_one({"user_id": user_id})
+        """Get connection status - supports both user_id and athlete_id"""
+        connection = await self.db[f"{self.provider_name}_connections"].find_one({
+            "$or": [{"user_id": user_id}, {"athlete_id": user_id}]
+        })
         if not connection:
             return {"connected": False}
         
