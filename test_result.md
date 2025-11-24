@@ -3047,6 +3047,18 @@ frontend:
         agent: "main"
         comment: "BOOKMARKS TRANSLATIONS ADDED TO ALL LOCALES - Added 'bookmarks' key to community.tabs section in 8 language files. TRANSLATIONS ADDED: 1) Danish (da.json): 'Bogmærker' - line 520, 2) German (de.json): 'Lesezeichen' - line 558, 3) Spanish (es.json): 'Marcadores' - line 481, 4) French (fr.json): 'Favoris' - line 520, 5) Italian (it.json): 'Segnalibri' - line 357, 6) Japanese (ja.json): 'ブックマーク' - line 396, 7) Swedish (sv.json): 'Bokmärken' - line 383, 8) Chinese (zh.json): '书签' - line 396. VERIFICATION: Confirmed bookmarks key now exists in all 11 supported language files (en, no already had it). Bookmarks feature is now fully internationalized across all languages."
 
+  - task: "System Settings Statistics Hook Runtime Error Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/SystemSettings.js"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "RUNTIME ERROR FIX - Fixed 'statsHook.loadStats is not a function' error in System Settings Statistics tab. USER REPORTED ERROR: Uncaught runtime errors: ERROR statsHook.loadStats is not a function. ROOT CAUSE IDENTIFIED: SystemSettings.js was calling incorrect method names from the useSubscriptionStats hook. The hook returns loadSubscriberStats (not loadStats) and subscriberStats (not stats). Two bugs found: 1) LINE 375: Called statsHook.loadStats() but hook exports loadSubscriberStats(), 2) LINE 2567: Accessed statsHook.stats but hook exports subscriberStats. FIXES IMPLEMENTED: 1) Changed line 375 from statsHook.loadStats() to statsHook.loadSubscriberStats() to match the exported function name from useSubscriptionStats hook, 2) Changed line 2567 from stats={statsHook.stats} to stats={statsHook.subscriberStats} to match the exported state property from the hook. VERIFICATION: Checked /app/frontend/src/hooks/systemSettings/useSubscriptionStats.js hook implementation - confirms it exports loadSubscriberStats (line 206) and subscriberStats (line 192), not loadStats or stats. RESULT: System Settings Statistics tab should now load correctly without runtime errors when super-admin accesses it. Frontend hot-reload active, changes applied automatically. TESTING NEEDED: 1) Login as super-admin (andre@humanweb.no), 2) Navigate to System Settings page, 3) Click on Statistics tab, 4) Verify no runtime error occurs, 5) Verify subscriber stats load and display correctly, 6) Test period selection and comparison toggle functionality."
+
 metadata:
   created_by: "main_agent"
   version: "1.1"
@@ -3055,15 +3067,14 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Weather Recommendations i18n Verification"
-    - "Bookmarks Translation to All Locales"
+    - "System Settings Statistics Hook Runtime Error Fix"
   stuck_tasks: []
   test_all: false
-  test_priority: "sequential"
+  test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
-    message: "PENDING TASKS COMPLETED - Both weather recommendations i18n and bookmarks translations are now complete. Weather recommendations were already correctly implemented with matching translation keys between backend and frontend. Bookmarks translation key has been added to all 8 remaining language files (da, de, es, fr, it, ja, sv, zh) with culturally appropriate translations. All locale files now have the bookmarks key in community.tabs section. Frontend hot-reload will apply changes automatically. No testing agent needed as these are translation additions only."
+    message: "RUNTIME ERROR FIXED - Fixed critical JavaScript error 'statsHook.loadStats is not a function' in System Settings Statistics tab. The issue was a mismatch between the function name called in SystemSettings.js and the actual exported function name from the useSubscriptionStats hook. Changed loadStats() to loadSubscriberStats() and stats to subscriberStats to match hook exports. Frontend hot-reload active. Ready for user testing."
 
 frontend:
   - task: "Logo Image Source Fix for Custom Domain"
