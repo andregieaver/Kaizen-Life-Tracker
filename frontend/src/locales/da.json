@@ -1730,8 +1730,17 @@
       "monthlyRecurringRevenue": "Månedlig tilbagevendende indtjening",
       "annualRecurringRevenue": "Årlig tilbagevendende indtjening",
       "averageRevenuePerUser": "Gennemsnitlig indtjening pr. bruger",
-      "averageRevenuePerPaidUser": "Gennemsnitlig indtjening pr. betalende bruger"
-    ,
+      "averageRevenuePerPaidUser": "Gennemsnitlig indtjening pr. betalende bruger",
+      "totalSubscribers": "Samlede Abonnenter",
+      "active": "Aktive",
+      "trial": "Prøveperiode",
+      "cancelled": "Annulleret",
+      "comparedToPrevious": "Sammenlignet med forrige periode",
+      "subscriberGrowth": "Abonnentvækst",
+      "loading": "Indlæser...",
+      "noData": "Ingen data tilgængelig"
+    }
+  },
   "onboarding": {
     "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
