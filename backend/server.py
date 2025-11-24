@@ -2128,8 +2128,13 @@ Return only the JSON array, nothing else.
             settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
             
             if not settings:
-                logging.info("No system settings found")
-                return None
+                logging.warning("No system settings found - looking for alternative storage")
+                # Try to find any system settings without the setting_type filter
+                settings = await db.system_settings.find_one({}, {"_id": 0})
+                if not settings:
+                    logging.error("No system settings found at all in database")
+                    return None
+                logging.info(f"Found system settings without setting_type filter: {list(settings.keys())}")
             
             # Check for key in advanced settings (new location)
             api_key = settings.get("advanced", {}).get("openaiApiKey")
@@ -2140,7 +2145,9 @@ Return only the JSON array, nothing else.
             
             # Ensure we have a valid, non-empty API key
             if not api_key or not api_key.strip():
-                logging.info("System settings exist but OpenAI API key is empty")
+                logging.warning(f"System settings exist but OpenAI API key is empty. Settings keys: {list(settings.keys())}")
+                if "advanced" in settings:
+                    logging.info(f"Advanced settings keys: {list(settings.get('advanced', {}).keys())}")
                 return None
             
             # Basic validation - OpenAI keys should start with sk-
@@ -2148,6 +2155,7 @@ Return only the JSON array, nothing else.
                 logging.warning("Invalid OpenAI API key format in system settings")
                 return None
             
+            logging.info("Successfully retrieved global OpenAI API key")
             return api_key.strip()
         except Exception as e:
             logging.error(f"Error retrieving global OpenAI key: {e}")
