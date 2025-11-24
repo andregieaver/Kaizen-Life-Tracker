@@ -138,7 +138,7 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
                   className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
                     hasEnded
                       ? 'border-gray-600 bg-gray-700/50 cursor-not-allowed opacity-50'
-                      : 'border-gray-600 bg-gray-700/50 hover:border-[#00C2A8] hover:bg-[#00C2A8]/10'
+                      : 'border-gray-600 bg-gray-700/50 hover:border-[#32D3FF] hover:bg-[#32D3FF]/10'
                   }`}
                 >
                   <span className="text-white text-sm">{isTranslated && translatedOptions[option.id] ? translatedOptions[option.id] : option.text}</span>
