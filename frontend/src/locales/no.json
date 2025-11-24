@@ -1738,7 +1738,15 @@
       "monthlyRecurringRevenue": "Månedlig gjentakende inntekt",
       "annualRecurringRevenue": "Årlig gjentakende inntekt",
       "averageRevenuePerUser": "Gjennomsnittlig inntekt per bruker",
-      "averageRevenuePerPaidUser": "Gjennomsnittlig inntekt per betalende bruker"
+      "averageRevenuePerPaidUser": "Gjennomsnittlig inntekt per betalende bruker",
+      "totalSubscribers": "Totalt antall abonnenter",
+      "active": "Aktive",
+      "trial": "Prøveperiode",
+      "cancelled": "Kansellert",
+      "comparedToPrevious": "Sammenlignet med forrige periode",
+      "subscriberGrowth": "Abonnentvekst",
+      "loading": "Laster...",
+      "noData": "Ingen data tilgjengelig"
     }
   },
   "merits": {
