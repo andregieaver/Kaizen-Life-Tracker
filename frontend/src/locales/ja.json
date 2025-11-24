@@ -2283,8 +2283,17 @@
       "monthlyRecurringRevenue": "月次定期収益",
       "annualRecurringRevenue": "年次定期収益",
       "averageRevenuePerUser": "ユーザーあたりの平均収益",
-      "averageRevenuePerPaidUser": "有料ユーザーあたりの平均収益"
-    ,
+      "averageRevenuePerPaidUser": "有料ユーザーあたりの平均収益",
+      "totalSubscribers": "総登録者数",
+      "active": "アクティブ",
+      "trial": "トライアル",
+      "cancelled": "キャンセル",
+      "comparedToPrevious": "前期と比較",
+      "subscriberGrowth": "登録者増加",
+      "loading": "読み込み中...",
+      "noData": "データがありません"
+    }
+  },
   "onboarding": {
     "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
