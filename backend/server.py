@@ -10072,9 +10072,15 @@ async def get_user_daily_metrics(
     return {"daily_metrics": [parse_from_mongo(metric) for metric in daily_metrics]}
 
 @api_router.get("/health/body-score-data/{athlete_id}")
-async def get_body_score_data(athlete_id: str):
+async def get_body_score_data(athlete_id: str, response: Response):
     # Updated 2025-11-20: Fixed MongoDB projections for Oura data
+    # Updated 2025-11-24: Added cache control headers to prevent stale data
     """Aggregate health metrics from all integrations for body score calculation"""
+    # Prevent caching to ensure fresh data is always fetched
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    
     try:
         # Get user profile from athlete_profiles collection
         athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
