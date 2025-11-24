@@ -1122,7 +1122,7 @@ const Dashboard = ({ athleteId }) => {
             >
               {logoUrl && (
                 <img 
-                  src={`${BACKEND_URL}${logoUrl}`} 
+                  src={logoUrl} 
                   alt={siteTitle}
                   className="w-11 h-11 object-contain"
                 />
