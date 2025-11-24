@@ -3077,7 +3077,7 @@ test_plan:
 
 agent_communication:
   - agent: "main"
-    message: "RUNTIME ERROR FIXED - Fixed critical JavaScript error 'statsHook.loadStats is not a function' in System Settings Statistics tab. The issue was a mismatch between the function name called in SystemSettings.js and the actual exported function name from the useSubscriptionStats hook. Changed loadStats() to loadSubscriberStats() and stats to subscriberStats to match hook exports. Frontend hot-reload active. Ready for user testing."
+    message: "RUNTIME ERRORS FIXED (2 ISSUES) - Fixed two related JavaScript errors in System Settings Statistics tab: 1) 'statsHook.loadStats is not a function' - changed to loadSubscriberStats(), 2) 'Cannot read properties of undefined (reading total)' - fixed prop name mismatch (stats -> subscriberStats). Both issues were naming mismatches between hook exports and component usage. Frontend recompiled successfully. Ready for user testing with hard refresh."
 
 frontend:
   - task: "Logo Image Source Fix for Custom Domain"
