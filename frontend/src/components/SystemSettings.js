@@ -372,7 +372,7 @@ const SystemSettings = ({ athleteId }) => {
     } else if (activeTab === 'cookies') {
       cookieHook.loadCookieSettings();
     } else if (activeTab === 'statistics') {
-      statsHook.loadStats();
+      statsHook.loadSubscriberStats();
     }
   }, [activeTab]);
 
