@@ -1730,8 +1730,17 @@
       "monthlyRecurringRevenue": "Revenu récurrent mensuel",
       "annualRecurringRevenue": "Revenu récurrent annuel",
       "averageRevenuePerUser": "Revenu moyen par utilisateur",
-      "averageRevenuePerPaidUser": "Revenu moyen par utilisateur payant"
-    ,
+      "averageRevenuePerPaidUser": "Revenu moyen par utilisateur payant",
+      "totalSubscribers": "Total d'Abonnés",
+      "active": "Actifs",
+      "trial": "Essai",
+      "cancelled": "Annulés",
+      "comparedToPrevious": "Comparé à la période précédente",
+      "subscriberGrowth": "Croissance des Abonnés",
+      "loading": "Chargement...",
+      "noData": "Aucune donnée disponible"
+    }
+  },
   "onboarding": {
     "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
