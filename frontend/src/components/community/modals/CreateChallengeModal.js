@@ -35,7 +35,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
         <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold flex items-center" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
-              <Trophy className="w-6 h-6 mr-2 text-[#00C2A8]" />
+              <Trophy className="w-6 h-6 mr-2 text-[#32D3FF]" />
               {t('common.createChallenge')}
             </h2>
             <button onClick={onClose} className="text-gray-400 hover:text-white">
@@ -211,7 +211,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#00C2A8] file:text-white hover:file:bg-[#00a890]"
+                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#32D3FF] file:text-white hover:file:bg-[#2ab8e6]"
                 />
                 {challengeData.cover_photo && (
                   <img src={challengeData.cover_photo} alt="Cover preview" className="mt-2 w-full h-32 object-cover rounded-lg" />
@@ -253,7 +253,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </button>
               <button
                 onClick={onCreate}
-                className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+                className="px-6 py-2 bg-[#32D3FF] hover:bg-[#2ab8e6] text-white rounded-lg transition-colors"
               >
                 <Trophy className="w-4 h-4 inline mr-2" />
                 Create Challenge
