@@ -263,13 +263,19 @@ const WeatherCard = () => {
             </div>
             <div className="flex-1">
               <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text-hi)' }}>
-                {training_recommendations.message}
+                {training_recommendations.message_key ? t(training_recommendations.message_key) : training_recommendations.message}
               </p>
-              {training_recommendations.details && training_recommendations.details.length > 0 && (
+              {((training_recommendations.details_keys && training_recommendations.details_keys.length > 0) || 
+                (training_recommendations.details && training_recommendations.details.length > 0)) && (
                 <ul className="text-xs space-y-1" style={{ color: 'var(--text-med)' }}>
-                  {training_recommendations.details.map((detail, idx) => (
-                    <li key={idx}>• {detail}</li>
-                  ))}
+                  {training_recommendations.details_keys ? 
+                    training_recommendations.details_keys.map((key, idx) => (
+                      <li key={idx}>• {t(key)}</li>
+                    )) :
+                    training_recommendations.details.map((detail, idx) => (
+                      <li key={idx}>• {detail}</li>
+                    ))
+                  }
                 </ul>
               )}
             </div>
