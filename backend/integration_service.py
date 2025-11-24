@@ -339,6 +339,8 @@ class BaseIntegrationService(ABC):
         }
     
     async def disconnect(self, user_id: str) -> Dict[str, Any]:
-        """Disconnect integration"""
-        await self.db[f"{self.provider_name}_connections"].delete_one({"user_id": user_id})
+        """Disconnect integration - supports both user_id and athlete_id"""
+        await self.db[f"{self.provider_name}_connections"].delete_one({
+            "$or": [{"user_id": user_id}, {"athlete_id": user_id}]
+        })
         return {"success": True, "message": f"{self.provider_name.title()} disconnected"}
