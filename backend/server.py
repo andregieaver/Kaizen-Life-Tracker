@@ -19393,6 +19393,7 @@ async def add_to_waiting_list(entry_data: dict):
             name=entry_data["name"].strip(),
             email=entry_data["email"].lower().strip(),
             nationality=entry_data["nationality"].strip(),
+            integrations=entry_data.get("integrations", []),
             source=entry_data.get("source", "homepage"),
             notes=entry_data.get("notes")
         )
