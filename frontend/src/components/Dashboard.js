@@ -1524,6 +1524,54 @@ const Dashboard = ({ athleteId }) => {
                   <Brain className="w-5 h-5" />
                   <span className="font-medium">Memories</span>
                 </button>
+
+                {/* Super Admin Section */}
+                {athlete?.role === 'super_admin' && (
+                  <>
+                    {/* Separator */}
+                    <div className="py-2">
+                      <div className="h-px bg-white opacity-10"></div>
+                    </div>
+                    
+                    {/* System Settings */}
+                    <button
+                      onClick={() => {
+                        navigate('/dashboard/system-settings');
+                        setIsMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                        activeTab === 'system-settings'
+                          ? '' : ''
+                      }`}
+                      style={{
+                        background: activeTab === 'system-settings' ? 'var(--grad-brand)' : 'transparent',
+                        color: activeTab === 'system-settings' ? 'var(--bg-950)' : 'var(--text-med)'
+                      }}
+                    >
+                      <Settings className="w-5 h-5" />
+                      <span className="font-medium">System Settings</span>
+                    </button>
+                    
+                    {/* CRM */}
+                    <button
+                      onClick={() => {
+                        navigate('/dashboard/crm');
+                        setIsMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                        activeTab === 'crm'
+                          ? '' : ''
+                      }`}
+                      style={{
+                        background: activeTab === 'crm' ? 'var(--grad-brand)' : 'transparent',
+                        color: activeTab === 'crm' ? 'var(--bg-950)' : 'var(--text-med)'
+                      }}
+                    >
+                      <Users className="w-5 h-5" />
+                      <span className="font-medium">CRM</span>
+                    </button>
+                  </>
+                )}
                   </>
                 )}
               </nav>
