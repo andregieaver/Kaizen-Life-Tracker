@@ -3605,7 +3605,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   className="absolute bottom-3 right-3 p-1.5 hover:bg-gray-600/50 rounded-full transition-colors"
                   title="Add emoji"
                 >
-                  <Smile className="w-5 h-5 text-[#00C2A8]" />
+                  <Smile className="w-5 h-5 text-[#32D3FF]" />
                 </button>
 
                 {/* Emoji Picker */}
