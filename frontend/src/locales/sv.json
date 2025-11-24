@@ -1397,7 +1397,15 @@
       "monthlyRecurringRevenue": "Revenu récurrent mensuel",
       "annualRecurringRevenue": "Revenu récurrent annuel",
       "averageRevenuePerUser": "Revenu moyen par utilisateur",
-      "averageRevenuePerPaidUser": "Revenu moyen par utilisateur payant"
+      "averageRevenuePerPaidUser": "Revenu moyen par utilisateur payant",
+      "totalSubscribers": "Totalt antal prenumeranter",
+      "active": "Aktiva",
+      "trial": "Provperiod",
+      "cancelled": "Avbrutna",
+      "comparedToPrevious": "Jämfört med föregående period",
+      "subscriberGrowth": "Prenumeranttillväxt",
+      "loading": "Laddar...",
+      "noData": "Ingen data tillgänglig"
     }
   },
   "recipeBrowser": {
