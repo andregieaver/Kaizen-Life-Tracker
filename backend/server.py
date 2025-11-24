@@ -15110,7 +15110,9 @@ async def verify_super_admin(athlete_id: str):
     athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
     if not athlete:
         raise HTTPException(status_code=404, detail="User not found")
-    if not athlete.get("is_super_admin", False):
+    # Check both field names for backwards compatibility
+    is_admin = athlete.get("is_super_admin", False) or athlete.get("role") == "super_admin"
+    if not is_admin:
         raise HTTPException(status_code=403, detail="Access denied. Super admin privileges required.")
     return athlete
 
