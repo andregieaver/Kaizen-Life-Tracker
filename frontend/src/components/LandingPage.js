@@ -454,6 +454,45 @@ const WaitingListSection = () => {
                 />
               </div>
 
+              <div>
+                <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                  <Zap className="w-4 h-4 mr-2 text-blue-400" />
+                  Interested Integrations
+                </label>
+                <MultiSelectDropdown
+                  value={formData.integrations}
+                  onChange={(value) => setFormData({...formData, integrations: value})}
+                  options={availableIntegrations.map(integration => ({
+                    value: integration,
+                    label: integration
+                  }))}
+                  placeholder="Select devices you use..."
+                  searchPlaceholder="Search integrations..."
+                  emptyText="No integrations found"
+                />
+                <p className="text-xs text-gray-400 mt-1">
+                  Which devices/platforms would you like to connect?
+                </p>
+              </div>
+
+              <div>
+                <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                  <FileText className="w-4 h-4 mr-2 text-blue-400" />
+                  Additional Notes (Optional)
+                </label>
+                <textarea
+                  value={formData.notes}
+                  onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                  placeholder="Any specific features or requirements you're interested in..."
+                  rows="3"
+                  className="w-full px-4 py-3 text-white rounded-lg focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent transition-all placeholder-gray-400 resize-none"
+                  style={{
+                    background: 'rgba(17, 24, 39, 0.5)',
+                    border: '1px solid rgba(71, 85, 105, 0.3)'
+                  }}
+                />
+              </div>
+
               <Button
                 type="submit"
                 disabled={isSubmitting}
