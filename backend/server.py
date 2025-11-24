@@ -10112,16 +10112,19 @@ async def get_body_score_data(athlete_id: str):
         }
         
         # Fetch Oura data if connected
-        oura_connection = await db.oura_connections.find_one({"athlete_id": athlete_id})
+        # Try both athlete_id and user_id for backwards compatibility
+        oura_connection = await db.oura_connections.find_one({
+            "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]
+        })
         if oura_connection and oura_connection.get('access_token'):
             result['connected_integrations'].append('oura')
             
             # Get latest Oura sleep data (for sleep score and RHR)
             # Filter for sleep activities only (they have lowest_heart_rate)
-            # Try multiple approaches to find sleep data
+            # Try multiple approaches to find sleep data - support both athlete_id and user_id
             latest_sleep = await db.oura_activities.find_one(
                 {
-                    "athlete_id": athlete_id,
+                    "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
                     "raw_data.type": {"$exists": True}  # Sleep activities have type field
                 },
                 {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1, "lowest_heart_rate": 1, "average_hrv": 1},
@@ -10132,7 +10135,7 @@ async def get_body_score_data(athlete_id: str):
             if not latest_sleep or not latest_sleep.get('score'):
                 latest_sleep = await db.oura_activities.find_one(
                     {
-                        "athlete_id": athlete_id,
+                        "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
                         "score": {"$exists": True, "$ne": None},
                         "raw_data.lowest_heart_rate": {"$exists": True, "$ne": None}
                     },
@@ -10154,7 +10157,7 @@ async def get_body_score_data(athlete_id: str):
             
             # Get latest readiness data from readiness_scores collection
             latest_readiness = await db.readiness_scores.find_one(
-                {"athlete_id": athlete_id},
+                {"$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]},
                 {"_id": 0, "readiness_score": 1, "date": 1},
                 sort=[("date", -1)]
             )
@@ -10165,7 +10168,7 @@ async def get_body_score_data(athlete_id: str):
             # Get last 7 activities with HRV data (check both raw_data and top-level)
             recent_activities = await db.oura_activities.find(
                 {
-                    "athlete_id": athlete_id,
+                    "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
                     "$or": [
                         {"raw_data.average_hrv": {"$exists": True, "$ne": None}},
                         {"average_hrv": {"$exists": True, "$ne": None}}
@@ -10186,7 +10189,7 @@ async def get_body_score_data(athlete_id: str):
             # Get all activities with HRV for baseline calculation
             all_activities = await db.oura_activities.find(
                 {
-                    "athlete_id": athlete_id,
+                    "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
                     "$or": [
                         {"raw_data.average_hrv": {"$exists": True, "$ne": None}},
                         {"average_hrv": {"$exists": True, "$ne": None}}
