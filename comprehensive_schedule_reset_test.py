@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime, timezone, timedelta
 
 # Backend URL from environment
-BACKEND_URL = "https://vitaltrak-3.preview.emergentagent.com/api"
+BACKEND_URL = "https://fitpoll-dash.preview.emergentagent.com/api"
 
 # Test athlete from review request
 TEST_ATHLETE_EMAIL = "andre@example.com"
