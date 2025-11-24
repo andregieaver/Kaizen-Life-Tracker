@@ -423,7 +423,7 @@ const PostCard = ({
                   value={commentText[post.id] || ''}
                   onChange={(e) => onCommentContentChange(post.id, e)}
                   placeholder={t('community.post.writeCommentMention')}
-                  className="w-full bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                  className="w-full bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
                   onKeyPress={(e) => e.key === 'Enter' && onAddComment(post.id)}
                 />
                 
