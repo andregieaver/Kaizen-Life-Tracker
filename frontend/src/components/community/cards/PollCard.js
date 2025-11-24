@@ -110,7 +110,7 @@ const PollCard = ({ post, athleteId, onVote, translatedPosts, translatingPosts, 
                   >
                     {/* Progress bar */}
                     <div 
-                      className="absolute inset-y-0 left-0 bg-[#00C2A8]/20 transition-all duration-500"
+                      className="absolute inset-y-0 left-0 bg-[#32D3FF]/20 transition-all duration-500"
                       style={{ width: `${percentage}%` }}
                     />
                     
