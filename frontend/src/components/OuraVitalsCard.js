@@ -49,11 +49,17 @@ const OuraVitalsCard = ({ athleteId }) => {
       logger.debug(null, '[OURA] Fetched activities:', activities);
       
       // Find most recent of each type
-      const latestSleep = activities.find(a => a.type === 'Sleep');
+      // For sleep, prefer the one with complete data (HRV, RHR) over just a score
+      const sleepWithData = activities.find(a => 
+        a.type === 'Sleep' && 
+        (a.lowest_heart_rate || a.average_hrv || a.duration)
+      );
+      const latestSleep = sleepWithData || activities.find(a => a.type === 'Sleep');
+      
       const latestReadiness = activities.find(a => a.type === 'Readiness');
       const latestActivity = activities.find(a => a.type === 'Activity');
       
-      logger.debug(null, '[OURA] Latest Sleep:', latestSleep);
+      logger.debug(null, '[OURA] Latest Sleep (with data):', latestSleep);
       logger.debug(null, '[OURA] Latest Readiness:', latestReadiness);
       logger.debug(null, '[OURA] Latest Activity:', latestActivity);
       
