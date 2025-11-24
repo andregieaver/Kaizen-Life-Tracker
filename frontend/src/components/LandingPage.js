@@ -220,10 +220,40 @@ const WaitingListSection = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    nationality: ''
+    nationality: '',
+    integrations: [],
+    notes: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+  const [availableIntegrations, setAvailableIntegrations] = useState([]);
+
+  // Fetch available integrations
+  useEffect(() => {
+    const fetchIntegrations = async () => {
+      try {
+        const response = await axios.get(`${API}/platform-metrics`);
+        if (response.data && response.data.integrationsList) {
+          setAvailableIntegrations(response.data.integrationsList);
+        }
+      } catch (error) {
+        logger.debug(null, 'Failed to fetch integrations, using fallback');
+        // Fallback list
+        setAvailableIntegrations([
+          "Strava - Running & Cycling",
+          "Oura Ring - Sleep & Recovery",
+          "Polar - Heart Rate Monitors",
+          "Fitbit - Activity Tracking",
+          "Garmin - GPS & Fitness",
+          "Whoop - Strain & Recovery",
+          "Coros - GPS & Training",
+          "Suunto - Outdoor Sports"
+        ]);
+      }
+    };
+    
+    fetchIntegrations();
+  }, []);
 
   const languages = [
     { code: 'en', name: 'English' },
