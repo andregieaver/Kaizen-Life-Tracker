@@ -116,7 +116,7 @@ const AgentsTab = ({ athleteId }) => {
                   <div className="flex items-center space-x-3">
                     {agent.profile_image_url ? (
                       <img
-                        src={agent.profile_image_url}
+                        src={`${BACKEND_URL}${agent.profile_image_url}`}
                         alt={agent.name}
                         className="w-12 h-12 rounded-full object-cover"
                       />
