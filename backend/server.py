@@ -1231,6 +1231,34 @@ class CommunityActionRequest(BaseModel):
     target_id: Optional[str] = None  # ID of item to edit/delete
     data: Optional[Dict[str, Any]] = None  # Data for create/edit operations
 
+class Agent(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    profile_image_url: Optional[str] = None
+    custom_instructions: str
+    voice: str = 'alloy'  # OpenAI Realtime API voices
+    personality: Optional[str] = None  # zen, science, tough, cheerleader, etc.
+    is_active: bool = True
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class AgentCreateRequest(BaseModel):
+    name: str
+    custom_instructions: str
+    voice: str = 'alloy'
+    personality: Optional[str] = None
+    is_active: bool = True
+
+class AgentUpdateRequest(BaseModel):
+    name: Optional[str] = None
+    custom_instructions: Optional[str] = None
+    voice: Optional[str] = None
+    personality: Optional[str] = None
+    is_active: Optional[bool] = None
+    profile_image_url: Optional[str] = None
+
 class AthleteMemory(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
