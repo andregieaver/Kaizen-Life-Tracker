@@ -37,8 +37,22 @@ const useSubscriptionStats = (athleteId, autoLoad = false) => {
         }
       });
       
-      setSubscriberStats(response.data);
-      return { success: true, stats: response.data };
+      logger.debug(null, 'Subscriber stats response:', response.data);
+      
+      // Map API response to component state format
+      const mappedStats = {
+        total: response.data.total_subscribers || 0,
+        active: response.data.paid_subscribers || 0,
+        trial: response.data.free_subscribers || 0, // Trials shown as free for now
+        cancelled: 0, // Calculate from other metrics if needed
+        growth: response.data.time_series || [],
+        comparison: response.data.comparison || null,
+        // Keep all original data for detailed views
+        ...response.data
+      };
+      
+      setSubscriberStats(mappedStats);
+      return { success: true, stats: mappedStats };
     } catch (error) {
       logger.error(null, 'Error loading subscriber stats:', error);
       return { success: false, error: error.message };
