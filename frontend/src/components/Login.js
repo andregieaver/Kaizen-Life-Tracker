@@ -152,27 +152,21 @@ const Login = ({ onAthleteLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ 
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
-    }}>
-      <div className="w-full max-w-md">
-        {/* Back to Home Link */}
-        <Link 
-          to="/" 
-          className="inline-flex items-center text-sm text-gray-300 hover:text-[#32D3FF] mb-6 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          {t('auth.backToHome')}
-        </Link>
-
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-display font-bold text-white mb-2">
-            My Health Tracker
-          </h1>
-          <p className="text-gray-300">{t('auth.welcomeBack')}</p>
-          {/* View Pricing Plans Link - HIDDEN BUT NOT DELETED */}
-          <Link 
+    <>
+      <LoggedOutHeader />
+      
+      <div className="min-h-screen flex items-center justify-center p-4 pt-20" style={{ 
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
+      }}>
+        <div className="w-full max-w-md">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-display font-bold text-white mb-2">
+              My Health Tracker
+            </h1>
+            <p className="text-gray-300">{t('auth.welcomeBack')}</p>
+            {/* View Pricing Plans Link - HIDDEN BUT NOT DELETED */}
+            <Link 
             to="/pricing" 
             className="hidden inline-block mt-3 text-sm font-medium transition-colors text-[#32D3FF] hover:text-[#1FC1FF]"
           >
