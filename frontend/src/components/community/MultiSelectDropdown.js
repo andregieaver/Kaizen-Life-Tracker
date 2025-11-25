@@ -136,9 +136,9 @@ const MultiSelectDropdown = ({
             }}
             onClick={(e) => e.stopPropagation()}
           />
-          {allowCustom && (
+          {allowCustom && searchTerm.trim() && (
             <p className="text-xs text-gray-400 mt-1 px-1">
-              Press Enter to add custom integration
+              Type to search or add your own
             </p>
           )}
         </div>
@@ -148,10 +148,15 @@ const MultiSelectDropdown = ({
             <button
               type="button"
               onClick={handleAddCustom}
-              className="w-full px-4 py-2.5 text-left text-sm text-[#32D3FF] hover:bg-gray-700/50 transition-colors flex items-center gap-2 border-b border-gray-700/50"
+              className="w-full px-4 py-3 text-left font-medium text-white hover:bg-blue-600/50 transition-colors flex items-center gap-3 border-b-2 border-[#32D3FF]/30 bg-[#32D3FF]/10"
             >
-              <Plus className="w-4 h-4" />
-              <span>Add "{searchTerm}"</span>
+              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#32D3FF]">
+                <Plus className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <div className="text-sm text-[#32D3FF]">Add Custom Integration</div>
+                <div className="text-xs text-gray-400 mt-0.5">"{searchTerm}"</div>
+              </div>
             </button>
           )}
           
