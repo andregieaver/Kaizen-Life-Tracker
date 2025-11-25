@@ -611,12 +611,13 @@ const LandingPage = () => {
       }
     };
     
-    const fetchHeaderMenu = async () => {
+    const fetchMenus = async () => {
       try {
         const response = await axios.get(`${API}/menus/public`);
         logger.debug(null, 'Fetched menus:', response.data);
+        
+        // Fetch header menu
         if (response.data && response.data.header_logged_out) {
-          // Response.data has menu types as keys with arrays as values
           const menuItems = response.data.header_logged_out;
           logger.debug(null, 'Found header_logged_out menu items:', menuItems);
           if (Array.isArray(menuItems) && menuItems.length > 0) {
@@ -625,14 +626,25 @@ const LandingPage = () => {
             setHeaderMenu(sortedItems);
           }
         }
+        
+        // Fetch slideout menu for logged out users
+        if (response.data && response.data.slideout_menu_logged_out) {
+          const slideoutItems = response.data.slideout_menu_logged_out;
+          logger.debug(null, 'Found slideout_menu_logged_out items:', slideoutItems);
+          if (Array.isArray(slideoutItems) && slideoutItems.length > 0) {
+            const sortedItems = slideoutItems.sort((a, b) => (a.order || 0) - (b.order || 0));
+            logger.debug(null, 'Setting slideout menu items:', sortedItems);
+            setSlideoutMenu(sortedItems);
+          }
+        }
       } catch (error) {
-        logger.error(null, 'Error fetching header menu:', error);
-        // Keep empty menu as default
+        logger.error(null, 'Error fetching menus:', error);
+        // Keep empty menus as default
       }
     };
     
     fetchSEOSettings();
-    fetchHeaderMenu();
+    fetchMenus();
     
     // Load page-level SEO meta tags for home page
     loadAndInjectPageSEO('/');
