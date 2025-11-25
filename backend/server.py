@@ -11111,6 +11111,9 @@ app.mount("/api/uploaded_images", StaticFiles(directory="/app/backend/uploaded_i
 # Mount static files for video journals
 app.mount("/api/uploaded_videos", StaticFiles(directory="/app/backend/uploaded_videos"), name="uploaded_videos")
 
+# Mount agents uploads directory
+app.mount("/uploads", StaticFiles(directory="/app/uploads"), name="agents_uploads")
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
