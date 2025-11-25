@@ -542,8 +542,9 @@ const WaitingListSection = () => {
 
               <Button
                 type="submit"
+                size="lg"
                 disabled={isSubmitting}
-                className="w-full bg-[#32D3FF] hover:bg-[#1FC1FF] text-white font-semibold py-4 text-lg shadow-lg hover:shadow-xl transition-all rounded-lg"
+                className="w-full bg-[#32D3FF] hover:bg-[#1FC1FF] text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all rounded-lg"
               >
                 {isSubmitting ? (
                   <>Processing...</>
