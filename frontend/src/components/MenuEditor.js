@@ -142,17 +142,17 @@ const MenuEditor = ({ athleteId, onBack }) => {
     }));
   };
 
-  const addSeparator = () => {
+  const addSeparator = (menuType) => {
     const newItem = {
       id: `separator-${Date.now()}`,
       label: '',
       url: '',
-      order: menus.slideout_menu.length,
+      order: menus[menuType].length,
       is_separator: true
     };
     setMenus(prev => ({
       ...prev,
-      slideout_menu: [...prev.slideout_menu, newItem]
+      [menuType]: [...prev[menuType], newItem]
     }));
   };
 
