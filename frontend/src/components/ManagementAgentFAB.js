@@ -9,11 +9,28 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
   const [showTextChat, setShowTextChat] = useState(false);
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   const voiceChatRef = React.useRef(null);
+  const navigate = useNavigate();
 
   // Only render for super admin
   if (!isSuperAdmin) {
     return null;
   }
+
+  // Listen for navigation commands from voice chat
+  useEffect(() => {
+    const handleNavigationCommand = (event) => {
+      const { command } = event.detail;
+      if (command && command.startsWith('NAVIGATE:')) {
+        const path = command.replace('NAVIGATE:', '');
+        navigate(path);
+      }
+    };
+
+    window.addEventListener('management-agent-command', handleNavigationCommand);
+    return () => {
+      window.removeEventListener('management-agent-command', handleNavigationCommand);
+    };
+  }, [navigate]);
 
   const openTextMode = () => {
     setShowTextChat(true);
