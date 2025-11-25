@@ -141,7 +141,7 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
             <div className="flex items-center space-x-3">
               {selectedAgent?.profile_image_url ? (
                 <img
-                  src={`${BACKEND_URL}${selectedAgent.profile_image_url}`}
+                  src={`${API}${selectedAgent.profile_image_url.replace('/api', '')}`}
                   alt={selectedAgent.name}
                   className="w-10 h-10 rounded-full object-cover border-2 border-white"
                 />
