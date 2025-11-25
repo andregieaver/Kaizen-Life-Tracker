@@ -8947,6 +8947,7 @@ async def create_agent(request: AgentCreateRequest, athlete_id: str = Query(...)
             custom_instructions=request.custom_instructions,
             voice=request.voice,
             personality=request.personality,
+            accessibility=request.accessibility,
             is_active=request.is_active
         )
         
