@@ -58,8 +58,8 @@ const ForgotPassword = () => {
           {/* Success Card */}
           <Card className="bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-2xl">
             <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-teal-500/20 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="w-8 h-8 text-teal-400" />
+              <div className="mx-auto w-16 h-16 bg-[#32D3FF]/20 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle className="w-8 h-8 text-[#32D3FF]" />
               </div>
               <CardTitle className="text-2xl text-white">{t('auth.emailSent')}</CardTitle>
               <CardDescription className="text-gray-300">
@@ -85,7 +85,7 @@ const ForgotPassword = () => {
               <div className="text-center space-y-3">
                 <Link
                   to="/reset-password"
-                  className="inline-flex items-center text-teal-400 hover:text-teal-300 font-medium hover:underline"
+                  className="inline-flex items-center text-[#32D3FF] hover:text-[#1FC1FF] font-medium hover:underline"
                 >
                   {t('auth.resetPasswordNow')}
                 </Link>
