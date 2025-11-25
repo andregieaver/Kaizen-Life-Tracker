@@ -84,6 +84,26 @@ const StatisticsTab = ({
     }]
   };
   
+  // Prepare chart data for gender distribution (Pie/Doughnut style colors)
+  const genderColors = {
+    male: 'rgba(59, 130, 246, 0.8)',      // Blue
+    female: 'rgba(236, 72, 153, 0.8)',    // Pink
+    other: 'rgba(168, 85, 247, 0.8)',     // Purple
+    prefer_not_to_say: 'rgba(156, 163, 175, 0.8)',  // Gray
+    not_specified: 'rgba(107, 114, 128, 0.8)'       // Dark Gray
+  };
+  
+  const genderChartData = {
+    labels: genderDistribution.distribution.map(item => item.name),
+    datasets: [{
+      label: 'Number of Users',
+      data: genderDistribution.distribution.map(item => item.count),
+      backgroundColor: genderDistribution.distribution.map(item => genderColors[item.value] || 'rgba(156, 163, 175, 0.8)'),
+      borderColor: genderDistribution.distribution.map(item => genderColors[item.value]?.replace('0.8', '1') || 'rgba(156, 163, 175, 1)'),
+      borderWidth: 1
+    }]
+  };
+  
   const barChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
