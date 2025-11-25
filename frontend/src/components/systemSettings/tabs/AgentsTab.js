@@ -115,18 +115,16 @@ const AgentsTab = ({ athleteId }) => {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     {agent.profile_image_url ? (
-                      <img
-                        src={`${BACKEND_URL}${agent.profile_image_url}`}
-                        alt={agent.name}
-                        className="w-12 h-12 rounded-full object-cover"
-                        onError={(e) => {
-                          console.error('Image failed to load:', e.target.src);
-                          e.target.onerror = null;
-                          e.target.style.display = 'none';
-                        }}
-                      />
-                    ) : null}
-                    {(!agent.profile_image_url || document.querySelector(`img[alt="${agent.name}"]`)?.style.display === 'none') && (
+                      <>
+                        <img
+                          src={`${BACKEND_URL}${agent.profile_image_url}`}
+                          alt={agent.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                          onLoad={() => console.log('Image loaded:', `${BACKEND_URL}${agent.profile_image_url}`)}
+                          onError={(e) => console.error('Image error:', e.target.src)}
+                        />
+                      </>
+                    ) : (
                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                         <Bot className="w-6 h-6 text-white" />
                       </div>
