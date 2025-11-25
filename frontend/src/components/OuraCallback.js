@@ -121,7 +121,7 @@ const OuraCallback = () => {
         </div>
         
         <div className="text-xs text-gray-500">
-          My Health Tracker × Oura Ring Integration
+          {siteTitle} × Oura Ring Integration
         </div>
       </div>
     </div>
