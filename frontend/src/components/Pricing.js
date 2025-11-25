@@ -613,7 +613,7 @@ const Pricing = () => {
         {/* Feature Comparison */}
         <div className="bg-gradient-to-b from-gray-700 to-gray-800 rounded-2xl shadow-lg p-8 mb-16">
           <h2 className="text-3xl font-display font-bold text-center mb-8 text-white">
-            Why Choose My Health Tracker?
+            Why Choose {siteTitle}?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
