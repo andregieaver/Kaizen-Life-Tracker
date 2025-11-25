@@ -18239,8 +18239,9 @@ async def get_subscriber_stats(
                 "_id": "$date",
                 "count": {"$sum": 1}
             }},
-            {"$sort": {"_id": 1}}
-        ]).limit(100).to_list(length=100)
+            {"$sort": {"_id": 1}},
+            {"$limit": 100}
+        ]).to_list(length=100)
         
         # Create time series for posts
         post_time_series = []
@@ -18345,8 +18346,9 @@ async def get_subscriber_stats(
                 "_id": "$date",
                 "count": {"$sum": 1}
             }},
-            {"$sort": {"_id": 1}}
-        ]).limit(100).to_list(length=100)
+            {"$sort": {"_id": 1}},
+            {"$limit": 100}
+        ]).to_list(length=100)
         
         daily_referrals = {item["_id"]: item["count"] for item in daily_referrals_result}
         
