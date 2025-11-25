@@ -129,17 +129,17 @@ backend:
         agent: "main"
         comment: "VOICE SESSION ENDPOINT IMPLEMENTED - Created /api/management-agent/voice/session/{athlete_id} endpoint. Lines 8735-8822. 1) OPENAI REALTIME API: Uses OpenAIChatRealtime to create ephemeral voice session. 2) SYSTEM MESSAGE: Instructs AI to use special command formats (INSPECT:all, NAVIGATE:/dashboard/[page], QUERY:collection:type, STATS:type, USER:email). Tells AI to keep responses brief (under 2 sentences for voice). 3) FALLBACK HANDLING: Multiple fallback attempts if system_message parameter not supported by emergentintegrations version. 4) API KEY RETRIEVAL: Gets OpenAI key from system_settings. Returns session data with client_secret for WebRTC connection. TESTING NEEDED: 1) Test session creation with super admin, 2) Verify session data returned, 3) Test voice connection establishment, 4) Verify AI follows system instructions to use commands."
 
-  - task: "Account Settings - Body Fat Percentage Field"
-    implemented: true
+  - task: "Management Agent Voice Transcript Processing - Frontend Integration"
+    implemented: false
     working: "NA"
-    file: "/app/frontend/src/components/Account.js"
+    file: "/app/frontend/src/components/VoiceChat.js, /app/frontend/src/components/ManagementAgentFAB.js"
     stuck_count: 0
-    priority: "medium"
+    priority: "critical"
     needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "BODY FAT PERCENTAGE FIELD ADDED TO ACCOUNT SETTINGS - Added new input field for body fat % in Personal Information tab. IMPLEMENTATION: 1) STATE MANAGEMENT: Added body_fat_percentage to personalForm state (line 328), added to form loading from API response (line 1043), included in handleSavePersonalInfo API payload as parseFloat (line 1527). 2) UI PLACEMENT: Added input field in Physical Information section between weight and vo2_max fields, uses Input component with type='number', step='0.1', placeholder='18.5', proper styling matching other fields (dark theme #111827 background). 3) LAYOUT: Changed grid from 3 columns (height, weight, vo2max) to 2x2 grid: Row 1: height, weight; Row 2: body_fat_percentage, vo2_max. Better mobile responsiveness and visual balance. 4) TRANSLATION: Added 'bodyFatPercentage' key to all 11 language files: English: 'Body Fat %', Swedish: 'Kroppsfett %', German: 'Körperfett %', Spanish: 'Grasa Corporal %', French: 'Graisse Corporelle %', Norwegian: 'Kroppsfett %', Danish: 'Kropsfedt %', Italian: 'Grasso Corporeo %', Japanese: '体脂肪率 %', Chinese: '体脂肪百分比 %'. Frontend hot-reload active. TESTING NEEDED: 1) Navigate to Account → Personal tab, 2) Verify body fat % input field visible in Physical Information section, 3) Enter value (e.g., 18.5), 4) Save and verify value persists after page reload, 5) Test with different languages to verify translations, 6) Verify field accepts decimal values with step 0.1."
+        comment: "FRONTEND VOICE COMMAND INTEGRATION MISSING - The VoiceChat component captures transcripts from OpenAI Realtime API but does NOT send them to /management-agent/voice/process-command endpoint. CURRENT STATE: VoiceChat.js lines 128-141 handle transcript events from data channel, transcript is stored in array and displayed to user, but no processing of commands happens. REQUIRED IMPLEMENTATION: 1) Monitor transcript for special commands (INSPECT:, QUERY:, STATS:, USER:, NAVIGATE:), 2) When assistant speaks a command, extract it from transcript, 3) Send to /api/management-agent/voice/process-command with POST request, 4) Handle response: for NAVIGATE commands, programmatically navigate user to specified page; for data commands (INSPECT, QUERY, STATS, USER), display results or optionally send back to AI as context. APPROACH OPTIONS: A) Process on each transcript update (reactive), B) Process when voice session ends (batch), C) Process in real-time as commands are detected. TESTING NEEDED: 1) Start voice chat as super admin, 2) Say 'Navigate to community', 3) Verify AI responds with 'NAVIGATE:/dashboard/community', 4) Verify frontend extracts command and navigates to page, 5) Test 'Inspect the database' command, 6) Verify results are displayed."
 
 frontend:
   - task: "Body Score Calculation Utilities"
