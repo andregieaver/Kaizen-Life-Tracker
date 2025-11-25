@@ -8749,10 +8749,29 @@ CAPABILITIES:
 TONE: Friendly, efficient, conversational. Keep responses very brief for voice - 1-2 sentences maximum."""
         
         realtime = OpenAIChatRealtime(api_key=openai_key)
-        session_data = await realtime.create_ephemeral_session_for_audio_chat(
-            voice='alloy',
-            system_message=system_message
-        )
+        
+        # Try to create session with system_message, fall back if not supported
+        try:
+            logging.info(f"[MGMT VOICE] Creating ephemeral session with voice=alloy")
+            session_data = await realtime.create_ephemeral_session_for_audio_chat(
+                voice='alloy',
+                system_message=system_message
+            )
+            logging.info(f"[MGMT VOICE] Session data received: {type(session_data)}")
+        except TypeError as te:
+            logging.info(f"[MGMT VOICE] TypeError with system_message: {te}")
+            # Fallback: Try with just voice parameter if system_message not supported
+            try:
+                logging.info(f"[MGMT VOICE] Retrying with just voice parameter")
+                session_data = await realtime.create_ephemeral_session_for_audio_chat(voice='alloy')
+                logging.info(f"[MGMT VOICE] Session data received (fallback 1): {type(session_data)}")
+            except TypeError as te2:
+                logging.info(f"[MGMT VOICE] TypeError with voice only: {te2}")
+                # Final fallback: Use default parameters
+                logging.info(f"[MGMT VOICE] Using default parameters")
+                session_data = await realtime.create_ephemeral_session_for_audio_chat()
+                logging.info(f"[MGMT VOICE] Session data received (fallback 2): {type(session_data)}")
+        
         return session_data
         
     except HTTPException:
