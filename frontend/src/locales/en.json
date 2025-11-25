@@ -1033,6 +1033,7 @@
   "crm": {
     "title": "User Management",
     "description": "View and manage all registered users",
+    "usersCount": "Showing {{filtered}} of {{total}} users",
     "totalUsers": "Total Users",
     "activeUsers": "Active Users",
     "newUsersThisMonth": "New This Month",
