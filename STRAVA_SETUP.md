@@ -21,7 +21,7 @@ Fill in the following information:
 - **Application Name**: `RunWisely Integration` (or your preferred name)
 - **Category**: `Training`
 - **Club**: Leave blank unless you have a specific Strava club
-- **Website**: `https://fitmanage-16.preview.emergentagent.com`
+- **Website**: `https://agentmanager.preview.emergentagent.com`
 - **Application Description**: 
   ```
   RunWisely AI running coach integration that automatically imports 
@@ -43,7 +43,7 @@ Update your backend `.env` file with your Strava credentials:
 ```env
 STRAVA_CLIENT_ID=your_actual_client_id_here
 STRAVA_CLIENT_SECRET=your_actual_client_secret_here
-STRAVA_REDIRECT_URI=https://fitmanage-16.preview.emergentagent.com/auth/strava/callback
+STRAVA_REDIRECT_URI=https://agentmanager.preview.emergentagent.com/auth/strava/callback
 ```
 
 **Important**: Replace `your_actual_client_id_here` and `your_actual_client_secret_here` with your real Strava app credentials.
