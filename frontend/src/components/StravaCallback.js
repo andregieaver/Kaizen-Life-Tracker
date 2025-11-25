@@ -9,6 +9,7 @@ const StravaCallback = () => {
   const [status, setStatus] = useState('loading'); // loading, success, error
   const [message, setMessage] = useState('');
   const [importedCount, setImportedCount] = useState(0);
+  const [siteTitle, setSiteTitle] = useState('TrainSmart');
 
   useEffect(() => {
     handleCallback();
