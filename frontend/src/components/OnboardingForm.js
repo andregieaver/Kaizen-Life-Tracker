@@ -31,6 +31,22 @@ const OnboardingForm = ({ onAthleteCreated }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [siteTitle, setSiteTitle] = useState('TrainSmart');
+  
+  // Fetch site title from system settings
+  useEffect(() => {
+    const fetchSiteTitle = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
+        if (response.data?.seo?.siteTitle) {
+          setSiteTitle(response.data.seo.siteTitle);
+        }
+      } catch (error) {
+        logger.error(null, 'Error fetching site title:', error);
+      }
+    };
+    fetchSiteTitle();
+  }, []);
 
   // Check for Google OAuth session_id in URL fragment
   useEffect(() => {
