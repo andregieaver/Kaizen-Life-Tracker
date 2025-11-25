@@ -1,90 +1,89 @@
 <analysis>
-The trajectory details a comprehensive development and debugging cycle, starting with fixing a JavaScript runtime error () in the  component. This involved correcting a function name and then fixing a subsequent prop-passing bug. A major effort was then dedicated to internationalization, which uncovered and required fixing widespread structural corruption and syntax errors across multiple JSON locale files.
+The trajectory documents an extensive and complex development and debugging cycle. The work began with a report of a production bug in the logged-out slideout menu editor. The initial investigation led to a minor frontend fix, but the user's follow-up revealed deeper, systemic issues.
 
-Following this, the engineer addressed critical deployment blockers by modifying  to allow  files, adding backend CORS middleware, and removing a conflicting .
+A significant portion of the work involved iterative debugging of the admin Statistics page. This uncovered multiple backend  syntax errors (incorrect  usage), frontend state management problems (improper prop drilling of , non-reactive state from ), and a  registration error. To resolve these, the engineer had to create simulated integration and subscription data in the local database to mirror the production environment, as the preview environment was connected to a different, largely empty database.
 
-The largest portion of the work involved significant feature enhancements on the public-facing . This included adding a complex, multi-select dropdown for interested integrations with custom entry support, a notes field, and a GDPR checkbox. The implementation of the dropdown was iterative, starting with a portal-based approach that had scroll-related bugs, and then smartly pivoting to a more stable, non-portal component that reused existing patterns.
+In parallel, the engineer addressed several feature and enhancement requests:
+1.  **Internationalization**: Added numerous missing translation keys across 11 locale files for the Referrals, CRM, and Onboarding pages.
+2.  **Branding**: Systematically replaced all hardcoded instances of TrainSmart and My Health Tracker with a dynamic site title fetched from the backend.
+3.  **UX Improvement**: Implemented a  caching solution to prevent a flash of the old hardcoded text before the dynamic site title loaded.
 
-Extensive UI/UX work was done to unify the application's color scheme to a consistent cyan/light-blue theme across the landing page, waitlist form, login, forgot password, and onboarding pages. This also involved creating a reusable  component to ensure consistency.
-
-Finally, a new logged-out slideout menu was added, requiring updates to the backend, frontend menu editor, and the landing page header. The work concluded just as the user reported a bug with this new feature failing in production. The user's primary language is English, and future responses should be in English.
+The final action was a fix in the  hook, correcting a data mapping mismatch between the API response and the frontend state, which was causing the stats cards to display zeros. The user's primary language is English, and future interactions should be in English.
 </analysis>
-
 <product_requirements>
-The primary objective is to enhance and stabilize a public-facing health and fitness application.
+The primary objective was to stabilize and enhance a public-facing health and fitness application, focusing on admin-facing features and overall branding consistency.
 
 **Key requirements implemented:**
-1.  **Bug Fixes:** Resolve critical JavaScript runtime errors on the System Settings page ( and a subsequent prop name mismatch).
-2.  **Internationalization:** Add and correct translations for the statistics page. This required a deep fix of corrupted JSON locale files across multiple languages.
-3.  **Deployment Readiness:** Resolve build and deployment failures by enabling  file tracking, adding backend CORS policies, and resolving package manager conflicts.
-4.  **Waitlist Form Enhancements:**
-    *   Add a multi-select dropdown for Interested Integrations, allowing users to select from a predefined list or add custom entries.
-    *   Add a free-text Additional Notes field.
-    *   Reorder form fields for better user flow.
-    *   Add a mandatory GDPR consent checkbox with a link to the privacy policy page.
-5.  **UI/UX Consistency:**
-    *   Implement a stable, user-friendly dropdown component for the integrations field.
-    *   Establish a unified cyan/light-blue color scheme and apply it consistently across all public-facing pages (Landing, Login, Forgot Password, Pricing, Onboarding) and form elements.
-    *   Create a reusable header component for all logged-out pages.
-6.  **Menu Management:**
-    *   Add a new Logged-out Slideout Menu to the menu editor in the admin settings.
-    *   Implement this slideout menu with a hamburger icon on the public landing page for mobile navigation.
-</product_requirements>
 
+1.  **Menu Editor Bug Fix:** Resolve a production bug where the Logged-out Slideout Menu editor was non-functional. This required fixing frontend state management, backend database query syntax, and prop-drilling issues.
+2.  **Comprehensive Internationalization:** Add missing translation keys to all 11 language files for the Referrals (), CRM (), and Onboarding (, ) pages.
+3.  **Dynamic Branding:** Replace all hardcoded instances of TrainSmart and My Health Tracker across the entire frontend with a dynamic site title fetched from system settings. This also involved implementing a caching mechanism using  to prevent a flash of old text on page load.
+4.  **Admin Statistics Enhancements:**
+    *   Add new charts to the statistics page to visualize:
+        *   Distribution of desired integrations from the waitlist.
+        *   Distribution of connected integrations among users.
+        *   Gender distribution of users.
+    *   Debug and fix the stats page to correctly fetch and display data, which involved creating realistic test data for subscriptions and integrations to simulate the production environment.
+</product_requirements>
 <key_technical_concepts>
 - **Frameworks**: React (frontend), FastAPI (backend).
-- **Database**: MongoDB with .
-- **Styling**: TailwindCSS for component styling and theming.
-- **State Management**: React Hooks (, ) for component-level state.
-- **Internationalization (i18n)**:  with JSON-based locale files.
-- **Component Architecture**: Creation of reusable components (, ) and refactoring pages to use them.
-- **DOM Portals**: Used  for an initial dropdown implementation to escape parent overflow, later replaced with a more stable absolute positioning strategy.
+- **Database**: MongoDB with  for asynchronous operations.
+- **Styling**: TailwindCSS.
+- **State Management**: React Hooks (, ), including custom hooks for modularity.
+- **API/Data Fetching**: .
+- **Internationalization (i18n)**:  with JSON locale files.
+- **Data Visualization**:  and .
+- **Debugging**: Investigating frontend prop drilling, state synchronization, backend API logic, and database query syntax.
+- **Performance**: Using  for caching to prevent Flash of Unstyled Content (FOUC).
 </key_technical_concepts>
-
 <code_architecture>
 The application is a monorepo with a React frontend and a FastAPI backend.
 
 
 
-- ****
-    - **Importance**: The main public landing page, which contains the waitlist form. This file was the center of most feature development.
-    - **Summary of Changes**: Extensively modified to include a new multi-select searchable dropdown for integrations, a notes field, and a GDPR checkbox. The form fields were reordered. The state logic was updated to handle the new fields and fetch integrations from the backend. The header was refactored to use the new  component, and logic for a mobile slideout menu was added. The main call-to-action buttons were restyled to use the new cyan theme. The privacy policy link was updated to point to .
+-   ****
+    -   **Importance**: The monolithic backend server handling all API logic and database interactions.
+    -   **Summary of Changes**: Heavily modified. Added three new statistics endpoints (, , ). Fixed multiple critical  syntax errors across several endpoints (e.g., , ) where  was used incorrectly. Updated menu endpoints to be more resilient to missing data in older database documents.
 
-- **** (New File)
-    - **Importance**: A new, stable, multi-select dropdown component created to replace a buggy, portal-based version. It's designed to be reusable and theme-consistent.
-    - **Summary of Changes**: Created from scratch, borrowing stable positioning patterns from . It includes logic for multi-selection, displaying selections as tags, adding custom entries, and a custom-styled scrollbar.
+-   ****
+    -   **Importance**: The UI for the admin statistics dashboard. It was the focus of significant feature additions and debugging.
+    -   **Summary of Changes**: Overhauled to fetch data from the new stats endpoints and render three new charts (Waitlist Integrations, Connected Integrations, Gender Distribution) using . Fixed a critical runtime error by importing and registering required  elements (, , etc.). Refactored to receive  as a prop to fix data-fetching race conditions.
 
-- **** (New File)
-    - **Importance**: A new reusable component created to ensure a consistent header across all logged-out pages.
-    - **Summary of Changes**: Created to encapsulate the header's structure, navigation links, and logic for fetching menu items. It includes the hamburger icon for the mobile slideout menu.
+-   ****
+    -   **Importance**: The React hook responsible for fetching and processing subscription statistics for the admin dashboard.
+    -   **Summary of Changes**: A critical bug was fixed where the hook was not correctly mapping the API response data (e.g., ) to the state structure expected by the frontend component (e.g., ). This was the final fix made, intended to resolve the stats cards showing 0.
 
-- ****
-    - **Importance**: Translation files for i18n.
-    - **Summary of Changes**: Multiple files (, , , , , , , , , ) were heavily edited. First, new keys for the statistics page were added. Then, major, pre-existing structural corruption (e.g., content after closing brace) was discovered and fixed across many of these files, which was critical for enabling the frontend to compile.
+-   **** (New File)
+    -   **Importance**: A new utility to manage the site's dynamic title.
+    -   **Summary of Changes**: Created to implement a  caching strategy. It exports functions to get the cached title for an instant display and another to fetch the latest title from the API and update the cache, preventing a flash of unstyled content.
 
-- ****
-    - **Importance**: The monolithic backend API server.
-    - **Summary of Changes**: The  Pydantic model was updated to include . The  endpoint was updated to save these new fields. CORS middleware was added to allow cross-origin requests from the production frontend. The menu endpoints () and default menu data were updated to include the new  type.
+-   **** (e.g., , , etc.)
+    -   **Importance**: Translation files for internationalization.
+    -   **Summary of Changes**: All 11 locale files were updated multiple times to add missing translation keys for the Referrals, Onboarding, and CRM pages, ensuring UI text is properly translated.
 
-- ****
-    - **Importance**: The admin UI for editing the application's navigation menus.
-    - **Summary of Changes**: Updated to support the new  type, including adding it to the UI and state. A critical bug was fixed where the Add Separator button was hardcoded to the wrong menu type; it was updated to be dynamic.
+-   ** (Multiple Files)**
+    -   **Importance**: Various public-facing components like , , , , etc.
+    -   **Summary of Changes**: All were refactored to remove hardcoded brand names (TrainSmart, My Health Tracker) and instead use the new  utility to display a dynamic, cached site title.
 
-- **, , , **
-    - **Importance**: Various logged-out/public pages.
-    - **Summary of Changes**: All were refactored to use the new  component for a consistent look and feel. Their color schemes were updated to the new cyan theme.
+-   ****
+    -   **Importance**: The parent container for all admin settings tabs.
+    -   **Summary of Changes**: Fixed incorrect prop names being passed to the  component. Modified to pass the  prop down to  to resolve data-fetching issues.
 </code_architecture>
-
 <pending_tasks>
-- Investigate and fix the bug where menu editing for the logged out slideout menu is failing on the deployed prod with custom domain.
+- There are no explicit pending tasks. All user requests in the trajectory, including bug fixes and feature additions, were addressed. The last action was a fix for a bug the user had just reported.
 </pending_tasks>
-
 <current_work>
-The AI engineer was in the initial phase of debugging a production-specific issue where editing the newly created logged-out slideout menu fails. The user reported that this functionality, which works in the development environment, is broken on the production deployment.
+The most recent task was debugging the admin Statistics page. The user reported that after test data was added to the database, the main statistics cards (Total Subscribers, Active, Trial, etc.) were still showing all zeros.
 
-The engineer's immediate last actions were to begin an investigation into the backend code. They started by reviewing the  endpoint in , which is responsible for saving menu changes. The code in the  loop that iterates through menu types appeared to correctly include . The next logical step was to verify the  Pydantic model. The trajectory ended at this point, with the investigation just underway and no code yet modified to address this specific production bug.
+The AI engineer investigated and found a data mapping issue in the  hook. The state was initialized with keys like  and , but the API response contained different keys like  and . The hook was not translating between these two formats.
+
+The immediate last action was to edit the  file to correctly map the data from the API response to the local state, as shown below, and then restart the frontend.
+
+**File:** 
+**Change:**
+
+The work concluded right after this fix was applied and the frontend server was restarted, awaiting verification.
 </current_work>
-
 <optional_next_step>
-Continue investigating the production bug. Since the backend  endpoint appears correct, I will next examine the frontend code in  that sends the request to ensure the payload is being constructed and sent correctly for the  type.
+I will verify that the last fix was successful and that the statistics page now correctly displays the subscription data.
 </optional_next_step>

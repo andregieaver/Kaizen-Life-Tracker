@@ -137,3 +137,7 @@ frontend/node_modules/.cache/default-development/12.pack_
 # Environment files - Commented out to allow .env files for deployment
 # *.env
 # *.env.*
+-e 
+# Environment files
+*.env
+*.env.*

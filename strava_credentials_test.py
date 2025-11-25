@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Backend URL from environment
-BACKEND_URL = "https://wellness-portal-49.preview.emergentagent.com/api"
+BACKEND_URL = "https://fitmanage-16.preview.emergentagent.com/api"
 
 # Test credentials from review request
 STRAVA_CREDENTIALS = {
