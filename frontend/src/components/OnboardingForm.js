@@ -246,7 +246,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
           <div className="text-center mb-8">
             <div className="relative inline-block">
               <h1 className="font-display text-4xl font-bold text-white mb-2">
-                My Health Tracker
+                {siteTitle}
               </h1>
               <span 
                 className="absolute -top-2 -right-12 text-xs font-bold px-2 py-1 rounded"
