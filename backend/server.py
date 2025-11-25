@@ -8896,6 +8896,177 @@ async def get_management_agent_conversations(athlete_id: str):
         logging.error(f"Failed to get management agent conversations: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ========================================
+# AGENTS MANAGEMENT ENDPOINTS (Super Admin Only)
+# ========================================
+
+@api_router.get("/agents")
+async def get_agents(athlete_id: str = Query(...)):
+    """Get all agents (Super Admin only)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        agents = await db.agents.find({}, {"_id": 0}).to_list(length=100)
+        return [parse_from_mongo(agent) for agent in agents]
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to get agents: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/agents/{agent_id}")
+async def get_agent(agent_id: str, athlete_id: str = Query(...)):
+    """Get single agent (Super Admin only)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        agent = await db.agents.find_one({"id": agent_id}, {"_id": 0})
+        if not agent:
+            raise HTTPException(status_code=404, detail="Agent not found")
+        
+        return parse_from_mongo(agent)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to get agent: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/agents")
+async def create_agent(request: AgentCreateRequest, athlete_id: str = Query(...)):
+    """Create new agent (Super Admin only)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        agent = Agent(
+            name=request.name,
+            custom_instructions=request.custom_instructions,
+            voice=request.voice,
+            personality=request.personality,
+            is_active=request.is_active
+        )
+        
+        agent_dict = prepare_for_mongo(agent.model_dump())
+        await db.agents.insert_one(agent_dict)
+        
+        return parse_from_mongo(agent_dict)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to create agent: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/agents/{agent_id}")
+async def update_agent(agent_id: str, request: AgentUpdateRequest, athlete_id: str = Query(...)):
+    """Update agent (Super Admin only)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        # Get existing agent
+        existing_agent = await db.agents.find_one({"id": agent_id})
+        if not existing_agent:
+            raise HTTPException(status_code=404, detail="Agent not found")
+        
+        # Build update dict
+        update_data = {}
+        if request.name is not None:
+            update_data["name"] = request.name
+        if request.custom_instructions is not None:
+            update_data["custom_instructions"] = request.custom_instructions
+        if request.voice is not None:
+            update_data["voice"] = request.voice
+        if request.personality is not None:
+            update_data["personality"] = request.personality
+        if request.is_active is not None:
+            update_data["is_active"] = request.is_active
+        if request.profile_image_url is not None:
+            update_data["profile_image_url"] = request.profile_image_url
+        
+        update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+        
+        # Update agent
+        await db.agents.update_one(
+            {"id": agent_id},
+            {"$set": update_data}
+        )
+        
+        # Return updated agent
+        updated_agent = await db.agents.find_one({"id": agent_id}, {"_id": 0})
+        return parse_from_mongo(updated_agent)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to update agent: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/agents/{agent_id}")
+async def delete_agent(agent_id: str, athlete_id: str = Query(...)):
+    """Delete agent (Super Admin only)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        result = await db.agents.delete_one({"id": agent_id})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Agent not found")
+        
+        return {"success": True, "message": "Agent deleted successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to delete agent: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/agents/{agent_id}/upload-image")
+async def upload_agent_image(agent_id: str, file: UploadFile = File(...), athlete_id: str = Query(...)):
+    """Upload agent profile image (Super Admin only)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        # Validate agent exists
+        agent = await db.agents.find_one({"id": agent_id})
+        if not agent:
+            raise HTTPException(status_code=404, detail="Agent not found")
+        
+        # Validate file type
+        allowed_types = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
+        if file.content_type not in allowed_types:
+            raise HTTPException(status_code=400, detail="Only JPEG, PNG, and WebP images are allowed")
+        
+        # Create uploads directory if it doesn't exist
+        upload_dir = "/app/uploads/agents"
+        os.makedirs(upload_dir, exist_ok=True)
+        
+        # Generate unique filename
+        file_extension = file.filename.split(".")[-1]
+        unique_filename = f"{agent_id}_{uuid.uuid4()}.{file_extension}"
+        file_path = os.path.join(upload_dir, unique_filename)
+        
+        # Save file
+        with open(file_path, "wb") as buffer:
+            content = await file.read()
+            buffer.write(content)
+        
+        # Generate URL (assuming uploads are served at /uploads)
+        image_url = f"/uploads/agents/{unique_filename}"
+        
+        # Update agent with image URL
+        await db.agents.update_one(
+            {"id": agent_id},
+            {"$set": {"profile_image_url": image_url, "updated_at": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        return {"url": image_url}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to upload agent image: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Strava OAuth routes
 
 @api_router.post("/integrations/strava/{athlete_id}/sync")
