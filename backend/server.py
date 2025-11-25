@@ -9421,6 +9421,53 @@ async def chat_with_agent(request: AgentChatRequest):
                     
                     function_response = json.dumps(stats)
                 
+                elif function_name == "inspect_application":
+                    aspect = function_args.get("aspect")
+                    inspection_data = {}
+                    
+                    if aspect in ["collections", "all"]:
+                        # Get all collections with counts
+                        collections = await db.list_collection_names()
+                        collection_info = {}
+                        for coll_name in collections:
+                            count = await db[coll_name].count_documents({})
+                            collection_info[coll_name] = {
+                                "count": count,
+                                "has_data": count > 0
+                            }
+                        inspection_data["collections"] = collection_info
+                    
+                    if aspect in ["database_schema", "all"]:
+                        # Get sample documents from key collections to show schema
+                        key_collections = ["athlete_profiles", "community_posts", "workouts", "subscriptions", "agents"]
+                        schemas = {}
+                        for coll_name in key_collections:
+                            sample = await db[coll_name].find_one({}, {"_id": 0})
+                            if sample:
+                                # Get field names and types
+                                schema = {field: type(value).__name__ for field, value in sample.items()}
+                                schemas[coll_name] = schema
+                        inspection_data["schemas"] = schemas
+                    
+                    if aspect in ["sample_data", "all"]:
+                        # Get a few sample records from key collections
+                        samples = {}
+                        samples["recent_users"] = await db.athlete_profiles.find({}, {"_id": 0, "email": 1, "name": 1, "created_at": 1}).sort("created_at", -1).limit(3).to_list(length=3)
+                        samples["recent_posts"] = await db.community_posts.find({}, {"_id": 0, "title": 1, "author_name": 1, "created_at": 1}).sort("created_at", -1).limit(3).to_list(length=3)
+                        samples["active_agents"] = await db.agents.find({"is_active": True}, {"_id": 0, "name": 1, "accessibility": 1}).to_list(length=5)
+                        inspection_data["samples"] = samples
+                    
+                    if aspect in ["system_info", "all"]:
+                        # Get system configuration
+                        system_settings = await db.system_settings.find_one({}, {"_id": 0})
+                        inspection_data["system_info"] = {
+                            "has_openai_key": bool(system_settings and (system_settings.get("advanced", {}).get("openaiApiKey") or system_settings.get("openaiApiKey"))),
+                            "modules_enabled": system_settings.get("modules", {}) if system_settings else {},
+                            "app_configured": bool(system_settings)
+                        }
+                    
+                    function_response = json.dumps(inspection_data, default=str)
+                
                 messages.append({
                     "tool_call_id": tool_call.id,
                     "role": "tool",
