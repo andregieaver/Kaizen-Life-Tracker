@@ -2662,6 +2662,14 @@ const Dashboard = ({ athleteId }) => {
           }}
         />
       )}
+
+      {/* Management Agent FAB (Super Admin Only) */}
+      {athlete && athlete.email && (
+        <ManagementAgentFAB
+          athleteId={athleteId}
+          isSuperAdmin={athlete.email.toLowerCase().trim() === 'andre@humanweb.no'}
+        />
+      )}
     </div>
   );
 };
