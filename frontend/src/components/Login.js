@@ -8,6 +8,7 @@ import { Label } from './ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { ArrowLeft, LogIn, Eye, EyeOff } from 'lucide-react';
 import { track, setUserId, forms } from '../lib/analytics';
+import LoggedOutHeader from './LoggedOutHeader';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
