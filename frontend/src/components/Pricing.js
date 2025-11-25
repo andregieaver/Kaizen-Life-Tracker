@@ -702,12 +702,13 @@ const Pricing = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 py-8">
-        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-200">
-          <p>&copy; 2024 My Health Tracker. All rights reserved.</p>
-        </div>
-      </footer>
-    </div>
+        <footer className="bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 py-8">
+          <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-200">
+            <p>&copy; 2024 My Health Tracker. All rights reserved.</p>
+          </div>
+        </footer>
+      </div>
+    </>
   );
 };
 
