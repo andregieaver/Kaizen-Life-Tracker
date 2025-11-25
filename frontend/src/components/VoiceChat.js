@@ -223,7 +223,7 @@ class RealtimeAudioChat {
             
             logger.debug(null, "Saving voice conversation:", conversationData);
             
-            const response = await fetch(`${this.backendUrl}/api/coach/voice/save-conversation`, {
+            const response = await fetch(`${this.backendUrl}/api${this.apiBasePath}/save-conversation`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
