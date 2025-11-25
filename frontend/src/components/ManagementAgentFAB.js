@@ -42,6 +42,7 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
   const startVoiceMode = async () => {
     setShowMgmtMenu(false);
     setIsVoiceActive(true);
+    console.log('Management Agent: Voice mode activated');
     // Voice will auto-start via VoiceChat component
   };
 
@@ -49,6 +50,12 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
     if (voiceChatRef.current) {
       voiceChatRef.current.stopVoiceChat();
     }
+    setIsVoiceActive(false);
+  };
+
+  const handleVoiceError = (error) => {
+    console.error('Management Agent Voice Error:', error);
+    alert(`Voice error: ${error}`);
     setIsVoiceActive(false);
   };
 
