@@ -138,17 +138,18 @@ const MenuEditor = ({ athleteId, onBack }) => {
 
   const addMenuItem = (menuType) => {
     const isSlideout = menuType === 'slideout_menu' || menuType === 'slideout_menu_logged_out';
+    const currentItems = Array.isArray(menus[menuType]) ? menus[menuType] : [];
     const newItem = {
       id: `item-${Date.now()}`,
       label: 'New Item',
       url: '/',
-      order: menus[menuType].length,
+      order: currentItems.length,
       is_separator: false,
       icon: isSlideout ? 'Circle' : undefined
     };
     setMenus(prev => ({
       ...prev,
-      [menuType]: [...prev[menuType], newItem]
+      [menuType]: [...currentItems, newItem]
     }));
   };
 
