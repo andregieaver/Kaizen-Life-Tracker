@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { ArrowLeft, LogIn, Eye, EyeOff } from 'lucide-react';
 import { track, setUserId, forms } from '../lib/analytics';
 import LoggedOutHeader from './LoggedOutHeader';
+import { initializeSiteTitle } from '../utils/siteTitle';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
