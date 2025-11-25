@@ -889,6 +889,7 @@
   "crm": {
     "title": "Brugerstyring",
     "description": "Se og administrer alle registrerede brugere",
+    "usersCount": "Viser {{filtered}} af {{total}} brugere",
     "totalUsers": "Samlede Brugere",
     "activeUsers": "Aktive Brugere",
     "newUsersThisMonth": "Nye Denne Måned",

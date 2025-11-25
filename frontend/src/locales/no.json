@@ -1000,6 +1000,7 @@
   "crm": {
     "title": "Brukerhåndtering",
     "description": "Vis og administrer alle registrerte brukere",
+    "usersCount": "Viser {{filtered}} av {{total}} brukere",
     "totalUsers": "Totale brukere",
     "activeUsers": "Aktive brukere",
     "newUsersThisMonth": "Nye denne måneden",

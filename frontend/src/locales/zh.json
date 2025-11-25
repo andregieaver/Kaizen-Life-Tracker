@@ -1174,6 +1174,7 @@
   "crm": {
     "title": "用户管理",
     "description": "查看和管理所有注册用户",
+    "usersCount": "显示 {{filtered}} / {{total}} 用户",
     "totalUsers": "用户总数",
     "activeUsers": "活跃用户",
     "newUsersThisMonth": "本月新增",

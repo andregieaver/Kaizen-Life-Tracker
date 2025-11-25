@@ -1292,6 +1292,7 @@
   "crm": {
     "title": "ユーザー管理",
     "description": "登録済みのすべてのユーザーを表示および管理します",
+    "usersCount": "{{total}}人のユーザーのうち{{filtered}}人を表示",
     "totalUsers": "合計ユーザー数",
     "activeUsers": "アクティブユーザー数",
     "newUsersThisMonth": "今月の新規ユーザー",

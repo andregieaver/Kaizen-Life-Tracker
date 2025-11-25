@@ -1136,6 +1136,7 @@
   "crm": {
     "title": "Gestione Utenti",
     "description": "Visualizza e gestisci tutti gli utenti registrati",
+    "usersCount": "Mostra {{filtered}} di {{total}} utenti",
     "totalUsers": "Totale Utenti",
     "activeUsers": "Utenti Attivi",
     "newUsersThisMonth": "Nuovi Questo Mese",
