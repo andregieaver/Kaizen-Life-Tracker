@@ -26,15 +26,16 @@ const StatisticsTab = ({
   const [genderDistribution, setGenderDistribution] = useState({ distribution: [], total_users: 0 });
   const [loadingIntegrations, setLoadingIntegrations] = useState(true);
   
-  const athleteId = localStorage.getItem('session_id');
-  
   useEffect(() => {
+    const athleteId = localStorage.getItem('session_id');
     if (athleteId) {
+      logger.debug(null, 'Found athleteId, loading stats:', athleteId);
       loadIntegrationStats();
     } else {
       logger.error(null, 'No athleteId found in localStorage');
+      setLoadingIntegrations(false);
     }
-  }, [athleteId]);
+  }, []);
   
   const loadIntegrationStats = async () => {
     try {
