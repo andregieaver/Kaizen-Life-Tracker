@@ -35,7 +35,8 @@ import {
   X,
   Cookie,
   RefreshCw,
-  Shield
+  Shield,
+  Bot
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
