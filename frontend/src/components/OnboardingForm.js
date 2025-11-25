@@ -32,21 +32,11 @@ const OnboardingForm = ({ onAthleteCreated }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [siteTitle, setSiteTitle] = useState('TrainSmart');
+  const [siteTitle, setSiteTitle] = useState('');
   
-  // Fetch site title from system settings
+  // Initialize site title with cached value and background fetch
   useEffect(() => {
-    const fetchSiteTitle = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
-        if (response.data?.seo?.siteTitle) {
-          setSiteTitle(response.data.seo.siteTitle);
-        }
-      } catch (error) {
-        logger.error(null, 'Error fetching site title:', error);
-      }
-    };
-    fetchSiteTitle();
+    initializeSiteTitle(setSiteTitle);
   }, []);
 
   // Check for Google OAuth session_id in URL fragment
