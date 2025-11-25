@@ -469,9 +469,10 @@ const WaitingListSection = () => {
                   placeholder="Select devices you use..."
                   searchPlaceholder="Search integrations..."
                   emptyText="No integrations found"
+                  allowCustom={true}
                 />
                 <p className="text-xs text-gray-400 mt-1">
-                  Which devices/platforms would you like to connect?
+                  Select from the list or type to add your own
                 </p>
               </div>
 
