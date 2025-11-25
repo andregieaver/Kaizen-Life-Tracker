@@ -2581,6 +2581,10 @@ const SystemSettings = ({ athleteId }) => {
             />
           </TabsContent>
 
+          {/* Agents Tab */}
+          <TabsContent value="agents">
+            <AgentsTab />
+          </TabsContent>
 
           {/* Cookies Tab */}
           <TabsContent value="cookies">
