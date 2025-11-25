@@ -14811,15 +14811,15 @@ def test_strava_callback_domain_update():
         return False
 
 def main():
-    """Main function to run Body Score Data Aggregation API testing as requested in review"""
-    print("🚀 STARTING BODY SCORE DATA AGGREGATION API TESTING AS REQUESTED")
+    """Main function to run Management Agent Voice Command Processing testing as requested in review"""
+    print("🚀 STARTING MANAGEMENT AGENT VOICE COMMAND PROCESSING TESTING AS REQUESTED")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test: Body Score Data Aggregation API
+    # Test: Management Agent Voice Command Processing
     print("\n" + "="*70)
-    if not test_body_score_data_aggregation_api():
+    if not test_management_agent_voice_command_processing():
         all_tests_passed = False
     
     # Final Results
@@ -14828,14 +14828,15 @@ def main():
     print("=" * 70)
     
     if all_tests_passed:
-        print("✅ ALL BODY SCORE API TESTS PASSED!")
-        print("🎉 MONGODB PROJECTION FIX VERIFICATION COMPLETED SUCCESSFULLY")
-        print("💡 All Oura metrics are being retrieved correctly")
-        print("💡 Body Score should now display 7/9 components in production")
+        print("✅ ALL MANAGEMENT AGENT VOICE COMMAND TESTS PASSED!")
+        print("🎉 MANAGEMENT AGENT VOICE COMMAND PROCESSING VERIFICATION COMPLETED SUCCESSFULLY")
+        print("💡 All voice command types (NAVIGATE, INSPECT, QUERY, STATS, USER) working correctly")
+        print("💡 Authorization properly restricts access to super admins only")
+        print("💡 Voice session creation endpoint working")
     else:
-        print("❌ BODY SCORE API TESTS FAILED!")
+        print("❌ MANAGEMENT AGENT VOICE COMMAND TESTS FAILED!")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: MongoDB projection fix may not be working correctly")
+        print("🚨 CRITICAL: Management Agent voice command processing may not be working correctly")
         sys.exit(1)
 
 if __name__ == "__main__":
