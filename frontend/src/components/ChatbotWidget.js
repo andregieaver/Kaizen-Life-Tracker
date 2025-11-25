@@ -15,6 +15,7 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showAgentSelector, setShowAgentSelector] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
   const messagesEndRef = useRef(null);
 
   // Determine which agents to fetch based on login status
