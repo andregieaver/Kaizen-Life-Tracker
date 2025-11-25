@@ -26,10 +26,29 @@ const Pricing = () => {
   // Dynamic plans from API
   const [plans, setPlans] = useState([]);
   const [loadingPlans, setLoadingPlans] = useState(true);
+  
+  // Site title from system settings
+  const [siteTitle, setSiteTitle] = useState('TrainSmart');
 
   // Load page-level SEO meta tags
   useEffect(() => {
     loadAndInjectPageSEO('/pricing');
+  }, []);
+  
+  // Fetch site title from system settings
+  useEffect(() => {
+    const fetchSiteTitle = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/system/settings/public`);
+        const data = await response.json();
+        if (data?.seo?.siteTitle) {
+          setSiteTitle(data.seo.siteTitle);
+        }
+      } catch (error) {
+        logger.error(null, 'Error fetching site title:', error);
+      }
+    };
+    fetchSiteTitle();
   }, []);
 
   // Load plans from API
