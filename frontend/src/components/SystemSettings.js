@@ -1566,6 +1566,9 @@ const SystemSettings = ({ athleteId }) => {
             <TabsTrigger value="statistics" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
               <span>{t('systemSettings.tabs.statistics')}</span>
             </TabsTrigger>
+            <TabsTrigger value="agents" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
+              <span>{t('systemSettings.tabs.agents')}</span>
+            </TabsTrigger>
             <TabsTrigger value="cookies" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
               <span>{t('systemSettings.tabs.cookies')}</span>
             </TabsTrigger>
