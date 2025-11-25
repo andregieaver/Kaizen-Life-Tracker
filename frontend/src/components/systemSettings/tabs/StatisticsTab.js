@@ -40,25 +40,31 @@ const StatisticsTab = ({
     try {
       setLoadingIntegrations(true);
       
+      logger.debug(null, 'Loading integration stats with athleteId:', athleteId);
+      
       // Fetch waitlist integration stats
       const waitlistResponse = await axios.get(`${API}/system/waitlist-integration-stats`, {
         params: { athlete_id: athleteId }
       });
+      logger.debug(null, 'Waitlist response:', waitlistResponse.data);
       setWaitlistIntegrations(waitlistResponse.data);
       
       // Fetch connected integration stats
       const connectedResponse = await axios.get(`${API}/system/connected-integration-stats`, {
         params: { athlete_id: athleteId }
       });
+      logger.debug(null, 'Connected response:', connectedResponse.data);
       setConnectedIntegrations(connectedResponse.data);
       
       // Fetch gender distribution stats
       const genderResponse = await axios.get(`${API}/system/gender-distribution-stats`, {
         params: { athlete_id: athleteId }
       });
+      logger.debug(null, 'Gender response:', genderResponse.data);
       setGenderDistribution(genderResponse.data);
     } catch (error) {
       logger.error(null, 'Error loading integration stats:', error);
+      logger.error(null, 'Error response:', error.response?.data);
     } finally {
       setLoadingIntegrations(false);
     }
