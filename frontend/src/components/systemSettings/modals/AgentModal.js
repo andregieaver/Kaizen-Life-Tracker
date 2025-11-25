@@ -29,6 +29,12 @@ const PERSONALITIES = [
   { value: 'realist', label: 'Realist', description: 'Honest, relatable, flexible' },
 ];
 
+const ACCESSIBILITY_LEVELS = [
+  { value: 'frontend', label: 'Frontend (Public)', description: 'Available to logged-out users via traditional chatbot interface' },
+  { value: 'logged_in', label: 'Logged In', description: 'Available to members via traditional chatbot interface and support' },
+  { value: 'admin', label: 'Admin', description: 'Full access admin management agent with voice and navigation' },
+];
+
 const AgentModal = ({ athleteId, agent, onClose }) => {
   const [formData, setFormData] = useState({
     name: agent?.name || '',
