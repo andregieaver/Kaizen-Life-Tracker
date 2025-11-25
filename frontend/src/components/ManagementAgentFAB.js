@@ -21,16 +21,28 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
   // Listen for navigation commands from voice chat
   useEffect(() => {
     const handleNavigationCommand = (event) => {
-      const { command } = event.detail;
-      if (command && command.startsWith('NAVIGATE:')) {
-        const path = command.replace('NAVIGATE:', '');
-        navigate(path);
+      const { path } = event.detail;
+      console.log('Management Agent: Navigating to', path);
+      navigate(path);
+    };
+
+    const handleDataCommand = (event) => {
+      const { results, command } = event.detail;
+      console.log('Management Agent: Data command result', { command, results });
+      
+      // Display results in a modal or notification
+      // For now, just log to console - can be enhanced later
+      if (results && results.length > 0) {
+        alert(`Data Command Results:\n${JSON.stringify(results, null, 2)}`);
       }
     };
 
-    window.addEventListener('management-agent-command', handleNavigationCommand);
+    window.addEventListener('management-agent-navigate', handleNavigationCommand);
+    window.addEventListener('management-agent-data', handleDataCommand);
+    
     return () => {
-      window.removeEventListener('management-agent-command', handleNavigationCommand);
+      window.removeEventListener('management-agent-navigate', handleNavigationCommand);
+      window.removeEventListener('management-agent-data', handleDataCommand);
     };
   }, [navigate]);
 
