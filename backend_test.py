@@ -1608,13 +1608,14 @@ def test_management_agent_voice_command_processing():
         # Step 7: Test Authorization - Non-super-admin should get 403
         print("   Step 7: Test Authorization with non-super-admin")
         
-        # Create a regular user for testing
+        # Create a regular user for testing (without is_super_admin flag)
         regular_user_data = {
             "name": "Regular Test User",
-            "email": "regular.test@example.com",
+            "email": "regular.test.voice@example.com",
             "password": "password123",
             "weekly_mileage": 25.0,
             "running_goals": "Regular user testing"
+            # Note: No is_super_admin flag, so defaults to False
         }
         
         create_regular_response = requests.post(
@@ -1623,17 +1624,32 @@ def test_management_agent_voice_command_processing():
             headers={"Content-Type": "application/json"}
         )
         
-        # Try to login as regular user
-        regular_login_response = requests.post(
-            f"{BACKEND_URL}/auth/login",
-            json={"email": "regular.test@example.com", "password": "password123"},
-            headers={"Content-Type": "application/json"}
-        )
+        regular_athlete_id = None
         
-        if regular_login_response.status_code == 200:
-            regular_athlete_data = regular_login_response.json()
-            regular_athlete_id = regular_athlete_data.get("athlete_id")
+        if create_regular_response.status_code == 200:
+            # Try to login as regular user
+            regular_login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json={"email": "regular.test.voice@example.com", "password": "password123"},
+                headers={"Content-Type": "application/json"}
+            )
             
+            if regular_login_response.status_code == 200:
+                regular_athlete_data = regular_login_response.json()
+                regular_athlete_id = regular_athlete_data.get("athlete_id")
+        else:
+            # Try to login with existing user
+            regular_login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json={"email": "regular.test.voice@example.com", "password": "password123"},
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if regular_login_response.status_code == 200:
+                regular_athlete_data = regular_login_response.json()
+                regular_athlete_id = regular_athlete_data.get("athlete_id")
+        
+        if regular_athlete_id:
             # Try to use voice command with regular user
             unauthorized_response = requests.post(
                 f"{BACKEND_URL}/management-agent/voice/process-command?athlete_id={regular_athlete_id}",
@@ -1644,9 +1660,9 @@ def test_management_agent_voice_command_processing():
             if unauthorized_response.status_code == 403:
                 print_test_result("Authorization Test", True, "Correctly rejected non-super-admin with 403")
             else:
-                print_test_result("Authorization Test", False, f"Expected 403, got {unauthorized_response.status_code}")
+                print_test_result("Authorization Test", False, f"Expected 403, got {unauthorized_response.status_code} - {unauthorized_response.text}")
         else:
-            print_test_result("Authorization Test", False, "Could not create regular user for testing")
+            print_test_result("Authorization Test", False, "Could not create or login as regular user for testing")
         
         # Step 8: Test Voice Session Creation Endpoint
         print("   Step 8: Test Voice Session Creation Endpoint")
