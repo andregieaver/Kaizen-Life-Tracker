@@ -708,7 +708,7 @@ const Pricing = () => {
             Ready to Transform Your Training?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Join thousands of athletes optimizing their performance with My Health Tracker
+            Join thousands of athletes optimizing their performance with {siteTitle}
           </p>
           <Button
             size="lg"
