@@ -5,13 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/
 import { 
   Activity, Heart, Target, TrendingUp, Clock, BarChart3, 
   Brain, Calendar, FileText, LineChart, Zap, Shield, 
-  ChevronRight, Check, Star, Mail, User, Globe, ArrowRight
+  ChevronRight, Check, Star, Mail, User, Globe, ArrowRight, Menu, X
 } from 'lucide-react';
 import axios from 'axios';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
 import { useScrollDepth, useTimeOnPage } from '../lib/useViewTracker';
 import SearchableSelect from './community/SearchableSelect';
 import MultiSelectSearchable from './community/MultiSelectSearchable';
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
