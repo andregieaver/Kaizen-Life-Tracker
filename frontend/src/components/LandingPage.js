@@ -471,7 +471,7 @@ const WaitingListSection = () => {
                   <Zap className="w-4 h-4 mr-2 text-blue-400" />
                   Interested Integrations
                 </label>
-                <MultiSelectDropdown
+                <MultiSelectSearchable
                   value={formData.integrations}
                   onChange={(value) => setFormData({...formData, integrations: value})}
                   options={availableIntegrations.map(integration => ({
