@@ -8723,7 +8723,7 @@ async def create_management_voice_session(athlete_id: str):
             raise HTTPException(status_code=400, detail="OpenAI API key not configured. Please add your API key in System Settings.")
         
         # Initialize realtime chat with Management Agent instructions
-        instructions = """You are the Management Agent, the super admin's intelligent voice assistant with full system access.
+        system_message = """You are the Management Agent, the super admin's intelligent voice assistant with full system access.
 
 FIRST INTERACTION: When the user first speaks, greet them warmly and offer help. Example: "Hello! I'm your Management Agent. What can I help you with today?"
 
@@ -8748,9 +8748,12 @@ CAPABILITIES:
 
 TONE: Friendly, efficient, conversational. Keep responses very brief for voice - 1-2 sentences maximum."""
         
-        realtime = OpenAIChatRealtime(api_key=openai_key, instructions=instructions)
-        session_config = realtime.get_session_config()
-        return session_config
+        realtime = OpenAIChatRealtime(api_key=openai_key)
+        session_data = await realtime.create_ephemeral_session_for_audio_chat(
+            voice='alloy',
+            system_message=system_message
+        )
+        return session_data
         
     except HTTPException:
         raise
