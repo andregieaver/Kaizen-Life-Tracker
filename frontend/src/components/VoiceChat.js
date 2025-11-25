@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { logger } from '../utils/logger';
 class RealtimeAudioChat {
-    constructor(backendUrl, athleteId, onTranscriptUpdate) {
+    constructor(backendUrl, athleteId, onTranscriptUpdate, apiBasePath = '/coach/voice') {
         this.backendUrl = backendUrl;
         this.athleteId = athleteId;
         this.peerConnection = null;
@@ -14,6 +14,7 @@ class RealtimeAudioChat {
         this.sessionId = null;
         this.transcript = [];
         this.sessionStartTime = null;
+        this.apiBasePath = apiBasePath;
     }
 
     async init() {
@@ -24,7 +25,7 @@ class RealtimeAudioChat {
             this.transcript = [];
             
             // Get session from backend
-            const tokenResponse = await fetch(`${this.backendUrl}/api/coach/voice/session/${this.athleteId}`, {
+            const tokenResponse = await fetch(`${this.backendUrl}/api${this.apiBasePath}/session/${this.athleteId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
