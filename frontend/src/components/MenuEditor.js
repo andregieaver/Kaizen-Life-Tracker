@@ -204,7 +204,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
 
   const renderMenuSection = (title, menuType, description) => {
     const items = menus[menuType] || [];
-    const isSlideout = menuType === 'slideout_menu';
+    const isSlideout = menuType === 'slideout_menu' || menuType === 'slideout_menu_logged_out';
 
     return (
       <div className="bg-gray-800 rounded-lg p-4 md:p-6 mb-6">
