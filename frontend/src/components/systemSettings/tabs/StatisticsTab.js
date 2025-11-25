@@ -266,6 +266,60 @@ const StatisticsTab = ({
         </CardContent>
       </Card>
 
+      {/* User Demographics Section */}
+      <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center justify-between">
+            <div className="flex items-center">
+              <Users className="w-5 h-5 mr-2 text-purple-400" />
+              Gender Distribution
+            </div>
+            <span className="text-sm text-gray-400">
+              {genderDistribution.total_users} users
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {loadingIntegrations ? (
+            <div className="h-64 flex items-center justify-center text-gray-400">
+              {t('systemSettings.statistics.loading')}
+            </div>
+          ) : genderDistribution.distribution.length === 0 ? (
+            <div className="h-64 flex items-center justify-center text-gray-400">
+              No gender data available
+            </div>
+          ) : (
+            <div className="h-64">
+              <Bar data={genderChartData} options={barChartOptions} />
+            </div>
+          )}
+          {genderDistribution.distribution.length > 0 && (
+            <div className="mt-4 space-y-2">
+              <p className="text-gray-400 text-sm">Breakdown:</p>
+              {genderDistribution.distribution.map((item, index) => {
+                const percentage = ((item.count / genderDistribution.total_users) * 100).toFixed(1);
+                const colorMap = {
+                  male: 'text-blue-400',
+                  female: 'text-pink-400',
+                  other: 'text-purple-400',
+                  prefer_not_to_say: 'text-gray-400',
+                  not_specified: 'text-gray-500'
+                };
+                return (
+                  <div key={index} className="flex justify-between items-center text-sm">
+                    <span className="text-gray-300">{item.name}</span>
+                    <div className="flex items-center gap-2">
+                      <span className={`${colorMap[item.value]} font-semibold`}>{item.count}</span>
+                      <span className="text-gray-500 text-xs">({percentage}%)</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Integration Statistics Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Waitlist Integration Requests */}
