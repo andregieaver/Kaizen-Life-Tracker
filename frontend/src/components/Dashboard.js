@@ -2664,10 +2664,11 @@ const Dashboard = ({ athleteId }) => {
       )}
 
       {/* Management Agent FAB (Super Admin Only) */}
-      {athlete && athlete.email && (
+      {athlete && athlete.email && (activeTab === 'overview' || activeTab === 'today') && (
         <ManagementAgentFAB
           athleteId={athleteId}
           isSuperAdmin={athlete.email.toLowerCase().trim() === 'andre@humanweb.no'}
+          footerProgress={footerProgress}
         />
       )}
     </div>
