@@ -11,6 +11,7 @@ import * as LucideIcons from 'lucide-react';
 import BodyScoreCard from './BodyScoreCard';
 import OuraVitalsCard from './OuraVitalsCard';
 import CoachChat from './CoachChat';
+import ManagementAgentFAB from './ManagementAgentFAB';
 import Recommendations from './Recommendations';
 import WorkoutHistory from './WorkoutHistory';
 import Account from './Account';
