@@ -341,53 +341,15 @@ const Pricing = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ 
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
-    }}>
-      {/* Header */}
-      <header 
-        className="backdrop-blur-md border-b shadow-sm" 
-        style={{ 
-          background: 'rgba(17, 24, 39, 0.7)',
-          borderColor: 'rgba(55, 65, 81, 0.3)'
-        }}
-      >
-        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => navigate('/')}
-                className="text-white hover:text-[#32D3FF] transition-colors flex items-center"
-              >
-                <ArrowLeft className="w-5 h-5 mr-2" />
-                Back
-              </button>
-              <h1 className="font-display text-2xl font-bold text-white">
-                My Health Tracker
-              </h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="outline" 
-                onClick={() => navigate('/login')}
-                className="border-gray-600 text-white hover:bg-gray-700"
-              >
-                Log In
-              </Button>
-              <Button 
-                onClick={() => navigate('/onboarding')}
-                className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"
-              >
-                Sign Up
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        {/* Referral Discount Banner */}
-        {referralCode && discount > 0 && (
+    <>
+      <LoggedOutHeader />
+      
+      <div className="min-h-screen pt-16" style={{ 
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
+      }}>
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          {/* Referral Discount Banner */}
+          {referralCode && discount > 0 && (
           <div className="mb-8 mx-auto max-w-2xl">
             <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg p-4 shadow-lg border-2 border-green-400">
               <div className="flex items-center justify-center space-x-3">
