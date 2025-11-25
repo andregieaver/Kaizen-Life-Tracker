@@ -17030,7 +17030,7 @@ async def set_language(
 @api_router.post("/system/translate-menu-item")
 async def translate_single_menu_item(
     athlete_id: str = Query(..., description="Athlete ID for super admin verification"),
-    menu_type: str = Query(..., description="Menu type: header_logged_out, header_logged_in, or slideout_menu"),
+    menu_type: str = Query(..., description="Menu type: header_logged_out, header_logged_in, slideout_menu, or slideout_menu_logged_out"),
     item_id: str = Query(..., description="Menu item ID to translate")
 ):
     """Translate a single menu item into available languages using OpenAI (Super Admin only)"""
