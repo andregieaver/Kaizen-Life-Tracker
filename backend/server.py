@@ -16880,6 +16880,11 @@ async def get_menus(athlete_id: str):
                 {"id": str(uuid.uuid4()), "label": "Coach Chat", "url": "/dashboard/coach", "order": 1, "icon": "MessageSquare"},
                 {"id": str(uuid.uuid4()), "label": "", "url": "", "order": 2, "is_separator": True},
                 {"id": str(uuid.uuid4()), "label": "Account", "url": "/dashboard/account", "order": 3, "icon": "User"}
+            ],
+            "slideout_menu_logged_out": [
+                {"id": str(uuid.uuid4()), "label": "Home", "url": "/", "order": 0, "icon": "Home"},
+                {"id": str(uuid.uuid4()), "label": "Pricing", "url": "/pricing", "order": 1, "icon": "DollarSign"},
+                {"id": str(uuid.uuid4()), "label": "Login", "url": "/login", "order": 2, "icon": "LogIn"}
             ]
         }
         
@@ -16914,6 +16919,11 @@ async def get_menus_public():
                 {"id": str(uuid.uuid4()), "label": "Coach Chat", "url": "/dashboard/coach", "order": 1, "icon": "MessageSquare"},
                 {"id": str(uuid.uuid4()), "label": "", "url": "", "order": 2, "is_separator": True},
                 {"id": str(uuid.uuid4()), "label": "Account", "url": "/dashboard/account", "order": 3, "icon": "User"}
+            ],
+            "slideout_menu_logged_out": [
+                {"id": str(uuid.uuid4()), "label": "Home", "url": "/", "order": 0, "icon": "Home"},
+                {"id": str(uuid.uuid4()), "label": "Pricing", "url": "/pricing", "order": 1, "icon": "DollarSign"},
+                {"id": str(uuid.uuid4()), "label": "Login", "url": "/login", "order": 2, "icon": "LogIn"}
             ]
         }
         
