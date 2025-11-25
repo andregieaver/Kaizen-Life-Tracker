@@ -401,50 +401,27 @@ const WaitingListSection = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                    <User className="w-4 h-4 mr-2 text-blue-400" />
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    placeholder="John Doe"
-                    className="w-full px-4 py-3 text-white rounded-lg focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent transition-all placeholder-gray-400"
-                    style={{
-                      background: 'rgba(17, 24, 39, 0.5)',
-                      border: '1px solid rgba(71, 85, 105, 0.3)'
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                    <Globe className="w-4 h-4 mr-2 text-blue-400" />
-                    Preferred Language *
-                  </label>
-                  <SearchableSelect
-                    value={formData.nationality}
-                    onChange={(value) => setFormData({...formData, nationality: value})}
-                    options={[
-                      { value: '', label: 'Select your language...' },
-                      ...languages.map((lang) => ({
-                        value: lang.name,
-                        label: lang.name
-                      }))
-                    ]}
-                    placeholder="Select your language..."
-                    searchPlaceholder="Search language..."
-                  />
-                  <p className="text-xs text-gray-400 mt-1">
-                    To prioritize your language at launch of the app
-                  </p>
-                </div>
+              {/* Full Name */}
+              <div>
+                <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                  <User className="w-4 h-4 mr-2 text-blue-400" />
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  placeholder="John Doe"
+                  className="w-full px-4 py-3 text-white rounded-lg focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent transition-all placeholder-gray-400"
+                  style={{
+                    background: 'rgba(17, 24, 39, 0.5)',
+                    border: '1px solid rgba(71, 85, 105, 0.3)'
+                  }}
+                />
               </div>
 
+              {/* Email Address */}
               <div>
                 <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
                   <Mail className="w-4 h-4 mr-2 text-blue-400" />
@@ -464,6 +441,31 @@ const WaitingListSection = () => {
                 />
               </div>
 
+              {/* Preferred Language */}
+              <div>
+                <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                  <Globe className="w-4 h-4 mr-2 text-blue-400" />
+                  Preferred Language *
+                </label>
+                <SearchableSelect
+                  value={formData.nationality}
+                  onChange={(value) => setFormData({...formData, nationality: value})}
+                  options={[
+                    { value: '', label: 'Select your language...' },
+                    ...languages.map((lang) => ({
+                      value: lang.name,
+                      label: lang.name
+                    }))
+                  ]}
+                  placeholder="Select your language..."
+                  searchPlaceholder="Search language..."
+                />
+                <p className="text-xs text-gray-400 mt-1">
+                  To prioritize your language at launch of the app
+                </p>
+              </div>
+
+              {/* Interested Integrations */}
               <div>
                 <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
                   <Zap className="w-4 h-4 mr-2 text-blue-400" />
@@ -486,6 +488,7 @@ const WaitingListSection = () => {
                 </p>
               </div>
 
+              {/* Additional Notes */}
               <div>
                 <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
                   <FileText className="w-4 h-4 mr-2 text-blue-400" />
@@ -504,6 +507,39 @@ const WaitingListSection = () => {
                 />
               </div>
 
+              {/* GDPR Privacy Checkbox */}
+              <div className="pt-2">
+                <label className="flex items-start space-x-3 cursor-pointer group">
+                  <div className="relative flex items-center">
+                    <input
+                      type="checkbox"
+                      required
+                      checked={formData.gdprConsent}
+                      onChange={(e) => setFormData({...formData, gdprConsent: e.target.checked})}
+                      className="w-5 h-5 rounded border-2 border-gray-500 bg-transparent checked:bg-[#32D3FF] checked:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF] focus:ring-offset-0 transition-all cursor-pointer appearance-none"
+                      style={{
+                        backgroundImage: formData.gdprConsent ? `url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e")` : 'none',
+                        backgroundSize: '100% 100%',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat'
+                      }}
+                    />
+                  </div>
+                  <span className="text-sm text-gray-300 leading-relaxed flex-1">
+                    I agree to the processing of my personal data in accordance with the{' '}
+                    <a 
+                      href="/privacy-policy" 
+                      target="_blank"
+                      className="text-[#32D3FF] hover:text-[#1FC1FF] underline"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Privacy Policy
+                    </a>
+                    . I understand that I can withdraw my consent at any time by contacting support. *
+                  </span>
+                </label>
+              </div>
+
               <Button
                 type="submit"
                 disabled={isSubmitting}
@@ -520,7 +556,7 @@ const WaitingListSection = () => {
               </Button>
 
               <p className="text-xs text-gray-400 text-center mt-4">
-                We respect your privacy. Your information will never be shared.
+                We respect your privacy. Your information will never be shared with third parties.
               </p>
             </form>
           </CardContent>
