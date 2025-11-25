@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Implement a comprehensive Body Score feature to replace the existing Readiness card on the dashboard. The Body Score should aggregate health metrics from multiple integrations (Oura, Strava, Garmin, Polar, Coros, Suunto) and calculate a weighted score (0-100) using age/sex-adjusted VO2max, HRV z-score, resting heart rate, ACWR, BMI, body fat %, sleep quality, and other metrics. Add a body_fat_percentage field to Account settings. Display the score with expandable component breakdown showing drivers and drags."
+user_problem_statement: "Test and verify the voice-based Management Agent tool functionality. The Management Agent (for super admins) should be able to use tools via voice commands to navigate pages and inspect database. A backend endpoint /management-agent/voice/process-command exists to parse special commands (INSPECT:, QUERY:, STATS:, USER:, NAVIGATE:) from voice transcripts. Need to verify the full flow works: voice AI speaks commands → frontend captures transcript → backend processes commands → results displayed/executed."
 
 backend:
   - task: "Body Score Data Aggregation API"
