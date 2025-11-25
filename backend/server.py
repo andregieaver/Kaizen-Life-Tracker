@@ -9192,7 +9192,7 @@ async def chat_with_agent(request: AgentChatRequest):
             if not request.athlete_id:
                 raise HTTPException(status_code=403, detail="This agent requires login")
         
-        # Get OpenAI key
+        # Get OpenAI key - prioritize user's key from settings
         settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
         if not settings:
             settings = await db.system_settings.find_one({}, {"_id": 0})
@@ -9203,13 +9203,11 @@ async def chat_with_agent(request: AgentChatRequest):
             if not openai_key:
                 openai_key = settings.get("openaiApiKey")
         
-        # Try emergent LLM key if no OpenAI key
-        emergent_key = os.environ.get("EMERGENT_LLM_KEY")
-        if not openai_key and emergent_key:
-            openai_key = emergent_key
-        
         if not openai_key:
-            raise HTTPException(status_code=400, detail="OpenAI API key not configured")
+            raise HTTPException(
+                status_code=400, 
+                detail="OpenAI API key not configured. Please add your key in System Settings → Advanced tab."
+            )
         
         # Use emergentintegrations LlmChat
         from emergentintegrations.llm.chat import LlmChat, UserMessage
