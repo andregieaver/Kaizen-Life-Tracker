@@ -228,14 +228,14 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
         {/* Messages Area */}
         {!isVoiceActive ? (
           <>
-            <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 custom-scrollbar">
               {messages.length === 0 && (
-                <div className="text-center text-gray-400 mt-20">
-                  <Shield className="w-16 h-16 mx-auto mb-4 text-gray-600" />
-                  <h3 className="text-xl font-semibold mb-2">Welcome, Super Admin</h3>
-                  <p className="text-sm">
+                <div className="text-center text-gray-400 mt-10 sm:mt-20 px-4">
+                  <Shield className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-gray-600" />
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2">Welcome, Super Admin</h3>
+                  <p className="text-xs sm:text-sm">
                     I'm your Management Agent with full system access.
-                    <br />
+                    <br className="hidden sm:block" />
                     Ask me anything about users, data, community content, or analytics.
                   </p>
                 </div>
@@ -246,24 +246,24 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
                   key={index}
                   className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className={`flex items-start space-x-2 max-w-3xl ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  <div className={`flex items-start space-x-2 max-w-full sm:max-w-3xl ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                       message.type === 'user' ? 'bg-gray-700' : 'bg-blue-600'
                     }`}>
                       {message.type === 'user' ? (
-                        <User className="w-5 h-5 text-white" />
+                        <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                       ) : (
-                        <Shield className="w-5 h-5 text-white" />
+                        <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                       )}
                     </div>
-                    <div className={`rounded-lg p-4 ${
+                    <div className={`rounded-lg p-3 sm:p-4 ${
                       message.type === 'user' 
                         ? 'bg-gray-700 text-white' 
                         : message.isError
                         ? 'bg-red-900/30 text-red-200 border border-red-800'
                         : 'bg-gray-800 text-gray-100'
                     }`}>
-                      <div className="prose prose-invert prose-sm max-w-none">
+                      <div className="prose prose-invert prose-sm max-w-none text-sm sm:text-base">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {message.content}
                         </ReactMarkdown>
