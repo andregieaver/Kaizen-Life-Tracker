@@ -29,8 +29,12 @@ const StatisticsTab = ({
   const athleteId = localStorage.getItem('session_id');
   
   useEffect(() => {
-    loadIntegrationStats();
-  }, []);
+    if (athleteId) {
+      loadIntegrationStats();
+    } else {
+      logger.error(null, 'No athleteId found in localStorage');
+    }
+  }, [athleteId]);
   
   const loadIntegrationStats = async () => {
     try {
