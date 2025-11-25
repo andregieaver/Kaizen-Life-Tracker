@@ -9209,13 +9209,106 @@ async def chat_with_agent(request: AgentChatRequest):
                 detail="OpenAI API key not configured. Please add your key in System Settings → Advanced tab."
             )
         
-        # Use emergentintegrations LlmChat
-        from emergentintegrations.llm.chat import LlmChat, UserMessage, AssistantMessage
+        # Define tools/functions for admin agents
+        tools = None
+        if agent_obj.get("accessibility") == "admin":
+            tools = [
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "navigate_to_page",
+                        "description": "Navigate the super admin to a specific page in the dashboard. Use this when the admin asks to go to a page or open a section.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "page": {
+                                    "type": "string",
+                                    "description": "The page to navigate to",
+                                    "enum": ["overview", "today", "calendar", "journal", "nutrition", "recipes", "supplements", "drinks", "workouts", "habits", "schedules", "documents", "tests", "memories", "community", "referrals", "account", "system-settings", "crm", "orders", "subscriptions", "pages", "emails", "support"]
+                                }
+                            },
+                            "required": ["page"]
+                        }
+                    }
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "query_database",
+                        "description": "Query the database to get information about users, statistics, or any data. Returns structured data based on the query.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "collection": {
+                                    "type": "string",
+                                    "description": "Database collection to query",
+                                    "enum": ["athlete_profiles", "community_posts", "community_comments", "workouts", "subscriptions", "integrations", "agent_conversations"]
+                                },
+                                "query_type": {
+                                    "type": "string",
+                                    "description": "Type of query",
+                                    "enum": ["count", "list", "find", "aggregate"]
+                                },
+                                "filters": {
+                                    "type": "object",
+                                    "description": "Filter criteria for the query (optional)"
+                                },
+                                "limit": {
+                                    "type": "integer",
+                                    "description": "Maximum number of results to return",
+                                    "default": 10
+                                }
+                            },
+                            "required": ["collection", "query_type"]
+                        }
+                    }
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "get_user_info",
+                        "description": "Get detailed information about a specific user by email or ID",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "identifier": {
+                                    "type": "string",
+                                    "description": "User email or ID"
+                                }
+                            },
+                            "required": ["identifier"]
+                        }
+                    }
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "get_statistics",
+                        "description": "Get overall application statistics (total users, active subscriptions, etc.)",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "stat_type": {
+                                    "type": "string",
+                                    "description": "Type of statistics to retrieve",
+                                    "enum": ["users", "subscriptions", "activity", "community", "all"]
+                                }
+                            },
+                            "required": ["stat_type"]
+                        }
+                    }
+                }
+            ]
+        
+        # Use OpenAI client directly for function calling support
+        import openai
+        openai_client = openai.AsyncOpenAI(api_key=openai_key)
         
         session_id = request.session_id or f"agent_chat_{uuid.uuid4()}"
         
-        # Load conversation history for this session
-        conversation_history = []
+        # Load conversation history
+        messages = [{"role": "system", "content": agent_obj.get("custom_instructions")}]
+        
         if request.session_id:
             history_records = await db.agent_conversations.find(
                 {
@@ -9224,36 +9317,107 @@ async def chat_with_agent(request: AgentChatRequest):
                     "athlete_id": request.athlete_id or "guest"
                 },
                 {"_id": 0}
-            ).sort("timestamp", 1).to_list(length=50)  # Last 50 messages
+            ).sort("timestamp", 1).to_list(length=50)
             
-            # Convert to chat messages format
             for record in history_records:
-                conversation_history.append({
-                    "role": "user",
-                    "content": record.get("message", "")
+                messages.append({"role": "user", "content": record.get("message", "")})
+                messages.append({"role": "assistant", "content": record.get("response", "")})
+        
+        # Add current user message
+        messages.append({"role": "user", "content": request.message})
+        
+        # Call OpenAI with tools
+        completion_params = {
+            "model": "gpt-4o",
+            "messages": messages,
+            "temperature": 0.7
+        }
+        
+        if tools:
+            completion_params["tools"] = tools
+            completion_params["tool_choice"] = "auto"
+        
+        response = await openai_client.chat.completions.create(**completion_params)
+        
+        # Handle function calls
+        response_message = response.choices[0].message
+        tool_calls = response_message.tool_calls
+        
+        if tool_calls:
+            # Execute tool calls
+            messages.append(response_message)
+            
+            for tool_call in tool_calls:
+                function_name = tool_call.function.name
+                function_args = json.loads(tool_call.function.arguments)
+                
+                function_response = ""
+                
+                if function_name == "navigate_to_page":
+                    page = function_args.get("page")
+                    function_response = json.dumps({
+                        "action": "navigate",
+                        "page": page,
+                        "url": f"/dashboard/{page}",
+                        "message": f"Navigation command issued to: {page}"
+                    })
+                
+                elif function_name == "query_database":
+                    collection_name = function_args.get("collection")
+                    query_type = function_args.get("query_type")
+                    filters = function_args.get("filters", {})
+                    limit = function_args.get("limit", 10)
+                    
+                    collection = db[collection_name]
+                    
+                    if query_type == "count":
+                        count = await collection.count_documents(filters)
+                        function_response = json.dumps({"count": count})
+                    elif query_type == "list":
+                        results = await collection.find(filters, {"_id": 0}).limit(limit).to_list(length=limit)
+                        function_response = json.dumps({"results": results}, default=str)
+                    elif query_type == "find":
+                        results = await collection.find(filters, {"_id": 0}).limit(limit).to_list(length=limit)
+                        function_response = json.dumps({"results": results}, default=str)
+                
+                elif function_name == "get_user_info":
+                    identifier = function_args.get("identifier")
+                    user = await db.athlete_profiles.find_one(
+                        {"$or": [{"email": identifier}, {"id": identifier}]},
+                        {"_id": 0}
+                    )
+                    function_response = json.dumps({"user": user}, default=str) if user else json.dumps({"error": "User not found"})
+                
+                elif function_name == "get_statistics":
+                    stat_type = function_args.get("stat_type")
+                    stats = {}
+                    
+                    if stat_type in ["users", "all"]:
+                        stats["total_users"] = await db.athlete_profiles.count_documents({})
+                    if stat_type in ["subscriptions", "all"]:
+                        stats["total_subscriptions"] = await db.subscriptions.count_documents({})
+                        stats["active_subscriptions"] = await db.subscriptions.count_documents({"status": "active"})
+                    if stat_type in ["community", "all"]:
+                        stats["total_posts"] = await db.community_posts.count_documents({})
+                        stats["total_comments"] = await db.community_comments.count_documents({})
+                    
+                    function_response = json.dumps(stats)
+                
+                messages.append({
+                    "tool_call_id": tool_call.id,
+                    "role": "tool",
+                    "name": function_name,
+                    "content": function_response
                 })
-                conversation_history.append({
-                    "role": "assistant", 
-                    "content": record.get("response", "")
-                })
-        
-        # Initialize chat with system message
-        chat = LlmChat(
-            api_key=openai_key,
-            session_id=session_id,
-            system_message=agent_obj.get("custom_instructions")
-        ).with_model("openai", "gpt-4o")
-        
-        # Add conversation history to the chat context
-        for msg in conversation_history:
-            if msg["role"] == "user":
-                chat.messages.append(UserMessage(text=msg["content"]))
-            elif msg["role"] == "assistant":
-                chat.messages.append(AssistantMessage(text=msg["content"]))
-        
-        # Send new user message
-        user_message = UserMessage(text=request.message)
-        response = await chat.send_message(user_message)
+            
+            # Get final response with tool results
+            second_response = await openai_client.chat.completions.create(
+                model="gpt-4o",
+                messages=messages
+            )
+            response = second_response.choices[0].message.content
+        else:
+            response = response_message.content
         
         # Store conversation in database
         chat_record = {
