@@ -529,7 +529,7 @@ const WaitingListSection = () => {
                   <span className="text-sm text-gray-300 leading-relaxed flex-1">
                     I agree to the processing of my personal data in accordance with the{' '}
                     <a 
-                      href="/privacy-policy" 
+                      href="/privacy" 
                       target="_blank"
                       className="text-[#32D3FF] hover:text-[#1FC1FF] underline"
                       onClick={(e) => e.stopPropagation()}
