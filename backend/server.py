@@ -9073,6 +9073,81 @@ async def upload_agent_image(agent_id: str, file: UploadFile = File(...), athlet
         logging.error(f"Failed to upload agent image: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.get("/agents/by-accessibility/{accessibility_level}")
+async def get_agents_by_accessibility(accessibility_level: str, athlete_id: str = Query(...)):
+    """Get agents by accessibility level"""
+    try:
+        # Validate accessibility level
+        valid_levels = ['frontend', 'logged_in', 'admin']
+        if accessibility_level not in valid_levels:
+            raise HTTPException(status_code=400, detail="Invalid accessibility level")
+        
+        # Admin agents require super admin access
+        if accessibility_level == 'admin':
+            await verify_super_admin(athlete_id)
+        
+        agents = await db.agents.find(
+            {"accessibility": accessibility_level, "is_active": True},
+            {"_id": 0}
+        ).to_list(length=100)
+        
+        return [parse_from_mongo(agent) for agent in agents]
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to get agents by accessibility: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/agents/seed-management-agent")
+async def seed_management_agent(athlete_id: str = Query(...)):
+    """Create default Management Agent (Super Admin only, one-time setup)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        # Check if management agent already exists
+        existing = await db.agents.find_one({"accessibility": "admin", "name": "Management Agent"})
+        if existing:
+            return {"message": "Management Agent already exists", "agent": parse_from_mongo(existing)}
+        
+        # Create Management Agent
+        management_agent = Agent(
+            id="management-agent-default",
+            name="Management Agent",
+            custom_instructions="""You are the Management Agent, the super admin's intelligent assistant with full system access.
+
+CAPABILITIES:
+1. NAVIGATE PAGES - When user asks to go somewhere, navigate them immediately:
+   Format: Acknowledge + include the exact text "NAVIGATE:/dashboard/[page]"
+   
+   Examples:
+   - "go to community" → "Sure! Navigating to the community page now. NAVIGATE:/dashboard/community"
+   - "open settings" → "Opening system settings. NAVIGATE:/dashboard/system-settings"
+
+2. AVAILABLE PAGES: overview, today, calendar, journal, nutrition, recipes, supplements, drinks, workouts, habits, schedules, documents, tests, memories, community, referrals, account, system-settings, crm, orders, subscriptions, pages, emails, support
+
+3. DATA QUERIES - Answer questions about users, statistics, activity
+
+4. INSIGHTS - Provide recommendations and analysis
+
+TONE: Friendly, efficient, conversational. Keep responses very brief for voice - 1-2 sentences maximum.""",
+            voice='alloy',
+            personality=None,
+            accessibility='admin',
+            is_active=True
+        )
+        
+        agent_dict = prepare_for_mongo(management_agent.model_dump())
+        await db.agents.insert_one(agent_dict)
+        
+        return {"message": "Management Agent created successfully", "agent": parse_from_mongo(agent_dict)}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to seed management agent: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Strava OAuth routes
 
 @api_router.post("/integrations/strava/{athlete_id}/sync")
