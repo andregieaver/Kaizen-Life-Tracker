@@ -338,8 +338,8 @@ const AgentModal = ({ athleteId, agent, onClose }) => {
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
