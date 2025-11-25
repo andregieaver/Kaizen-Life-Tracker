@@ -185,7 +185,7 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
 
       {/* Hidden Voice Chat Component - runs in background */}
       {isVoiceActive && (
-        <div className="hidden">
+        <div style={{ position: 'fixed', top: '-9999px', left: '-9999px', opacity: 0, pointerEvents: 'none' }}>
           <VoiceChat
             ref={voiceChatRef}
             athleteId={athleteId}
