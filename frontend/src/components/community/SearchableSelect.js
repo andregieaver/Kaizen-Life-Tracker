@@ -63,40 +63,44 @@ const SearchableSelect = ({ value, onChange, options, placeholder, label, disabl
         type="button"
         onClick={() => !disabled && setIsOpen(!isOpen)}
         disabled={disabled}
-        className={`w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00FFFF] focus:ring-2 focus:ring-[#00FFFF]/20 outline-none text-sm flex items-center justify-between transition-colors ${
-          disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-600'
+        className={`w-full text-white rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent outline-none flex items-center justify-between transition-all ${
+          disabled ? 'opacity-50 cursor-not-allowed' : ''
         }`}
+        style={{
+          background: 'rgba(17, 24, 39, 0.5)',
+          border: '1px solid rgba(71, 85, 105, 0.3)'
+        }}
       >
-        <span className="truncate">{getDisplayLabel()}</span>
+        <span className="truncate text-sm">{getDisplayLabel()}</span>
         <ChevronDown 
-          className={`w-4 h-4 flex-shrink-0 ml-2 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-gray-400 flex-shrink-0 ml-2 transition-transform ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-[#0B1220] border border-gray-600 rounded-lg shadow-2xl z-50 max-h-80 overflow-hidden flex flex-col">
+        <div 
+          className="absolute top-full left-0 right-0 mt-2 rounded-lg shadow-2xl z-50 max-h-80 overflow-hidden flex flex-col"
+          style={{
+            background: 'rgba(17, 24, 39, 0.95)',
+            border: '1px solid rgba(71, 85, 105, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
           {/* Search Input */}
           <div className="p-3 border-b border-gray-700">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder={searchPlaceholder || t('community.searchNationality')}
-                className="w-full bg-gray-800 text-white rounded-lg pl-10 pr-8 py-2 border border-gray-600 focus:border-[#00FFFF] focus:ring-2 focus:ring-[#00FFFF]/20 outline-none text-sm"
-              />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm('')}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </div>
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={searchPlaceholder || t('community.searchNationality')}
+              className="w-full px-3 py-2 text-sm text-white rounded focus:ring-2 focus:ring-[#32D3FF] focus:outline-none"
+              style={{
+                background: 'rgba(31, 41, 55, 0.5)',
+                border: '1px solid rgba(71, 85, 105, 0.3)'
+              }}
+            />
           </div>
 
           {/* Options List */}
@@ -113,8 +117,8 @@ const SearchableSelect = ({ value, onChange, options, placeholder, label, disabl
                     onClick={() => handleSelect(option.value)}
                     className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
                       value === option.value
-                        ? 'bg-[#00FFFF]/20 text-[#00FFFF] font-semibold'
-                        : 'text-white hover:bg-gray-800'
+                        ? 'bg-[#32D3FF]/20 text-[#32D3FF] font-semibold'
+                        : 'text-white hover:bg-gray-700/50'
                     }`}
                   >
                     {option.label}
