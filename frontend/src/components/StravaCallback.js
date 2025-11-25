@@ -13,6 +13,20 @@ const StravaCallback = () => {
 
   useEffect(() => {
     handleCallback();
+    
+    // Fetch site title
+    const fetchSiteTitle = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/system/settings/public`);
+        const data = await response.json();
+        if (data?.seo?.siteTitle) {
+          setSiteTitle(data.seo.siteTitle);
+        }
+      } catch (error) {
+        logger.error(null, 'Error fetching site title:', error);
+      }
+    };
+    fetchSiteTitle();
   }, []);
 
   const handleCallback = async () => {
