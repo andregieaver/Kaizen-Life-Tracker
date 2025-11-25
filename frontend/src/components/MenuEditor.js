@@ -20,7 +20,8 @@ const MenuEditor = ({ athleteId, onBack }) => {
   const [menus, setMenus] = useState({
     header_logged_out: [],
     header_logged_in: [],
-    slideout_menu: []
+    slideout_menu: [],
+    slideout_menu_logged_out: []
   });
 
   useEffect(() => {
