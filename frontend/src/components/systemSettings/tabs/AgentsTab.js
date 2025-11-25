@@ -146,10 +146,25 @@ const AgentsTab = ({ athleteId }) => {
                   {agent.custom_instructions}
                 </p>
 
-                {/* Voice Badge */}
-                <div className="flex items-center space-x-2 text-sm text-gray-400 mb-4">
-                  <Mic className="w-4 h-4" />
-                  <span className="capitalize">{agent.voice}</span>
+                {/* Voice and Accessibility Badges */}
+                <div className="flex items-center space-x-4 text-sm mb-4">
+                  <div className="flex items-center space-x-2 text-gray-400">
+                    <Mic className="w-4 h-4" />
+                    <span className="capitalize">{agent.voice}</span>
+                  </div>
+                  <div className={`px-2 py-1 rounded text-xs font-medium ${
+                    agent.accessibility === 'admin'
+                      ? 'bg-purple-500/20 text-purple-400'
+                      : agent.accessibility === 'logged_in'
+                      ? 'bg-blue-500/20 text-blue-400'
+                      : 'bg-green-500/20 text-green-400'
+                  }`}>
+                    {agent.accessibility === 'admin'
+                      ? 'Admin'
+                      : agent.accessibility === 'logged_in'
+                      ? 'Logged In'
+                      : 'Public'}
+                  </div>
                 </div>
               </div>
 
