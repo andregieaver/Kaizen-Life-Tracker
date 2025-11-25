@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Send, Shield, User, Plus, X, Mic, MessageCircle } from 'lucide-react';
+import { Send, Shield, User, Plus, X, Mic, MessageCircle, Menu, ArrowLeft } from 'lucide-react';
 import VoiceChat from './VoiceChat';
 
 import { logger } from '../utils/logger';
@@ -21,6 +21,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
   const [sessionId, setSessionId] = useState(() => `mgmt_session_${Date.now()}`);
   const [conversations, setConversations] = useState([]);
   const [isVoiceActive, setIsVoiceActive] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
