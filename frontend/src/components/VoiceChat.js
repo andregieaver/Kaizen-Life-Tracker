@@ -59,7 +59,7 @@ class RealtimeAudioChat {
             await this.peerConnection.setLocalDescription(offer);
 
             // Send offer to backend and get answer
-            const response = await fetch(`${this.backendUrl}/api/coach/voice/negotiate/${this.athleteId}`, {
+            const response = await fetch(`${this.backendUrl}/api${this.apiBasePath}/negotiate/${this.athleteId}`, {
                 method: "POST",
                 body: offer.sdp,
                 headers: {
