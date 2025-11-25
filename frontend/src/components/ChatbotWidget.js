@@ -68,17 +68,30 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const messageText = inputMessage.trim();
     setInputMessage('');
     setIsLoading(true);
 
     try {
-      // TODO: Replace with actual agent chat endpoint
-      // For now, simulate a response
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Call actual agent chat endpoint
+      const response = await axios.post(`${API}/agents/chat`, {
+        agent_id: selectedAgent.id,
+        message: messageText,
+        session_id: selectedAgent.sessionId || undefined,
+        athlete_id: athleteId || undefined
+      });
+
+      // Store session ID for continuity
+      if (response.data.session_id && !selectedAgent.sessionId) {
+        setSelectedAgent({
+          ...selectedAgent,
+          sessionId: response.data.session_id
+        });
+      }
       
       const agentMessage = {
         type: 'agent',
-        content: `Thank you for your message! I'm ${selectedAgent.name}, and I'm here to help. This is a placeholder response. The actual chat functionality will be implemented with the agent's custom instructions.`,
+        content: response.data.response,
         timestamp: new Date().toISOString()
       };
 
@@ -87,7 +100,7 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
       console.error('Error sending message:', error);
       const errorMessage = {
         type: 'agent',
-        content: 'Sorry, I encountered an error. Please try again.',
+        content: error.response?.data?.detail || 'Sorry, I encountered an error. Please try again.',
         timestamp: new Date().toISOString(),
         isError: true
       };
