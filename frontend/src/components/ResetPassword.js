@@ -26,21 +26,11 @@ const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
-  const [siteTitle, setSiteTitle] = useState('TrainSmart');
+  const [siteTitle, setSiteTitle] = useState('');
   
-  // Fetch site title from system settings
+  // Initialize site title with cached value and background fetch
   useEffect(() => {
-    const fetchSiteTitle = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
-        if (response.data?.seo?.siteTitle) {
-          setSiteTitle(response.data.seo.siteTitle);
-        }
-      } catch (error) {
-        logger.error(null, 'Error fetching site title:', error);
-      }
-    };
-    fetchSiteTitle();
+    initializeSiteTitle(setSiteTitle);
   }, []);
   
   // Auto-fill token from URL parameters and verify it
