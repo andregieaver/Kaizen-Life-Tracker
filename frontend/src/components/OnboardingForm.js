@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Eye, EyeOff } from 'lucide-react';
 import SearchableSelect from './community/SearchableSelect';
+import LoggedOutHeader from './LoggedOutHeader';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
