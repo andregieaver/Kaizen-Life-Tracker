@@ -579,6 +579,8 @@ const LandingPage = () => {
   const [logoUrl, setLogoUrl] = useState(null);
   const [faviconUrl, setFaviconUrl] = useState(null);
   const [headerMenu, setHeaderMenu] = useState([]);
+  const [slideoutMenu, setSlideoutMenu] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Fetch SEO settings (site title, logo, favicon) and menu
   useEffect(() => {
