@@ -154,16 +154,17 @@ const MenuEditor = ({ athleteId, onBack }) => {
   };
 
   const addSeparator = (menuType) => {
+    const currentItems = Array.isArray(menus[menuType]) ? menus[menuType] : [];
     const newItem = {
       id: `separator-${Date.now()}`,
       label: '',
       url: '',
-      order: menus[menuType].length,
+      order: currentItems.length,
       is_separator: true
     };
     setMenus(prev => ({
       ...prev,
-      [menuType]: [...prev[menuType], newItem]
+      [menuType]: [...currentItems, newItem]
     }));
   };
 
