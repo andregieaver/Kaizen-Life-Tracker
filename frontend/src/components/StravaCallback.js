@@ -118,7 +118,7 @@ const StravaCallback = () => {
         </div>
         
         <div className="text-xs text-gray-500">
-          My Health Tracker × Strava Integration
+          {siteTitle} × Strava Integration
         </div>
       </div>
     </div>
