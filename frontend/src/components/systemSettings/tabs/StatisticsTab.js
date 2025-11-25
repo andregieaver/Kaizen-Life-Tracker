@@ -238,6 +238,91 @@ const StatisticsTab = ({
           )}
         </CardContent>
       </Card>
+
+      {/* Integration Statistics Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Waitlist Integration Requests */}
+        <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center justify-between">
+              <div className="flex items-center">
+                <LinkIcon className="w-5 h-5 mr-2 text-[#32D3FF]" />
+                Desired Integrations (Waitlist)
+              </div>
+              <span className="text-sm text-gray-400">
+                {waitlistIntegrations.total_entries} entries
+              </span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {loadingIntegrations ? (
+              <div className="h-64 flex items-center justify-center text-gray-400">
+                {t('systemSettings.statistics.loading')}
+              </div>
+            ) : waitlistIntegrations.distribution.length === 0 ? (
+              <div className="h-64 flex items-center justify-center text-gray-400">
+                No integration requests yet
+              </div>
+            ) : (
+              <div className="h-64">
+                <Bar data={waitlistChartData} options={barChartOptions} />
+              </div>
+            )}
+            {waitlistIntegrations.distribution.length > 0 && (
+              <div className="mt-4 space-y-2">
+                <p className="text-gray-400 text-sm">Top Requested Integrations:</p>
+                {waitlistIntegrations.distribution.slice(0, 5).map((item, index) => (
+                  <div key={index} className="flex justify-between items-center text-sm">
+                    <span className="text-gray-300">{item.name}</span>
+                    <span className="text-[#32D3FF] font-semibold">{item.count}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Connected Integrations */}
+        <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center justify-between">
+              <div className="flex items-center">
+                <Zap className="w-5 h-5 mr-2 text-green-400" />
+                Connected Integrations
+              </div>
+              <span className="text-sm text-gray-400">
+                {connectedIntegrations.unique_users} users
+              </span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {loadingIntegrations ? (
+              <div className="h-64 flex items-center justify-center text-gray-400">
+                {t('systemSettings.statistics.loading')}
+              </div>
+            ) : connectedIntegrations.distribution.length === 0 ? (
+              <div className="h-64 flex items-center justify-center text-gray-400">
+                No integrations connected yet
+              </div>
+            ) : (
+              <div className="h-64">
+                <Bar data={connectedChartData} options={barChartOptions} />
+              </div>
+            )}
+            {connectedIntegrations.distribution.length > 0 && (
+              <div className="mt-4 space-y-2">
+                <p className="text-gray-400 text-sm">Most Popular Integrations:</p>
+                {connectedIntegrations.distribution.slice(0, 5).map((item, index) => (
+                  <div key={index} className="flex justify-between items-center text-sm">
+                    <span className="text-gray-300">{item.name}</span>
+                    <span className="text-green-400 font-semibold">{item.count}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
