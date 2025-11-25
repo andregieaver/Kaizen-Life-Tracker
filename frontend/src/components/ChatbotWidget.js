@@ -23,7 +23,21 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
 
   useEffect(() => {
     loadAgents();
+    
+    // Load session from localStorage if exists
+    const savedSession = localStorage.getItem('chatbot_session_id');
+    if (savedSession) {
+      setSessionId(savedSession);
+      console.log('Restored session:', savedSession);
+    }
   }, [accessibilityLevel]);
+
+  // Save session to localStorage whenever it changes
+  useEffect(() => {
+    if (sessionId) {
+      localStorage.setItem('chatbot_session_id', sessionId);
+    }
+  }, [sessionId]);
 
   useEffect(() => {
     scrollToBottom();
