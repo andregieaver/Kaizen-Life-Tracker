@@ -78,16 +78,14 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
       const response = await axios.post(`${API}/agents/chat`, {
         agent_id: selectedAgent.id,
         message: messageText,
-        session_id: selectedAgent.sessionId || undefined,
+        session_id: sessionId || undefined,
         athlete_id: athleteId || undefined
       });
 
       // Store session ID for continuity
-      if (response.data.session_id && !selectedAgent.sessionId) {
-        setSelectedAgent({
-          ...selectedAgent,
-          sessionId: response.data.session_id
-        });
+      if (response.data.session_id && !sessionId) {
+        setSessionId(response.data.session_id);
+        console.log('Session started:', response.data.session_id);
       }
       
       const agentMessage = {
@@ -97,6 +95,11 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
       };
 
       setMessages(prev => [...prev, agentMessage]);
+      
+      // Log conversation length for debugging
+      if (response.data.conversation_length) {
+        console.log('Conversation history length:', response.data.conversation_length);
+      }
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage = {
