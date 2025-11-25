@@ -18023,10 +18023,10 @@ async def get_subscriber_stats(
         days = period_days.get(period, 90)
         
         # Get all athletes
-        athletes = await db.athletes.find(
+        athletes = await db.athlete_profiles.find(
             {},
             {"_id": 0, "created_at": 1, "subscription_tier": 1}
-        ).limit(100).to_list(length=100)
+        ).to_list(length=1000)
         
         print(f"Found {len(athletes)} total athletes", flush=True)
         
