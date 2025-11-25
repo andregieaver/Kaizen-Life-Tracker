@@ -182,7 +182,7 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
                 >
                   {agent.profile_image_url ? (
                     <img
-                      src={agent.profile_image_url}
+                      src={`${BACKEND_URL}${agent.profile_image_url}`}
                       alt={agent.name}
                       className="w-8 h-8 rounded-full object-cover"
                     />
