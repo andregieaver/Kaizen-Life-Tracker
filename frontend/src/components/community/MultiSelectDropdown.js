@@ -63,7 +63,7 @@ const MultiSelectDropdown = ({
       .map(opt => opt.label);
   };
 
-  const dropdownContent = isOpen ? (
+  const dropdownContent = isOpen && (
     <div 
       ref={dropdownRef}
       style={{
@@ -121,7 +121,7 @@ const MultiSelectDropdown = ({
         </div>
       </div>
     </div>
-  ) : null;
+  );
 
   return (
     <div className="relative w-full">
@@ -171,7 +171,7 @@ const MultiSelectDropdown = ({
         />
       </button>
 
-      {typeof document !== 'undefined' && createPortal(dropdownContent, document.body)}
+      {typeof document !== 'undefined' && dropdownContent && createPortal(dropdownContent, document.body)}
     </div>
   );
 };
