@@ -113,6 +113,7 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
 
   const switchAgent = (agent) => {
     setSelectedAgent(agent);
+    setSessionId(null); // Reset session when switching agents
     setMessages([{
       type: 'agent',
       content: `Hi! I'm ${agent.name}. How can I help you today?`,
