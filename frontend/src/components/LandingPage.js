@@ -792,6 +792,99 @@ const LandingPage = () => {
               <span className="ml-2 text-xl font-bold text-white" style={{ fontFamily: 'var(--font-logo)' }}>{siteTitle}</span>
             </div>
             <div className="flex items-center gap-4">
+              {/* Mobile Slideout Menu - Visible on small screens */}
+              <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+                <SheetTrigger asChild className="lg:hidden">
+                  <button
+                    className="p-2 text-white hover:text-[#32D3FF] transition-colors"
+                    aria-label="Toggle menu"
+                  >
+                    <Menu className="w-6 h-6" />
+                  </button>
+                </SheetTrigger>
+                <SheetContent 
+                  side="left" 
+                  className="w-[280px] bg-gray-900/95 border-r border-gray-700 p-0"
+                >
+                  <div className="flex flex-col h-full">
+                    {/* Menu Header */}
+                    <div className="p-4 border-b border-gray-700">
+                      <h2 className="text-lg font-semibold text-white">Menu</h2>
+                    </div>
+                    
+                    {/* Menu Items */}
+                    <div className="flex-1 overflow-y-auto p-4">
+                      <nav className="space-y-2">
+                        {slideoutMenu.length > 0 ? (
+                          slideoutMenu.map((item, index) => {
+                            if (item.is_separator) {
+                              return (
+                                <div
+                                  key={item.id || `separator-${index}`}
+                                  className="my-4 border-t border-gray-700"
+                                />
+                              );
+                            }
+                            
+                            const IconComponent = item.icon ? require('lucide-react')[item.icon] : null;
+                            
+                            return (
+                              <button
+                                key={item.id || index}
+                                onClick={() => {
+                                  navigate(item.url);
+                                  setIsMenuOpen(false);
+                                }}
+                                className="w-full flex items-center gap-3 px-4 py-3 text-white hover:bg-[#32D3FF]/20 rounded-lg transition-colors"
+                              >
+                                {IconComponent && <IconComponent className="w-5 h-5 text-[#32D3FF]" />}
+                                <span>{item.label}</span>
+                              </button>
+                            );
+                          })
+                        ) : (
+                          // Fallback default menu
+                          <>
+                            <button
+                              onClick={() => {
+                                navigate('/');
+                                setIsMenuOpen(false);
+                              }}
+                              className="w-full flex items-center gap-3 px-4 py-3 text-white hover:bg-[#32D3FF]/20 rounded-lg transition-colors"
+                            >
+                              <Heart className="w-5 h-5 text-[#32D3FF]" />
+                              <span>Home</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                navigate('/pricing');
+                                setIsMenuOpen(false);
+                              }}
+                              className="w-full flex items-center gap-3 px-4 py-3 text-white hover:bg-[#32D3FF]/20 rounded-lg transition-colors"
+                            >
+                              <Star className="w-5 h-5 text-[#32D3FF]" />
+                              <span>Pricing</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                navigate('/login');
+                                setIsMenuOpen(false);
+                              }}
+                              className="w-full flex items-center gap-3 px-4 py-3 text-white hover:bg-[#32D3FF]/20 rounded-lg transition-colors"
+                            >
+                              <User className="w-5 h-5 text-[#32D3FF]" />
+                              <span>Login</span>
+                            </button>
+                          </>
+                        )}
+                      </nav>
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
+              
+              {/* Desktop Header Menu - Hidden on small screens */}
+              <div className="hidden lg:flex items-center gap-4">
               {(logger.debug(null, 'Header menu length:', headerMenu.length, 'Items:', headerMenu), headerMenu.length > 0) ? (
                 // Render dynamic logged-out header menu from Menu Editor
                 headerMenu.map((item, index) => (
@@ -812,6 +905,7 @@ const LandingPage = () => {
                   Login
                 </button>
               )}
+              </div>
             </div>
           </div>
         </div>
