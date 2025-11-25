@@ -116,6 +116,14 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
       if (response.data.conversation_length) {
         console.log('Conversation history length:', response.data.conversation_length);
       }
+      
+      // Handle navigation command
+      if (response.data.navigation) {
+        console.log('Navigation command received:', response.data.navigation);
+        setTimeout(() => {
+          navigate(response.data.navigation);
+        }, 1000); // Small delay so user can see the response
+      }
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage = {
