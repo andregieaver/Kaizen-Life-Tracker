@@ -355,6 +355,20 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError, apiBasePat
         };
     });
 
+    // Auto-start voice chat if autoStart is true
+    useEffect(() => {
+        if (autoStart && !isConnected && !isConnecting) {
+            logger.debug(null, 'VoiceChat: Auto-starting voice chat...');
+            // Small delay to ensure component is mounted
+            const timer = setTimeout(() => {
+                startVoiceChat().catch(error => {
+                    logger.error(null, 'VoiceChat: Auto-start error:', error);
+                });
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [autoStart, isConnected, isConnecting, startVoiceChat]);
+
     // Clean up on component unmount
     useEffect(() => {
         return () => {
