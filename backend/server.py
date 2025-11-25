@@ -17215,7 +17215,7 @@ async def translate_menus(athlete_id: str = Query(..., description="Athlete ID f
         client = openai.OpenAI(api_key=openai_key)
         
         # Translate each menu type
-        for menu_type in ['header_logged_in', 'header_logged_out', 'slideout_menu']:
+        for menu_type in ['header_logged_in', 'header_logged_out', 'slideout_menu', 'slideout_menu_logged_out']:
             if menu_type not in menus:
                 continue
                 
