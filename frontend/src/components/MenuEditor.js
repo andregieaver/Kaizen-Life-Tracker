@@ -466,6 +466,12 @@ const MenuEditor = ({ athleteId, onBack }) => {
           'slideout_menu',
           t('menus.slideoutMenuDesc')
         )}
+
+        {renderMenuSection(
+          t('menus.slideoutMenuLoggedOut'),
+          'slideout_menu_logged_out',
+          t('menus.slideoutMenuLoggedOutDesc')
+        )}
       </div>
 
       {/* Icon Picker Modal */}
