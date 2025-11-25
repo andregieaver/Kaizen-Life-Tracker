@@ -222,7 +222,8 @@ const WaitingListSection = () => {
     email: '',
     nationality: '',
     integrations: [],
-    notes: ''
+    notes: '',
+    gdprConsent: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
