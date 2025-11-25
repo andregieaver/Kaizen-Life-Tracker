@@ -8954,7 +8954,9 @@ async def create_agent(request: AgentCreateRequest, athlete_id: str = Query(...)
         agent_dict = prepare_for_mongo(agent.model_dump())
         await db.agents.insert_one(agent_dict)
         
-        return parse_from_mongo(agent_dict)
+        # Fetch the created agent without _id
+        created_agent = await db.agents.find_one({"id": agent.id}, {"_id": 0})
+        return parse_from_mongo(created_agent)
         
     except HTTPException:
         raise
