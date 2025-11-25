@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Eye, EyeOff } from 'lucide-react';
 import SearchableSelect from './community/SearchableSelect';
 import LoggedOutHeader from './LoggedOutHeader';
+import { initializeSiteTitle } from '../utils/siteTitle';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
