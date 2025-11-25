@@ -19,31 +19,11 @@ const Referrals = ({ athleteId }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [referralCode, setReferralCode] = useState('');
   const [siteTitle, setSiteTitle] = useState('');
-  const [settingsLoaded, setSettingsLoaded] = useState(false);
 
   useEffect(() => {
-    loadSiteSettings();
+    initializeSiteTitle(setSiteTitle);
     generateReferralCode();
   }, [athleteId]);
-
-  const loadSiteSettings = async () => {
-    try {
-      const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
-      logger.debug(null, 'Public Settings Response:', response.data);
-      if (response.data?.seo?.siteTitle) {
-        setSiteTitle(response.data.seo.siteTitle);
-        logger.debug(null, 'Site title set to:', response.data.seo.siteTitle);
-      } else {
-        setSiteTitle('TrainSmart');
-        logger.debug(null, 'Site title defaulted to TrainSmart');
-      }
-      setSettingsLoaded(true);
-    } catch (err) {
-      logger.error(null, 'Error loading site settings:', err);
-      setSiteTitle('TrainSmart');
-      setSettingsLoaded(true);
-    }
-  };
 
   const generateReferralCode = async () => {
     try {
