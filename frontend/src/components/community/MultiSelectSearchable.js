@@ -173,7 +173,7 @@ const MultiSelectSearchable = ({
           </div>
 
           {/* Options List */}
-          <div className="overflow-y-auto flex-1">
+          <div className="overflow-y-auto flex-1 custom-scrollbar">
             {showAddCustomButton && (
               <button
                 type="button"
