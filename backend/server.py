@@ -16948,7 +16948,7 @@ async def update_menus(athlete_id: str, menu_data: MenuSettings):
             existing_menus = existing_settings['menus']
             
             # For each menu type, preserve translations
-            for menu_type in ['header_logged_out', 'header_logged_in', 'slideout_menu']:
+            for menu_type in ['header_logged_out', 'header_logged_in', 'slideout_menu', 'slideout_menu_logged_out']:
                 if menu_type in menus_dict and menu_type in existing_menus:
                     new_items = menus_dict[menu_type]
                     old_items = existing_menus[menu_type]
