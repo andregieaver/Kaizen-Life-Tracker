@@ -106,19 +106,17 @@ const SystemSettings = ({ athleteId }) => {
   
   // Initialize active tab from localStorage, URL hash, or default to 'modules'
   const [activeTab, setActiveTab] = useState(() => {
-    // First try localStorage
-    const savedTab = localStorage.getItem('systemSettings_activeTab');
-    logger.debug(null, '🔍 Loading tab from localStorage:', savedTab);
-    if (savedTab && ['modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'agents', 'cookies', 'advanced'].includes(savedTab)) {
-      // Also update hash to match
-      window.location.hash = savedTab;
-      return savedTab;
-    }
-    // Then try URL hash
+    // First try URL hash
     const hash = location.hash.replace('#', '');
     logger.debug(null, '🔍 Loading tab from hash:', hash);
     if (['modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'agents', 'cookies', 'advanced'].includes(hash)) {
       return hash;
+    }
+    // Then try localStorage
+    const savedTab = localStorage.getItem('systemSettings_activeTab');
+    logger.debug(null, '🔍 Loading tab from localStorage:', savedTab);
+    if (savedTab && ['modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'agents', 'cookies', 'advanced'].includes(savedTab)) {
+      return savedTab;
     }
     // Default to 'modules'
     logger.debug(null, '🔍 Using default tab: modules');
