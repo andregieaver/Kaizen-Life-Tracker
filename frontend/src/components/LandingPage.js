@@ -843,7 +843,7 @@ const LandingPage = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <Button 
                 size="lg" 
-                className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
+                className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
                 onClick={() => {
                   const waitingListSection = document.querySelector('#waiting-list-section');
                   if (waitingListSection) {
@@ -857,7 +857,7 @@ const LandingPage = () => {
             </div>
             <div className="flex items-center justify-center gap-8 text-sm text-gray-400">
               <div className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-blue-400" />
+                <Check className="w-4 h-4 text-[#32D3FF]" />
                 <span>No credit card required</span>
               </div>
               <div className="flex items-center gap-2">
