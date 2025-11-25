@@ -8852,6 +8852,77 @@ async def negotiate_management_voice_connection(athlete_id: str, sdp: str = Body
         logging.error(f"Management voice negotiation error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/management-agent/voice/process-command")
+async def process_voice_command(request: dict, athlete_id: str = Query(...)):
+    """Process commands from voice transcript (INSPECT, QUERY, STATS, USER, NAVIGATE)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        command_text = request.get("command", "")
+        results = []
+        
+        # Parse and execute commands
+        if "INSPECT:" in command_text:
+            aspect = command_text.split("INSPECT:")[1].split()[0].strip()
+            # Execute inspection
+            inspection_data = {}
+            
+            if aspect in ["collections", "all"]:
+                collections = await db.list_collection_names()
+                collection_info = {}
+                for coll_name in collections:
+                    count = await db[coll_name].count_documents({})
+                    collection_info[coll_name] = {"count": count, "has_data": count > 0}
+                inspection_data["collections"] = collection_info
+            
+            if aspect in ["all"]:
+                # Get quick stats
+                inspection_data["quick_stats"] = {
+                    "total_users": await db.athlete_profiles.count_documents({}),
+                    "total_agents": await db.agents.count_documents({}),
+                    "community_posts": await db.community_posts.count_documents({})
+                }
+            
+            results.append({"type": "inspection", "data": inspection_data})
+        
+        if "QUERY:" in command_text:
+            parts = command_text.split("QUERY:")[1].split(":")
+            collection = parts[0].strip()
+            query_type = parts[1].strip() if len(parts) > 1 else "count"
+            
+            if query_type == "count":
+                count = await db[collection].count_documents({})
+                results.append({"type": "query", "collection": collection, "count": count})
+        
+        if "STATS:" in command_text:
+            stat_type = command_text.split("STATS:")[1].split()[0].strip()
+            stats = {}
+            
+            if stat_type in ["users", "all"]:
+                stats["total_users"] = await db.athlete_profiles.count_documents({})
+            if stat_type in ["subscriptions", "all"]:
+                stats["active_subscriptions"] = await db.subscriptions.count_documents({"status": "active"})
+            
+            results.append({"type": "statistics", "data": stats})
+        
+        if "USER:" in command_text:
+            identifier = command_text.split("USER:")[1].split()[0].strip()
+            user = await db.athlete_profiles.find_one(
+                {"$or": [{"email": identifier}, {"id": identifier}]},
+                {"_id": 0, "email": 1, "name": 1, "subscription_tier": 1}
+            )
+            results.append({"type": "user", "data": user})
+        
+        if "NAVIGATE:" in command_text:
+            nav_path = command_text.split("NAVIGATE:")[1].split()[0].strip()
+            results.append({"type": "navigate", "path": nav_path})
+        
+        return {"results": results, "command_processed": len(results) > 0}
+        
+    except Exception as e:
+        logging.error(f"Voice command processing error: {e}")
+        return {"results": [], "error": str(e)}
+
 @api_router.get("/management-agent/history/{athlete_id}")
 async def get_management_agent_history(athlete_id: str, limit: int = 20):
     """Get Management Agent chat history (Super Admin only)"""
