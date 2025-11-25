@@ -1283,6 +1283,9 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
+
+      {/* Chatbot Widget */}
+      <ChatbotWidget isLoggedIn={false} />
     </div>
   );
 };
