@@ -1199,6 +1199,38 @@ class VoiceConversation(BaseModel):
     transcript: list  # List of {role: 'user'/'assistant', content: 'text', timestamp: datetime}
     duration_seconds: Optional[int] = None
 
+class ManagementAgentMessage(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str  # Always super admin
+    session_id: str
+    message: str
+    response: str
+    action_taken: Optional[Dict[str, Any]] = None  # Track any actions executed (query, navigation, etc.)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class ManagementAgentChatRequest(BaseModel):
+    athlete_id: str
+    message: str
+    session_id: str
+
+class DatabaseQueryRequest(BaseModel):
+    athlete_id: str
+    query_description: str  # Natural language query
+    collection: Optional[str] = None  # Optional target collection
+    confirm_destructive: bool = False  # Must be true for delete/update operations
+
+class NavigationRequest(BaseModel):
+    athlete_id: str
+    target_route: str  # Target page route (e.g., "/community", "/dashboard")
+
+class CommunityActionRequest(BaseModel):
+    athlete_id: str
+    action_type: str  # create_post, edit_post, delete_post, etc.
+    target_id: Optional[str] = None  # ID of item to edit/delete
+    data: Optional[Dict[str, Any]] = None  # Data for create/edit operations
+
 class AthleteMemory(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
