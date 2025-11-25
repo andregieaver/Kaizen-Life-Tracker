@@ -15267,6 +15267,57 @@ async def get_connected_integration_stats(athlete_id: str):
         logging.error(f"Error getting connected integration stats: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to retrieve connected integration stats: {str(e)}")
 
+@api_router.get("/system/gender-distribution-stats")
+async def get_gender_distribution_stats(athlete_id: str):
+    """Get gender distribution of users (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get all athlete profiles with gender field
+        athletes = await db.athlete_profiles.find(
+            {},
+            {"gender": 1}
+        ).to_list(length=None)
+        
+        # Count gender occurrences
+        gender_counts = {
+            "male": 0,
+            "female": 0,
+            "other": 0,
+            "prefer_not_to_say": 0,
+            "not_specified": 0
+        }
+        
+        for athlete in athletes:
+            gender = athlete.get('gender')
+            if gender in gender_counts:
+                gender_counts[gender] += 1
+            elif gender is None or gender == "":
+                gender_counts["not_specified"] += 1
+            else:
+                # Handle any other values
+                gender_counts["other"] += 1
+        
+        # Convert to list of objects with friendly names
+        distribution = [
+            {"name": "Male", "value": "male", "count": gender_counts["male"]},
+            {"name": "Female", "value": "female", "count": gender_counts["female"]},
+            {"name": "Other", "value": "other", "count": gender_counts["other"]},
+            {"name": "Prefer not to say", "value": "prefer_not_to_say", "count": gender_counts["prefer_not_to_say"]},
+            {"name": "Not specified", "value": "not_specified", "count": gender_counts["not_specified"]}
+        ]
+        
+        # Filter out zero counts for cleaner display
+        distribution = [d for d in distribution if d["count"] > 0]
+        
+        return {
+            "distribution": distribution,
+            "total_users": len(athletes)
+        }
+    except Exception as e:
+        logging.error(f"Error getting gender distribution stats: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve gender distribution stats: {str(e)}")
+
 # Email Template Routes
 @api_router.get("/email-templates")
 async def get_email_templates():
