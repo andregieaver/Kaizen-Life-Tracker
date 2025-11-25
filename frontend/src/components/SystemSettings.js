@@ -2583,7 +2583,7 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Agents Tab */}
           <TabsContent value="agents">
-            <AgentsTab />
+            <AgentsTab athleteId={athleteId} />
           </TabsContent>
 
           {/* Cookies Tab */}
