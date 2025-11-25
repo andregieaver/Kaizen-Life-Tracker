@@ -124,15 +124,28 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
   };
 
   return (
-    <div className="flex h-screen bg-[#0B1220]">
+    <div className="flex h-screen bg-[#0B1220] relative">
       {/* Sidebar - Conversations List */}
-      <div className="w-80 border-r border-gray-800 flex flex-col">
+      <div className={`
+        ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
+        md:translate-x-0 md:relative
+        fixed inset-y-0 left-0 z-50
+        w-80 border-r border-gray-800 flex flex-col bg-[#0B1220]
+        transition-transform duration-300 ease-in-out
+      `}>
         <div className="p-4 border-b border-gray-800">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <Shield className="w-6 h-6 text-blue-400" />
               <h2 className="text-xl font-semibold text-white">Management Agent</h2>
             </div>
+            {/* Close button for mobile */}
+            <button
+              onClick={() => setShowSidebar(false)}
+              className="md:hidden text-gray-400 hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
           <Button 
             onClick={startNewConversation}
@@ -169,8 +182,16 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
         </div>
       </div>
 
+      {/* Overlay for mobile when sidebar is open */}
+      {showSidebar && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setShowSidebar(false)}
+        />
+      )}
+
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col w-full">
         {/* Chat Header */}
         <div className="bg-gradient-to-r from-blue-900 to-indigo-900 p-4 border-b border-gray-800">
           <div className="flex items-center justify-between">
