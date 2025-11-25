@@ -8905,11 +8905,25 @@ async def get_management_agent_conversations(athlete_id: str):
 
 @api_router.get("/agents")
 async def get_agents(athlete_id: str = Query(...)):
-    """Get all agents (Super Admin only)"""
+    """Get all agents. Super admin gets all, guests get only frontend agents"""
     try:
-        await verify_super_admin(athlete_id)
+        # Check if super admin
+        is_super_admin = False
+        try:
+            await verify_super_admin(athlete_id)
+            is_super_admin = True
+        except:
+            pass
         
-        agents = await db.agents.find({}, {"_id": 0}).to_list(length=100)
+        # Super admin gets all agents, others get only public frontend agents
+        if is_super_admin:
+            agents = await db.agents.find({}, {"_id": 0}).to_list(length=100)
+        else:
+            agents = await db.agents.find(
+                {"accessibility": "frontend", "is_active": True},
+                {"_id": 0}
+            ).to_list(length=100)
+        
         return [parse_from_mongo(agent) for agent in agents]
         
     except HTTPException:
