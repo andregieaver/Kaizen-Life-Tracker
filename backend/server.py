@@ -8581,6 +8581,257 @@ async def save_voice_conversation(voice_conversation: VoiceConversation):
         logging.error(f"Error saving voice conversation: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to save voice conversation: {str(e)}")
 
+# ========================================
+# MANAGEMENT AGENT ENDPOINTS (Super Admin Only)
+# ========================================
+
+@api_router.post("/management-agent/chat")
+async def chat_with_management_agent(chat_request: ManagementAgentChatRequest):
+    """
+    Super admin-only AI assistant with full system access
+    Can query database, navigate pages, and manage community content
+    """
+    try:
+        # Verify super admin
+        await verify_super_admin(chat_request.athlete_id)
+        
+        # Get OpenAI key from system settings
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        if not settings:
+            settings = await db.system_settings.find_one({}, {"_id": 0})
+        
+        openai_key = None
+        if settings:
+            openai_key = settings.get("advanced", {}).get("openaiApiKey")
+            if not openai_key:
+                openai_key = settings.get("openaiApiKey")
+        
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured in system settings")
+        
+        # Load conversation history for this session
+        conversation_history = []
+        if chat_request.session_id:
+            history_messages = await db.management_agent_messages.find(
+                {"athlete_id": chat_request.athlete_id, "session_id": chat_request.session_id},
+                {"_id": 0}
+            ).sort("timestamp", 1).limit(20).to_list(length=20)
+            
+            # Convert to message format (last 10 exchanges)
+            for msg in history_messages[-10:]:
+                conversation_history.append({"role": "user", "content": msg.get("message", "")})
+                conversation_history.append({"role": "assistant", "content": msg.get("response", "")})
+        
+        # System prompt for Management Agent
+        system_prompt = """You are the App Management Agent, a powerful AI assistant with full administrative access to this health and fitness application.
+
+**Your Capabilities:**
+1. DATABASE QUERIES: You can search, filter, and analyze ANY data in the system
+   - Available collections: athlete_profiles, community_posts, community_comments, community_groups, community_events, community_challenges, workouts, sleep_data, journal_entries, nutrition_entries, subscriptions, integrations, system_settings, and more
+   - You can aggregate data, find patterns, and generate reports
+   
+2. USER MANAGEMENT: View and analyze user data across all accounts
+   - Search users by any criteria (email, name, subscription tier, activity level, etc.)
+   - View complete user profiles, health data, and activity history
+   
+3. COMMUNITY MANAGEMENT: Full control over community content
+   - Create, edit, or delete posts, comments, groups, events, and challenges
+   - Moderate content, manage permissions
+   
+4. PAGE NAVIGATION: Navigate the super admin to any page in the app
+   - Can redirect to specific user profiles, posts, settings, etc.
+   
+5. ANALYTICS: Generate insights and statistics about the application
+   - User engagement, subscription metrics, feature usage, etc.
+
+**Important Guidelines:**
+- For destructive operations (delete/update), always ask for confirmation first
+- When providing data, format it clearly in tables or lists
+- For database queries, explain what you're searching for before providing results
+- Always prioritize data security and privacy
+- Use clear, concise language
+
+**Response Format:**
+- Start with a brief explanation of what you're doing
+- Provide the requested information or action
+- If you need more details, ask specific questions
+- Format data nicely using markdown tables when appropriate
+
+**Example Queries:**
+- "Show me all users who signed up this month"
+- "Find posts with the most engagement in the last 7 days"
+- "Navigate to user profile for john@example.com"
+- "Create a challenge for the running group"
+- "Generate a report on subscription renewals"
+
+Remember: You are the super admin's intelligent assistant. Be helpful, efficient, and accurate."""
+
+        # Use emergentintegrations LlmChat for OpenAI GPT-5
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        
+        chat = LlmChat(
+            api_key=openai_key,
+            session_id=chat_request.session_id,
+            system_message=system_prompt
+        ).with_model("openai", "gpt-5")
+        
+        # Add conversation history to chat
+        # Note: LlmChat handles history internally, but we can provide context
+        user_message = UserMessage(text=chat_request.message)
+        
+        # Send message and get response
+        response = await chat.send_message(user_message)
+        
+        # Save to database
+        message_record = ManagementAgentMessage(
+            athlete_id=chat_request.athlete_id,
+            session_id=chat_request.session_id,
+            message=chat_request.message,
+            response=response,
+            action_taken=None  # Can be expanded later for tracking actions
+        )
+        message_dict = prepare_for_mongo(message_record.model_dump())
+        await db.management_agent_messages.insert_one(message_dict)
+        
+        return {"response": response}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Management Agent chat error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to get management agent response: {str(e)}")
+
+@api_router.post("/management-agent/voice/session/{athlete_id}")
+async def create_management_voice_session(athlete_id: str):
+    """Create a voice session for Management Agent (Super Admin only)"""
+    try:
+        # Verify super admin
+        await verify_super_admin(athlete_id)
+        
+        # Get OpenAI key from system settings
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        if not settings:
+            settings = await db.system_settings.find_one({}, {"_id": 0})
+        
+        openai_key = None
+        if settings:
+            openai_key = settings.get("advanced", {}).get("openaiApiKey")
+            if not openai_key:
+                openai_key = settings.get("openaiApiKey")
+        
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured. Please add your API key in System Settings.")
+        
+        # Initialize realtime chat with Management Agent instructions
+        instructions = """You are the App Management Agent with full administrative access. 
+You can help the super admin with:
+- Querying and analyzing any data in the system
+- Managing users, content, and community features
+- Generating reports and insights
+- Navigating to specific pages or user profiles
+Be helpful, efficient, and always confirm before destructive operations."""
+        
+        realtime = OpenAIChatRealtime(api_key=openai_key, instructions=instructions)
+        session_config = realtime.get_session_config()
+        return session_config
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Management voice session error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/management-agent/voice/negotiate/{athlete_id}")
+async def negotiate_management_voice_connection(athlete_id: str, sdp: str = Body(..., media_type="application/sdp")):
+    """Negotiate WebRTC connection for Management Agent voice (Super Admin only)"""
+    try:
+        # Verify super admin
+        await verify_super_admin(athlete_id)
+        
+        # Get OpenAI key
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        if not settings:
+            settings = await db.system_settings.find_one({}, {"_id": 0})
+        
+        openai_key = None
+        if settings:
+            openai_key = settings.get("advanced", {}).get("openaiApiKey")
+            if not openai_key:
+                openai_key = settings.get("openaiApiKey")
+        
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured.")
+        
+        instructions = """You are the App Management Agent with full administrative access. 
+Help the super admin manage the application efficiently."""
+        
+        realtime = OpenAIChatRealtime(api_key=openai_key, instructions=instructions)
+        answer_sdp = await realtime.negotiate(sdp)
+        return {"sdp": answer_sdp}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Management voice negotiation error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/management-agent/history/{athlete_id}")
+async def get_management_agent_history(athlete_id: str, limit: int = 20):
+    """Get Management Agent chat history (Super Admin only)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        messages = await db.management_agent_messages.find(
+            {"athlete_id": athlete_id}, 
+            {"_id": 0}
+        ).sort("timestamp", -1).limit(limit).to_list(length=limit)
+        
+        return [parse_from_mongo(m) for m in messages]
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to get management agent history: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/management-agent/conversations/{athlete_id}")
+async def get_management_agent_conversations(athlete_id: str):
+    """Get list of Management Agent conversations (Super Admin only)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        pipeline = [
+            {"$match": {"athlete_id": athlete_id}},
+            {"$sort": {"timestamp": -1}},
+            {"$group": {
+                "_id": "$session_id",
+                "last_message": {"$first": "$timestamp"},
+                "message_count": {"$sum": 1},
+                "preview": {"$first": "$message"}
+            }},
+            {"$sort": {"last_message": -1}},
+            {"$limit": 50}
+        ]
+        
+        conversations = await db.management_agent_messages.aggregate(pipeline).to_list(length=50)
+        
+        result = []
+        for conv in conversations:
+            result.append({
+                "session_id": conv["_id"],
+                "last_message": conv["last_message"].isoformat() if isinstance(conv["last_message"], datetime) else conv["last_message"],
+                "message_count": conv["message_count"],
+                "preview": conv["preview"][:50] + "..." if len(conv["preview"]) > 50 else conv["preview"]
+            })
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to get management agent conversations: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Strava OAuth routes
 
 @api_router.post("/integrations/strava/{athlete_id}/sync")
