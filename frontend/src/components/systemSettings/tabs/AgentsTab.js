@@ -119,8 +119,14 @@ const AgentsTab = ({ athleteId }) => {
                         src={`${BACKEND_URL}${agent.profile_image_url}`}
                         alt={agent.name}
                         className="w-12 h-12 rounded-full object-cover"
+                        onError={(e) => {
+                          console.error('Image failed to load:', e.target.src);
+                          e.target.onerror = null;
+                          e.target.style.display = 'none';
+                        }}
                       />
-                    ) : (
+                    ) : null}
+                    {(!agent.profile_image_url || document.querySelector(`img[alt="${agent.name}"]`)?.style.display === 'none') && (
                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                         <Bot className="w-6 h-6 text-white" />
                       </div>
