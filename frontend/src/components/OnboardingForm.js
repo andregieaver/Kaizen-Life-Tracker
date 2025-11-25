@@ -219,20 +219,23 @@ const OnboardingForm = ({ onAthleteCreated }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ 
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
-    }}>
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="relative inline-block">
-            <h1 className="font-display text-4xl font-bold text-white mb-2">
-              My Health Tracker
-            </h1>
-            <span 
-              className="absolute -top-2 -right-12 text-xs font-bold px-2 py-1 rounded"
-              style={{
-                background: 'rgba(50, 211, 255, 0.2)',
+    <>
+      <LoggedOutHeader />
+      
+      <div className="min-h-screen flex items-center justify-center p-4 pt-20" style={{ 
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
+      }}>
+        <div className="w-full max-w-md">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="relative inline-block">
+              <h1 className="font-display text-4xl font-bold text-white mb-2">
+                My Health Tracker
+              </h1>
+              <span 
+                className="absolute -top-2 -right-12 text-xs font-bold px-2 py-1 rounded"
+                style={{
+                  background: 'rgba(50, 211, 255, 0.2)',
                 border: '1px solid rgba(50, 211, 255, 0.4)',
                 color: '#32D3FF'
               }}
