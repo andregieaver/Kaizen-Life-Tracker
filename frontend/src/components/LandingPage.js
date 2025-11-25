@@ -13,6 +13,7 @@ import { useScrollDepth, useTimeOnPage } from '../lib/useViewTracker';
 import SearchableSelect from './community/SearchableSelect';
 import MultiSelectSearchable from './community/MultiSelectSearchable';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import ChatbotWidget from './ChatbotWidget';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
