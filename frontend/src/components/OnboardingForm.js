@@ -478,6 +478,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
