@@ -32,7 +32,16 @@ const MenuEditor = ({ athleteId, onBack }) => {
     try {
       setLoading(true);
       const response = await axios.get(`${API}/menus?athlete_id=${athleteId}`);
-      setMenus(response.data);
+      
+      // Ensure all menu types exist as arrays (defensive coding for old database entries)
+      const loadedMenus = {
+        header_logged_out: Array.isArray(response.data?.header_logged_out) ? response.data.header_logged_out : [],
+        header_logged_in: Array.isArray(response.data?.header_logged_in) ? response.data.header_logged_in : [],
+        slideout_menu: Array.isArray(response.data?.slideout_menu) ? response.data.slideout_menu : [],
+        slideout_menu_logged_out: Array.isArray(response.data?.slideout_menu_logged_out) ? response.data.slideout_menu_logged_out : []
+      };
+      
+      setMenus(loadedMenus);
     } catch (error) {
       logger.error(null, 'Error loading menus:', error);
       alert(t('menus.loadFailed'));
