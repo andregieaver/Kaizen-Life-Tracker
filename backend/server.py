@@ -1703,6 +1703,7 @@ class MenuSettings(BaseModel):
     header_logged_out: List[MenuItem] = []
     header_logged_in: List[MenuItem] = []
     slideout_menu: List[MenuItem] = []
+    slideout_menu_logged_out: List[MenuItem] = []
 
 class Page(BaseModel):
     model_config = ConfigDict(extra="ignore")
