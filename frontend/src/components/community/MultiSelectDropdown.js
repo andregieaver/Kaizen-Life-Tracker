@@ -21,8 +21,8 @@ const MultiSelectDropdown = ({
     if (isOpen && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setDropdownPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
+        top: rect.bottom + 8, // Just 8px below the button, using viewport coordinates
+        left: rect.left,
         width: rect.width
       });
     }
