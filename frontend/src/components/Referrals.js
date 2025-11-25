@@ -27,13 +27,11 @@ const Referrals = ({ athleteId }) => {
 
   const loadSiteSettings = async () => {
     try {
-      const response = await axios.get(`${API}/system-settings/all`);
-      const seo = response.data.find(s => s.category === 'seo');
-      logger.debug(null, 'SEO Settings:', seo);
-      logger.debug(null, 'Site Title:', seo?.siteTitle);
-      if (seo?.siteTitle) {
-        setSiteTitle(seo.siteTitle);
-        logger.debug(null, 'Site title set to:', seo.siteTitle);
+      const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
+      logger.debug(null, 'Public Settings Response:', response.data);
+      if (response.data?.seo?.siteTitle) {
+        setSiteTitle(response.data.seo.siteTitle);
+        logger.debug(null, 'Site title set to:', response.data.seo.siteTitle);
       } else {
         setSiteTitle('TrainSmart');
         logger.debug(null, 'Site title defaulted to TrainSmart');
