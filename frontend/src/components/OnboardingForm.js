@@ -464,7 +464,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
               {t('auth.alreadyHaveAccount')}{' '}
               <Link 
                 to="/login" 
-                className="text-teal-400 hover:text-teal-300 font-medium hover:underline"
+                className="text-[#32D3FF] hover:text-[#1FC1FF] font-medium hover:underline"
                 data-testid="login-link"
               >
                 {t('auth.loginHere')}
