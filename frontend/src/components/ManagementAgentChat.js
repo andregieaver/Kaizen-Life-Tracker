@@ -196,12 +196,19 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
         <div className="bg-gradient-to-r from-blue-900 to-indigo-900 p-4 border-b border-gray-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
+              {/* Menu button for mobile */}
+              <button
+                onClick={() => setShowSidebar(true)}
+                className="md:hidden text-white hover:text-gray-300"
+              >
+                <Menu className="w-6 h-6" />
+              </button>
               <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
                 <Shield className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-white">Management Agent</h3>
-                <p className="text-sm text-gray-300">Super Admin Assistant</p>
+                <p className="text-sm text-gray-300 hidden sm:block">Super Admin Assistant</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -209,10 +216,10 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
                 onClick={toggleVoiceMode}
                 variant={isVoiceActive ? "default" : "outline"}
                 size="sm"
-                className={isVoiceActive ? "bg-red-600 hover:bg-red-700" : ""}
+                className={`${isVoiceActive ? "bg-red-600 hover:bg-red-700" : ""}`}
               >
-                <Mic className="w-4 h-4 mr-2" />
-                {isVoiceActive ? 'End Voice' : 'Voice Mode'}
+                <Mic className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">{isVoiceActive ? 'End Voice' : 'Voice Mode'}</span>
               </Button>
             </div>
           </div>
