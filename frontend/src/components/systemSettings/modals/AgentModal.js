@@ -267,6 +267,28 @@ const AgentModal = ({ athleteId, agent, onClose }) => {
             </select>
           </div>
 
+          {/* Accessibility */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Accessibility Level *
+            </label>
+            <select
+              value={formData.accessibility}
+              onChange={(e) => setFormData({ ...formData, accessibility: e.target.value })}
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            >
+              {ACCESSIBILITY_LEVELS.map((level) => (
+                <option key={level.value} value={level.value}>
+                  {level.label} - {level.description}
+                </option>
+              ))}
+            </select>
+            <p className="text-xs text-gray-400 mt-1">
+              Controls where and how this agent is accessible
+            </p>
+          </div>
+
           {/* Custom Instructions */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
