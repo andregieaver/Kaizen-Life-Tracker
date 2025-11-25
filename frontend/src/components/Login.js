@@ -21,7 +21,23 @@ const Login = ({ onAthleteLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [siteTitle, setSiteTitle] = useState('TrainSmart');
   const navigate = useNavigate();
+  
+  // Fetch site title from system settings
+  useEffect(() => {
+    const fetchSiteTitle = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
+        if (response.data?.seo?.siteTitle) {
+          setSiteTitle(response.data.seo.siteTitle);
+        }
+      } catch (error) {
+        logger.error(null, 'Error fetching site title:', error);
+      }
+    };
+    fetchSiteTitle();
+  }, []);
 
   // Check for Google OAuth session_id in URL fragment
   useEffect(() => {
