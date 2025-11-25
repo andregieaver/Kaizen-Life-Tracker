@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Shield, MessageCircle, Mic, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import ManagementAgentChat from './ManagementAgentChat';
+import VoiceChat from './VoiceChat';
 
 const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
   const [showMgmtMenu, setShowMgmtMenu] = useState(false);
