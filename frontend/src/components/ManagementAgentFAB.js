@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Shield, MessageCircle, Mic, X } from 'lucide-react';
 import ManagementAgentChat from './ManagementAgentChat';
 
-const ManagementAgentFAB = ({ athleteId, isSuperAdmin }) => {
+const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
+  const [showMgmtMenu, setShowMgmtMenu] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [showModes, setShowModes] = useState(false);
   const [mode, setMode] = useState(null); // 'text' or 'voice'
 
   // Only render for super admin
@@ -12,19 +12,10 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin }) => {
     return null;
   }
 
-  const toggleModes = () => {
-    if (isOpen) {
-      setIsOpen(false);
-      setMode(null);
-    } else {
-      setShowModes(!showModes);
-    }
-  };
-
   const selectMode = (selectedMode) => {
     setMode(selectedMode);
     setIsOpen(true);
-    setShowModes(false);
+    setShowMgmtMenu(false);
   };
 
   const closeChat = () => {
@@ -34,69 +25,113 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin }) => {
 
   return (
     <>
-      {/* FAB Button - Fixed to left side */}
-      <div className="fixed left-6 bottom-6 z-50">
-        {/* Mode Selection Buttons */}
-        {showModes && !isOpen && (
-          <div className="absolute bottom-20 left-0 flex flex-col space-y-3 mb-2">
-            {/* Text Mode Button */}
-            <button
-              onClick={() => selectMode('text')}
-              className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 
-                         text-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 
-                         flex items-center justify-center group relative"
-              title="Text Mode"
-            >
-              <MessageCircle className="w-6 h-6" />
-              <span className="absolute left-full ml-3 bg-gray-900 text-white text-xs py-1 px-2 rounded opacity-0 
-                               group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                Text Mode
-              </span>
-            </button>
-
-            {/* Voice Mode Button */}
-            <button
-              onClick={() => selectMode('voice')}
-              className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 
-                         text-white shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 
-                         flex items-center justify-center group relative"
-              title="Voice Mode"
-            >
-              <Mic className="w-6 h-6" />
-              <span className="absolute left-full ml-3 bg-gray-900 text-white text-xs py-1 px-2 rounded opacity-0 
-                               group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                Voice Mode
-              </span>
-            </button>
-          </div>
+      {/* Main Management Agent FAB - Bottom Left (mirroring the plus button on right) */}
+      <button
+        onClick={() => setShowMgmtMenu(!showMgmtMenu)}
+        className="md:hidden fixed z-50 w-14 h-14 rounded-full flex items-center justify-center"
+        style={{
+          bottom: `calc(96px - ${(1 - footerProgress) * 100}px)`,
+          left: '16px',
+          transform: `translateY(${(1 - footerProgress) * 100}px)`,
+          opacity: 0.08 + footerProgress * 0.92,
+          transition: 'background 300ms',
+          background: showMgmtMenu ? 'var(--grad-danger)' : 'var(--grad-brand)',
+          boxShadow: showMgmtMenu 
+            ? 'none' 
+            : '0 10px 40px rgba(50,211,255,.3)',
+          pointerEvents: footerProgress > 0.1 ? 'auto' : 'none',
+          willChange: 'transform, opacity'
+        }}
+        aria-label={showMgmtMenu ? "Close management menu" : "Open management agent"}
+      >
+        {showMgmtMenu ? (
+          <X className="w-7 h-7 text-white" />
+        ) : (
+          <Shield className="w-7 h-7 text-white" />
         )}
+      </button>
 
-        {/* Main FAB Button */}
-        <button
-          onClick={toggleModes}
-          className={`w-16 h-16 rounded-full shadow-2xl transform transition-all duration-300 
-                     flex items-center justify-center ${
-            showModes || isOpen
-              ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rotate-45'
-              : 'bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800'
-          } hover:scale-110`}
-        >
-          {showModes || isOpen ? (
-            <X className="w-8 h-8 text-white transform -rotate-45" />
-          ) : (
-            <Shield className="w-8 h-8 text-white" />
-          )}
-        </button>
+      {/* Backdrop when menu is open */}
+      {showMgmtMenu && (
+        <div 
+          className="fixed inset-0 bg-black/30 z-30"
+          onClick={() => setShowMgmtMenu(false)}
+        />
+      )}
 
-        {/* Pulsing ring effect when closed */}
-        {!showModes && !isOpen && (
-          <div className="absolute inset-0 rounded-full bg-blue-600 animate-ping opacity-20" />
-        )}
-      </div>
+      {/* Text Mode Button - 0° (3 o'clock - straight right) */}
+      <button
+        onClick={() => selectMode('text')}
+        className="fixed z-40 w-12 h-12 rounded-full flex items-center justify-center"
+        style={{
+          bottom: `calc(90px - ${(1 - footerProgress) * 100}px)`,
+          left: '16px',
+          transform: showMgmtMenu 
+            ? `translate(${110}px, ${(1 - footerProgress) * 100}px)` // 0° (3 o'clock - straight right)
+            : `translate(0, ${(1 - footerProgress) * 100}px) scale(0)`,
+          opacity: showMgmtMenu ? (0.08 + footerProgress * 0.92) : 0,
+          pointerEvents: (showMgmtMenu && footerProgress > 0.1) ? 'auto' : 'none',
+          transition: 'transform 300ms, opacity 300ms',
+          transitionDelay: showMgmtMenu ? '50ms' : '0ms',
+          backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+          backdropFilter: 'blur(8px) saturate(150%)',
+          WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+          boxShadow: `
+            inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+            inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
+            inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 35%), transparent),
+            inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 25%), transparent),
+            inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
+            inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent)
+          `
+        }}
+        title="Management Agent - Text Mode"
+      >
+        <MessageCircle className="w-5 h-5 text-white" />
+      </button>
+
+      {/* Voice Mode Button - 30° (1 o'clock position) */}
+      <button
+        onClick={() => selectMode('voice')}
+        className="fixed z-40 w-12 h-12 rounded-full flex items-center justify-center"
+        style={{
+          bottom: `calc(90px - ${(1 - footerProgress) * 100}px)`,
+          left: '16px',
+          transform: showMgmtMenu 
+            ? `translate(${Math.cos(Math.PI / 6) * 110}px, calc(${-Math.sin(Math.PI / 6) * 110}px + ${(1 - footerProgress) * 100}px))` // 30° (1 o'clock)
+            : `translate(0, ${(1 - footerProgress) * 100}px) scale(0)`,
+          opacity: showMgmtMenu ? (0.08 + footerProgress * 0.92) : 0,
+          pointerEvents: (showMgmtMenu && footerProgress > 0.1) ? 'auto' : 'none',
+          transition: 'transform 300ms, opacity 300ms',
+          transitionDelay: showMgmtMenu ? '100ms' : '0ms',
+          backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+          backdropFilter: 'blur(8px) saturate(150%)',
+          WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+          boxShadow: `
+            inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+            inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
+            inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 35%), transparent),
+            inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 25%), transparent),
+            inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
+            inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent)
+          `
+        }}
+        title="Management Agent - Voice Mode"
+      >
+        <Mic className="w-5 h-5 text-white" />
+      </button>
 
       {/* Full Screen Chat Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-40 bg-[#0B1220]">
+        <div className="fixed inset-0 z-[100] bg-[#0B1220]">
           <div className="relative h-full">
             {/* Close Button */}
             <button
