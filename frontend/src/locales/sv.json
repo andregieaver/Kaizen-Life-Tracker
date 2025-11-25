@@ -30,20 +30,52 @@
     "enterDetails": "Entrez vos détails pour commencer l'entraînement personnalisé"
   },
   "onboarding": {
-    "title": "Créez votre profil de course",
-    "description": "Entrez vos détails pour commencer l'entraînement personnalisé",
-    "age": "Âge",
-    "ageValidation": "Veuillez entrer un âge valide (16-80)",
-    "weeklyMileage": "Distance hebdomadaire",
-    "mileageValidation": "Veuillez entrer la distance hebdomadaire (8-320 km)",
-    "mileageOptional": "Kilomètres hebdomadaires moyens",
-    "recentRaceTime": "Temps de course récent",
-    "raceTimeOptional": "ex. 5K : 22:30, Semi-marathon : 1:45:00 (optionnel)",
-    "runningGoals": "Objectifs de course",
-    "runningGoalsPlaceholder": "Que voulez-vous accomplir ? (ex. Courir un marathon, améliorer temps 5K, courir sans blessures)",
-    "runningGoalsValidation": "Veuillez partager vos objectifs de course",
-    "startCoaching": "Commencer l'entraînement",
-    "insightMessage": "Votre entraîneur IA analysera vos données pour fournir des insights d'entraînement personnalisés"
+    "title": "Välkommen! Låt oss komma igång",
+    "step": "Steg {{current}} av {{total}}",
+    "skipStep": "Hoppa över detta steg",
+    "skipForNow": "Hoppa över för nu",
+    "neverShow": "Visa aldrig igen",
+    "confirmNeverShow": "Är du säker på att du vill stänga av onboarding-guiden permanent? Du kan inte ångra denna åtgärd.",
+    "back": "Tillbaka",
+    "next": "Nästa",
+    "finish": "Slutför",
+    "requiredFields": "Obligatoriska fält",
+    "optional": "Valfritt",
+    "pleaseConnectIntegration": "Vänligen anslut minst en integration för att fortsätta.",
+    "pleaseEnterPost": "Vänligen skriv något för ditt första inlägg.",
+    "clickToConnect": "Klicka för att ansluta",
+    "resumeBanner": {
+      "title": "Slutför din profilinställning",
+      "description": "Slutför konfigurationen av ditt konto för att låsa upp alla funktioner"
+    },
+    "steps": {
+      "personalInfo": {
+        "title": "Personlig information",
+        "description": "Berätta om dig själv för att få personliga rekommendationer"
+      },
+      "preferences": {
+        "title": "Ställ in dina preferenser",
+        "description": "Anpassa din upplevelse med språk och måttenheter"
+      },
+      "integration": {
+        "title": "Anslut dina enheter",
+        "description": "Anslut minst en träningsapp för att synkronisera dina hälsodata",
+        "hint": "Efter anslutning, kom tillbaka hit för att fortsätta onboarding-processen."
+      },
+      "communityPost": {
+        "title": "Gå med i communityn",
+        "description": "Presentera dig själv för communityn med ditt första inlägg",
+        "postContent": "Ditt första inlägg",
+        "placeholder": "Hej alla! Jag är entusiastisk över att börja min träningsresa...",
+        "addImage": "Lägg till bild",
+        "hint": "Dela något om dina träningsmål eller intressen!"
+      }
+    },
+    "celebration": {
+      "title": "Välkommen ombord! 🎉",
+      "message": "Du är redo att starta din träningsresa!",
+      "cta": "Låt oss köra!"
+    }
   },
   "dashboard": {
     "welcome": "Bon retour",
@@ -1672,7 +1704,15 @@
     "conversions": "Conversions",
     "conversionRate": "Taux de conversion",
     "loading": "Chargement...",
-    "tryAgain": "Réessayer"
+    "tryAgain": "Réessayer",
+    "description": "Dela {{appName}} med vänner och tjäna belöningar! Både du och dina vänner får rabattkoder när de prenumererar.",
+    "shareMessage": "Kolla in {{appName}}! Gå med via min referenslänk: {{link}}",
+    "emailSubject": "Gå med i {{appName}} med min referenslänk",
+    "emailBody": "Jag ville dela {{appName}} med dig! Gå med via min referenslänk så får vi båda belöningar: {{link}}",
+    "howItWorksInfo": "Tjäna {{discount}}% rabatt på din nästa betalning för varje vän som prenumererar",
+    "discountAvailable": "{{discount}}% rabatt tillgänglig",
+    "discount": "{{percent}}% rabatt",
+    "expires": "Utgår {{date}}"
   },
   "calculators": {
     "title": "Calculatrices de course",
@@ -1981,54 +2021,6 @@
     "missingData": "Saknad data",
     "noData": "Ingen data tillgänglig",
     "error": "Kunde inte ladda"
-  },
-  "onboarding": {
-    "title": "Välkommen! Låt oss komma igång",
-    "step": "Steg {{current}} av {{total}}",
-    "skipStep": "Hoppa över detta steg",
-    "skipForNow": "Hoppa över för nu",
-    "neverShow": "Visa aldrig igen",
-    "confirmNeverShow": "Är du säker på att du vill stänga av onboarding-guiden permanent? Du kan inte ångra denna åtgärd.",
-    "back": "Tillbaka",
-    "next": "Nästa",
-    "finish": "Slutför",
-    "requiredFields": "Obligatoriska fält",
-    "optional": "Valfritt",
-    "pleaseConnectIntegration": "Vänligen anslut minst en integration för att fortsätta.",
-    "pleaseEnterPost": "Vänligen skriv något för ditt första inlägg.",
-    "clickToConnect": "Klicka för att ansluta",
-    "resumeBanner": {
-      "title": "Slutför din profilinställning",
-      "description": "Slutför konfigurationen av ditt konto för att låsa upp alla funktioner"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personlig information",
-        "description": "Berätta om dig själv för att få personliga rekommendationer"
-      },
-      "preferences": {
-        "title": "Ställ in dina preferenser",
-        "description": "Anpassa din upplevelse med språk och måttenheter"
-      },
-      "integration": {
-        "title": "Anslut dina enheter",
-        "description": "Anslut minst en träningsapp för att synkronisera dina hälsodata",
-        "hint": "Efter anslutning, kom tillbaka hit för att fortsätta onboarding-processen."
-      },
-      "communityPost": {
-        "title": "Gå med i communityn",
-        "description": "Presentera dig själv för communityn med ditt första inlägg",
-        "postContent": "Ditt första inlägg",
-        "placeholder": "Hej alla! Jag är entusiastisk över att börja min träningsresa...",
-        "addImage": "Lägg till bild",
-        "hint": "Dela något om dina träningsmål eller intressen!"
-      }
-    },
-    "celebration": {
-      "title": "Välkommen ombord! 🎉",
-      "message": "Du är redo att starta din träningsresa!",
-      "cta": "Låt oss köra!"
-    }
   },
   "weather": {
     "title": "Aktuellt väder",

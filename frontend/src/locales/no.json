@@ -2091,7 +2091,15 @@
     "conversions": "Konverteringer",
     "conversionRate": "Konverteringsrate",
     "loading": "Laster...",
-    "tryAgain": "Prøv igjen"
+    "tryAgain": "Prøv igjen",
+    "description": "Del {{appName}} med venner og tjen belønninger! Både du og dine venner får rabattkoder når de abonnerer.",
+    "shareMessage": "Sjekk ut {{appName}}! Bli med ved å bruke henvisningslenken min: {{link}}",
+    "emailSubject": "Bli med i {{appName}} med henvisningslenken min",
+    "emailBody": "Jeg ville dele {{appName}} med deg! Bli med ved å bruke henvisningslenken min, så får vi begge belønninger: {{link}}",
+    "howItWorksInfo": "Tjen {{discount}}% rabatt på neste betaling for hver venn som abonnerer",
+    "discountAvailable": "{{discount}}% rabatt tilgjengelig",
+    "discount": "{{percent}}% rabatt",
+    "expires": "Utløper {{date}}"
   },
   "calculators": {
     "title": "Løpskalkulatorer",

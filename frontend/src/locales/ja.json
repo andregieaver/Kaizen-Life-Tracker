@@ -107,96 +107,95 @@
       "addJournalEntry": "ジャーナルエントリーを追加",
       "logDrink": "飲み物を記録する",
       "logSupplement": "サプリメントを記録する",
-      "logMeal": "食事を記録する"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+      "logMeal": "食事を記録する",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "現在の天気",
+        "temperature": "気温",
+        "feelsLike": "体感温度",
+        "wind": "風",
+        "humidity": "湿度",
+        "precipitation": "降水量（1時間）",
+        "pressure": "気圧",
+        "refresh": "更新",
+        "loading": "天気を読み込み中...",
+        "errors": {
+          "permissionDenied": "位置情報の許可が拒否されました",
+          "locationUnavailable": "位置情報が利用できません",
+          "timeout": "位置情報のリクエストがタイムアウトしました",
+          "failedToGetLocation": "位置情報の取得に失敗しました",
+          "notSupported": "お使いのブラウザは位置情報に対応していません"
+        },
+        "tryAgain": "再試行",
+        "recommendations": {
+          "good": "屋外トレーニングに最適な条件",
+          "caution": "困難な条件",
+          "poor": "屋内トレーニングをお勧めします",
+          "coldWeather": "寒い天気 - 暖かい服装で",
+          "coolWeather": "涼しい天気 - 重ね着してください",
+          "hotWeather": "暑い天気 - 水分補給を",
+          "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+          "highWinds": "強風 - 困難な条件",
+          "moderateWinds": "適度な風 - ペースを調整してください",
+          "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+          "lightRain": "雨が予想されます - 適切な装備を",
+          "idealConditions": "屋外活動に最適な条件",
+          "layerUp": "重ね着してゆっくりウォームアップ",
+          "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+          "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+          "windWarning": "強風は屋外活動に影響する可能性があります",
+          "rainfallExpected": "大雨が予想されます",
+          "lightRainExpected": "小雨が予想されます"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
   },
   "readiness": {
     "title": "準備状態",
@@ -560,96 +559,95 @@
     "messages": {
       "failedToLoadProfile": "プロファイルの読み込みに失敗しました",
       "failedToProcessImage": "画像の処理に失敗しました",
-      "oneVideoPerPost": "投稿ごとに 1 つの動画のみ許可されています"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+      "oneVideoPerPost": "投稿ごとに 1 つの動画のみ許可されています",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "現在の天気",
+        "temperature": "気温",
+        "feelsLike": "体感温度",
+        "wind": "風",
+        "humidity": "湿度",
+        "precipitation": "降水量（1時間）",
+        "pressure": "気圧",
+        "refresh": "更新",
+        "loading": "天気を読み込み中...",
+        "errors": {
+          "permissionDenied": "位置情報の許可が拒否されました",
+          "locationUnavailable": "位置情報が利用できません",
+          "timeout": "位置情報のリクエストがタイムアウトしました",
+          "failedToGetLocation": "位置情報の取得に失敗しました",
+          "notSupported": "お使いのブラウザは位置情報に対応していません"
+        },
+        "tryAgain": "再試行",
+        "recommendations": {
+          "good": "屋外トレーニングに最適な条件",
+          "caution": "困難な条件",
+          "poor": "屋内トレーニングをお勧めします",
+          "coldWeather": "寒い天気 - 暖かい服装で",
+          "coolWeather": "涼しい天気 - 重ね着してください",
+          "hotWeather": "暑い天気 - 水分補給を",
+          "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+          "highWinds": "強風 - 困難な条件",
+          "moderateWinds": "適度な風 - ペースを調整してください",
+          "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+          "lightRain": "雨が予想されます - 適切な装備を",
+          "idealConditions": "屋外活動に最適な条件",
+          "layerUp": "重ね着してゆっくりウォームアップ",
+          "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+          "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+          "windWarning": "強風は屋外活動に影響する可能性があります",
+          "rainfallExpected": "大雨が予想されます",
+          "lightRainExpected": "小雨が予想されます"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
   },
   "account": {
     "title": "アカウント設定",
@@ -977,96 +975,95 @@
     "tabs": {
       "profile": {
         "description": "説明",
-        "interests": "興味"
-      ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+        "interests": "興味",
+        "onboarding": {
+          "title": "Welcome! Let's Get Started",
+          "step": "Step {{current}} of {{total}}",
+          "skipStep": "Skip This Step",
+          "skipForNow": "Skip For Now",
+          "neverShow": "Never Show Again",
+          "confirmNeverShow": "Are you sure?",
+          "back": "Back",
+          "next": "Next",
+          "finish": "Finish",
+          "requiredFields": "Required fields",
+          "optional": "Optional",
+          "pleaseConnectIntegration": "Please connect at least one integration.",
+          "pleaseEnterPost": "Please enter text for your post.",
+          "clickToConnect": "Click to connect",
+          "resumeBanner": {
+            "title": "Complete Your Profile Setup",
+            "description": "Finish setting up your account"
+          },
+          "steps": {
+            "personalInfo": {
+              "title": "Personal Information",
+              "description": "Tell us about yourself"
+            },
+            "preferences": {
+              "title": "Set Your Preferences",
+              "description": "Customize your experience"
+            },
+            "integration": {
+              "title": "Connect Your Devices",
+              "description": "Connect a fitness tracker",
+              "hint": "After connecting, come back here."
+            },
+            "communityPost": {
+              "title": "Join the Community",
+              "description": "Introduce yourself",
+              "postContent": "Your First Post",
+              "placeholder": "Hi everyone! I'm excited to start...",
+              "addImage": "Add Image",
+              "hint": "Share about your fitness goals!"
+            }
+          },
+          "celebration": {
+            "title": "Welcome Aboard! 🎉",
+            "message": "You're all set!",
+            "cta": "Let's Go!"
+          }
+        },
+        "weather": {
+          "title": "現在の天気",
+          "temperature": "気温",
+          "feelsLike": "体感温度",
+          "wind": "風",
+          "humidity": "湿度",
+          "precipitation": "降水量（1時間）",
+          "pressure": "気圧",
+          "refresh": "更新",
+          "loading": "天気を読み込み中...",
+          "errors": {
+            "permissionDenied": "位置情報の許可が拒否されました",
+            "locationUnavailable": "位置情報が利用できません",
+            "timeout": "位置情報のリクエストがタイムアウトしました",
+            "failedToGetLocation": "位置情報の取得に失敗しました",
+            "notSupported": "お使いのブラウザは位置情報に対応していません"
+          },
+          "tryAgain": "再試行",
+          "recommendations": {
+            "good": "屋外トレーニングに最適な条件",
+            "caution": "困難な条件",
+            "poor": "屋内トレーニングをお勧めします",
+            "coldWeather": "寒い天気 - 暖かい服装で",
+            "coolWeather": "涼しい天気 - 重ね着してください",
+            "hotWeather": "暑い天気 - 水分補給を",
+            "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+            "highWinds": "強風 - 困難な条件",
+            "moderateWinds": "適度な風 - ペースを調整してください",
+            "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+            "lightRain": "雨が予想されます - 適切な装備を",
+            "idealConditions": "屋外活動に最適な条件",
+            "layerUp": "重ね着してゆっくりウォームアップ",
+            "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+            "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+            "windWarning": "強風は屋外活動に影響する可能性があります",
+            "rainfallExpected": "大雨が予想されます",
+            "lightRainExpected": "小雨が予想されます"
+          }
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
-    }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
     },
     "aiCoach": {
       "personality": "AIコーチのパーソナリティ",
@@ -1081,96 +1078,95 @@
       "personalityGamified": "🎮 ゲーミフィケーション - XPとクエスト",
       "personalityRecovery": "🌿 回復の賢者 - 長期的な健康",
       "personalityExecutive": "⏱️ エグゼクティブ - 時間効率的",
-      "personalityRealist": "🧢 リアリスト - 現実的"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+      "personalityRealist": "🧢 リアリスト - 現実的",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "現在の天気",
+        "temperature": "気温",
+        "feelsLike": "体感温度",
+        "wind": "風",
+        "humidity": "湿度",
+        "precipitation": "降水量（1時間）",
+        "pressure": "気圧",
+        "refresh": "更新",
+        "loading": "天気を読み込み中...",
+        "errors": {
+          "permissionDenied": "位置情報の許可が拒否されました",
+          "locationUnavailable": "位置情報が利用できません",
+          "timeout": "位置情報のリクエストがタイムアウトしました",
+          "failedToGetLocation": "位置情報の取得に失敗しました",
+          "notSupported": "お使いのブラウザは位置情報に対応していません"
+        },
+        "tryAgain": "再試行",
+        "recommendations": {
+          "good": "屋外トレーニングに最適な条件",
+          "caution": "困難な条件",
+          "poor": "屋内トレーニングをお勧めします",
+          "coldWeather": "寒い天気 - 暖かい服装で",
+          "coolWeather": "涼しい天気 - 重ね着してください",
+          "hotWeather": "暑い天気 - 水分補給を",
+          "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+          "highWinds": "強風 - 困難な条件",
+          "moderateWinds": "適度な風 - ペースを調整してください",
+          "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+          "lightRain": "雨が予想されます - 適切な装備を",
+          "idealConditions": "屋外活動に最適な条件",
+          "layerUp": "重ね着してゆっくりウォームアップ",
+          "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+          "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+          "windWarning": "強風は屋外活動に影響する可能性があります",
+          "rainfallExpected": "大雨が予想されます",
+          "lightRainExpected": "小雨が予想されます"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
   },
   "pages": {
     "title": "ページ管理",
@@ -1478,96 +1474,95 @@
         "active": "有効",
         "activeSubscriptions": "有効なサブスクリプション",
         "inactive": "無効",
-        "statusHint": "💡 有効なクーポンのみが顧客に使用可能です"
-      ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+        "statusHint": "💡 有効なクーポンのみが顧客に使用可能です",
+        "onboarding": {
+          "title": "Welcome! Let's Get Started",
+          "step": "Step {{current}} of {{total}}",
+          "skipStep": "Skip This Step",
+          "skipForNow": "Skip For Now",
+          "neverShow": "Never Show Again",
+          "confirmNeverShow": "Are you sure?",
+          "back": "Back",
+          "next": "Next",
+          "finish": "Finish",
+          "requiredFields": "Required fields",
+          "optional": "Optional",
+          "pleaseConnectIntegration": "Please connect at least one integration.",
+          "pleaseEnterPost": "Please enter text for your post.",
+          "clickToConnect": "Click to connect",
+          "resumeBanner": {
+            "title": "Complete Your Profile Setup",
+            "description": "Finish setting up your account"
+          },
+          "steps": {
+            "personalInfo": {
+              "title": "Personal Information",
+              "description": "Tell us about yourself"
+            },
+            "preferences": {
+              "title": "Set Your Preferences",
+              "description": "Customize your experience"
+            },
+            "integration": {
+              "title": "Connect Your Devices",
+              "description": "Connect a fitness tracker",
+              "hint": "After connecting, come back here."
+            },
+            "communityPost": {
+              "title": "Join the Community",
+              "description": "Introduce yourself",
+              "postContent": "Your First Post",
+              "placeholder": "Hi everyone! I'm excited to start...",
+              "addImage": "Add Image",
+              "hint": "Share about your fitness goals!"
+            }
+          },
+          "celebration": {
+            "title": "Welcome Aboard! 🎉",
+            "message": "You're all set!",
+            "cta": "Let's Go!"
+          }
+        },
+        "weather": {
+          "title": "現在の天気",
+          "temperature": "気温",
+          "feelsLike": "体感温度",
+          "wind": "風",
+          "humidity": "湿度",
+          "precipitation": "降水量（1時間）",
+          "pressure": "気圧",
+          "refresh": "更新",
+          "loading": "天気を読み込み中...",
+          "errors": {
+            "permissionDenied": "位置情報の許可が拒否されました",
+            "locationUnavailable": "位置情報が利用できません",
+            "timeout": "位置情報のリクエストがタイムアウトしました",
+            "failedToGetLocation": "位置情報の取得に失敗しました",
+            "notSupported": "お使いのブラウザは位置情報に対応していません"
+          },
+          "tryAgain": "再試行",
+          "recommendations": {
+            "good": "屋外トレーニングに最適な条件",
+            "caution": "困難な条件",
+            "poor": "屋内トレーニングをお勧めします",
+            "coldWeather": "寒い天気 - 暖かい服装で",
+            "coolWeather": "涼しい天気 - 重ね着してください",
+            "hotWeather": "暑い天気 - 水分補給を",
+            "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+            "highWinds": "強風 - 困難な条件",
+            "moderateWinds": "適度な風 - ペースを調整してください",
+            "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+            "lightRain": "雨が予想されます - 適切な装備を",
+            "idealConditions": "屋外活動に最適な条件",
+            "layerUp": "重ね着してゆっくりウォームアップ",
+            "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+            "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+            "windWarning": "強風は屋外活動に影響する可能性があります",
+            "rainfallExpected": "大雨が予想されます",
+            "lightRainExpected": "小雨が予想されます"
+          }
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
-    }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
     },
     "list": {
       "title": "クーポン",
@@ -1599,96 +1594,95 @@
       "noExpiry": "期限なし",
       "off": "割引",
       "confirmDelete": "クーポンを削除しますか？",
-      "deleteMessage": "このクーポンを削除してもよろしいですか？この操作は元に戻せません。"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+      "deleteMessage": "このクーポンを削除してもよろしいですか？この操作は元に戻せません。",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "現在の天気",
+        "temperature": "気温",
+        "feelsLike": "体感温度",
+        "wind": "風",
+        "humidity": "湿度",
+        "precipitation": "降水量（1時間）",
+        "pressure": "気圧",
+        "refresh": "更新",
+        "loading": "天気を読み込み中...",
+        "errors": {
+          "permissionDenied": "位置情報の許可が拒否されました",
+          "locationUnavailable": "位置情報が利用できません",
+          "timeout": "位置情報のリクエストがタイムアウトしました",
+          "failedToGetLocation": "位置情報の取得に失敗しました",
+          "notSupported": "お使いのブラウザは位置情報に対応していません"
+        },
+        "tryAgain": "再試行",
+        "recommendations": {
+          "good": "屋外トレーニングに最適な条件",
+          "caution": "困難な条件",
+          "poor": "屋内トレーニングをお勧めします",
+          "coldWeather": "寒い天気 - 暖かい服装で",
+          "coolWeather": "涼しい天気 - 重ね着してください",
+          "hotWeather": "暑い天気 - 水分補給を",
+          "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+          "highWinds": "強風 - 困難な条件",
+          "moderateWinds": "適度な風 - ペースを調整してください",
+          "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+          "lightRain": "雨が予想されます - 適切な装備を",
+          "idealConditions": "屋外活動に最適な条件",
+          "layerUp": "重ね着してゆっくりウォームアップ",
+          "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+          "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+          "windWarning": "強風は屋外活動に影響する可能性があります",
+          "rainfallExpected": "大雨が予想されます",
+          "lightRainExpected": "小雨が予想されます"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
   },
   "subscriptions": {
     "title": "サブスクリプション概要",
@@ -1737,96 +1731,95 @@
       "interval": "期間",
       "status": "ステータス",
       "renewalDate": "更新日",
-      "amount": "金額"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+      "amount": "金額",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "現在の天気",
+        "temperature": "気温",
+        "feelsLike": "体感温度",
+        "wind": "風",
+        "humidity": "湿度",
+        "precipitation": "降水量（1時間）",
+        "pressure": "気圧",
+        "refresh": "更新",
+        "loading": "天気を読み込み中...",
+        "errors": {
+          "permissionDenied": "位置情報の許可が拒否されました",
+          "locationUnavailable": "位置情報が利用できません",
+          "timeout": "位置情報のリクエストがタイムアウトしました",
+          "failedToGetLocation": "位置情報の取得に失敗しました",
+          "notSupported": "お使いのブラウザは位置情報に対応していません"
+        },
+        "tryAgain": "再試行",
+        "recommendations": {
+          "good": "屋外トレーニングに最適な条件",
+          "caution": "困難な条件",
+          "poor": "屋内トレーニングをお勧めします",
+          "coldWeather": "寒い天気 - 暖かい服装で",
+          "coolWeather": "涼しい天気 - 重ね着してください",
+          "hotWeather": "暑い天気 - 水分補給を",
+          "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+          "highWinds": "強風 - 困難な条件",
+          "moderateWinds": "適度な風 - ペースを調整してください",
+          "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+          "lightRain": "雨が予想されます - 適切な装備を",
+          "idealConditions": "屋外活動に最適な条件",
+          "layerUp": "重ね着してゆっくりウォームアップ",
+          "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+          "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+          "windWarning": "強風は屋外活動に影響する可能性があります",
+          "rainfallExpected": "大雨が予想されます",
+          "lightRainExpected": "小雨が予想されます"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
   },
   "emails": {
     "title": "メール管理",
@@ -2408,96 +2401,95 @@
       "5km": "5 km",
       "10km": "10 km",
       "halfMarathon": "ハーフマラソン",
-      "marathon": "マラソン"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+      "marathon": "マラソン",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "現在の天気",
+        "temperature": "気温",
+        "feelsLike": "体感温度",
+        "wind": "風",
+        "humidity": "湿度",
+        "precipitation": "降水量（1時間）",
+        "pressure": "気圧",
+        "refresh": "更新",
+        "loading": "天気を読み込み中...",
+        "errors": {
+          "permissionDenied": "位置情報の許可が拒否されました",
+          "locationUnavailable": "位置情報が利用できません",
+          "timeout": "位置情報のリクエストがタイムアウトしました",
+          "failedToGetLocation": "位置情報の取得に失敗しました",
+          "notSupported": "お使いのブラウザは位置情報に対応していません"
+        },
+        "tryAgain": "再試行",
+        "recommendations": {
+          "good": "屋外トレーニングに最適な条件",
+          "caution": "困難な条件",
+          "poor": "屋内トレーニングをお勧めします",
+          "coldWeather": "寒い天気 - 暖かい服装で",
+          "coolWeather": "涼しい天気 - 重ね着してください",
+          "hotWeather": "暑い天気 - 水分補給を",
+          "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+          "highWinds": "強風 - 困難な条件",
+          "moderateWinds": "適度な風 - ペースを調整してください",
+          "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+          "lightRain": "雨が予想されます - 適切な装備を",
+          "idealConditions": "屋外活動に最適な条件",
+          "layerUp": "重ね着してゆっくりウォームアップ",
+          "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+          "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+          "windWarning": "強風は屋外活動に影響する可能性があります",
+          "rainfallExpected": "大雨が予想されます",
+          "lightRainExpected": "小雨が予想されます"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
   },
   "athlete": {
     "follow": "フォローする",
@@ -2540,96 +2532,95 @@
       "sat": "土",
       "saturday": "土曜日",
       "sun": "日",
-      "sunday": "日曜日"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+      "sunday": "日曜日",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "現在の天気",
+        "temperature": "気温",
+        "feelsLike": "体感温度",
+        "wind": "風",
+        "humidity": "湿度",
+        "precipitation": "降水量（1時間）",
+        "pressure": "気圧",
+        "refresh": "更新",
+        "loading": "天気を読み込み中...",
+        "errors": {
+          "permissionDenied": "位置情報の許可が拒否されました",
+          "locationUnavailable": "位置情報が利用できません",
+          "timeout": "位置情報のリクエストがタイムアウトしました",
+          "failedToGetLocation": "位置情報の取得に失敗しました",
+          "notSupported": "お使いのブラウザは位置情報に対応していません"
+        },
+        "tryAgain": "再試行",
+        "recommendations": {
+          "good": "屋外トレーニングに最適な条件",
+          "caution": "困難な条件",
+          "poor": "屋内トレーニングをお勧めします",
+          "coldWeather": "寒い天気 - 暖かい服装で",
+          "coolWeather": "涼しい天気 - 重ね着してください",
+          "hotWeather": "暑い天気 - 水分補給を",
+          "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+          "highWinds": "強風 - 困難な条件",
+          "moderateWinds": "適度な風 - ペースを調整してください",
+          "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+          "lightRain": "雨が予想されます - 適切な装備を",
+          "idealConditions": "屋外活動に最適な条件",
+          "layerUp": "重ね着してゆっくりウォームアップ",
+          "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+          "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+          "windWarning": "強風は屋外活動に影響する可能性があります",
+          "rainfallExpected": "大雨が予想されます",
+          "lightRainExpected": "小雨が予想されます"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
   },
   "journal": {
     "title": "ジャーナル",
@@ -2738,13 +2729,6 @@
     "whatDidYouHave": "何をお召し上がりになりましたか？",
     "additionalNotes": "追加のメモ..."
   },
-  "onboarding": {
-    "title": "TrainSmartへようこそ",
-    "description": "トレーニングの旅を始めましょう",
-    "runningGoalsPlaceholder": "ランニングの目標は何ですか？",
-    "startCoaching": "コーチングを始める",
-    "insightMessage": "この情報を使用して、あなたの体験をパーソナライズします"
-  },
   "reports": {
     "title": "レポート",
     "description": "生成されたレポートを表示します",
@@ -2771,185 +2755,183 @@
       },
       "racePrep": {
         "name": "レース準備",
-        "prompt": "レースへの準備度はどのくらいですか？"
-      ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+        "prompt": "レースへの準備度はどのくらいですか？",
+        "onboarding": {
+          "title": "Welcome! Let's Get Started",
+          "step": "Step {{current}} of {{total}}",
+          "skipStep": "Skip This Step",
+          "skipForNow": "Skip For Now",
+          "neverShow": "Never Show Again",
+          "confirmNeverShow": "Are you sure?",
+          "back": "Back",
+          "next": "Next",
+          "finish": "Finish",
+          "requiredFields": "Required fields",
+          "optional": "Optional",
+          "pleaseConnectIntegration": "Please connect at least one integration.",
+          "pleaseEnterPost": "Please enter text for your post.",
+          "clickToConnect": "Click to connect",
+          "resumeBanner": {
+            "title": "Complete Your Profile Setup",
+            "description": "Finish setting up your account"
+          },
+          "steps": {
+            "personalInfo": {
+              "title": "Personal Information",
+              "description": "Tell us about yourself"
+            },
+            "preferences": {
+              "title": "Set Your Preferences",
+              "description": "Customize your experience"
+            },
+            "integration": {
+              "title": "Connect Your Devices",
+              "description": "Connect a fitness tracker",
+              "hint": "After connecting, come back here."
+            },
+            "communityPost": {
+              "title": "Join the Community",
+              "description": "Introduce yourself",
+              "postContent": "Your First Post",
+              "placeholder": "Hi everyone! I'm excited to start...",
+              "addImage": "Add Image",
+              "hint": "Share about your fitness goals!"
+            }
+          },
+          "celebration": {
+            "title": "Welcome Aboard! 🎉",
+            "message": "You're all set!",
+            "cta": "Let's Go!"
+          }
+        },
+        "weather": {
+          "title": "現在の天気",
+          "temperature": "気温",
+          "feelsLike": "体感温度",
+          "wind": "風",
+          "humidity": "湿度",
+          "precipitation": "降水量（1時間）",
+          "pressure": "気圧",
+          "refresh": "更新",
+          "loading": "天気を読み込み中...",
+          "errors": {
+            "permissionDenied": "位置情報の許可が拒否されました",
+            "locationUnavailable": "位置情報が利用できません",
+            "timeout": "位置情報のリクエストがタイムアウトしました",
+            "failedToGetLocation": "位置情報の取得に失敗しました",
+            "notSupported": "お使いのブラウザは位置情報に対応していません"
+          },
+          "tryAgain": "再試行",
+          "recommendations": {
+            "good": "屋外トレーニングに最適な条件",
+            "caution": "困難な条件",
+            "poor": "屋内トレーニングをお勧めします",
+            "coldWeather": "寒い天気 - 暖かい服装で",
+            "coolWeather": "涼しい天気 - 重ね着してください",
+            "hotWeather": "暑い天気 - 水分補給を",
+            "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+            "highWinds": "強風 - 困難な条件",
+            "moderateWinds": "適度な風 - ペースを調整してください",
+            "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+            "lightRain": "雨が予想されます - 適切な装備を",
+            "idealConditions": "屋外活動に最適な条件",
+            "layerUp": "重ね着してゆっくりウォームアップ",
+            "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+            "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+            "windWarning": "強風は屋外活動に影響する可能性があります",
+            "rainfallExpected": "大雨が予想されます",
+            "lightRainExpected": "小雨が予想されます"
+          }
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "現在の天気",
+        "temperature": "気温",
+        "feelsLike": "体感温度",
+        "wind": "風",
+        "humidity": "湿度",
+        "precipitation": "降水量（1時間）",
+        "pressure": "気圧",
+        "refresh": "更新",
+        "loading": "天気を読み込み中...",
+        "errors": {
+          "permissionDenied": "位置情報の許可が拒否されました",
+          "locationUnavailable": "位置情報が利用できません",
+          "timeout": "位置情報のリクエストがタイムアウトしました",
+          "failedToGetLocation": "位置情報の取得に失敗しました",
+          "notSupported": "お使いのブラウザは位置情報に対応していません"
+        },
+        "tryAgain": "再試行",
+        "recommendations": {
+          "good": "屋外トレーニングに最適な条件",
+          "caution": "困難な条件",
+          "poor": "屋内トレーニングをお勧めします",
+          "coldWeather": "寒い天気 - 暖かい服装で",
+          "coolWeather": "涼しい天気 - 重ね着してください",
+          "hotWeather": "暑い天気 - 水分補給を",
+          "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+          "highWinds": "強風 - 困難な条件",
+          "moderateWinds": "適度な風 - ペースを調整してください",
+          "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+          "lightRain": "雨が予想されます - 適切な装備を",
+          "idealConditions": "屋外活動に最適な条件",
+          "layerUp": "重ね着してゆっくりウォームアップ",
+          "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+          "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+          "windWarning": "強風は屋外活動に影響する可能性があります",
+          "rainfallExpected": "大雨が予想されます",
+          "lightRainExpected": "小雨が予想されます"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
-      }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
-    }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
   },
   "voiceChat": {
     "startVoice": "ボイスチャットを開始",
@@ -3034,7 +3016,15 @@
     "conversions": "コンバージョン数",
     "conversionRate": "コンバージョン率",
     "loading": "読み込み中...",
-    "tryAgain": "もう一度試してください"
+    "tryAgain": "もう一度試してください",
+    "description": "{{appName}}を友達と共有して報酬を獲得しましょう！友達が登録すると、あなたと友達の両方が割引コードを受け取ります。",
+    "shareMessage": "{{appName}}をチェックしてください！私の紹介リンクを使って参加してください：{{link}}",
+    "emailSubject": "私の紹介リンクで{{appName}}に参加",
+    "emailBody": "{{appName}}をあなたと共有したいと思いました！私の紹介リンクを使って参加すると、両方とも報酬を受け取ります：{{link}}",
+    "howItWorksInfo": "友達が登録するたびに、次回の支払いで{{discount}}%の割引を獲得",
+    "discountAvailable": "{{discount}}%割引可能",
+    "discount": "{{percent}}%割引",
+    "expires": "{{date}}に期限切れ"
   },
   "calculators": {
     "title": "ランニング計算機",
@@ -3208,96 +3198,95 @@
       "saveLog": "記録を保存",
       "cancel": "キャンセル",
       "noSupplementsConfigured": "サプリメントがまだ設定されていません",
-      "goToSupplements": "サプリメントへ"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+      "goToSupplements": "サプリメントへ",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "現在の天気",
+        "temperature": "気温",
+        "feelsLike": "体感温度",
+        "wind": "風",
+        "humidity": "湿度",
+        "precipitation": "降水量（1時間）",
+        "pressure": "気圧",
+        "refresh": "更新",
+        "loading": "天気を読み込み中...",
+        "errors": {
+          "permissionDenied": "位置情報の許可が拒否されました",
+          "locationUnavailable": "位置情報が利用できません",
+          "timeout": "位置情報のリクエストがタイムアウトしました",
+          "failedToGetLocation": "位置情報の取得に失敗しました",
+          "notSupported": "お使いのブラウザは位置情報に対応していません"
+        },
+        "tryAgain": "再試行",
+        "recommendations": {
+          "good": "屋外トレーニングに最適な条件",
+          "caution": "困難な条件",
+          "poor": "屋内トレーニングをお勧めします",
+          "coldWeather": "寒い天気 - 暖かい服装で",
+          "coolWeather": "涼しい天気 - 重ね着してください",
+          "hotWeather": "暑い天気 - 水分補給を",
+          "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+          "highWinds": "強風 - 困難な条件",
+          "moderateWinds": "適度な風 - ペースを調整してください",
+          "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+          "lightRain": "雨が予想されます - 適切な装備を",
+          "idealConditions": "屋外活動に最適な条件",
+          "layerUp": "重ね着してゆっくりウォームアップ",
+          "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+          "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+          "windWarning": "強風は屋外活動に影響する可能性があります",
+          "rainfallExpected": "大雨が予想されます",
+          "lightRainExpected": "小雨が予想されます"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
   },
   "recipes": {
     "title": "レシピ",
@@ -3442,182 +3431,93 @@
     "connectIntegrations": "Oura、Strava、または他の統合を接続してボディスコアを計算",
     "missingData": "不足データ",
     "noData": "データなし",
-    "error": "読み込み失敗"
-  ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+    "error": "読み込み失敗",
+    "onboarding": {
+      "title": "Welcome! Let's Get Started",
+      "step": "Step {{current}} of {{total}}",
+      "skipStep": "Skip This Step",
+      "skipForNow": "Skip For Now",
+      "neverShow": "Never Show Again",
+      "confirmNeverShow": "Are you sure?",
+      "back": "Back",
+      "next": "Next",
+      "finish": "Finish",
+      "requiredFields": "Required fields",
+      "optional": "Optional",
+      "pleaseConnectIntegration": "Please connect at least one integration.",
+      "pleaseEnterPost": "Please enter text for your post.",
+      "clickToConnect": "Click to connect",
+      "resumeBanner": {
+        "title": "Complete Your Profile Setup",
+        "description": "Finish setting up your account"
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
+      "steps": {
+        "personalInfo": {
+          "title": "Personal Information",
+          "description": "Tell us about yourself"
+        },
+        "preferences": {
+          "title": "Set Your Preferences",
+          "description": "Customize your experience"
+        },
+        "integration": {
+          "title": "Connect Your Devices",
+          "description": "Connect a fitness tracker",
+          "hint": "After connecting, come back here."
+        },
+        "communityPost": {
+          "title": "Join the Community",
+          "description": "Introduce yourself",
+          "postContent": "Your First Post",
+          "placeholder": "Hi everyone! I'm excited to start...",
+          "addImage": "Add Image",
+          "hint": "Share about your fitness goals!"
+        }
       },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "celebration": {
+        "title": "Welcome Aboard! 🎉",
+        "message": "You're all set!",
+        "cta": "Let's Go!"
       }
     },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
-    }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
-    }
-  }
-}
-,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+    "weather": {
+      "title": "現在の天気",
+      "temperature": "気温",
+      "feelsLike": "体感温度",
+      "wind": "風",
+      "humidity": "湿度",
+      "precipitation": "降水量（1時間）",
+      "pressure": "気圧",
+      "refresh": "更新",
+      "loading": "天気を読み込み中...",
+      "errors": {
+        "permissionDenied": "位置情報の許可が拒否されました",
+        "locationUnavailable": "位置情報が利用できません",
+        "timeout": "位置情報のリクエストがタイムアウトしました",
+        "failedToGetLocation": "位置情報の取得に失敗しました",
+        "notSupported": "お使いのブラウザは位置情報に対応していません"
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "tryAgain": "再試行",
+      "recommendations": {
+        "good": "屋外トレーニングに最適な条件",
+        "caution": "困難な条件",
+        "poor": "屋内トレーニングをお勧めします",
+        "coldWeather": "寒い天気 - 暖かい服装で",
+        "coolWeather": "涼しい天気 - 重ね着してください",
+        "hotWeather": "暑い天気 - 水分補給を",
+        "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
+        "highWinds": "強風 - 困難な条件",
+        "moderateWinds": "適度な風 - ペースを調整してください",
+        "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
+        "lightRain": "雨が予想されます - 適切な装備を",
+        "idealConditions": "屋外活動に最適な条件",
+        "layerUp": "重ね着してゆっくりウォームアップ",
+        "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
+        "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
+        "windWarning": "強風は屋外活動に影響する可能性があります",
+        "rainfallExpected": "大雨が予想されます",
+        "lightRainExpected": "小雨が予想されます"
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
-    }
-  },
-  "weather": {
-    "title": "現在の天気",
-    "temperature": "気温",
-    "feelsLike": "体感温度",
-    "wind": "風",
-    "humidity": "湿度",
-    "precipitation": "降水量（1時間）",
-    "pressure": "気圧",
-    "refresh": "更新",
-    "loading": "天気を読み込み中...",
-    "errors": {
-      "permissionDenied": "位置情報の許可が拒否されました",
-      "locationUnavailable": "位置情報が利用できません",
-      "timeout": "位置情報のリクエストがタイムアウトしました",
-      "failedToGetLocation": "位置情報の取得に失敗しました",
-      "notSupported": "お使いのブラウザは位置情報に対応していません"
-    },
-    "tryAgain": "再試行",
-    "recommendations": {
-      "good": "屋外トレーニングに最適な条件",
-      "caution": "困難な条件",
-      "poor": "屋内トレーニングをお勧めします",
-      "coldWeather": "寒い天気 - 暖かい服装で",
-      "coolWeather": "涼しい天気 - 重ね着してください",
-      "hotWeather": "暑い天気 - 水分補給を",
-      "veryHot": "非常に暑い - 屋内トレーニングをお勧めします",
-      "highWinds": "強風 - 困難な条件",
-      "moderateWinds": "適度な風 - ペースを調整してください",
-      "heavyRain": "大雨 - 屋内トレーニングをお勧めします",
-      "lightRain": "雨が予想されます - 適切な装備を",
-      "idealConditions": "屋外活動に最適な条件",
-      "layerUp": "重ね着してゆっくりウォームアップ",
-      "bringWater": "余分な水を持参し、早朝/夕方のトレーニングを検討してください",
-      "heatRisk": "高い熱リスク - 屋内の代替を検討してください",
-      "windWarning": "強風は屋外活動に影響する可能性があります",
-      "rainfallExpected": "大雨が予想されます",
-      "lightRainExpected": "小雨が予想されます"
     }
   }
 }

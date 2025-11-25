@@ -107,96 +107,95 @@
       "addJournalEntry": "添加日记条目",
       "logDrink": "记录饮品",
       "logSupplement": "记录补剂",
-      "logMeal": "记录餐食"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+      "logMeal": "记录餐食",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "weather": {
+        "title": "当前天气",
+        "temperature": "温度",
+        "feelsLike": "体感温度",
+        "wind": "风",
+        "humidity": "湿度",
+        "precipitation": "降水量（1小时）",
+        "pressure": "气压",
+        "refresh": "刷新",
+        "loading": "正在加载天气...",
+        "errors": {
+          "permissionDenied": "位置权限被拒绝",
+          "locationUnavailable": "位置不可用",
+          "timeout": "位置请求超时",
+          "failedToGetLocation": "无法获取您的位置",
+          "notSupported": "您的浏览器不支持地理定位"
+        },
+        "tryAgain": "重试",
+        "recommendations": {
+          "good": "适合户外训练的好天气",
+          "caution": "具有挑战性的条件",
+          "poor": "建议室内训练",
+          "coldWeather": "寒冷天气 - 保暖穿衣",
+          "coolWeather": "凉爽天气 - 分层穿衣",
+          "hotWeather": "炎热天气 - 保持水分",
+          "veryHot": "非常炎热 - 建议室内训练",
+          "highWinds": "大风 - 具有挑战性的条件",
+          "moderateWinds": "中等风力 - 调整配速",
+          "heavyRain": "大雨 - 建议室内训练",
+          "lightRain": "预计有雨 - 带上合适的装备",
+          "idealConditions": "户外活动的理想条件",
+          "layerUp": "分层穿衣并逐渐热身",
+          "bringWater": "带上额外的水并考虑清晨/傍晚训练",
+          "heatRisk": "高温风险 - 考虑室内替代方案",
+          "windWarning": "强风可能影响户外活动",
+          "rainfallExpected": "预计有大降雨",
+          "lightRainExpected": "预计有小雨"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  },
-  "weather": {
-    "title": "当前天气",
-    "temperature": "温度",
-    "feelsLike": "体感温度",
-    "wind": "风",
-    "humidity": "湿度",
-    "precipitation": "降水量（1小时）",
-    "pressure": "气压",
-    "refresh": "刷新",
-    "loading": "正在加载天气...",
-    "errors": {
-      "permissionDenied": "位置权限被拒绝",
-      "locationUnavailable": "位置不可用",
-      "timeout": "位置请求超时",
-      "failedToGetLocation": "无法获取您的位置",
-      "notSupported": "您的浏览器不支持地理定位"
-    },
-    "tryAgain": "重试",
-    "recommendations": {
-      "good": "适合户外训练的好天气",
-      "caution": "具有挑战性的条件",
-      "poor": "建议室内训练",
-      "coldWeather": "寒冷天气 - 保暖穿衣",
-      "coolWeather": "凉爽天气 - 分层穿衣",
-      "hotWeather": "炎热天气 - 保持水分",
-      "veryHot": "非常炎热 - 建议室内训练",
-      "highWinds": "大风 - 具有挑战性的条件",
-      "moderateWinds": "中等风力 - 调整配速",
-      "heavyRain": "大雨 - 建议室内训练",
-      "lightRain": "预计有雨 - 带上合适的装备",
-      "idealConditions": "户外活动的理想条件",
-      "layerUp": "分层穿衣并逐渐热身",
-      "bringWater": "带上额外的水并考虑清晨/傍晚训练",
-      "heatRisk": "高温风险 - 考虑室内替代方案",
-      "windWarning": "强风可能影响户外活动",
-      "rainfallExpected": "预计有大降雨",
-      "lightRainExpected": "预计有小雨"
-    }
-  }
-}
   },
   "readiness": {
     "title": "准备情况",
@@ -560,57 +559,56 @@
     "messages": {
       "failedToLoadProfile": "加载个人资料失败",
       "failedToProcessImage": "图片处理失败",
-      "oneVideoPerPost": "每篇帖子仅可包含一个视频"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "oneVideoPerPost": "每篇帖子仅可包含一个视频",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  }
-}
   },
   "account": {
     "title": "账户设置",
@@ -937,57 +935,56 @@
     "tabs": {
       "profile": {
         "description": "描述",
-        "interests": "兴趣"
-      ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+        "interests": "兴趣",
+        "onboarding": {
+          "title": "Welcome! Let's Get Started",
+          "step": "Step {{current}} of {{total}}",
+          "skipStep": "Skip This Step",
+          "skipForNow": "Skip For Now",
+          "neverShow": "Never Show Again",
+          "confirmNeverShow": "Are you sure?",
+          "back": "Back",
+          "next": "Next",
+          "finish": "Finish",
+          "requiredFields": "Required fields",
+          "optional": "Optional",
+          "pleaseConnectIntegration": "Please connect at least one integration.",
+          "pleaseEnterPost": "Please enter text for your post.",
+          "clickToConnect": "Click to connect",
+          "resumeBanner": {
+            "title": "Complete Your Profile Setup",
+            "description": "Finish setting up your account"
+          },
+          "steps": {
+            "personalInfo": {
+              "title": "Personal Information",
+              "description": "Tell us about yourself"
+            },
+            "preferences": {
+              "title": "Set Your Preferences",
+              "description": "Customize your experience"
+            },
+            "integration": {
+              "title": "Connect Your Devices",
+              "description": "Connect a fitness tracker",
+              "hint": "After connecting, come back here."
+            },
+            "communityPost": {
+              "title": "Join the Community",
+              "description": "Introduce yourself",
+              "postContent": "Your First Post",
+              "placeholder": "Hi everyone! I'm excited to start...",
+              "addImage": "Add Image",
+              "hint": "Share about your fitness goals!"
+            }
+          },
+          "celebration": {
+            "title": "Welcome Aboard! 🎉",
+            "message": "You're all set!",
+            "cta": "Let's Go!"
+          }
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
-    }
-  }
-}
     },
     "aiCoach": {
       "personality": "AI教练个性",
@@ -1002,57 +999,56 @@
       "personalityGamified": "🎮 游戏化 - 经验值和任务",
       "personalityRecovery": "🌿 恢复智者 - 长期健康",
       "personalityExecutive": "⏱️ 高管 - 时间高效",
-      "personalityRealist": "🧢 现实主义者 - 脚踏实地"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "personalityRealist": "🧢 现实主义者 - 脚踏实地",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  }
-}
   },
   "pages": {
     "title": "页面管理",
@@ -1360,57 +1356,56 @@
         "active": "有效",
         "activeSubscriptions": "有效订阅",
         "inactive": "无效",
-        "statusHint": "💡 只有有效的优惠券才能被客户使用"
-      ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+        "statusHint": "💡 只有有效的优惠券才能被客户使用",
+        "onboarding": {
+          "title": "Welcome! Let's Get Started",
+          "step": "Step {{current}} of {{total}}",
+          "skipStep": "Skip This Step",
+          "skipForNow": "Skip For Now",
+          "neverShow": "Never Show Again",
+          "confirmNeverShow": "Are you sure?",
+          "back": "Back",
+          "next": "Next",
+          "finish": "Finish",
+          "requiredFields": "Required fields",
+          "optional": "Optional",
+          "pleaseConnectIntegration": "Please connect at least one integration.",
+          "pleaseEnterPost": "Please enter text for your post.",
+          "clickToConnect": "Click to connect",
+          "resumeBanner": {
+            "title": "Complete Your Profile Setup",
+            "description": "Finish setting up your account"
+          },
+          "steps": {
+            "personalInfo": {
+              "title": "Personal Information",
+              "description": "Tell us about yourself"
+            },
+            "preferences": {
+              "title": "Set Your Preferences",
+              "description": "Customize your experience"
+            },
+            "integration": {
+              "title": "Connect Your Devices",
+              "description": "Connect a fitness tracker",
+              "hint": "After connecting, come back here."
+            },
+            "communityPost": {
+              "title": "Join the Community",
+              "description": "Introduce yourself",
+              "postContent": "Your First Post",
+              "placeholder": "Hi everyone! I'm excited to start...",
+              "addImage": "Add Image",
+              "hint": "Share about your fitness goals!"
+            }
+          },
+          "celebration": {
+            "title": "Welcome Aboard! 🎉",
+            "message": "You're all set!",
+            "cta": "Let's Go!"
+          }
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
-    }
-  }
-}
     },
     "list": {
       "title": "优惠券",
@@ -1442,57 +1437,56 @@
       "noExpiry": "无限期",
       "off": "折",
       "confirmDelete": "删除优惠券？",
-      "deleteMessage": "您确定要删除此优惠券吗？此操作无法撤销。"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "deleteMessage": "您确定要删除此优惠券吗？此操作无法撤销。",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  }
-}
   },
   "subscriptions": {
     "title": "订阅概览",
@@ -1541,57 +1535,56 @@
       "interval": "间隔",
       "status": "状态",
       "renewalDate": "续订日期",
-      "amount": "金额"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "amount": "金额",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  }
-}
   },
   "emails": {
     "title": "邮件管理",
@@ -2134,57 +2127,56 @@
       "5km": "5 公里",
       "10km": "10 公里",
       "halfMarathon": "半程马拉松",
-      "marathon": "马拉松"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "marathon": "马拉松",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  }
-}
   },
   "athlete": {
     "follow": "关注",
@@ -2227,57 +2219,56 @@
       "sat": "周六",
       "saturday": "星期六",
       "sun": "周日",
-      "sunday": "星期日"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "sunday": "星期日",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  }
-}
   },
   "journal": {
     "title": "日志",
@@ -2386,13 +2377,6 @@
     "whatDidYouHave": "你吃了什么？",
     "additionalNotes": "附加备注..."
   },
-  "onboarding": {
-    "title": "欢迎使用TrainSmart",
-    "description": "让我们开始您的训练旅程",
-    "runningGoalsPlaceholder": "您的跑步目标是什么？",
-    "startCoaching": "开始指导",
-    "insightMessage": "我们将使用这些信息为您个性化体验"
-  },
   "reports": {
     "title": "报告",
     "description": "查看您生成的报告",
@@ -2419,107 +2403,105 @@
       },
       "racePrep": {
         "name": "比赛准备",
-        "prompt": "我对比赛的准备程度如何？"
-      ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+        "prompt": "我对比赛的准备程度如何？",
+        "onboarding": {
+          "title": "Welcome! Let's Get Started",
+          "step": "Step {{current}} of {{total}}",
+          "skipStep": "Skip This Step",
+          "skipForNow": "Skip For Now",
+          "neverShow": "Never Show Again",
+          "confirmNeverShow": "Are you sure?",
+          "back": "Back",
+          "next": "Next",
+          "finish": "Finish",
+          "requiredFields": "Required fields",
+          "optional": "Optional",
+          "pleaseConnectIntegration": "Please connect at least one integration.",
+          "pleaseEnterPost": "Please enter text for your post.",
+          "clickToConnect": "Click to connect",
+          "resumeBanner": {
+            "title": "Complete Your Profile Setup",
+            "description": "Finish setting up your account"
+          },
+          "steps": {
+            "personalInfo": {
+              "title": "Personal Information",
+              "description": "Tell us about yourself"
+            },
+            "preferences": {
+              "title": "Set Your Preferences",
+              "description": "Customize your experience"
+            },
+            "integration": {
+              "title": "Connect Your Devices",
+              "description": "Connect a fitness tracker",
+              "hint": "After connecting, come back here."
+            },
+            "communityPost": {
+              "title": "Join the Community",
+              "description": "Introduce yourself",
+              "postContent": "Your First Post",
+              "placeholder": "Hi everyone! I'm excited to start...",
+              "addImage": "Add Image",
+              "hint": "Share about your fitness goals!"
+            }
+          },
+          "celebration": {
+            "title": "Welcome Aboard! 🎉",
+            "message": "You're all set!",
+            "cta": "Let's Go!"
+          }
+        }
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  }
-}
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
-      }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
-    }
-  }
-}
   },
   "voiceChat": {
     "startVoice": "开始语音聊天",
@@ -2604,7 +2586,15 @@
     "conversions": "转化",
     "conversionRate": "转化率",
     "loading": "加载中...",
-    "tryAgain": "再试一次"
+    "tryAgain": "再试一次",
+    "description": "与朋友分享{{appName}}并获得奖励！当他们订阅时，您和您的朋友都会获得折扣码。",
+    "shareMessage": "查看{{appName}}！使用我的推荐链接加入：{{link}}",
+    "emailSubject": "使用我的推荐链接加入{{appName}}",
+    "emailBody": "我想与您分享{{appName}}！使用我的推荐链接加入，我们都会获得奖励：{{link}}",
+    "howItWorksInfo": "每推荐一位订阅的朋友，下次付款可获得{{discount}}%折扣",
+    "discountAvailable": "{{discount}}%折扣可用",
+    "discount": "{{percent}}%折扣",
+    "expires": "{{date}}到期"
   },
   "calculators": {
     "title": "跑步计算器",
@@ -2778,57 +2768,56 @@
       "saveLog": "保存记录",
       "cancel": "取消",
       "noSupplementsConfigured": "尚未配置补充剂",
-      "goToSupplements": "前往补充剂"
-    ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "goToSupplements": "前往补充剂",
+      "onboarding": {
+        "title": "Welcome! Let's Get Started",
+        "step": "Step {{current}} of {{total}}",
+        "skipStep": "Skip This Step",
+        "skipForNow": "Skip For Now",
+        "neverShow": "Never Show Again",
+        "confirmNeverShow": "Are you sure?",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "requiredFields": "Required fields",
+        "optional": "Optional",
+        "pleaseConnectIntegration": "Please connect at least one integration.",
+        "pleaseEnterPost": "Please enter text for your post.",
+        "clickToConnect": "Click to connect",
+        "resumeBanner": {
+          "title": "Complete Your Profile Setup",
+          "description": "Finish setting up your account"
+        },
+        "steps": {
+          "personalInfo": {
+            "title": "Personal Information",
+            "description": "Tell us about yourself"
+          },
+          "preferences": {
+            "title": "Set Your Preferences",
+            "description": "Customize your experience"
+          },
+          "integration": {
+            "title": "Connect Your Devices",
+            "description": "Connect a fitness tracker",
+            "hint": "After connecting, come back here."
+          },
+          "communityPost": {
+            "title": "Join the Community",
+            "description": "Introduce yourself",
+            "postContent": "Your First Post",
+            "placeholder": "Hi everyone! I'm excited to start...",
+            "addImage": "Add Image",
+            "hint": "Share about your fitness goals!"
+          }
+        },
+        "celebration": {
+          "title": "Welcome Aboard! 🎉",
+          "message": "You're all set!",
+          "cta": "Let's Go!"
+        }
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
-  }
-}
   },
   "recipes": {
     "title": "食谱",
@@ -2973,104 +2962,54 @@
     "connectIntegrations": "连接Oura、Strava或其他集成来计算您的身体评分",
     "missingData": "缺少数据",
     "noData": "无可用数据",
-    "error": "加载失败"
-  ,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
+    "error": "加载失败",
+    "onboarding": {
+      "title": "Welcome! Let's Get Started",
+      "step": "Step {{current}} of {{total}}",
+      "skipStep": "Skip This Step",
+      "skipForNow": "Skip For Now",
+      "neverShow": "Never Show Again",
+      "confirmNeverShow": "Are you sure?",
+      "back": "Back",
+      "next": "Next",
+      "finish": "Finish",
+      "requiredFields": "Required fields",
+      "optional": "Optional",
+      "pleaseConnectIntegration": "Please connect at least one integration.",
+      "pleaseEnterPost": "Please enter text for your post.",
+      "clickToConnect": "Click to connect",
+      "resumeBanner": {
+        "title": "Complete Your Profile Setup",
+        "description": "Finish setting up your account"
       },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
+      "steps": {
+        "personalInfo": {
+          "title": "Personal Information",
+          "description": "Tell us about yourself"
+        },
+        "preferences": {
+          "title": "Set Your Preferences",
+          "description": "Customize your experience"
+        },
+        "integration": {
+          "title": "Connect Your Devices",
+          "description": "Connect a fitness tracker",
+          "hint": "After connecting, come back here."
+        },
+        "communityPost": {
+          "title": "Join the Community",
+          "description": "Introduce yourself",
+          "postContent": "Your First Post",
+          "placeholder": "Hi everyone! I'm excited to start...",
+          "addImage": "Add Image",
+          "hint": "Share about your fitness goals!"
+        }
       },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
+      "celebration": {
+        "title": "Welcome Aboard! 🎉",
+        "message": "You're all set!",
+        "cta": "Let's Go!"
       }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
-    }
-  }
-}
-,
-  "onboarding": {
-    "title": "Welcome! Let's Get Started",
-    "step": "Step {{current}} of {{total}}",
-    "skipStep": "Skip This Step",
-    "skipForNow": "Skip For Now",
-    "neverShow": "Never Show Again",
-    "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
-    "finish": "Finish",
-    "requiredFields": "Required fields",
-    "optional": "Optional",
-    "pleaseConnectIntegration": "Please connect at least one integration.",
-    "pleaseEnterPost": "Please enter text for your post.",
-    "clickToConnect": "Click to connect",
-    "resumeBanner": {
-      "title": "Complete Your Profile Setup",
-      "description": "Finish setting up your account"
-    },
-    "steps": {
-      "personalInfo": {
-        "title": "Personal Information",
-        "description": "Tell us about yourself"
-      },
-      "preferences": {
-        "title": "Set Your Preferences",
-        "description": "Customize your experience"
-      },
-      "integration": {
-        "title": "Connect Your Devices",
-        "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
-      },
-      "communityPost": {
-        "title": "Join the Community",
-        "description": "Introduce yourself",
-        "postContent": "Your First Post",
-        "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
-        "hint": "Share about your fitness goals!"
-      }
-    },
-    "celebration": {
-      "title": "Welcome Aboard! 🎉",
-      "message": "You're all set!",
-      "cta": "Let's Go!"
     }
   }
 }
