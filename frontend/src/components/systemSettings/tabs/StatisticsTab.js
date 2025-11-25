@@ -23,6 +23,7 @@ const StatisticsTab = ({
   const { t } = useTranslation();
   const [waitlistIntegrations, setWaitlistIntegrations] = useState({ distribution: [], total_entries: 0 });
   const [connectedIntegrations, setConnectedIntegrations] = useState({ distribution: [], total_connections: 0 });
+  const [genderDistribution, setGenderDistribution] = useState({ distribution: [], total_users: 0 });
   const [loadingIntegrations, setLoadingIntegrations] = useState(true);
   
   const athleteId = localStorage.getItem('session_id');
@@ -46,6 +47,12 @@ const StatisticsTab = ({
         params: { athlete_id: athleteId }
       });
       setConnectedIntegrations(connectedResponse.data);
+      
+      // Fetch gender distribution stats
+      const genderResponse = await axios.get(`${API}/system/gender-distribution-stats`, {
+        params: { athlete_id: athleteId }
+      });
+      setGenderDistribution(genderResponse.data);
     } catch (error) {
       logger.error(null, 'Error loading integration stats:', error);
     } finally {
