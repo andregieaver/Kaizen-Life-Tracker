@@ -41,6 +41,7 @@ const AgentModal = ({ athleteId, agent, onClose }) => {
     custom_instructions: agent?.custom_instructions || '',
     voice: agent?.voice || 'alloy',
     personality: agent?.personality || '',
+    accessibility: agent?.accessibility || 'frontend',
     is_active: agent?.is_active ?? true,
   });
   
