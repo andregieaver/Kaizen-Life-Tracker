@@ -243,7 +243,7 @@ class RealtimeAudioChat {
     }
 }
 
-const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError, apiBasePath = '/coach/voice' }, ref) => {
+const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError, apiBasePath = '/coach/voice', autoStart = false }, ref) => {
     const { t } = useTranslation();
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
@@ -270,6 +270,17 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError, apiBasePat
         
         checkMicPermission();
     }, []);
+
+    // Auto-start voice chat if autoStart is true
+    useEffect(() => {
+        if (autoStart && !isConnected && !isConnecting) {
+            // Small delay to ensure component is mounted
+            const timer = setTimeout(() => {
+                startVoiceChat();
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [autoStart]);
 
     const startVoiceChat = useCallback(async () => {
         logger.debug(null, '=== VOICECHAT: startVoiceChat called ===');
