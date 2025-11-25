@@ -9297,6 +9297,24 @@ async def chat_with_agent(request: AgentChatRequest):
                             "required": ["stat_type"]
                         }
                     }
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "inspect_application",
+                        "description": "Get comprehensive information about the application structure, database schema, available collections, and current state. Use this first to understand what data and capabilities are available.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "aspect": {
+                                    "type": "string",
+                                    "description": "What aspect to inspect",
+                                    "enum": ["database_schema", "collections", "sample_data", "system_info", "all"]
+                                }
+                            },
+                            "required": ["aspect"]
+                        }
+                    }
                 }
             ]
         
