@@ -108,26 +108,20 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
-        {/* Navigation */}
-        <Link
-          to="/login"
-          className="inline-flex items-center text-gray-300 hover:text-white transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          {t('auth.backToLogin')}
-        </Link>
+    <>
+      <LoggedOutHeader />
+      
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4 pt-20">
+        <div className="w-full max-w-md space-y-6">
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="text-4xl font-display font-bold text-white mb-2">
+              My Health Tracker
+            </h1>
+            <p className="text-gray-300">{t('auth.forgotPasswordSubtitle')}</p>
+          </div>
 
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-4xl font-display font-bold text-white mb-2">
-            My Health Tracker
-          </h1>
-          <p className="text-gray-300">{t('auth.forgotPasswordSubtitle')}</p>
-        </div>
-
-        {/* Forgot Password Card */}
+          {/* Forgot Password Card */}
         <Card className="bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-2xl">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl flex items-center justify-center text-white">
