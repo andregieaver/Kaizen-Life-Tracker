@@ -190,7 +190,7 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
             ref={voiceChatRef}
             athleteId={athleteId}
             apiBasePath="/management-agent/voice"
-            backendUrl={process.env.REACT_APP_BACKEND_URL}
+            backendUrl={BACKEND_URL}
             autoStart={true}
           />
         </div>
