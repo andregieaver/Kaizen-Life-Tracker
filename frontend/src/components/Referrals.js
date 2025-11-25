@@ -5,6 +5,7 @@ import { Gift, Copy, Check, Facebook, Mail, ExternalLink, TrendingUp, Users as U
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
+import { initializeSiteTitle } from '../utils/siteTitle';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
