@@ -108,7 +108,7 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
 
       {/* Voice Mode Button - 30° (1 o'clock position) */}
       <button
-        onClick={() => selectMode('voice')}
+        onClick={startVoiceMode}
         className="fixed z-40 w-12 h-12 rounded-full flex items-center justify-center"
         style={{
           bottom: `calc(90px - ${(1 - footerProgress) * 100}px)`,
