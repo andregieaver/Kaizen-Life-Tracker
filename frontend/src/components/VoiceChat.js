@@ -311,7 +311,7 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError, apiBasePat
                 realtimeChatRef.current = null;
             }
         }
-    }, [backendUrl, athleteId, isConnecting, isConnected, micPermission, onError]);
+    }, [backendUrl, athleteId, isConnecting, isConnected, micPermission, onError, apiBasePath]);
 
     const stopVoiceChat = useCallback(async () => {
         if (!isConnected) return;
