@@ -180,7 +180,7 @@ const AgentModal = ({ athleteId, agent, onClose }) => {
             <div className="relative">
               {profileImage ? (
                 <img
-                  src={profileImage}
+                  src={profileImage.startsWith('data:') ? profileImage : `${BACKEND_URL}${profileImage}`}
                   alt="Agent profile"
                   className="w-24 h-24 rounded-full object-cover border-4 border-gray-700"
                 />
