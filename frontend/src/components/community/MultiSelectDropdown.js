@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronDown, X, Check } from 'lucide-react';
+import { ChevronDown, X, Check, Plus } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
 const MultiSelectDropdown = ({ 
@@ -8,7 +8,8 @@ const MultiSelectDropdown = ({
   options = [], 
   placeholder = 'Select options...',
   searchPlaceholder = 'Search...',
-  emptyText = 'No options found'
+  emptyText = 'No options found',
+  allowCustom = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,16 +17,34 @@ const MultiSelectDropdown = ({
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
-  // Update dropdown position when opened
-  useEffect(() => {
+  // Function to update dropdown position
+  const updatePosition = () => {
     if (isOpen && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setDropdownPosition({
-        top: rect.bottom + 8, // Just 8px below the button, using viewport coordinates
+        top: rect.bottom + 8,
         left: rect.left,
         width: rect.width
       });
     }
+  };
+
+  // Update position when opened
+  useEffect(() => {
+    updatePosition();
+  }, [isOpen]);
+
+  // Update position on scroll and resize
+  useEffect(() => {
+    if (!isOpen) return;
+
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
   }, [isOpen]);
 
   // Close dropdown when clicking outside
@@ -34,6 +53,7 @@ const MultiSelectDropdown = ({
       if (dropdownRef.current && !dropdownRef.current.contains(event.target) &&
           buttonRef.current && !buttonRef.current.contains(event.target)) {
         setIsOpen(false);
+        setSearchTerm('');
       }
     };
 
@@ -52,16 +72,35 @@ const MultiSelectDropdown = ({
     onChange(newValue);
   };
 
+  const handleAddCustom = () => {
+    if (searchTerm.trim() && !value.includes(searchTerm.trim())) {
+      onChange([...value, searchTerm.trim()]);
+      setSearchTerm('');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && allowCustom && searchTerm.trim()) {
+      e.preventDefault();
+      handleAddCustom();
+    }
+  };
+
   const removeItem = (optionValue, e) => {
     e.stopPropagation();
     onChange(value.filter(v => v !== optionValue));
   };
 
   const getSelectedLabels = () => {
-    return options
-      .filter(opt => value.includes(opt.value))
-      .map(opt => opt.label);
+    return value.map(val => {
+      const option = options.find(opt => opt.value === val);
+      return option ? option.label : val; // Show custom value if not in options
+    });
   };
+
+  const showAddCustomButton = allowCustom && searchTerm.trim() && 
+    !options.some(opt => opt.label.toLowerCase() === searchTerm.toLowerCase()) &&
+    !value.includes(searchTerm.trim());
 
   const dropdownContent = isOpen && (
     <div 
@@ -88,6 +127,7 @@ const MultiSelectDropdown = ({
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder={searchPlaceholder}
             className="w-full px-3 py-2 text-sm text-white rounded focus:ring-2 focus:ring-[#32D3FF] focus:outline-none"
             style={{
@@ -96,10 +136,26 @@ const MultiSelectDropdown = ({
             }}
             onClick={(e) => e.stopPropagation()}
           />
+          {allowCustom && (
+            <p className="text-xs text-gray-400 mt-1 px-1">
+              Press Enter to add custom integration
+            </p>
+          )}
         </div>
 
         <div className="max-h-60 overflow-y-auto custom-scrollbar">
-          {filteredOptions.length === 0 ? (
+          {showAddCustomButton && (
+            <button
+              type="button"
+              onClick={handleAddCustom}
+              className="w-full px-4 py-2.5 text-left text-sm text-[#32D3FF] hover:bg-gray-700/50 transition-colors flex items-center gap-2 border-b border-gray-700/50"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add "{searchTerm}"</span>
+            </button>
+          )}
+          
+          {filteredOptions.length === 0 && !showAddCustomButton ? (
             <div className="px-4 py-3 text-sm text-gray-400 text-center">
               {emptyText}
             </div>
@@ -153,7 +209,7 @@ const MultiSelectDropdown = ({
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    const optionValue = options.find(opt => opt.label === label)?.value;
+                    const optionValue = value[index];
                     if (optionValue) removeItem(optionValue, e);
                   }}
                   className="ml-1 hover:text-white"
