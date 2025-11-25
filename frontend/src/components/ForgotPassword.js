@@ -21,21 +21,11 @@ const ForgotPassword = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [resetToken, setResetToken] = useState('');
   const [error, setError] = useState('');
-  const [siteTitle, setSiteTitle] = useState('TrainSmart');
+  const [siteTitle, setSiteTitle] = useState('');
   
-  // Fetch site title from system settings
-  React.useEffect(() => {
-    const fetchSiteTitle = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
-        if (response.data?.seo?.siteTitle) {
-          setSiteTitle(response.data.seo.siteTitle);
-        }
-      } catch (error) {
-        logger.error(null, 'Error fetching site title:', error);
-      }
-    };
-    fetchSiteTitle();
+  // Initialize site title with cached value and background fetch
+  useEffect(() => {
+    initializeSiteTitle(setSiteTitle);
   }, []);
 
   const handleSubmit = async (e) => {
