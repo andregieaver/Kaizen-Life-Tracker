@@ -9210,16 +9210,48 @@ async def chat_with_agent(request: AgentChatRequest):
             )
         
         # Use emergentintegrations LlmChat
-        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        from emergentintegrations.llm.chat import LlmChat, UserMessage, AssistantMessage
         
         session_id = request.session_id or f"agent_chat_{uuid.uuid4()}"
         
+        # Load conversation history for this session
+        conversation_history = []
+        if request.session_id:
+            history_records = await db.agent_conversations.find(
+                {
+                    "agent_id": request.agent_id,
+                    "session_id": session_id,
+                    "athlete_id": request.athlete_id or "guest"
+                },
+                {"_id": 0}
+            ).sort("timestamp", 1).to_list(length=50)  # Last 50 messages
+            
+            # Convert to chat messages format
+            for record in history_records:
+                conversation_history.append({
+                    "role": "user",
+                    "content": record.get("message", "")
+                })
+                conversation_history.append({
+                    "role": "assistant", 
+                    "content": record.get("response", "")
+                })
+        
+        # Initialize chat with system message
         chat = LlmChat(
             api_key=openai_key,
             session_id=session_id,
             system_message=agent_obj.get("custom_instructions")
-        ).with_model("openai", "gpt-4o")  # Using gpt-4o for now
+        ).with_model("openai", "gpt-4o")
         
+        # Add conversation history to the chat context
+        for msg in conversation_history:
+            if msg["role"] == "user":
+                chat.messages.append(UserMessage(text=msg["content"]))
+            elif msg["role"] == "assistant":
+                chat.messages.append(AssistantMessage(text=msg["content"]))
+        
+        # Send new user message
         user_message = UserMessage(text=request.message)
         response = await chat.send_message(user_message)
         
@@ -9238,7 +9270,8 @@ async def chat_with_agent(request: AgentChatRequest):
         return {
             "response": response,
             "session_id": session_id,
-            "agent_name": agent_obj.get("name")
+            "agent_name": agent_obj.get("name"),
+            "conversation_length": len(conversation_history) + 2  # Including current exchange
         }
         
     except HTTPException:
