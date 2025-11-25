@@ -82,8 +82,8 @@ p {
 /* Custom input focus states */
 .input-focus:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #32D3FF;
+  box-shadow: 0 0 0 3px rgba(50, 211, 255, 0.1);
 }
 
 /* Readiness score animation */
