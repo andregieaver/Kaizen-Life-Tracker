@@ -1240,6 +1240,7 @@ class Agent(BaseModel):
     custom_instructions: str
     voice: str = 'alloy'  # OpenAI Realtime API voices
     personality: Optional[str] = None  # zen, science, tough, cheerleader, etc.
+    accessibility: str = 'frontend'  # frontend, logged_in, admin
     is_active: bool = True
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -1249,6 +1250,7 @@ class AgentCreateRequest(BaseModel):
     custom_instructions: str
     voice: str = 'alloy'
     personality: Optional[str] = None
+    accessibility: str = 'frontend'
     is_active: bool = True
 
 class AgentUpdateRequest(BaseModel):
@@ -1256,6 +1258,7 @@ class AgentUpdateRequest(BaseModel):
     custom_instructions: Optional[str] = None
     voice: Optional[str] = None
     personality: Optional[str] = None
+    accessibility: Optional[str] = None
     is_active: Optional[bool] = None
     profile_image_url: Optional[str] = None
 
