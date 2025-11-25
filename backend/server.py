@@ -15186,6 +15186,87 @@ async def get_system_stats(athlete_id: str):
         logging.error(f"Error getting system stats: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to retrieve system stats: {str(e)}")
 
+@api_router.get("/system/waitlist-integration-stats")
+async def get_waitlist_integration_stats(athlete_id: str):
+    """Get distribution of desired integrations from waitlist (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get all waitlist entries with integrations
+        entries = await db.waiting_list.find(
+            {"integrations": {"$exists": True, "$ne": []}},
+            {"integrations": 1}
+        ).to_list(length=None)
+        
+        # Count integration occurrences
+        integration_counts = {}
+        total_entries = 0
+        
+        for entry in entries:
+            integrations = entry.get('integrations', [])
+            if integrations:
+                total_entries += 1
+                for integration in integrations:
+                    integration = integration.strip()  # Clean up whitespace
+                    if integration:  # Skip empty strings
+                        integration_counts[integration] = integration_counts.get(integration, 0) + 1
+        
+        # Convert to list of objects sorted by count
+        distribution = [
+            {"name": name, "count": count}
+            for name, count in sorted(integration_counts.items(), key=lambda x: x[1], reverse=True)
+        ]
+        
+        return {
+            "distribution": distribution,
+            "total_entries": total_entries,
+            "unique_integrations": len(integration_counts)
+        }
+    except Exception as e:
+        logging.error(f"Error getting waitlist integration stats: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve waitlist integration stats: {str(e)}")
+
+@api_router.get("/system/connected-integration-stats")
+async def get_connected_integration_stats(athlete_id: str):
+    """Get distribution of connected integrations from users (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get all integrations from the integrations collection
+        integrations = await db.integrations.find(
+            {},
+            {"provider": 1, "user_id": 1}
+        ).to_list(length=None)
+        
+        # Count integration occurrences by provider
+        provider_counts = {}
+        unique_users = set()
+        
+        for integration in integrations:
+            provider = integration.get('provider', 'Unknown')
+            user_id = integration.get('user_id')
+            
+            if user_id:
+                unique_users.add(user_id)
+            
+            provider_counts[provider] = provider_counts.get(provider, 0) + 1
+        
+        # Convert to list of objects sorted by count
+        distribution = [
+            {"name": name, "count": count}
+            for name, count in sorted(provider_counts.items(), key=lambda x: x[1], reverse=True)
+        ]
+        
+        return {
+            "distribution": distribution,
+            "total_connections": len(integrations),
+            "unique_users": len(unique_users),
+            "unique_providers": len(provider_counts)
+        }
+    except Exception as e:
+        logging.error(f"Error getting connected integration stats: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve connected integration stats: {str(e)}")
+
 # Email Template Routes
 @api_router.get("/email-templates")
 async def get_email_templates():
