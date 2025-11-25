@@ -220,7 +220,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
             {isSlideout && (
               <button
                 type="button"
-                onClick={addSeparator}
+                onClick={() => addSeparator(menuType)}
                 className="flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white p-2 sm:px-3 sm:py-2 rounded-full sm:rounded-lg text-sm transition-colors"
               >
                 <Plus className="w-4 h-4" />
