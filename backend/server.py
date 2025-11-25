@@ -19631,7 +19631,7 @@ async def get_waiting_list(
         entries = await db.waiting_list.find(
             query,
             {"_id": 0}
-        ).sort("created_at", -1).skip(skip).limit(limit).limit(100).to_list(length=100)
+        ).sort("created_at", -1).skip(skip).to_list(length=min(limit, 100))
         
         # Get total count
         total_count = await db.waiting_list.count_documents(query)
