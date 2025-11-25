@@ -16862,10 +16862,7 @@ async def get_menus(athlete_id: str):
         # Get menus from system settings or return defaults
         settings = await db.system_settings.find_one({})
         
-        if settings and "menus" in settings:
-            return settings["menus"]
-        
-        # Return default menus if not configured
+        # Define default menus structure
         default_menus = {
             "header_logged_out": [
                 {"id": str(uuid.uuid4()), "label": "Home", "url": "/", "order": 0},
@@ -16888,6 +16885,18 @@ async def get_menus(athlete_id: str):
                 {"id": str(uuid.uuid4()), "label": "Login", "url": "/login", "order": 2, "icon": "LogIn"}
             ]
         }
+        
+        if settings and "menus" in settings:
+            saved_menus = settings["menus"]
+            # Merge saved menus with defaults to ensure all menu types exist
+            # This handles cases where old database entries don't have slideout_menu_logged_out
+            result_menus = {}
+            for menu_type in ["header_logged_out", "header_logged_in", "slideout_menu", "slideout_menu_logged_out"]:
+                if menu_type in saved_menus and isinstance(saved_menus[menu_type], list):
+                    result_menus[menu_type] = saved_menus[menu_type]
+                else:
+                    result_menus[menu_type] = default_menus[menu_type]
+            return result_menus
         
         return default_menus
     except Exception as e:
