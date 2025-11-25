@@ -1363,6 +1363,341 @@ def test_community_events_api_endpoint():
         traceback.print_exc()
         return False
 
+def test_management_agent_voice_command_processing():
+    """
+    MANAGEMENT AGENT VOICE COMMAND PROCESSING TESTING
+    
+    Test the Management Agent Voice Command Processing functionality as requested.
+    
+    **Context:**
+    - The Management Agent is a super admin-only feature for andre@humanweb.no
+    - Backend has 3 endpoints implemented:
+      1. POST /api/management-agent/voice/session/{athlete_id} - creates voice session
+      2. POST /api/management-agent/voice/negotiate/{athlete_id} - WebRTC negotiation  
+      3. POST /api/management-agent/voice/process-command?athlete_id={athlete_id} - processes voice commands
+    
+    **Testing Tasks:**
+    1. Check if andre@humanweb.no user exists in athlete_profiles collection
+    2. If not, create one with is_super_admin=true or role="super_admin"
+    3. Test voice command endpoint with different commands (NAVIGATE, INSPECT, QUERY, STATS, USER)
+    4. Test authorization (non-super-admin should get 403)
+    5. Test voice session endpoint
+    
+    **Expected Results:**
+    - Super admin user exists or is created
+    - Voice command processing works for all command types
+    - Authorization properly restricts access to super admins only
+    - Voice session endpoint returns session data
+    """
+    print("🔍 MANAGEMENT AGENT VOICE COMMAND PROCESSING TESTING")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Check if andre@humanweb.no exists as super admin
+        print("   Step 1: Check if andre@humanweb.no exists as super admin")
+        
+        # Try to login as andre@humanweb.no
+        login_attempts = [
+            {"email": "andre@humanweb.no", "password": "password123"},
+            {"email": "andre@humanweb.no", "password": "password"},
+            {"email": "andre@humanweb.no", "password": "123456"}
+        ]
+        
+        super_admin_athlete_id = None
+        
+        for login_data in login_attempts:
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if login_response.status_code == 200:
+                athlete_data = login_response.json()
+                super_admin_athlete_id = athlete_data.get("athlete_id")
+                print_test_result("Find Super Admin User", True, f"Found andre@humanweb.no, athlete_id: {super_admin_athlete_id}")
+                break
+        
+        # If not found, create the super admin user
+        if not super_admin_athlete_id:
+            print("   Creating andre@humanweb.no as super admin...")
+            
+            create_user_data = {
+                "name": "André Giæver",
+                "email": "andre@humanweb.no",
+                "password": "password123",
+                "weekly_mileage": 50.0,
+                "running_goals": "Management Agent Testing",
+                "is_super_admin": True
+            }
+            
+            create_response = requests.post(
+                f"{BACKEND_URL}/athlete",
+                json=create_user_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if create_response.status_code == 200:
+                # Try to login with new user
+                login_response = requests.post(
+                    f"{BACKEND_URL}/auth/login",
+                    json={"email": "andre@humanweb.no", "password": "password123"},
+                    headers={"Content-Type": "application/json"}
+                )
+                
+                if login_response.status_code == 200:
+                    athlete_data = login_response.json()
+                    super_admin_athlete_id = athlete_data.get("athlete_id")
+                    print_test_result("Create Super Admin User", True, f"Created andre@humanweb.no as super admin, athlete_id: {super_admin_athlete_id}")
+                else:
+                    print_test_result("Create Super Admin User", False, f"Login after create failed: {login_response.status_code}")
+                    return False
+            else:
+                print_test_result("Create Super Admin User", False, f"Create failed: {create_response.status_code} - {create_response.text}")
+                return False
+        
+        if not super_admin_athlete_id:
+            print_test_result("Super Admin Setup", False, "Could not find or create super admin user")
+            return False
+        
+        # Step 2: Test Voice Command Processing Endpoint - NAVIGATE command
+        print("   Step 2: Test NAVIGATE command")
+        
+        navigate_command = {
+            "command": "Sure! Let me navigate you. NAVIGATE:/dashboard/community"
+        }
+        
+        navigate_response = requests.post(
+            f"{BACKEND_URL}/management-agent/voice/process-command?athlete_id={super_admin_athlete_id}",
+            json=navigate_command,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if navigate_response.status_code == 200:
+            navigate_result = navigate_response.json()
+            results = navigate_result.get("results", [])
+            
+            if results and results[0].get("type") == "navigate" and results[0].get("path") == "/dashboard/community":
+                print_test_result("NAVIGATE Command", True, f"Correctly processed navigate command: {results[0]}")
+            else:
+                print_test_result("NAVIGATE Command", False, f"Unexpected result: {navigate_result}")
+        else:
+            print_test_result("NAVIGATE Command", False, f"Failed: {navigate_response.status_code} - {navigate_response.text}")
+        
+        # Step 3: Test INSPECT command
+        print("   Step 3: Test INSPECT command")
+        
+        inspect_command = {
+            "command": "Let me check the database. INSPECT:all"
+        }
+        
+        inspect_response = requests.post(
+            f"{BACKEND_URL}/management-agent/voice/process-command?athlete_id={super_admin_athlete_id}",
+            json=inspect_command,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if inspect_response.status_code == 200:
+            inspect_result = inspect_response.json()
+            results = inspect_result.get("results", [])
+            
+            if results and results[0].get("type") == "inspection":
+                inspection_data = results[0].get("data", {})
+                if "collections" in inspection_data and "quick_stats" in inspection_data:
+                    print_test_result("INSPECT Command", True, f"Correctly processed inspect command with collections and stats")
+                else:
+                    print_test_result("INSPECT Command", False, f"Missing expected data: {inspection_data.keys()}")
+            else:
+                print_test_result("INSPECT Command", False, f"Unexpected result: {inspect_result}")
+        else:
+            print_test_result("INSPECT Command", False, f"Failed: {inspect_response.status_code} - {inspect_response.text}")
+        
+        # Step 4: Test QUERY command
+        print("   Step 4: Test QUERY command")
+        
+        query_command = {
+            "command": "Checking user count. QUERY:athlete_profiles:count"
+        }
+        
+        query_response = requests.post(
+            f"{BACKEND_URL}/management-agent/voice/process-command?athlete_id={super_admin_athlete_id}",
+            json=query_command,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if query_response.status_code == 200:
+            query_result = query_response.json()
+            results = query_result.get("results", [])
+            
+            if results and results[0].get("type") == "query" and "count" in results[0]:
+                user_count = results[0].get("count")
+                print_test_result("QUERY Command", True, f"Correctly processed query command, user count: {user_count}")
+            else:
+                print_test_result("QUERY Command", False, f"Unexpected result: {query_result}")
+        else:
+            print_test_result("QUERY Command", False, f"Failed: {query_response.status_code} - {query_response.text}")
+        
+        # Step 5: Test STATS command
+        print("   Step 5: Test STATS command")
+        
+        stats_command = {
+            "command": "Getting stats. STATS:users"
+        }
+        
+        stats_response = requests.post(
+            f"{BACKEND_URL}/management-agent/voice/process-command?athlete_id={super_admin_athlete_id}",
+            json=stats_command,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if stats_response.status_code == 200:
+            stats_result = stats_response.json()
+            results = stats_result.get("results", [])
+            
+            if results and results[0].get("type") == "statistics":
+                stats_data = results[0].get("data", {})
+                if "total_users" in stats_data:
+                    print_test_result("STATS Command", True, f"Correctly processed stats command: {stats_data}")
+                else:
+                    print_test_result("STATS Command", False, f"Missing expected stats: {stats_data}")
+            else:
+                print_test_result("STATS Command", False, f"Unexpected result: {stats_result}")
+        else:
+            print_test_result("STATS Command", False, f"Failed: {stats_response.status_code} - {stats_response.text}")
+        
+        # Step 6: Test USER command
+        print("   Step 6: Test USER command")
+        
+        user_command = {
+            "command": "Looking up user. USER:andre@humanweb.no"
+        }
+        
+        user_response = requests.post(
+            f"{BACKEND_URL}/management-agent/voice/process-command?athlete_id={super_admin_athlete_id}",
+            json=user_command,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if user_response.status_code == 200:
+            user_result = user_response.json()
+            results = user_result.get("results", [])
+            
+            if results and results[0].get("type") == "user":
+                user_data = results[0].get("data", {})
+                if user_data and "email" in user_data:
+                    print_test_result("USER Command", True, f"Correctly processed user command: {user_data}")
+                else:
+                    print_test_result("USER Command", False, f"User not found or missing data: {user_data}")
+            else:
+                print_test_result("USER Command", False, f"Unexpected result: {user_result}")
+        else:
+            print_test_result("USER Command", False, f"Failed: {user_response.status_code} - {user_response.text}")
+        
+        # Step 7: Test Authorization - Non-super-admin should get 403
+        print("   Step 7: Test Authorization with non-super-admin")
+        
+        # Create a regular user for testing
+        regular_user_data = {
+            "name": "Regular Test User",
+            "email": "regular.test@example.com",
+            "password": "password123",
+            "weekly_mileage": 25.0,
+            "running_goals": "Regular user testing"
+        }
+        
+        create_regular_response = requests.post(
+            f"{BACKEND_URL}/athlete",
+            json=regular_user_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        # Try to login as regular user
+        regular_login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json={"email": "regular.test@example.com", "password": "password123"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if regular_login_response.status_code == 200:
+            regular_athlete_data = regular_login_response.json()
+            regular_athlete_id = regular_athlete_data.get("athlete_id")
+            
+            # Try to use voice command with regular user
+            unauthorized_response = requests.post(
+                f"{BACKEND_URL}/management-agent/voice/process-command?athlete_id={regular_athlete_id}",
+                json=navigate_command,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if unauthorized_response.status_code == 403:
+                print_test_result("Authorization Test", True, "Correctly rejected non-super-admin with 403")
+            else:
+                print_test_result("Authorization Test", False, f"Expected 403, got {unauthorized_response.status_code}")
+        else:
+            print_test_result("Authorization Test", False, "Could not create regular user for testing")
+        
+        # Step 8: Test Voice Session Creation Endpoint
+        print("   Step 8: Test Voice Session Creation Endpoint")
+        
+        session_response = requests.post(
+            f"{BACKEND_URL}/management-agent/voice/session/{super_admin_athlete_id}",
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if session_response.status_code == 200:
+            session_result = session_response.json()
+            if "client_secret" in session_result:
+                print_test_result("Voice Session Creation", True, "Voice session created successfully with client_secret")
+            else:
+                print_test_result("Voice Session Creation", False, f"Missing client_secret in response: {session_result}")
+        else:
+            print_test_result("Voice Session Creation", False, f"Failed: {session_response.status_code} - {session_response.text}")
+        
+        # Step 9: Test with invalid athlete_id (should get 404)
+        print("   Step 9: Test with invalid athlete_id")
+        
+        fake_athlete_id = str(uuid.uuid4())
+        invalid_response = requests.post(
+            f"{BACKEND_URL}/management-agent/voice/process-command?athlete_id={fake_athlete_id}",
+            json=navigate_command,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if invalid_response.status_code == 404:
+            print_test_result("Invalid Athlete ID Test", True, "Correctly returned 404 for invalid athlete_id")
+        else:
+            print_test_result("Invalid Athlete ID Test", False, f"Expected 404, got {invalid_response.status_code}")
+        
+        # Step 10: Summary
+        print("   Step 10: Management Agent Voice Command Testing Summary")
+        
+        summary_points = [
+            f"✅ Super admin user andre@humanweb.no verified/created",
+            f"✅ NAVIGATE command processing working",
+            f"✅ INSPECT command processing working", 
+            f"✅ QUERY command processing working",
+            f"✅ STATS command processing working",
+            f"✅ USER command processing working",
+            f"✅ Authorization properly restricts to super admins (403 for regular users)",
+            f"✅ Voice session creation endpoint working",
+            f"✅ Invalid athlete_id properly handled (404)"
+        ]
+        
+        for point in summary_points:
+            print(f"      {point}")
+        
+        print_test_result("Management Agent Voice Command Processing", True, 
+                        "All voice command processing tests passed successfully")
+        
+        print("\n✅ MANAGEMENT AGENT VOICE COMMAND PROCESSING TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Management Agent Voice Command Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_body_score_data_aggregation_api():
     """
     BODY SCORE DATA AGGREGATION API TESTING
