@@ -322,6 +322,7 @@ const Login = ({ onAthleteLogin }) => {
         </p>
       </div>
     </div>
+    </>
   );
 };
 
