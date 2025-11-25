@@ -73,7 +73,7 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
 
       {/* Text Mode Button - 0° (3 o'clock - straight right) */}
       <button
-        onClick={() => selectMode('text')}
+        onClick={openTextMode}
         className="fixed z-40 w-12 h-12 rounded-full flex items-center justify-center"
         style={{
           bottom: `calc(90px - ${(1 - footerProgress) * 100}px)`,
