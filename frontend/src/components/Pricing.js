@@ -8,6 +8,7 @@ import { Badge } from './ui/badge';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
 import { ecommerce, track } from '../lib/analytics';
 import LoggedOutHeader from './LoggedOutHeader';
+import { initializeSiteTitle } from '../utils/siteTitle';
 
 import { logger } from '../utils/logger';
 const Pricing = () => {
