@@ -1443,6 +1443,7 @@
     "fromName": "From Name",
     "tabs": {
       "advanced": "Advanced",
+      "agents": "Agents",
       "cookies": "Cookies",
       "coupons": "Coupons",
       "plans": "Plans",
