@@ -4,23 +4,35 @@ import ManagementAgentChat from './ManagementAgentChat';
 
 const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
   const [showMgmtMenu, setShowMgmtMenu] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [mode, setMode] = useState(null); // 'text' or 'voice'
+  const [showTextChat, setShowTextChat] = useState(false);
+  const [isVoiceActive, setIsVoiceActive] = useState(false);
+  const voiceChatRef = React.useRef(null);
 
   // Only render for super admin
   if (!isSuperAdmin) {
     return null;
   }
 
-  const selectMode = (selectedMode) => {
-    setMode(selectedMode);
-    setIsOpen(true);
+  const openTextMode = () => {
+    setShowTextChat(true);
     setShowMgmtMenu(false);
   };
 
-  const closeChat = () => {
-    setIsOpen(false);
-    setMode(null);
+  const startVoiceMode = async () => {
+    setShowMgmtMenu(false);
+    setIsVoiceActive(true);
+    // Voice will auto-start via VoiceChat component
+  };
+
+  const stopVoice = () => {
+    if (voiceChatRef.current) {
+      voiceChatRef.current.stopVoiceChat();
+    }
+    setIsVoiceActive(false);
+  };
+
+  const closeTextChat = () => {
+    setShowTextChat(false);
   };
 
   return (
