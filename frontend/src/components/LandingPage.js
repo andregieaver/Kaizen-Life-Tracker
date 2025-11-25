@@ -332,6 +332,15 @@ const WaitingListSection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!formData.gdprConsent) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please accept the privacy policy to continue.'
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus({ type: '', message: '' });
 
@@ -341,7 +350,7 @@ const WaitingListSection = () => {
         type: 'success',
         message: '🎉 Success! You\'re on the waiting list. We\'ll be in touch soon!'
       });
-      setFormData({ name: '', email: '', nationality: '', integrations: [], notes: '' });
+      setFormData({ name: '', email: '', nationality: '', integrations: [], notes: '', gdprConsent: false });
     } catch (error) {
       setSubmitStatus({
         type: 'error',
