@@ -9,6 +9,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [agents, setAgents] = useState([]);
   const [selectedAgent, setSelectedAgent] = useState(null);
