@@ -38,10 +38,8 @@ const StatisticsTab = ({
   }, [athleteId]);
   
   const loadIntegrationStats = async () => {
-    const athleteId = localStorage.getItem('session_id');
-    
     if (!athleteId) {
-      logger.error(null, 'Cannot load stats: No athleteId in localStorage');
+      logger.error(null, 'Cannot load stats: No athleteId provided');
       setLoadingIntegrations(false);
       return;
     }
