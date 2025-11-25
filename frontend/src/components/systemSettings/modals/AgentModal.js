@@ -1,6 +1,12 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { X, Upload, Bot } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '../../ui/dialog';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
