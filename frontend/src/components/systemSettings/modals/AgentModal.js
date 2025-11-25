@@ -165,23 +165,16 @@ const AgentModal = ({ athleteId, agent, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="bg-gray-900 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700">
-          <h2 className="text-2xl font-bold text-white">
+    <Dialog open={true} onOpenChange={() => onClose(false)}>
+      <DialogContent className="bg-gray-900 text-white max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold">
             {isEditing ? 'Edit Agent' : 'Create New Agent'}
-          </h2>
-          <button
-            onClick={() => onClose(false)}
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+          </DialogTitle>
+        </DialogHeader>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Profile Image */}
           <div className="flex flex-col items-center space-y-3">
             <div className="relative">
