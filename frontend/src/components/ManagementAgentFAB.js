@@ -199,6 +199,7 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
             apiBasePath="/management-agent/voice"
             backendUrl={BACKEND_URL}
             autoStart={true}
+            onError={handleVoiceError}
           />
         </div>
       )}
