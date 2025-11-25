@@ -75,7 +75,9 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
-    }
+    },
+    "description": "Lad os komme i gang med din træningsrejse",
+    "insightMessage": "Vi vil bruge disse oplysninger til at tilpasse din oplevelse"
   },
   "dashboard": {
     "welcome": "Velkommen tilbage",

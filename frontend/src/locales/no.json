@@ -1977,7 +1977,9 @@
       "title": "Velkommen ombord! 🎉",
       "message": "Du er klar til å starte treningsreisen din!",
       "cta": "La oss kjøre!"
-    }
+    },
+    "description": "La oss komme i gang med treningsreisen din",
+    "insightMessage": "Vi vil bruke denne informasjonen til å tilpasse opplevelsen din"
   },
   "reports": {
     "title": "Rapporter",

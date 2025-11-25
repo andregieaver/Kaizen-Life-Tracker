@@ -75,7 +75,9 @@
       "title": "Välkommen ombord! 🎉",
       "message": "Du är redo att starta din träningsresa!",
       "cta": "Låt oss köra!"
-    }
+    },
+    "description": "Låt oss börja med din träningsresa",
+    "insightMessage": "Vi kommer att använda denna information för att anpassa din upplevelse"
   },
   "dashboard": {
     "welcome": "Bon retour",

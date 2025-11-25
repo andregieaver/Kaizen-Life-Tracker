@@ -75,7 +75,9 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
-    }
+    },
+    "description": "Lassen Sie uns mit Ihrer Trainingsreise beginnen",
+    "insightMessage": "Wir werden diese Informationen verwenden, um Ihr Erlebnis zu personalisieren"
   },
   "dashboard": {
     "welcome": "Bon retour",

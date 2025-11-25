@@ -2334,7 +2334,9 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
-    }
+    },
+    "description": "トレーニングの旅を始めましょう",
+    "insightMessage": "この情報を使用して、あなたの体験をパーソナライズします"
   },
   "weather": {
     "title": "現在の天気",

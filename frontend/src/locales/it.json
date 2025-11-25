@@ -2061,7 +2061,9 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
-    }
+    },
+    "description": "Iniziamo il tuo percorso di allenamento",
+    "insightMessage": "Useremo queste informazioni per personalizzare la tua esperienza"
   },
   "merits": {
     "title": "Meriti",

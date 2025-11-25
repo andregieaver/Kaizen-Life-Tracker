@@ -2099,7 +2099,9 @@
       "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
       "cta": "Let's Go!"
-    }
+    },
+    "description": "让我们开始您的训练之旅",
+    "insightMessage": "我们将使用此信息来个性化您的体验"
   },
   "merits": {
     "title": "成就",
