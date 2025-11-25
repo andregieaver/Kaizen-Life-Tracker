@@ -130,7 +130,7 @@ const ForgotPassword = () => {
         <Card className="bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-2xl">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl flex items-center justify-center text-white">
-              <Mail className="w-6 h-6 mr-2 text-teal-400" />
+              <Mail className="w-6 h-6 mr-2 text-[#32D3FF]" />
               {t('auth.forgotPassword')}
             </CardTitle>
             <CardDescription className="text-gray-300">
@@ -153,7 +153,11 @@ const ForgotPassword = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('auth.emailPlaceholder')}
-                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-teal-500 focus:ring-teal-500"
+                  className="input-focus text-white placeholder-gray-400"
+                  style={{
+                    background: 'rgba(17, 24, 39, 0.5)',
+                    border: '1px solid rgba(71, 85, 105, 0.3)'
+                  }}
                   required
                   disabled={isLoading}
                 />
@@ -161,7 +165,7 @@ const ForgotPassword = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 btn-transition"
+                className="w-full bg-[#32D3FF] hover:bg-[#1FC1FF] text-white font-medium py-3 btn-transition"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -183,7 +187,7 @@ const ForgotPassword = () => {
                 {t('auth.rememberPassword')}{' '}
                 <Link 
                   to="/login" 
-                  className="text-teal-400 hover:text-teal-300 font-medium hover:underline"
+                  className="text-[#32D3FF] hover:text-[#1FC1FF] font-medium hover:underline"
                 >
                   {t('auth.loginHere')}
                 </Link>
