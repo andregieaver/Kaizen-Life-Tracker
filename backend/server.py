@@ -9164,6 +9164,91 @@ TONE: Friendly, efficient, conversational. Keep responses very brief for voice -
         logging.error(f"Failed to seed management agent: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+class AgentChatRequest(BaseModel):
+    agent_id: str
+    message: str
+    session_id: Optional[str] = None
+    athlete_id: Optional[str] = None  # Optional for logged-in users
+
+@api_router.post("/agents/chat")
+async def chat_with_agent(request: AgentChatRequest):
+    """Chat with an agent using OpenAI"""
+    try:
+        # Get the agent
+        agent = await db.agents.find_one({"id": request.agent_id}, {"_id": 0})
+        if not agent:
+            raise HTTPException(status_code=404, detail="Agent not found")
+        
+        agent_obj = parse_from_mongo(agent)
+        
+        # Check accessibility
+        if agent_obj.get("accessibility") == "admin":
+            # Require super admin for admin agents
+            if not request.athlete_id:
+                raise HTTPException(status_code=403, detail="Admin agents require authentication")
+            await verify_super_admin(request.athlete_id)
+        elif agent_obj.get("accessibility") == "logged_in":
+            # Require any authenticated user
+            if not request.athlete_id:
+                raise HTTPException(status_code=403, detail="This agent requires login")
+        
+        # Get OpenAI key
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        if not settings:
+            settings = await db.system_settings.find_one({}, {"_id": 0})
+        
+        openai_key = None
+        if settings:
+            openai_key = settings.get("advanced", {}).get("openaiApiKey")
+            if not openai_key:
+                openai_key = settings.get("openaiApiKey")
+        
+        # Try emergent LLM key if no OpenAI key
+        emergent_key = os.environ.get("EMERGENT_LLM_KEY")
+        if not openai_key and emergent_key:
+            openai_key = emergent_key
+        
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured")
+        
+        # Use emergentintegrations LlmChat
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        
+        session_id = request.session_id or f"agent_chat_{uuid.uuid4()}"
+        
+        chat = LlmChat(
+            api_key=openai_key,
+            session_id=session_id,
+            system_message=agent_obj.get("custom_instructions")
+        ).with_model("openai", "gpt-4o")  # Using gpt-4o for now
+        
+        user_message = UserMessage(text=request.message)
+        response = await chat.send_message(user_message)
+        
+        # Store conversation in database
+        chat_record = {
+            "id": str(uuid.uuid4()),
+            "agent_id": request.agent_id,
+            "session_id": session_id,
+            "athlete_id": request.athlete_id or "guest",
+            "message": request.message,
+            "response": response,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+        await db.agent_conversations.insert_one(chat_record)
+        
+        return {
+            "response": response,
+            "session_id": session_id,
+            "agent_name": agent_obj.get("name")
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Agent chat error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to chat with agent: {str(e)}")
+
 # Strava OAuth routes
 
 @api_router.post("/integrations/strava/{athlete_id}/sync")
