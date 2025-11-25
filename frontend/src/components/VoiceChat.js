@@ -173,6 +173,19 @@ class RealtimeAudioChat {
             // Notify parent component of transcript update
             if (this.onTranscriptUpdate) {
                 this.onTranscriptUpdate(this.transcript);
+                
+                // Check for navigation commands in assistant responses
+                if (turn.role === 'assistant' && turn.content) {
+                    const navigateMatch = turn.content.match(/NAVIGATE:(\/[^\s]+)/);
+                    if (navigateMatch) {
+                        const command = navigateMatch[0];
+                        // Emit event for ManagementAgentFAB to handle
+                        window.dispatchEvent(new CustomEvent('management-agent-command', {
+                            detail: { command }
+                        }));
+                        logger.debug(null, 'Navigation command detected:', command);
+                    }
+                }
             }
         }
     }
