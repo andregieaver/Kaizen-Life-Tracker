@@ -173,20 +173,57 @@ class RealtimeAudioChat {
             // Notify parent component of transcript update
             if (this.onTranscriptUpdate) {
                 this.onTranscriptUpdate(this.transcript);
+            }
+            
+            // Process commands in assistant responses for Management Agent
+            if (role === 'assistant' && content && this.apiBasePath === '/management-agent/voice') {
+                this.processManagementCommands(content);
+            }
+        }
+    }
+    
+    async processManagementCommands(content) {
+        try {
+            // Check for NAVIGATE commands
+            const navigateMatch = content.match(/NAVIGATE:(\/[^\s]+)/);
+            if (navigateMatch) {
+                const path = navigateMatch[1];
+                logger.debug(null, 'Navigation command detected:', path);
+                // Emit event for ManagementAgentFAB to handle
+                window.dispatchEvent(new CustomEvent('management-agent-navigate', {
+                    detail: { path }
+                }));
+                return;
+            }
+            
+            // Check for data commands (INSPECT, QUERY, STATS, USER)
+            const hasDataCommand = /(?:INSPECT:|QUERY:|STATS:|USER:)/.test(content);
+            if (hasDataCommand) {
+                logger.debug(null, 'Data command detected, processing:', content);
                 
-                // Check for navigation commands in assistant responses
-                if (turn.role === 'assistant' && turn.content) {
-                    const navigateMatch = turn.content.match(/NAVIGATE:(\/[^\s]+)/);
-                    if (navigateMatch) {
-                        const command = navigateMatch[0];
-                        // Emit event for ManagementAgentFAB to handle
-                        window.dispatchEvent(new CustomEvent('management-agent-command', {
-                            detail: { command }
-                        }));
-                        logger.debug(null, 'Navigation command detected:', command);
-                    }
+                // Send to backend for processing
+                const response = await fetch(`${this.backendUrl}/api/management-agent/voice/process-command?athlete_id=${this.athleteId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ command: content })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    logger.debug(null, 'Command processing result:', result);
+                    
+                    // Emit event with results for display
+                    window.dispatchEvent(new CustomEvent('management-agent-data', {
+                        detail: { results: result.results, command: content }
+                    }));
+                } else {
+                    logger.error(null, 'Failed to process command:', await response.text());
                 }
             }
+        } catch (error) {
+            logger.error(null, 'Error processing management commands:', error);
         }
     }
 
