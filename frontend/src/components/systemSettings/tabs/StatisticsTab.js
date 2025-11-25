@@ -11,6 +11,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const StatisticsTab = ({
+  athleteId,
   subscriberStats,
   selectedPeriod,
   compareEnabled,
@@ -27,15 +28,14 @@ const StatisticsTab = ({
   const [loadingIntegrations, setLoadingIntegrations] = useState(true);
   
   useEffect(() => {
-    const athleteId = localStorage.getItem('session_id');
     if (athleteId) {
-      logger.debug(null, 'Found athleteId, loading stats:', athleteId);
+      logger.debug(null, 'Found athleteId prop, loading stats:', athleteId);
       loadIntegrationStats();
     } else {
-      logger.error(null, 'No athleteId found in localStorage');
+      logger.error(null, 'No athleteId prop provided');
       setLoadingIntegrations(false);
     }
-  }, []);
+  }, [athleteId]);
   
   const loadIntegrationStats = async () => {
     const athleteId = localStorage.getItem('session_id');
