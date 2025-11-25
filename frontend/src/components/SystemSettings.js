@@ -67,6 +67,7 @@ import {
   PlansTab,
   AdvancedTab
 } from './systemSettings/tabs';
+import AgentsTab from './systemSettings/tabs/AgentsTab';
 import {
   Line as ChartLine
 } from 'react-chartjs-2';
