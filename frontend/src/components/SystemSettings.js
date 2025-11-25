@@ -2630,13 +2630,13 @@ const SystemSettings = ({ athleteId }) => {
           {/* Waiting List Tab */}
           <TabsContent value="waitinglist">
             <WaitingListTab
-              entries={waitingListHook.entries}
+              waitingListEntries={waitingListHook.filteredEntries}
               filter={waitingListHook.filter}
               isLoading={waitingListHook.isLoading}
-              onChangeFilter={waitingListHook.changeFilter}
-              onApprove={waitingListHook.approveEntry}
-              onReject={waitingListHook.rejectEntry}
-              onDelete={waitingListHook.deleteEntry}
+              onFilterChange={waitingListHook.changeFilter}
+              onExport={waitingListHook.exportToCSV}
+              onUpdateStatus={waitingListHook.updateEntryStatus}
+              onDeleteEntry={waitingListHook.deleteEntry}
             />
           </TabsContent>
 
