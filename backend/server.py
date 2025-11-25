@@ -8983,6 +8983,8 @@ async def update_agent(agent_id: str, request: AgentUpdateRequest, athlete_id: s
             update_data["voice"] = request.voice
         if request.personality is not None:
             update_data["personality"] = request.personality
+        if request.accessibility is not None:
+            update_data["accessibility"] = request.accessibility
         if request.is_active is not None:
             update_data["is_active"] = request.is_active
         if request.profile_image_url is not None:
