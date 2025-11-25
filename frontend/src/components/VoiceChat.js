@@ -294,7 +294,7 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError, apiBasePat
                 throw new Error("Microphone permission is required for voice chat. Please enable it in your browser settings.");
             }
             
-            realtimeChatRef.current = new RealtimeAudioChat(backendUrl, athleteId, setTranscript);
+            realtimeChatRef.current = new RealtimeAudioChat(backendUrl, athleteId, setTranscript, apiBasePath);
             await realtimeChatRef.current.init();
             
             setIsConnected(true);
