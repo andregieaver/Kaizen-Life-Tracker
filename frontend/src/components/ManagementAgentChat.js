@@ -60,6 +60,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
           { type: 'user', content: msg.message, timestamp: msg.timestamp },
           { type: 'agent', content: msg.response, timestamp: msg.timestamp }
         ]).flat());
+      setShowSidebar(false); // Close sidebar on mobile after selecting conversation
     } catch (error) {
       logger.error(null, 'Error loading conversation:', error);
     }
@@ -68,6 +69,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
   const startNewConversation = () => {
     setSessionId(`mgmt_session_${Date.now()}`);
     setMessages([]);
+    setShowSidebar(false); // Close sidebar on mobile
   };
 
   const sendMessage = async (e) => {
