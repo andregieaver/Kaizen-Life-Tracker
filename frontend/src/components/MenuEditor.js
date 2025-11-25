@@ -128,13 +128,14 @@ const MenuEditor = ({ athleteId, onBack }) => {
   };
 
   const addMenuItem = (menuType) => {
+    const isSlideout = menuType === 'slideout_menu' || menuType === 'slideout_menu_logged_out';
     const newItem = {
       id: `item-${Date.now()}`,
       label: 'New Item',
       url: '/',
       order: menus[menuType].length,
       is_separator: false,
-      icon: menuType === 'slideout_menu' ? 'Circle' : undefined
+      icon: isSlideout ? 'Circle' : undefined
     };
     setMenus(prev => ({
       ...prev,
