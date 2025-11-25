@@ -9072,8 +9072,8 @@ async def upload_agent_image(agent_id: str, file: UploadFile = File(...), athlet
             content = await file.read()
             buffer.write(content)
         
-        # Generate URL (assuming uploads are served at /uploads)
-        image_url = f"/uploads/agents/{unique_filename}"
+        # Generate URL (served at /api/agents-uploads)
+        image_url = f"/api/agents-uploads/agents/{unique_filename}"
         
         # Update agent with image URL
         await db.agents.update_one(
