@@ -178,7 +178,7 @@ const Login = ({ onAthleteLogin }) => {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-display font-bold text-white mb-2">
-              My Health Tracker
+              {siteTitle}
             </h1>
             <p className="text-gray-300">{t('auth.welcomeBack')}</p>
             {/* View Pricing Plans Link - HIDDEN BUT NOT DELETED */}
