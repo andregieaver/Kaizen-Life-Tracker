@@ -1070,7 +1070,7 @@ const LandingPage = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button 
               size="lg" 
-              className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
+              className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
               onClick={() => {
                 const waitingListSection = document.querySelector('#waiting-list-section');
                 if (waitingListSection) {
