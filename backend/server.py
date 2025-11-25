@@ -9431,11 +9431,20 @@ async def chat_with_agent(request: AgentChatRequest):
         }
         await db.agent_conversations.insert_one(chat_record)
         
+        # Check if navigation command was issued
+        navigation_command = None
+        if tool_calls:
+            for tool_call in tool_calls:
+                if tool_call.function.name == "navigate_to_page":
+                    args = json.loads(tool_call.function.arguments)
+                    navigation_command = f"/dashboard/{args.get('page')}"
+        
         return {
             "response": response,
             "session_id": session_id,
             "agent_name": agent_obj.get("name"),
-            "conversation_length": len(conversation_history) + 2  # Including current exchange
+            "navigation": navigation_command,
+            "conversation_length": len(messages) - 1  # Excluding system message
         }
         
     except HTTPException:
