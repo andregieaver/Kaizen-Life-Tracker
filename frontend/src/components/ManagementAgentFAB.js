@@ -141,13 +141,47 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
         <Mic className="w-5 h-5 text-white" />
       </button>
 
-      {/* Full Screen Chat Modal */}
-      {isOpen && (
+      {/* Voice Mode Indicator - Floating overlay when voice is active */}
+      {isVoiceActive && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[60]">
+          <div className="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-full px-6 py-3 shadow-2xl flex items-center space-x-3">
+            <div className="relative">
+              <Mic className="w-5 h-5 text-white" />
+              <div className="absolute inset-0 animate-ping">
+                <Mic className="w-5 h-5 text-blue-400 opacity-75" />
+              </div>
+            </div>
+            <span className="text-white font-medium">Management Agent Listening...</span>
+            <button
+              onClick={stopVoice}
+              className="ml-2 w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 flex items-center justify-center transition-colors"
+            >
+              <X className="w-4 h-4 text-white" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Hidden Voice Chat Component - runs in background */}
+      {isVoiceActive && (
+        <div className="hidden">
+          <VoiceChat
+            ref={voiceChatRef}
+            athleteId={athleteId}
+            apiBasePath="/management-agent/voice"
+            backendUrl={process.env.REACT_APP_BACKEND_URL}
+            autoStart={true}
+          />
+        </div>
+      )}
+
+      {/* Full Screen Text Chat Modal */}
+      {showTextChat && (
         <div className="fixed inset-0 z-[100] bg-[#0B1220]">
           <div className="relative h-full">
             {/* Close Button */}
             <button
-              onClick={closeChat}
+              onClick={closeTextChat}
               className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 
                          flex items-center justify-center text-white transition-colors"
             >
@@ -155,7 +189,7 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
             </button>
 
             {/* Chat Component */}
-            <ManagementAgentChat athleteId={athleteId} initialMode={mode} />
+            <ManagementAgentChat athleteId={athleteId} initialMode="text" />
           </div>
         </div>
       )}
