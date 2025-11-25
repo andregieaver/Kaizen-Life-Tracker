@@ -265,7 +265,7 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
       {/* Floating Button */}
       <button
         onClick={toggleWidget}
-        className="fixed bottom-4 right-4 md:right-6 w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all hover:scale-110 z-50"
+        className="fixed bottom-4 right-4 md:right-6 w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all hover:scale-110 z-[9999]"
       >
         {isOpen ? (
           <X className="w-6 h-6 text-white" />
