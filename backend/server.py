@@ -9128,8 +9128,9 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         user_msg_lower = chat_request.message.lower()
         logging.info(f"[SUPPORT AGENT] Processing message: {chat_request.message[:100]}")
         
-        # Check for edit/update actions on latest post
-        if any(keyword in user_msg_lower for keyword in ["add to", "edit", "update", "append to"]) and "latest" in user_msg_lower:
+        # Check for edit/update actions on latest post (CHECK THIS FIRST before creating new posts)
+        if (any(keyword in user_msg_lower for keyword in ["add to", "edit", "update", "append to"]) and 
+            any(target in user_msg_lower for target in ["latest", "most recent", "recent post", "last post"])):
             logging.info(f"[SUPPORT AGENT] Edit latest post detected")
             
             # Get user's latest post
