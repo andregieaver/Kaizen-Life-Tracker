@@ -9317,7 +9317,12 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
             import re
             
             # Check if user is asking agent to GENERATE content (vs providing content)
-            is_generation_request = any(phrase in user_msg_lower for phrase in [
+            # User is providing content if they say "with the text", "saying", or use quotes
+            is_providing_content = any(phrase in user_msg_lower for phrase in [
+                "with the text", "with text", "saying", '"', "'"
+            ])
+            
+            is_generation_request = (not is_providing_content) and any(phrase in user_msg_lower for phrase in [
                 "create a", "write a", "generate a", "make a", "compose a",
                 "about", "twitter length", "length post"
             ])
