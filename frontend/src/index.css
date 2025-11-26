@@ -147,7 +147,7 @@ body {
   --grad-surface: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 100%);
   --grad-page: linear-gradient(180deg, #FEFEFF 0%, #FAFBFC 50%, #F5F7FA 100%);
   --grad-cta-soft: linear-gradient(180deg, rgba(30,64,175,.06) 0%, rgba(30,64,175,.06) 100%);
-  --grad-brand: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+  --grad-brand: linear-gradient(135deg, #1a4d6d 0%, #32D3FF 100%);
 }
 
 @layer base {
