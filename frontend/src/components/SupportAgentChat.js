@@ -288,6 +288,27 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
                   }`}
                 >
                   <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+                  
+                  {/* Show attached media */}
+                  {msg.media && msg.media.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {msg.media.map((item, idx) => (
+                        <div key={idx} className="relative">
+                          {item.type === 'image' ? (
+                            <img 
+                              src={`${BACKEND_URL}${item.url}`} 
+                              alt="Attached" 
+                              className="w-24 h-24 object-cover rounded-lg"
+                            />
+                          ) : (
+                            <div className="w-24 h-24 bg-gray-700 rounded-lg flex items-center justify-center">
+                              <span className="text-3xl">🎥</span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 
                 {/* Show confirmation buttons for pending deletions */}
