@@ -188,9 +188,10 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       </div>
 
       {/* Input Area - Fixed at bottom */}
-      <div className="flex-shrink-0 p-3 sm:p-6 border-t border-gray-800 bg-[#0B1220]">
+      <div ref={inputContainerRef} className="flex-shrink-0 p-3 sm:p-6 border-t border-gray-800 bg-[#0B1220]">
         <div className="flex items-end space-x-2 sm:space-x-3">
           <textarea
+            ref={inputRef}
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -198,6 +199,7 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
             className="flex-1 bg-gray-800 text-white rounded-2xl px-3 sm:px-4 py-2 sm:py-3 resize-none focus:outline-none focus:ring-2 focus:ring-purple-600 text-sm sm:text-base"
             rows="2"
             disabled={isSending}
+            autoComplete="off"
           />
           <button
             onClick={handleSendMessage}
