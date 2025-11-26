@@ -324,6 +324,33 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
           </div>
         )}
       </div>
+
+      {/* Message Input - Fixed at Bottom (outside flex container like CoachChat) */}
+      {!isVoiceActive && (
+        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 z-50 pb-24 md:pb-0">
+          <div className="w-full max-w-[1600px] mx-auto px-4 py-4">
+            <form onSubmit={sendMessage} className="flex space-x-2">
+              <Input
+                ref={inputRef}
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Ask me anything..."
+                className="flex-1 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-blue-500 text-sm sm:text-base"
+                disabled={isLoading}
+                autoComplete="off"
+              />
+              <Button 
+                type="submit" 
+                disabled={isLoading || !newMessage.trim()}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 flex-shrink-0"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
