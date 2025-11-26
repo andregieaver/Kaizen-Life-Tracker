@@ -140,6 +140,7 @@ class RealtimeAudioChat {
                     // User speech transcribed
                     this.addToTranscript('user', eventData.transcript, new Date());
                 } else if (eventData.type === 'response.audio_transcript.done') {
+                    console.log('✅ ASSISTANT TRANSCRIPT EVENT:', eventData.transcript);
                     // Assistant response transcribed
                     this.addToTranscript('assistant', eventData.transcript, new Date());
                 } else if (eventData.type === 'conversation.item.created' && eventData.item?.type === 'message') {
