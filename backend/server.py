@@ -9105,30 +9105,48 @@ Remember: You are this user's personal assistant. Be supportive, insightful, and
         
         # Check if the user is asking to create a post
         user_msg_lower = chat_request.message.lower()
-        if any(keyword in user_msg_lower for keyword in ["post", "share", "publish", "create a post"]):
+        logging.info(f"[SUPPORT AGENT] Processing message: {chat_request.message[:100]}")
+        
+        if any(keyword in user_msg_lower for keyword in ["post", "share", "publish"]):
+            logging.info(f"[SUPPORT AGENT] Post keyword detected")
             # Extract content that should be posted
-            # Common patterns: "post this: ...", "share: ...", "create a post saying ...", "publish ..."
             post_content = None
             
             # Try to extract quoted content or content after keywords
             import re
+            
+            # More flexible patterns
             patterns = [
-                r'post[:\s]+["\'](.+?)["\']',
-                r'share[:\s]+["\'](.+?)["\']',
-                r'publish[:\s]+["\'](.+?)["\']',
-                r'post this[:\s]+(.+)',
-                r'create a post saying[:\s]+(.+)',
-                r'share this[:\s]+(.+)',
+                r'post[:\s]+["\'](.+?)["\']',  # "post: 'content'" or "post 'content'"
+                r'share[:\s]+["\'](.+?)["\']',  # "share: 'content'"
+                r'publish[:\s]+["\'](.+?)["\']',  # "publish: 'content'"
+                r'post[:\s]+"(.+?)"',  # "post: "content""
+                r'share[:\s]+"(.+?)"',  # "share: "content""
+                r'[pP]ost this[:\s]*(.+)',  # "Post this: content" or "post this content"
+                r'[cC]reate.*?post.*?[:\s]+(.+)',  # "Create a post: content"
+                r'[pP]ublish.*?[:\s]+(.+)',  # "Publish: content"
+                r'[sS]hare.*?[:\s]+(.+)',  # "Share: content"
+                r'saying[:\s]+(.+)',  # "saying: content" (for "create a post saying...")
+                r'"(.+?)"',  # Just quoted content as fallback
             ]
             
             for pattern in patterns:
                 match = re.search(pattern, chat_request.message, re.IGNORECASE | re.DOTALL)
                 if match:
-                    post_content = match.group(1).strip().strip('"\'')
+                    post_content = match.group(1).strip().strip('"\'.,!?')
+                    logging.info(f"[SUPPORT AGENT] Pattern matched: {pattern}, content: {post_content[:50]}")
                     break
             
+            # If no pattern matched but message contains quotes, try to extract any quoted text
+            if not post_content:
+                quote_match = re.search(r'["\']([^"\']{15,})["\']', chat_request.message)
+                if quote_match:
+                    post_content = quote_match.group(1).strip()
+                    logging.info(f"[SUPPORT AGENT] Quote matched: {post_content[:50]}")
+            
             # If we found content, create the post
-            if post_content and len(post_content) > 10:  # Minimum content length
+            if post_content and len(post_content) >= 5:  # Reduced minimum to 5 chars
+                logging.info(f"[SUPPORT AGENT] Creating post with content: {post_content}")
                 try:
                     new_post = CommunityPost(
                         athlete_id=chat_request.athlete_id,
@@ -9139,17 +9157,21 @@ Remember: You are this user's personal assistant. Be supportive, insightful, and
                     )
                     
                     post_dict = prepare_for_mongo(new_post.model_dump())
-                    await db.community_posts.insert_one(post_dict)
+                    result = await db.community_posts.insert_one(post_dict)
                     
                     action_taken = "create_post"
                     action_result = {"success": True, "post_id": new_post.id}
+                    
+                    logging.info(f"[SUPPORT AGENT] Post created successfully: {new_post.id}")
                     
                     # Append confirmation to response
                     response += f"\n\n✅ Post created successfully! You can view it in your community feed."
                     
                 except Exception as e:
-                    logging.error(f"Failed to create post: {e}")
+                    logging.error(f"[SUPPORT AGENT] Failed to create post: {e}")
                     action_result = {"success": False, "error": str(e)}
+            else:
+                logging.warning(f"[SUPPORT AGENT] No valid post content found. Extracted: {post_content}")
         
         # Save to database
         message_record = SupportAgentMessage(
