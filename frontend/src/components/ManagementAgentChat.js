@@ -264,7 +264,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
                 >
                   <div className={`flex items-start space-x-2 max-w-full sm:max-w-3xl ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                     <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      message.type === 'user' ? 'bg-gray-700' : 'bg-blue-600'
+                      message.type === 'user' ? 'bg-gray-700' : 'bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF]'
                     }`}>
                       {message.type === 'user' ? (
                         <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
