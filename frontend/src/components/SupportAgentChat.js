@@ -187,28 +187,32 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
         )}
       </div>
 
-      {/* Input Area - Fixed at bottom */}
-      <div ref={inputContainerRef} className="flex-shrink-0 p-3 sm:p-6 border-t border-gray-800 bg-[#0B1220]">
-        <div className="flex items-end space-x-2 sm:space-x-3">
-          <textarea
-            ref={inputRef}
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Ask me anything about your health, workouts, or data..."
-            className="flex-1 bg-gray-800 text-white rounded-2xl px-3 sm:px-4 py-2 sm:py-3 resize-none focus:outline-none focus:ring-2 focus:ring-purple-600 text-sm sm:text-base"
-            rows="2"
-            disabled={isSending}
-            autoComplete="off"
-          />
-          <button
-            onClick={handleSendMessage}
-            disabled={!inputMessage.trim() || isSending}
-            className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center
-                     hover:from-purple-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Send className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-          </button>
+    </div>
+
+      {/* Message Input - Fixed at Bottom (outside flex container like CoachChat) */}
+      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 z-50 pb-24 md:pb-0">
+        <div className="w-full max-w-[1600px] mx-auto px-4 py-4">
+          <div className="flex items-end space-x-2">
+            <textarea
+              ref={inputRef}
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Ask me anything about your health, workouts, or data..."
+              className="flex-1 bg-gray-800 text-white rounded-2xl px-3 sm:px-4 py-2 sm:py-3 resize-none focus:outline-none focus:ring-2 focus:ring-purple-600 text-sm sm:text-base min-h-[60px] max-h-[120px]"
+              rows="2"
+              disabled={isSending}
+              autoComplete="off"
+            />
+            <button
+              onClick={handleSendMessage}
+              disabled={!inputMessage.trim() || isSending}
+              className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center
+                       hover:from-purple-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Send className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
