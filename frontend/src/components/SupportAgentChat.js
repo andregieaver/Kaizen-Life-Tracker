@@ -188,7 +188,7 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       </div>
 
       {/* Message Input - Fixed at Bottom (outside flex container like CoachChat) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 z-50 pb-24 md:pb-0">
+      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 z-50">
         <div className="w-full max-w-[1600px] mx-auto px-4 py-4">
           <div className="flex items-end space-x-2">
             <textarea
