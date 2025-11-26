@@ -175,9 +175,13 @@ class RealtimeAudioChat {
                 this.onTranscriptUpdate(this.transcript);
             }
             
-            // Process commands in assistant responses for Management Agent
-            if (role === 'assistant' && content && this.apiBasePath === '/management-agent/voice') {
-                this.processManagementCommands(content);
+            // Process commands in assistant responses for Management Agent and Support Agent
+            if (role === 'assistant' && content) {
+                if (this.apiBasePath === '/management-agent/voice') {
+                    this.processManagementCommands(content);
+                } else if (this.apiBasePath === '/support-agent/voice') {
+                    this.processSupportCommands(content);
+                }
             }
         }
     }
