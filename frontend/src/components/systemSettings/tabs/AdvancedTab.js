@@ -318,6 +318,85 @@ const AdvancedTab = ({
         </CardContent>
       </Card>
 
+      {/* SendGrid Email Service */}
+      <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center">
+            <Settings className="w-5 h-5 mr-2 text-[#32D3FF]" />
+            SendGrid Email Service
+          </CardTitle>
+          <CardDescription className="text-gray-400">
+            Configure SendGrid for sending emails (support forms, notifications, etc.)
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="block text-gray-300 mb-2 text-sm font-semibold">
+              SendGrid API Key
+            </label>
+            <div className="flex gap-2">
+              <input
+                type={advancedSettings.showSendGridKey ? 'text' : 'password'}
+                value={advancedSettings.sendgrid?.apiKey || ''}
+                onChange={(e) => onUpdateIntegration('sendgrid', 'apiKey', e.target.value)}
+                className="flex-1 bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
+                placeholder="SG.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              />
+              <Button
+                size="sm"
+                onClick={() => onToggleVisibility('showSendGridKey')}
+                className="bg-gray-700 hover:bg-gray-600"
+              >
+                {advancedSettings.showSendGridKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </Button>
+            </div>
+            <p className="text-xs text-gray-400 mt-1">
+              Get your API key from <a href="https://app.sendgrid.com/settings/api_keys" target="_blank" rel="noopener noreferrer" className="text-[#32D3FF] hover:underline">SendGrid Settings</a>
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-gray-300 mb-2 text-sm font-semibold">
+              Sender Email Address
+            </label>
+            <input
+              type="email"
+              value={advancedSettings.sendgrid?.senderEmail || ''}
+              onChange={(e) => onUpdateIntegration('sendgrid', 'senderEmail', e.target.value)}
+              className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
+              placeholder="noreply@yourdomain.com"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              Must be a verified sender in SendGrid
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-gray-300 mb-2 text-sm font-semibold">
+              Sender Name (Optional)
+            </label>
+            <input
+              type="text"
+              value={advancedSettings.sendgrid?.senderName || ''}
+              onChange={(e) => onUpdateIntegration('sendgrid', 'senderName', e.target.value)}
+              className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
+              placeholder="TrainSmart"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              The name that appears in the "From" field
+            </p>
+          </div>
+
+          {advancedSettings.sendgrid?.apiKey && advancedSettings.sendgrid?.senderEmail && (
+            <div className="p-3 bg-green-900/20 border border-green-700 rounded-lg">
+              <p className="text-green-400 text-sm">
+                ✓ SendGrid configured - Email service is enabled
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Integration Settings */}
       <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
         <CardHeader>
