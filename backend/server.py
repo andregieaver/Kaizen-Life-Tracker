@@ -23247,11 +23247,6 @@ async def delete_conversation(conversation_id: str, athlete_id: str = Query(...)
         
         if athlete_id not in [conversation["participant_1_id"], conversation["participant_2_id"]]:
             raise HTTPException(status_code=403, detail="Not authorized")
-        
-
-# Support form endpoint
-@api_router.post("/support/submit")
-async def submit_support_request(request: dict):
     """Submit a support request from user"""
     try:
         name = request.get("name", "").strip()
