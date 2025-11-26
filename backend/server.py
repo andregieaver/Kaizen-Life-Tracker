@@ -9156,31 +9156,32 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                     pending_deletion = msg.get("response")
                     break
             
-            if is_confirmation and pending_deletion:
+            if is_confirmation:
                 # User confirmed deletion, execute it now
                 logging.info(f"[SUPPORT AGENT] Delete confirmation received")
                 
-                # Extract post_id from pending deletion metadata (stored in last message)
-                # We'll need to get it from the action_taken field
-                last_msg = recent_messages[0] if recent_messages else None
-                if last_msg and last_msg.get("action_taken") == "pending_delete":
-                    # The post details should be in a separate field we'll add
-                    pass
+                # Find the pending delete request in recent messages
+                post_to_delete = None
+                for msg in recent_messages:
+                    if msg.get("action_taken") == "pending_delete" and msg.get("action_result"):
+                        post_to_delete = msg["action_result"].get("post_id")
+                        break
                 
-                # For now, just delete latest post since we confirmed
-                posts = await db.community_posts.find(
-                    {"athlete_id": chat_request.athlete_id},
-                    {"_id": 0}
-                ).sort("created_at", -1).limit(1).to_list(length=1)
-                
-                if posts:
-                    await db.community_posts.delete_one({"id": posts[0]["id"]})
-                    action_taken = "delete_post"
-                    action_result = {"success": True, "post_id": posts[0]["id"]}
-                    logging.info(f"[SUPPORT AGENT] Post deleted after confirmation: {posts[0]['id']}")
-                    response += f"\n\n✅ Post deleted successfully!"
+                if post_to_delete:
+                    # Delete the specific post that was pending
+                    delete_result = await db.community_posts.delete_one({"id": post_to_delete, "athlete_id": chat_request.athlete_id})
+                    
+                    if delete_result.deleted_count > 0:
+                        action_taken = "delete_post"
+                        action_result = {"success": True, "post_id": post_to_delete}
+                        logging.info(f"[SUPPORT AGENT] Post deleted after confirmation: {post_to_delete}")
+                        response += f"\n\n✅ Post deleted successfully!"
+                    else:
+                        logging.warning(f"[SUPPORT AGENT] Post not found or already deleted: {post_to_delete}")
+                        response += f"\n\n❌ Post not found or already deleted."
                 else:
-                    response += f"\n\n❌ No posts found to delete."
+                    logging.warning(f"[SUPPORT AGENT] No pending deletion found")
+                    response += f"\n\n❌ No pending deletion to confirm."
             
             else:
                 # First time seeing delete request - ask for confirmation, DON'T delete yet
