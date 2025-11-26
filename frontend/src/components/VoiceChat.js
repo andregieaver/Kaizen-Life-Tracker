@@ -148,6 +148,20 @@ class RealtimeAudioChat {
                             }
                         });
                     }
+                } else if (eventData.type === 'response.function_call_arguments.done') {
+                    // Function call from assistant
+                    logger.debug(null, 'Function call detected:', eventData);
+                    this.handleFunctionCall(eventData);
+                } else if (eventData.type === 'conversation.item.created' && eventData.item?.type === 'function_call') {
+                    // Function call item created
+                    logger.debug(null, 'Function call item created:', eventData.item);
+                    if (eventData.item.name && eventData.item.arguments) {
+                        this.handleFunctionCall({
+                            name: eventData.item.name,
+                            arguments: eventData.item.arguments,
+                            call_id: eventData.item.call_id
+                        });
+                    }
                 }
             } catch (error) {
                 logger.error(null, "Error parsing data channel event:", error);
