@@ -8989,6 +8989,7 @@ class SupportAgentChatRequest(BaseModel):
     athlete_id: str
     session_id: str
     message: str
+    media: Optional[List[dict]] = []  # Array of media items: [{"type": "image/video", "url": "...", "thumbnail": "..."}]
 
 class SupportAgentMessage(BaseModel):
     athlete_id: str
