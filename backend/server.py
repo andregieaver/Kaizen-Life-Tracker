@@ -9171,8 +9171,10 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                 # Find the pending delete request in recent messages
                 post_to_delete = None
                 for msg in recent_messages:
+                    logging.info(f"[SUPPORT AGENT] Checking message: action_taken={msg.get('action_taken')}")
                     if msg.get("action_taken") == "pending_delete" and msg.get("action_result"):
                         post_to_delete = msg["action_result"].get("post_id")
+                        logging.info(f"[SUPPORT AGENT] Found pending delete for post: {post_to_delete}")
                         break
                 
                 if post_to_delete:
