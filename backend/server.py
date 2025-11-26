@@ -9495,18 +9495,6 @@ async def support_agent_create_post(athlete_id: str, request: dict):
         logging.error(f"Failed to create post via support agent: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-
-            {"_id": 0}
-        ).sort("timestamp", -1).limit(limit).to_list(length=limit)
-        
-        return [parse_from_mongo(m) for m in messages]
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        logging.error(f"Failed to get support agent history: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
 @api_router.get("/support-agent/conversations/{athlete_id}")
 async def get_support_agent_conversations(athlete_id: str):
     """Get list of Support Agent conversations (User's own conversations only)"""
