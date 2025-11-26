@@ -9384,12 +9384,14 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
             # If we found content, create the post
             if post_content and len(post_content) >= 5:  # Reduced minimum to 5 chars
                 logging.info(f"[SUPPORT AGENT] Creating post with content: {post_content}")
+                logging.info(f"[SUPPORT AGENT] Media attached: {len(chat_request.media) if chat_request.media else 0} items")
                 try:
                     new_post = CommunityPost(
                         athlete_id=chat_request.athlete_id,
                         athlete_name=athlete.get("name", "User"),
                         athlete_profile_picture=athlete.get("profile_picture"),
                         content=post_content,
+                        media=chat_request.media if chat_request.media else [],
                         visibility="public"
                     )
                     
