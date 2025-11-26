@@ -197,7 +197,7 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask me anything about your health, workouts, or data..."
-              className="flex-1 bg-gray-800 text-white rounded-2xl px-3 sm:px-4 py-2 sm:py-3 resize-none focus:outline-none focus:ring-2 focus:ring-purple-600 text-sm sm:text-base min-h-[60px] max-h-[120px]"
+              className="flex-1 bg-gray-800 text-white rounded-2xl px-3 sm:px-4 py-2 sm:py-3 resize-none focus:outline-none focus:ring-2 focus:ring-[#32D3FF] text-sm sm:text-base min-h-[60px] max-h-[120px]"
               rows="2"
               disabled={isSending}
               autoComplete="off"
@@ -205,8 +205,8 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
             <button
               onClick={handleSendMessage}
               disabled={!inputMessage.trim() || isSending}
-              className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center
-                       hover:from-purple-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] flex items-center justify-center
+                       hover:from-[#2a5d7d] hover:to-[#42E3FF] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </button>
