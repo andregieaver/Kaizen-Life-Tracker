@@ -146,7 +146,8 @@ Step 2: "COMMUNITY:delete_post|CONFIRM"
 | Edit Post | ✅ | ✅ | Complete |
 | Delete Post | ✅ | ✅ | Complete |
 | Delete Confirmation | ✅ (UI buttons) | ✅ (Voice) | Complete |
-| Media Upload | ✅ | ⏳ | Planned |
+| **Camera Capture** | ⏳ | ✅ | **Complete** |
+| Manual Media Upload | ✅ | ⏳ | Planned |
 | Data Access | ✅ | ✅ | Complete |
 | Navigation | ✅ | ✅ | Complete |
 | User Scoping | ✅ | ✅ | Complete |
