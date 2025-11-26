@@ -9141,12 +9141,16 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         user_msg_lower = chat_request.message.lower()
         logging.info(f"[SUPPORT AGENT] Processing message: {chat_request.message[:100]}")
         
-        # 1. CHECK FOR DELETE FIRST (highest priority to prevent false post creation)
-        if "delete" in user_msg_lower and any(word in user_msg_lower for word in ["post", "published", "the post"]):
-            logging.info(f"[SUPPORT AGENT] Delete post detected")
+        # Check if this is just a confirmation response first
+        is_confirmation = chat_request.message.strip().lower() in ["yes", "confirm", "confirmed", "ok", "sure", "do it"]
+        
+        # 1. CHECK FOR DELETE OR CONFIRMATION (highest priority)
+        if is_confirmation or ("delete" in user_msg_lower and any(word in user_msg_lower for word in ["post", "published", "the post"])):
             
-            # Check if this is a confirmation (user responding to previous delete request)
-            is_confirmation = any(confirm_word in user_msg_lower for confirm_word in ["yes", "confirm", "confirmed", "delete it", "do it", "go ahead", "sure"])
+            if is_confirmation:
+                logging.info(f"[SUPPORT AGENT] Confirmation detected: {chat_request.message}")
+            else:
+                logging.info(f"[SUPPORT AGENT] Delete post detected")
             
             # Check if there's a pending deletion in the conversation history
             recent_messages = await db.support_agent_messages.find(
