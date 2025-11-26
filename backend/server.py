@@ -9173,8 +9173,10 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                     addition = " ".join(addition_parts)
                     updated_content = latest_post["content"] + " " + addition
                     
+                    logging.info(f"[SUPPORT AGENT] Updating post {latest_post['id']} with: {addition}")
+                    
                     # Update the post
-                    await db.community_posts.update_one(
+                    update_result = await db.community_posts.update_one(
                         {"id": latest_post["id"]},
                         {
                             "$set": {
@@ -9185,11 +9187,15 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                         }
                     )
                     
-                    action_taken = "edit_post"
-                    action_result = {"success": True, "post_id": latest_post["id"]}
-                    
-                    logging.info(f"[SUPPORT AGENT] Post updated: {latest_post['id']}")
-                    response += f"\n\n✅ Post updated! Added: {addition}"
+                    if update_result.modified_count > 0:
+                        action_taken = "edit_post"
+                        action_result = {"success": True, "post_id": latest_post["id"], "added": addition}
+                        
+                        logging.info(f"[SUPPORT AGENT] Post successfully updated: {latest_post['id']}")
+                        response += f"\n\n✅ Post updated successfully! Added: {addition}"
+                    else:
+                        logging.error(f"[SUPPORT AGENT] Post update failed - no documents modified")
+                        response += f"\n\n❌ Failed to update post. Please try again."
                 else:
                     logging.warning(f"[SUPPORT AGENT] No content to add found")
             else:
