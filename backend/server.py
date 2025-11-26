@@ -9126,7 +9126,11 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         
         user_message = UserMessage(text=chat_request.message)
         
-        # Send message and get response
+        # Check if this is a delete request BEFORE sending to AI
+        user_msg_lower = chat_request.message.lower()
+        is_delete_request = "delete" in user_msg_lower and any(word in user_msg_lower for word in ["post", "published", "the post"])
+        
+        # Send message and get response (but we'll override it for delete requests)
         response = await chat.send_message(user_message)
         
         # Post-process response to detect and execute actions
