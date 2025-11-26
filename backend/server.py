@@ -9311,40 +9311,65 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         
         elif any(keyword in user_msg_lower for keyword in ["post", "share", "publish"]):
             logging.info(f"[SUPPORT AGENT] Post keyword detected")
-            # Extract content that should be posted
             post_content = None
             
-            # Try to extract quoted content or content after keywords
             import re
             
-            # More flexible patterns
-            patterns = [
-                r'post[:\s]+["\'](.+?)["\']',  # "post: 'content'" or "post 'content'"
-                r'share[:\s]+["\'](.+?)["\']',  # "share: 'content'"
-                r'publish[:\s]+["\'](.+?)["\']',  # "publish: 'content'"
-                r'post[:\s]+"(.+?)"',  # "post: "content""
-                r'share[:\s]+"(.+?)"',  # "share: "content""
-                r'[pP]ost this[:\s]*(.+)',  # "Post this: content" or "post this content"
-                r'[cC]reate.*?post.*?[:\s]+(.+)',  # "Create a post: content"
-                r'[pP]ublish.*?[:\s]+(.+)',  # "Publish: content"
-                r'[sS]hare.*?[:\s]+(.+)',  # "Share: content"
-                r'saying[:\s]+(.+)',  # "saying: content" (for "create a post saying...")
-                r'"(.+?)"',  # Just quoted content as fallback
-            ]
+            # Check if user is asking agent to GENERATE content (vs providing content)
+            is_generation_request = any(phrase in user_msg_lower for phrase in [
+                "create a", "write a", "generate a", "make a", "compose a",
+                "about", "twitter length", "length post"
+            ])
             
-            for pattern in patterns:
-                match = re.search(pattern, chat_request.message, re.IGNORECASE | re.DOTALL)
-                if match:
-                    post_content = match.group(1).strip().strip('"\'.,!?')
-                    logging.info(f"[SUPPORT AGENT] Pattern matched: {pattern}, content: {post_content[:50]}")
-                    break
-            
-            # If no pattern matched but message contains quotes, try to extract any quoted text
-            if not post_content:
-                quote_match = re.search(r'["\']([^"\']{15,})["\']', chat_request.message)
-                if quote_match:
-                    post_content = quote_match.group(1).strip()
-                    logging.info(f"[SUPPORT AGENT] Quote matched: {post_content[:50]}")
+            if is_generation_request:
+                # User wants agent to generate content - extract from AI response
+                logging.info(f"[SUPPORT AGENT] Content generation request detected")
+                
+                # Extract the generated content from AI response
+                # Look for substantial text (not just acknowledgments)
+                lines = response.split('\n')
+                for line in lines:
+                    line = line.strip()
+                    # Skip short lines, system messages, and acknowledgments
+                    if (len(line) > 30 and 
+                        not line.startswith('✅') and 
+                        not line.startswith('Working') and
+                        not any(skip in line.lower() for skip in ['post created', 'view it', 'working on'])):
+                        post_content = line
+                        logging.info(f"[SUPPORT AGENT] Extracted generated content: {post_content[:100]}")
+                        break
+            else:
+                # User is providing content - extract from their message
+                logging.info(f"[SUPPORT AGENT] Direct content provision detected")
+                
+                # More flexible patterns
+                patterns = [
+                    r'post[:\s]+["\'](.+?)["\']',  # "post: 'content'" or "post 'content'"
+                    r'share[:\s]+["\'](.+?)["\']',  # "share: 'content'"
+                    r'publish[:\s]+["\'](.+?)["\']',  # "publish: 'content'"
+                    r'post[:\s]+"(.+?)"',  # "post: "content""
+                    r'share[:\s]+"(.+?)"',  # "share: "content""
+                    r'[pP]ost this[:\s]*(.+)',  # "Post this: content" or "post this content"
+                    r'[cC]reate.*?post.*?[:\s]+(.+)',  # "Create a post: content"
+                    r'[pP]ublish.*?[:\s]+(.+)',  # "Publish: content"
+                    r'[sS]hare.*?[:\s]+(.+)',  # "Share: content"
+                    r'saying[:\s]+(.+)',  # "saying: content" (for "create a post saying...")
+                    r'"(.+?)"',  # Just quoted content as fallback
+                ]
+                
+                for pattern in patterns:
+                    match = re.search(pattern, chat_request.message, re.IGNORECASE | re.DOTALL)
+                    if match:
+                        post_content = match.group(1).strip().strip('"\'.,!?')
+                        logging.info(f"[SUPPORT AGENT] Pattern matched: {pattern}, content: {post_content[:50]}")
+                        break
+                
+                # If no pattern matched but message contains quotes, try to extract any quoted text
+                if not post_content:
+                    quote_match = re.search(r'["\']([^"\']{15,})["\']', chat_request.message)
+                    if quote_match:
+                        post_content = quote_match.group(1).strip()
+                        logging.info(f"[SUPPORT AGENT] Quote matched: {post_content[:50]}")
             
             # If we found content, create the post
             if post_content and len(post_content) >= 5:  # Reduced minimum to 5 chars
