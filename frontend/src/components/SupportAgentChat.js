@@ -244,7 +244,7 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#0B1220] min-h-0">
+    <div className="h-full flex flex-col bg-[#0B1220] min-h-0 relative">
       {/* Header */}
       <div className="flex-shrink-0 p-4 sm:p-6 border-b border-gray-800">
         <div className="flex items-center space-x-4">
