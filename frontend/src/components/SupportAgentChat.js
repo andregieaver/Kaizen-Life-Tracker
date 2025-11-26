@@ -134,7 +134,7 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       {/* Header */}
       <div className="flex-shrink-0 p-4 sm:p-6 border-b border-gray-800">
         <div className="flex items-center space-x-4">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] flex items-center justify-center">
             <Headphones className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
           <div>
