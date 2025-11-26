@@ -173,6 +173,57 @@ class RealtimeAudioChat {
         };
     }
     
+    handleFunctionCall(functionData) {
+        const functionName = functionData.name;
+        let args;
+        
+        try {
+            args = typeof functionData.arguments === 'string' 
+                ? JSON.parse(functionData.arguments) 
+                : functionData.arguments;
+        } catch (e) {
+            logger.error(null, 'Failed to parse function arguments:', e);
+            return;
+        }
+        
+        logger.debug(null, `Executing function: ${functionName}`, args);
+        
+        // Convert function calls to commands
+        let command = '';
+        
+        switch (functionName) {
+            case 'take_photo_and_post':
+                command = `COMMUNITY:take_photo|${args.caption || 'Photo post'}`;
+                break;
+            case 'create_post':
+                command = `COMMUNITY:create_post|${args.content}`;
+                break;
+            case 'edit_post':
+                command = `COMMUNITY:edit_post|${args.additional_content}`;
+                break;
+            case 'delete_post_request':
+                command = args.confirmed 
+                    ? 'COMMUNITY:delete_post|CONFIRM' 
+                    : 'COMMUNITY:delete_post|PENDING';
+                break;
+            case 'navigate_to_page':
+                command = `NAVIGATE:/dashboard/${args.page}`;
+                break;
+            default:
+                logger.warn(null, `Unknown function: ${functionName}`);
+                return;
+        }
+        
+        logger.debug(null, `Converted function to command: ${command}`);
+        
+        // Process the command based on agent type
+        if (this.apiBasePath === '/support-agent/voice') {
+            this.processSupportCommands(command);
+        } else if (this.apiBasePath === '/management-agent/voice') {
+            this.processManagementCommands(command);
+        }
+    }
+    
     addToTranscript(role, content, timestamp) {
         if (content && content.trim()) {
             const transcriptEntry = {
