@@ -9759,7 +9759,7 @@ async def process_support_voice_command(request: dict, athlete_id: str = Query(.
             # Extract action and content
             community_part = command_text.split("COMMUNITY:")[1].strip()
             
-            # Check if it's a create_post action with content
+            # CREATE POST
             if community_part.startswith("create_post"):
                 # Extract the post content from the command
                 # Format: COMMUNITY:create_post|Post content here
@@ -9807,6 +9807,133 @@ async def process_support_voice_command(request: dict, athlete_id: str = Query(.
                         "success": False,
                         "message": "Invalid command format - use COMMUNITY:create_post|Your post content"
                     })
+            
+            # EDIT POST
+            elif community_part.startswith("edit_post"):
+                # Format: COMMUNITY:edit_post|Content to add
+                if "|" in community_part:
+                    _, content_to_add = community_part.split("|", 1)
+                    content_to_add = content_to_add.strip()
+                    
+                    # Get user's latest post
+                    posts = await db.community_posts.find(
+                        {"athlete_id": athlete_id},
+                        {"_id": 0}
+                    ).sort("created_at", -1).limit(1).to_list(length=1)
+                    
+                    if posts:
+                        latest_post = posts[0]
+                        updated_content = latest_post["content"] + " " + content_to_add
+                        
+                        # Update the post
+                        update_result = await db.community_posts.update_one(
+                            {"id": latest_post["id"]},
+                            {
+                                "$set": {
+                                    "content": updated_content,
+                                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                                    "is_edited": True
+                                }
+                            }
+                        )
+                        
+                        if update_result.modified_count > 0:
+                            results.append({
+                                "type": "community_action",
+                                "action": "edit_post",
+                                "success": True,
+                                "post_id": latest_post["id"],
+                                "message": f"Post updated! Added: {content_to_add}"
+                            })
+                        else:
+                            results.append({
+                                "type": "community_action",
+                                "action": "edit_post",
+                                "success": False,
+                                "message": "Failed to update post"
+                            })
+                    else:
+                        results.append({
+                            "type": "community_action",
+                            "action": "edit_post",
+                            "success": False,
+                            "message": "No posts found to edit"
+                        })
+                else:
+                    results.append({
+                        "type": "community_action",
+                        "action": "edit_post",
+                        "success": False,
+                        "message": "Invalid format - use COMMUNITY:edit_post|Content to add"
+                    })
+            
+            # DELETE POST
+            elif community_part.startswith("delete_post"):
+                # Format: COMMUNITY:delete_post|PENDING or COMMUNITY:delete_post|CONFIRM
+                if "|" in community_part:
+                    _, action_type = community_part.split("|", 1)
+                    action_type = action_type.strip().upper()
+                    
+                    # Get user's latest post
+                    posts = await db.community_posts.find(
+                        {"athlete_id": athlete_id},
+                        {"_id": 0}
+                    ).sort("created_at", -1).limit(1).to_list(length=1)
+                    
+                    if posts:
+                        latest_post = posts[0]
+                        
+                        if action_type == "CONFIRM":
+                            # Execute the deletion
+                            delete_result = await db.community_posts.delete_one({"id": latest_post["id"]})
+                            
+                            if delete_result.deleted_count > 0:
+                                results.append({
+                                    "type": "community_action",
+                                    "action": "delete_post",
+                                    "success": True,
+                                    "post_id": latest_post["id"],
+                                    "message": "Post deleted successfully!"
+                                })
+                            else:
+                                results.append({
+                                    "type": "community_action",
+                                    "action": "delete_post",
+                                    "success": False,
+                                    "message": "Failed to delete post"
+                                })
+                        elif action_type == "PENDING":
+                            # Return post details for confirmation
+                            results.append({
+                                "type": "community_action",
+                                "action": "delete_post_pending",
+                                "success": True,
+                                "post_id": latest_post["id"],
+                                "post_content": latest_post.get("content", "")[:100],
+                                "message": f"Ready to delete: '{latest_post.get('content', '')[:100]}...' Say 'yes delete it' to confirm."
+                            })
+                        else:
+                            results.append({
+                                "type": "community_action",
+                                "action": "delete_post",
+                                "success": False,
+                                "message": "Invalid action type - use PENDING or CONFIRM"
+                            })
+                    else:
+                        results.append({
+                            "type": "community_action",
+                            "action": "delete_post",
+                            "success": False,
+                            "message": "No posts found to delete"
+                        })
+                else:
+                    results.append({
+                        "type": "community_action",
+                        "action": "delete_post",
+                        "success": False,
+                        "message": "Invalid format - use COMMUNITY:delete_post|PENDING or CONFIRM"
+                    })
+            
             else:
                 # Generic community action (for future use)
                 action = community_part.split()[0] if community_part else "unknown"
