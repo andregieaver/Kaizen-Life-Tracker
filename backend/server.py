@@ -9326,18 +9326,27 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                 logging.info(f"[SUPPORT AGENT] Content generation request detected")
                 
                 # Extract the generated content from AI response
-                # Look for substantial text (not just acknowledgments)
-                lines = response.split('\n')
-                for line in lines:
-                    line = line.strip()
-                    # Skip short lines, system messages, and acknowledgments
-                    if (len(line) > 30 and 
-                        not line.startswith('✅') and 
-                        not line.startswith('Working') and
-                        not any(skip in line.lower() for skip in ['post created', 'view it', 'working on'])):
-                        post_content = line
-                        logging.info(f"[SUPPORT AGENT] Extracted generated content: {post_content[:100]}")
-                        break
+                # First, try to find content after "Text:" marker
+                text_match = re.search(r'Text:\s*(.+?)(?:\n\n|$)', response, re.DOTALL)
+                if text_match:
+                    post_content = text_match.group(1).strip()
+                    # Remove any trailing confirmation messages
+                    if '✅' in post_content:
+                        post_content = post_content.split('✅')[0].strip()
+                    logging.info(f"[SUPPORT AGENT] Extracted from 'Text:' marker: {post_content[:100]}")
+                else:
+                    # Fallback: Look for substantial text (not just acknowledgments)
+                    lines = response.split('\n')
+                    for line in lines:
+                        line = line.strip()
+                        # Skip short lines, system messages, and acknowledgments
+                        if (len(line) > 30 and 
+                            not line.startswith('✅') and 
+                            not line.lower().startswith('working on') and
+                            not any(skip in line.lower() for skip in ['post created', 'view it'])):
+                            post_content = line
+                            logging.info(f"[SUPPORT AGENT] Extracted generated content: {post_content[:100]}")
+                            break
             else:
                 # User is providing content - extract from their message
                 logging.info(f"[SUPPORT AGENT] Direct content provision detected")
