@@ -212,6 +212,10 @@ class RealtimeAudioChat {
             case 'navigate_to_page':
                 command = `NAVIGATE:/dashboard/${args.page}`;
                 break;
+            case 'respond_to_user':
+                // Just a chat response, no action needed
+                logger.debug(null, 'Agent responded:', args.response);
+                return;
             default:
                 logger.warn(null, `Unknown function: ${functionName}`);
                 return;
