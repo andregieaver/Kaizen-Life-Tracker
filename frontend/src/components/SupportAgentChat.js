@@ -374,6 +374,77 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       {/* Message Input - Fixed at Bottom (outside flex container like CoachChat) */}
       <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 z-50">
         <div className="w-full max-w-[1600px] mx-auto px-4 py-4">
+          {/* Media Preview */}
+          {attachedMedia.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              {attachedMedia.map((media, index) => (
+                <div key={index} className="relative">
+                  {media.type === 'image' ? (
+                    <img 
+                      src={`${BACKEND_URL}${media.url}`} 
+                      alt="Attached" 
+                      className="w-20 h-20 object-cover rounded-lg"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 bg-gray-700 rounded-lg flex items-center justify-center">
+                      <span className="text-2xl">🎥</span>
+                    </div>
+                  )}
+                  <button
+                    onClick={() => removeMedia(index)}
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-600 rounded-full flex items-center justify-center text-white text-xs"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Media Buttons */}
+          <div className="mb-2 flex gap-2">
+            <button
+              onClick={handleCamera}
+              disabled={isUploading || isSending}
+              className="px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm flex items-center gap-1 transition-colors disabled:opacity-50"
+            >
+              📷 Camera
+            </button>
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading || isSending}
+              className="px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm flex items-center gap-1 transition-colors disabled:opacity-50"
+            >
+              🖼️ Images
+            </button>
+            <button
+              onClick={() => videoInputRef.current?.click()}
+              disabled={isUploading || isSending}
+              className="px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm flex items-center gap-1 transition-colors disabled:opacity-50"
+            >
+              🎥 Video
+            </button>
+            {isUploading && <span className="text-gray-400 text-sm self-center">Uploading...</span>}
+          </div>
+
+          {/* Hidden File Inputs */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) => handleFileUpload(e.target.files)}
+            className="hidden"
+          />
+          <input
+            ref={videoInputRef}
+            type="file"
+            accept="video/*"
+            onChange={(e) => handleFileUpload(e.target.files)}
+            className="hidden"
+          />
+
+          {/* Message Input */}
           <div className="flex items-end space-x-2">
             <textarea
               ref={inputRef}
@@ -388,7 +459,7 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
             />
             <button
               onClick={handleSendMessage}
-              disabled={!inputMessage.trim() || isSending}
+              disabled={(!inputMessage.trim() && attachedMedia.length === 0) || isSending}
               className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] flex items-center justify-center
                        hover:from-[#2a5d7d] hover:to-[#42E3FF] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
