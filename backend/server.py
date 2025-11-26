@@ -9099,18 +9099,70 @@ Remember: You are this user's personal assistant. Be supportive, insightful, and
         # Send message and get response
         response = await chat.send_message(user_message)
         
+        # Post-process response to detect and execute actions
+        action_taken = None
+        action_result = None
+        
+        # Check if the user is asking to create a post
+        user_msg_lower = chat_request.message.lower()
+        if any(keyword in user_msg_lower for keyword in ["post", "share", "publish", "create a post"]):
+            # Extract content that should be posted
+            # Common patterns: "post this: ...", "share: ...", "create a post saying ...", "publish ..."
+            post_content = None
+            
+            # Try to extract quoted content or content after keywords
+            import re
+            patterns = [
+                r'post[:\s]+["\'](.+?)["\']',
+                r'share[:\s]+["\'](.+?)["\']',
+                r'publish[:\s]+["\'](.+?)["\']',
+                r'post this[:\s]+(.+)',
+                r'create a post saying[:\s]+(.+)',
+                r'share this[:\s]+(.+)',
+            ]
+            
+            for pattern in patterns:
+                match = re.search(pattern, chat_request.message, re.IGNORECASE | re.DOTALL)
+                if match:
+                    post_content = match.group(1).strip().strip('"\'')
+                    break
+            
+            # If we found content, create the post
+            if post_content and len(post_content) > 10:  # Minimum content length
+                try:
+                    new_post = CommunityPost(
+                        athlete_id=chat_request.athlete_id,
+                        athlete_name=athlete.get("name", "User"),
+                        athlete_profile_picture=athlete.get("profile_picture"),
+                        content=post_content,
+                        visibility="public"
+                    )
+                    
+                    post_dict = prepare_for_mongo(new_post.model_dump())
+                    await db.community_posts.insert_one(post_dict)
+                    
+                    action_taken = "create_post"
+                    action_result = {"success": True, "post_id": new_post.id}
+                    
+                    # Append confirmation to response
+                    response += f"\n\n✅ Post created successfully! You can view it in your community feed."
+                    
+                except Exception as e:
+                    logging.error(f"Failed to create post: {e}")
+                    action_result = {"success": False, "error": str(e)}
+        
         # Save to database
         message_record = SupportAgentMessage(
             athlete_id=chat_request.athlete_id,
             session_id=chat_request.session_id,
             message=chat_request.message,
             response=response,
-            action_taken=None
+            action_taken=action_taken
         )
         message_dict = prepare_for_mongo(message_record.model_dump())
         await db.support_agent_messages.insert_one(message_dict)
         
-        return {"response": response}
+        return {"response": response, "action_taken": action_taken, "action_result": action_result}
         
     except HTTPException:
         raise
