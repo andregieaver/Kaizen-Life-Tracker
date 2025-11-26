@@ -184,11 +184,11 @@ const SupportAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
       {/* Voice Mode Indicator - Floating overlay when voice is active */}
       {isVoiceActive && (
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[60]">
-          <div className="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-full px-6 py-3 shadow-2xl flex items-center space-x-3">
+          <div className="bg-gradient-to-r from-[#1a4d6d] to-[#32D3FF] rounded-full px-6 py-3 shadow-2xl flex items-center space-x-3">
             <div className="relative">
               <Mic className="w-5 h-5 text-white" />
               <div className="absolute inset-0 animate-ping">
-                <Mic className="w-5 h-5 text-purple-400 opacity-75" />
+                <Mic className="w-5 h-5 text-[#32D3FF] opacity-75" />
               </div>
             </div>
             <span className="text-white font-medium">Support Agent Listening...</span>
