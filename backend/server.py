@@ -8844,6 +8844,17 @@ async def negotiate_management_voice_connection(athlete_id: str, sdp: str = Body
         
         realtime = OpenAIChatRealtime(api_key=openai_key)
         answer_sdp = await realtime.negotiate_connection(sdp)
+        
+        # Check if answer is an error response from OpenAI
+        if isinstance(answer_sdp, str) and (answer_sdp.startswith('{') or answer_sdp.startswith('{')):
+            try:
+                error_data = json.loads(answer_sdp)
+                if "error" in error_data:
+                    error_msg = error_data.get("error", {}).get("message", "Unknown error")
+                    raise HTTPException(status_code=400, detail=f"OpenAI error: {error_msg}")
+            except json.JSONDecodeError:
+                pass  # Not JSON, proceed normally
+        
         return {"sdp": answer_sdp}
         
     except HTTPException:
@@ -9678,6 +9689,17 @@ async def negotiate_support_voice_connection(athlete_id: str, sdp: str = Body(..
         
         realtime = OpenAIChatRealtime(api_key=openai_key)
         answer_sdp = await realtime.negotiate_connection(sdp)
+        
+        # Check if answer is an error response from OpenAI
+        if isinstance(answer_sdp, str) and (answer_sdp.startswith('{') or answer_sdp.startswith('{')):
+            try:
+                error_data = json.loads(answer_sdp)
+                if "error" in error_data:
+                    error_msg = error_data.get("error", {}).get("message", "Unknown error")
+                    raise HTTPException(status_code=400, detail=f"OpenAI error: {error_msg}")
+            except json.JSONDecodeError:
+                pass  # Not JSON, proceed normally
+        
         return {"sdp": answer_sdp}
         
     except HTTPException:
