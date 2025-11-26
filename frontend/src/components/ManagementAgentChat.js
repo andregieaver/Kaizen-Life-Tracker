@@ -295,7 +295,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-start space-x-2 max-w-3xl">
-                    <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] flex items-center justify-center">
                       <Shield className="w-5 h-5 text-white" />
                     </div>
                     <div className="rounded-lg p-4 bg-gray-800">
