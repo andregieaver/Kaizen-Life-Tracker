@@ -12,6 +12,7 @@ import BodyScoreCard from './BodyScoreCard';
 import OuraVitalsCard from './OuraVitalsCard';
 import CoachChat from './CoachChat';
 import ManagementAgentFAB from './ManagementAgentFAB';
+import SupportAgentFAB from './SupportAgentFAB';
 import Recommendations from './Recommendations';
 import WorkoutHistory from './WorkoutHistory';
 import Account from './Account';
