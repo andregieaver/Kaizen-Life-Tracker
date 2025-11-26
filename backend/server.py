@@ -9189,12 +9189,12 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                 else:
                     response += f"\n\n❌ No posts found to delete."
         
-        # 2. CHECK FOR EDIT/UPDATE (second priority)
-        elif any(keyword in user_msg_lower for keyword in ["add to my", "add hashtag", "add emoji", "edit my", "update my"]):
+        # 2. CHECK FOR EDIT/UPDATE (second priority) - More flexible patterns
+        elif (any(keyword in user_msg_lower for keyword in ["add to", "add hashtag", "add emoji", "edit", "update", "append"]) and
+              any(target in user_msg_lower for target in ["my most recent", "my latest", "my recent", "my last", "most recent", "latest post", "last post"])):
             logging.info(f"[SUPPORT AGENT] Edit/add to post detected")
-            logging.info(f"[SUPPORT AGENT] Edit latest post detected")
             
-            # Get user's latest post (need to use find() with sort, not find_one() with sort)
+            # Get user's latest post
             posts = await db.community_posts.find(
                 {"athlete_id": chat_request.athlete_id},
                 {"_id": 0}
