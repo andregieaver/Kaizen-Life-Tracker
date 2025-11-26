@@ -9996,7 +9996,7 @@ async def get_support_agent_history(athlete_id: str, limit: int = 20):
 
 @api_router.post("/support-agent/create-post/{athlete_id}")
 async def support_agent_create_post(athlete_id: str, request: dict):
-    """Support Agent creates a community post on behalf of the user"""
+    """Support Agent creates a community post on behalf of the user (with optional media)"""
     try:
         # Verify user is logged in
         athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
@@ -10007,17 +10007,23 @@ async def support_agent_create_post(athlete_id: str, request: dict):
         if not post_content:
             raise HTTPException(status_code=400, detail="Post content is required")
         
+        # Get media if provided
+        media = request.get("media", [])
+        
         # Create the community post
         new_post = CommunityPost(
             athlete_id=athlete_id,
             athlete_name=athlete.get("name", "User"),
             athlete_profile_picture=athlete.get("profile_picture"),
             content=post_content,
+            media=media,
             visibility="public"
         )
         
         post_dict = prepare_for_mongo(new_post.model_dump())
         await db.community_posts.insert_one(post_dict)
+        
+        logging.info(f"[SUPPORT AGENT] Created post with {len(media)} media items")
         
         return {
             "success": True,
