@@ -9107,11 +9107,69 @@ Remember: You are this user's personal assistant. Be supportive, insightful, and
         action_taken = None
         action_result = None
         
-        # Check if the user is asking to create a post
+        # Check if the user is asking to create a post OR edit their latest post
         user_msg_lower = chat_request.message.lower()
         logging.info(f"[SUPPORT AGENT] Processing message: {chat_request.message[:100]}")
         
-        if any(keyword in user_msg_lower for keyword in ["post", "share", "publish"]):
+        # Check for edit/update actions on latest post
+        if any(keyword in user_msg_lower for keyword in ["add to", "edit", "update", "append to"]) and "latest" in user_msg_lower:
+            logging.info(f"[SUPPORT AGENT] Edit latest post detected")
+            
+            # Get user's latest post
+            latest_post = await db.community_posts.find_one(
+                {"athlete_id": chat_request.athlete_id},
+                {"_id": 0}
+            ).sort("created_at", -1)
+            
+            if latest_post:
+                # Extract what to add
+                import re
+                
+                # Look for hashtags and emojis
+                hashtags = re.findall(r'#\w+', chat_request.message)
+                emojis = re.findall(r'[\U0001F300-\U0001F9FF]', chat_request.message)
+                
+                # Also look for quoted text to append
+                quote_match = re.search(r'["\']([^"\']+)["\']', chat_request.message)
+                text_to_add = quote_match.group(1) if quote_match else None
+                
+                # Build the addition
+                addition_parts = []
+                if text_to_add:
+                    addition_parts.append(text_to_add)
+                if hashtags:
+                    addition_parts.extend(hashtags)
+                if emojis:
+                    addition_parts.extend(emojis)
+                
+                if addition_parts:
+                    addition = " ".join(addition_parts)
+                    updated_content = latest_post["content"] + " " + addition
+                    
+                    # Update the post
+                    await db.community_posts.update_one(
+                        {"id": latest_post["id"]},
+                        {
+                            "$set": {
+                                "content": updated_content,
+                                "updated_at": datetime.now(timezone.utc).isoformat(),
+                                "is_edited": True
+                            }
+                        }
+                    )
+                    
+                    action_taken = "edit_post"
+                    action_result = {"success": True, "post_id": latest_post["id"]}
+                    
+                    logging.info(f"[SUPPORT AGENT] Post updated: {latest_post['id']}")
+                    response += f"\n\n✅ Post updated! Added: {addition}"
+                else:
+                    logging.warning(f"[SUPPORT AGENT] No content to add found")
+            else:
+                logging.warning(f"[SUPPORT AGENT] No posts found for user")
+                response += "\n\nI couldn't find any posts to edit."
+        
+        elif any(keyword in user_msg_lower for keyword in ["post", "share", "publish"]):
             logging.info(f"[SUPPORT AGENT] Post keyword detected")
             # Extract content that should be posted
             post_content = None
