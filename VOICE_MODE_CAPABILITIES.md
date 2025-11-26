@@ -221,14 +221,20 @@ curl -X POST ".../support-agent/voice/process-command?athlete_id=..." \
 
 ## 🚀 Future Enhancements
 
-### Planned Features:
-1. **Voice-Triggered Media Upload**
-   - "Upload a photo to my post"
-   - Trigger camera/file picker via voice command
+### Completed Features:
+1. ✅ **Voice-Triggered Camera Capture**
+   - "Take a photo and post it"
+   - Live camera preview
+   - Automatic capture, upload, and post creation
 
-2. **Voice Captions for Media**
-   - "Add caption to uploaded image"
-   - Voice-to-text for media descriptions
+### Planned Features:
+1. **Manual File Upload**
+   - "Upload a photo from my gallery"
+   - File picker integration
+
+2. **Multiple Media Capture**
+   - "Take 3 photos for my post"
+   - Batch camera capture
 
 3. **Batch Operations**
    - "Delete all posts from this week"
