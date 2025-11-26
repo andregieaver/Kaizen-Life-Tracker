@@ -26,7 +26,7 @@ const SupportAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
       navigate(path);
     };
 
-    const handleDataCommand = (event) => {
+    const handleDataCommand = async (event) => {
       const { results, command } = event.detail;
       console.log('Support Agent: Data command result', { command, results });
       
@@ -36,7 +36,17 @@ const SupportAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
         const communityAction = results.find(r => r.type === 'community_action');
         
         if (communityAction) {
-          // Show user-friendly feedback for community actions
+          // Handle camera trigger for take_photo action
+          if (communityAction.action === 'take_photo' && communityAction.success) {
+            const caption = communityAction.caption;
+            console.log('Opening camera for photo capture with caption:', caption);
+            
+            // Trigger camera capture
+            await handleCameraCapture(caption);
+            return;
+          }
+          
+          // Show user-friendly feedback for other community actions
           if (communityAction.success) {
             let message = '';
             switch (communityAction.action) {
@@ -66,6 +76,110 @@ const SupportAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
             alert(`Support Agent Results:\n${JSON.stringify(dataResult.data || dataResult, null, 2)}`);
           }
         }
+      }
+    };
+
+    const handleCameraCapture = async (caption) => {
+      try {
+        // Request camera access
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: 'user' }, 
+          audio: false 
+        });
+        
+        // Create modal for camera preview
+        const modal = document.createElement('div');
+        modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;';
+        
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.style.cssText = 'max-width:90%;max-height:70vh;border-radius:12px;';
+        modal.appendChild(video);
+        
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        
+        // Button container
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = 'display:flex;gap:16px;margin-top:20px;';
+        
+        const captureBtn = document.createElement('button');
+        captureBtn.textContent = '📸 Capture & Post';
+        captureBtn.style.cssText = 'padding:12px 24px;background:#32D3FF;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;font-weight:600;';
+        
+        const cancelBtn = document.createElement('button');
+        cancelBtn.textContent = '❌ Cancel';
+        cancelBtn.style.cssText = 'padding:12px 24px;background:#666;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;';
+        
+        buttonContainer.appendChild(captureBtn);
+        buttonContainer.appendChild(cancelBtn);
+        modal.appendChild(buttonContainer);
+        
+        document.body.appendChild(modal);
+        
+        const cleanup = () => {
+          stream.getTracks().forEach(track => track.stop());
+          document.body.removeChild(modal);
+        };
+        
+        captureBtn.onclick = async () => {
+          // Capture the photo
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          context.drawImage(video, 0, 0);
+          
+          canvas.toBlob(async (blob) => {
+            const file = new File([blob], `voice-capture-${Date.now()}.jpg`, { type: 'image/jpeg' });
+            
+            // Upload the captured image
+            const formData = new FormData();
+            formData.append('files', file);
+            
+            try {
+              const uploadResponse = await fetch(`${BACKEND_URL}/api/support-agent/upload-media/${athleteId}`, {
+                method: 'POST',
+                body: formData
+              });
+              
+              const uploadData = await uploadResponse.json();
+              
+              if (uploadData.success && uploadData.media.length > 0) {
+                // Create post with the captured image
+                const postResponse = await fetch(`${BACKEND_URL}/api/support-agent/create-post/${athleteId}`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    content: caption,
+                    media: uploadData.media
+                  })
+                });
+                
+                const postData = await postResponse.json();
+                
+                if (postData.success) {
+                  alert('✅ Photo captured and posted successfully!');
+                } else {
+                  alert('❌ Failed to create post');
+                }
+              } else {
+                alert('❌ Failed to upload photo');
+              }
+            } catch (error) {
+              console.error('Error uploading photo:', error);
+              alert('❌ Error uploading photo');
+            }
+            
+            cleanup();
+          }, 'image/jpeg', 0.9);
+        };
+        
+        cancelBtn.onclick = cleanup;
+        
+      } catch (error) {
+        console.error('Camera error:', error);
+        alert('Could not access camera. Please check permissions.');
       }
     };
 
