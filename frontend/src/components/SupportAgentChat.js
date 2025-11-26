@@ -10,9 +10,13 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
   const [inputMessage, setInputMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [sessionId, setSessionId] = useState('');
+  const [attachedMedia, setAttachedMedia] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
   const inputContainerRef = React.useRef(null);
+  const fileInputRef = React.useRef(null);
+  const videoInputRef = React.useRef(null);
 
   useEffect(() => {
     // Generate or retrieve session ID from localStorage
