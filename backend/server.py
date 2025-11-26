@@ -9130,13 +9130,68 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         action_taken = None
         action_result = None
         
-        # Check if the user is asking to create a post OR edit their latest post
+        # Check if the user is asking to create a post, edit, or delete
         user_msg_lower = chat_request.message.lower()
         logging.info(f"[SUPPORT AGENT] Processing message: {chat_request.message[:100]}")
         
-        # Check for edit/update actions on latest post (CHECK THIS FIRST before creating new posts)
-        if (any(keyword in user_msg_lower for keyword in ["add to", "edit", "update", "append to"]) and 
-            any(target in user_msg_lower for target in ["latest", "most recent", "recent post", "last post", "my post"])):
+        # 1. CHECK FOR DELETE FIRST (highest priority to prevent false post creation)
+        if "delete" in user_msg_lower and any(word in user_msg_lower for word in ["post", "published", "the post"]):
+            logging.info(f"[SUPPORT AGENT] Delete post detected")
+            
+            # Try to find post by timestamp if provided
+            import re
+            timestamp_match = re.search(r'(\d{2}\.\d{2}\.\d{4}[,\s]+\d{2}:\d{2})', chat_request.message)
+            
+            if timestamp_match:
+                # User specified a timestamp, try to find that post
+                timestamp_str = timestamp_match.group(1)
+                logging.info(f"[SUPPORT AGENT] Timestamp specified: {timestamp_str}")
+                
+                # Find posts from that day
+                posts = await db.community_posts.find(
+                    {"athlete_id": chat_request.athlete_id},
+                    {"_id": 0}
+                ).sort("created_at", -1).limit(10).to_list(length=10)
+                
+                # Find matching post (match will be approximate based on date/time)
+                target_post = None
+                for post in posts:
+                    post_time = post.get("created_at")
+                    if isinstance(post_time, str):
+                        post_time = datetime.fromisoformat(post_time.replace('Z', '+00:00'))
+                    post_str = post_time.strftime("%d.%m.%Y, %H:%M")
+                    if timestamp_str.replace(',', '').strip() in post_str:
+                        target_post = post
+                        break
+                
+                if target_post:
+                    await db.community_posts.delete_one({"id": target_post["id"]})
+                    action_taken = "delete_post"
+                    action_result = {"success": True, "post_id": target_post["id"]}
+                    logging.info(f"[SUPPORT AGENT] Post deleted: {target_post['id']}")
+                    response += f"\n\n✅ Post deleted successfully!"
+                else:
+                    logging.warning(f"[SUPPORT AGENT] Could not find post with timestamp: {timestamp_str}")
+                    response += f"\n\n❌ Could not find post from {timestamp_str}. Please try again."
+            else:
+                # No timestamp, delete latest post
+                posts = await db.community_posts.find(
+                    {"athlete_id": chat_request.athlete_id},
+                    {"_id": 0}
+                ).sort("created_at", -1).limit(1).to_list(length=1)
+                
+                if posts:
+                    await db.community_posts.delete_one({"id": posts[0]["id"]})
+                    action_taken = "delete_post"
+                    action_result = {"success": True, "post_id": posts[0]["id"]}
+                    logging.info(f"[SUPPORT AGENT] Latest post deleted: {posts[0]['id']}")
+                    response += f"\n\n✅ Latest post deleted successfully!"
+                else:
+                    response += f"\n\n❌ No posts found to delete."
+        
+        # 2. CHECK FOR EDIT/UPDATE (second priority)
+        elif any(keyword in user_msg_lower for keyword in ["add to my", "add hashtag", "add emoji", "edit my", "update my"]):
+            logging.info(f"[SUPPORT AGENT] Edit/add to post detected")
             logging.info(f"[SUPPORT AGENT] Edit latest post detected")
             
             # Get user's latest post (need to use find() with sort, not find_one() with sort)
