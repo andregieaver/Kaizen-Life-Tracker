@@ -9136,14 +9136,17 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         
         # Check for edit/update actions on latest post (CHECK THIS FIRST before creating new posts)
         if (any(keyword in user_msg_lower for keyword in ["add to", "edit", "update", "append to"]) and 
-            any(target in user_msg_lower for target in ["latest", "most recent", "recent post", "last post"])):
+            any(target in user_msg_lower for target in ["latest", "most recent", "recent post", "last post", "my post"])):
             logging.info(f"[SUPPORT AGENT] Edit latest post detected")
             
-            # Get user's latest post
-            latest_post = await db.community_posts.find_one(
+            # Get user's latest post (need to use find() with sort, not find_one() with sort)
+            posts = await db.community_posts.find(
                 {"athlete_id": chat_request.athlete_id},
                 {"_id": 0}
-            ).sort("created_at", -1)
+            ).sort("created_at", -1).limit(1).to_list(length=1)
+            
+            latest_post = posts[0] if posts else None
+            logging.info(f"[SUPPORT AGENT] Found latest post: {latest_post['id'] if latest_post else 'None'}")
             
             if latest_post:
                 # Extract what to add
