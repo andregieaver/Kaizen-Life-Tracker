@@ -128,10 +128,15 @@ class RealtimeAudioChat {
         this.dataChannel.onmessage = (event) => {
             try {
                 const eventData = JSON.parse(event.data);
+                
+                // CRITICAL DEBUG: Log ALL events to see what OpenAI is actually sending
+                console.log('🔊 VOICE EVENT RECEIVED:', eventData.type, eventData);
                 logger.debug(null, "Received event:", eventData);
                 
                 // Handle transcript events from OpenAI Realtime API
                 if (eventData.type === 'conversation.item.input_audio_transcription.completed') {
+                    console.log('✅ USER TRANSCRIPT EVENT:', eventData.transcript);
+                    alert(`📝 User said: ${eventData.transcript}`);  // DEBUG ALERT
                     // User speech transcribed
                     this.addToTranscript('user', eventData.transcript, new Date());
                 } else if (eventData.type === 'response.audio_transcript.done') {
