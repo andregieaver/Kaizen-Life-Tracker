@@ -9168,9 +9168,10 @@ YOUR CAPABILITIES:
    Format: "PROFILE:{athlete_id}"
    Example: "Looking up your profile. PROFILE:{athlete_id}"
 
-6. COMMUNITY ACTIONS - Manage user's community content:
-   Format: "COMMUNITY:create_post" or "COMMUNITY:edit_post:post_id"
-   Example: "I'll create that post for you. COMMUNITY:create_post"
+6. COMMUNITY ACTIONS - Create posts on user's behalf:
+   Format: "COMMUNITY:create_post|Post content here"
+   Example: "I'll post that for you! COMMUNITY:create_post|Just finished an amazing 10K run! Feeling great and ready for the marathon."
+   IMPORTANT: Always include the actual post content after the | symbol
 
 WORKFLOW:
 - First interaction: Use INSPECT:user to understand their data
