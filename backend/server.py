@@ -9659,12 +9659,94 @@ Remember: You're their personal assistant with REAL capabilities - be DECISIVE a
                     'OpenAI-Beta': 'realtime=v1'
                 }
                 
+                # Define tools/functions for the voice agent
+                tools = [
+                    {
+                        "type": "function",
+                        "name": "take_photo_and_post",
+                        "description": "Opens the camera for the user to take a photo, then creates a community post with that photo and the provided caption",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "caption": {
+                                    "type": "string",
+                                    "description": "The caption/text content for the post that will accompany the photo"
+                                }
+                            },
+                            "required": ["caption"]
+                        }
+                    },
+                    {
+                        "type": "function",
+                        "name": "create_post",
+                        "description": "Creates a community post with the specified text content",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "content": {
+                                    "type": "string",
+                                    "description": "The text content of the post to publish"
+                                }
+                            },
+                            "required": ["content"]
+                        }
+                    },
+                    {
+                        "type": "function",
+                        "name": "edit_post",
+                        "description": "Adds additional content to the user's most recent community post",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "additional_content": {
+                                    "type": "string",
+                                    "description": "The content to add to the existing post (e.g., hashtags, additional text)"
+                                }
+                            },
+                            "required": ["additional_content"]
+                        }
+                    },
+                    {
+                        "type": "function",
+                        "name": "delete_post_request",
+                        "description": "Requests deletion of the user's most recent post. Must be followed by user confirmation.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "confirmed": {
+                                    "type": "boolean",
+                                    "description": "Whether the user has confirmed the deletion"
+                                }
+                            },
+                            "required": ["confirmed"]
+                        }
+                    },
+                    {
+                        "type": "function",
+                        "name": "navigate_to_page",
+                        "description": "Navigates the user to a specific page in the dashboard",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "page": {
+                                    "type": "string",
+                                    "enum": ["community", "calendar", "journal", "workouts", "nutrition", "account", "settings"],
+                                    "description": "The dashboard page to navigate to"
+                                }
+                            },
+                            "required": ["page"]
+                        }
+                    }
+                ]
+                
                 session_config = {
                     'model': 'gpt-4o-realtime-preview-2024-12-17',
                     'voice': 'alloy',
                     'instructions': system_message,
                     'modalities': ['audio', 'text'],
                     'temperature': 0.8,
+                    'tools': tools,
+                    'tool_choice': 'auto',
                     'turn_detection': {
                         'type': 'server_vad',
                         'threshold': 0.5,
