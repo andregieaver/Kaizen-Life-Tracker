@@ -177,6 +177,30 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
                 }`}
               >
                 <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+                
+                {/* Show confirmation button for pending deletions */}
+                {msg.actionTaken === 'pending_delete' && msg.actionResult?.pending && (
+                  <div className="mt-3 flex gap-2">
+                    <button
+                      onClick={() => {
+                        setInputMessage('yes');
+                        setTimeout(() => handleSendMessage(), 100);
+                      }}
+                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors"
+                    >
+                      Confirm Delete
+                    </button>
+                    <button
+                      onClick={() => {
+                        setInputMessage('no');
+                        setTimeout(() => handleSendMessage(), 100);
+                      }}
+                      className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))
