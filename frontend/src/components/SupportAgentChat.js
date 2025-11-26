@@ -392,8 +392,8 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
         )}
       </div>
 
-      {/* Message Input - Fixed at Bottom (outside flex container like CoachChat) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 z-50">
+      {/* Message Input - Fixed at Bottom (scoped to this container) */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 z-10">
         <div className="w-full max-w-[1600px] mx-auto px-4 py-4">
           {/* Media Preview */}
           {attachedMedia.length > 0 && (
