@@ -191,9 +191,9 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
       )}
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col w-full">
+      <div className="flex-1 flex flex-col w-full min-h-0">
         {/* Chat Header */}
-        <div className="bg-gradient-to-r from-blue-900 to-indigo-900 p-4 border-b border-gray-800">
+        <div className="flex-shrink-0 bg-gradient-to-r from-blue-900 to-indigo-900 p-4 border-b border-gray-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {/* Menu button for mobile */}
@@ -228,7 +228,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
         {/* Messages Area */}
         {!isVoiceActive ? (
           <>
-            <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 custom-scrollbar min-h-0">
               {messages.length === 0 && (
                 <div className="text-center text-gray-400 mt-10 sm:mt-20 px-4">
                   <Shield className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-gray-600" />
