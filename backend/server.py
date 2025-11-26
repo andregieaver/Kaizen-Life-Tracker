@@ -9428,6 +9428,103 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         return {"response": response, "action_taken": action_taken, "action_result": action_result}
         
     except HTTPException:
+
+@api_router.post("/support-agent/upload-media/{athlete_id}")
+async def support_agent_upload_media(
+    athlete_id: str,
+    files: List[UploadFile] = File(...)
+):
+    """Upload media files (images/videos) for Support Agent posts"""
+    try:
+        # Verify user is logged in
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        uploaded_media = []
+        
+        # Create upload directory if it doesn't exist
+        upload_dir = Path("/app/backend/uploads/community")
+        upload_dir.mkdir(parents=True, exist_ok=True)
+        
+        for file in files:
+            # Validate file
+            content_type = file.content_type
+            file_size = 0
+            
+            # Read file content
+            file_content = await file.read()
+            file_size = len(file_content)
+            
+            # Check file size limits
+            if content_type.startswith('image/'):
+                max_size = 10 * 1024 * 1024  # 10MB
+                if file_size > max_size:
+                    raise HTTPException(status_code=400, detail=f"Image {file.filename} exceeds 10MB limit")
+            elif content_type.startswith('video/'):
+                max_size = 50 * 1024 * 1024  # 50MB
+                if file_size > max_size:
+                    raise HTTPException(status_code=400, detail=f"Video {file.filename} exceeds 50MB limit")
+            else:
+                raise HTTPException(status_code=400, detail=f"Unsupported file type: {content_type}")
+            
+            # Generate unique filename
+            file_extension = Path(file.filename).suffix
+            unique_filename = f"{uuid.uuid4()}{file_extension}"
+            file_path = upload_dir / unique_filename
+            
+            # Save file
+            with open(file_path, "wb") as f:
+                f.write(file_content)
+            
+            # Generate URL
+            file_url = f"/api/uploads/community/{unique_filename}"
+            
+            media_item = {
+                "type": "image" if content_type.startswith('image/') else "video",
+                "url": file_url,
+                "filename": file.filename,
+                "size": file_size
+            }
+            
+            # For videos, try to generate thumbnail (optional, won't fail if ffmpeg not available)
+            if content_type.startswith('video/'):
+                try:
+                    import subprocess
+                    thumb_filename = f"{uuid.uuid4()}_thumb.jpg"
+                    thumb_path = upload_dir / thumb_filename
+                    
+                    # Try to generate thumbnail with ffmpeg
+                    subprocess.run([
+                        'ffmpeg', '-i', str(file_path),
+                        '-ss', '00:00:01',
+                        '-vframes', '1',
+                        '-vf', 'scale=320:-1',
+                        str(thumb_path)
+                    ], capture_output=True, timeout=10)
+                    
+                    if thumb_path.exists():
+                        media_item["thumbnail"] = f"/api/uploads/community/{thumb_filename}"
+                except Exception as e:
+                    logging.warning(f"Could not generate video thumbnail: {e}")
+                    # Not critical, continue without thumbnail
+            
+            uploaded_media.append(media_item)
+            logging.info(f"[SUPPORT AGENT] Uploaded media: {media_item['type']} - {file_url}")
+        
+        return {
+            "success": True,
+            "media": uploaded_media,
+            "count": len(uploaded_media)
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to upload media: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
         raise
     except Exception as e:
         logging.error(f"Support Agent chat error: {e}")
