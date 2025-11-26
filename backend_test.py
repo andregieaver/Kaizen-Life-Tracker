@@ -15250,15 +15250,15 @@ def test_strava_callback_domain_update():
         return False
 
 def main():
-    """Main function to run Management Agent Voice Command Processing testing as requested in review"""
-    print("🚀 STARTING MANAGEMENT AGENT VOICE COMMAND PROCESSING TESTING AS REQUESTED")
+    """Main function to run Support Agent Backend Endpoints testing as requested in review"""
+    print("🚀 STARTING SUPPORT AGENT BACKEND ENDPOINTS TESTING AS REQUESTED")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test: Management Agent Voice Command Processing
+    # Test: Support Agent Backend Endpoints
     print("\n" + "="*70)
-    if not test_management_agent_voice_command_processing():
+    if not test_support_agent_backend_endpoints():
         all_tests_passed = False
     
     # Final Results
@@ -15267,15 +15267,16 @@ def main():
     print("=" * 70)
     
     if all_tests_passed:
-        print("✅ ALL MANAGEMENT AGENT VOICE COMMAND TESTS PASSED!")
-        print("🎉 MANAGEMENT AGENT VOICE COMMAND PROCESSING VERIFICATION COMPLETED SUCCESSFULLY")
-        print("💡 All voice command types (NAVIGATE, INSPECT, QUERY, STATS, USER) working correctly")
-        print("💡 Authorization properly restricts access to super admins only")
-        print("💡 Voice session creation endpoint working")
+        print("✅ ALL SUPPORT AGENT BACKEND TESTS PASSED!")
+        print("🎉 SUPPORT AGENT BACKEND ENDPOINTS VERIFICATION COMPLETED SUCCESSFULLY")
+        print("💡 All endpoints working for regular users (not just super admin)")
+        print("💡 Data scoping working correctly - users can only access their own data")
+        print("💡 Voice commands (INSPECT, QUERY, STATS, PROFILE, NAVIGATE, COMMUNITY) processed")
+        print("💡 History and conversation endpoints functional")
     else:
-        print("❌ MANAGEMENT AGENT VOICE COMMAND TESTS FAILED!")
+        print("❌ SUPPORT AGENT BACKEND TESTS FAILED!")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Management Agent voice command processing may not be working correctly")
+        print("🚨 CRITICAL: Support Agent backend endpoints may not be working correctly")
         sys.exit(1)
 
 if __name__ == "__main__":
