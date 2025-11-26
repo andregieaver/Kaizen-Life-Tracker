@@ -9701,9 +9701,8 @@ You help with their fitness journey, workouts, and community."""
                     'voice': 'alloy',
                     'instructions': system_message,
                     'modalities': ['audio', 'text'],
-                    'temperature': 0.9,  # Higher temperature for more creative function use
-                    'tools': tools,
-                    'tool_choice': 'required',  # FORCE function calling - must use a function
+                    'temperature': 0.8,
+                    'tools': [],  # Not using tools - parsing user input directly on frontend
                     'turn_detection': {
                         'type': 'server_vad',
                         'threshold': 0.5,
