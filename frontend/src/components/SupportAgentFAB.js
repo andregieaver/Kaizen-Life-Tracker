@@ -30,10 +30,42 @@ const SupportAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
       const { results, command } = event.detail;
       console.log('Support Agent: Data command result', { command, results });
       
-      // Display results in a modal or notification
-      // For now, just log to console - can be enhanced later
+      // Display results based on action type
       if (results && results.length > 0) {
-        alert(`Support Agent Results:\n${JSON.stringify(results, null, 2)}`);
+        // Check for community actions
+        const communityAction = results.find(r => r.type === 'community_action');
+        
+        if (communityAction) {
+          // Show user-friendly feedback for community actions
+          if (communityAction.success) {
+            let message = '';
+            switch (communityAction.action) {
+              case 'create_post':
+                message = '✅ Post created successfully!';
+                break;
+              case 'edit_post':
+                message = '✅ Post updated!';
+                break;
+              case 'delete_post':
+                message = '✅ Post deleted!';
+                break;
+              case 'delete_post_pending':
+                message = `⚠️ Confirm deletion:\n"${communityAction.post_content}..."\n\nSay "yes delete it" to confirm.`;
+                break;
+              default:
+                message = communityAction.message || 'Action completed';
+            }
+            alert(message);
+          } else {
+            alert(`❌ ${communityAction.message || 'Action failed'}`);
+          }
+        } else {
+          // For other data commands, show structured info
+          const dataResult = results.find(r => r.type === 'inspection' || r.type === 'query' || r.type === 'statistics' || r.type === 'profile');
+          if (dataResult) {
+            alert(`Support Agent Results:\n${JSON.stringify(dataResult.data || dataResult, null, 2)}`);
+          }
+        }
       }
     };
 
