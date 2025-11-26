@@ -168,9 +168,13 @@ class RealtimeAudioChat {
                             call_id: eventData.item.call_id
                         });
                     }
+                } else {
+                    // CATCH-ALL: Log any unhandled event types
+                    console.log('⚠️ UNHANDLED EVENT TYPE:', eventData.type);
                 }
             } catch (error) {
                 logger.error(null, "Error parsing data channel event:", error);
+                console.error('❌ DATA CHANNEL ERROR:', error);
             }
         };
         
