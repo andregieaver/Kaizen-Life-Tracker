@@ -9234,7 +9234,7 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                         action_taken = "pending_delete"
                         action_result = {"pending": True, "post_id": posts[0]["id"], "post_content": posts[0].get("content", "")[:100]}
                         # Override AI response with confirmation message
-                        response = f'⚠️ Are you sure you want to delete this post?\n\n"{posts[0].get("content", "")[:100]}..."\n\nClick "Delete Post" to confirm or "Cancel" to keep it.'
+                        response = f'⚠️ Are you sure you want to delete this post?\n\n"{posts[0].get("content", "")[:100]}..."\n\nClick "Yes" to confirm or "No" to keep it.'
                     else:
                         response = "❌ No posts found to delete."
         
