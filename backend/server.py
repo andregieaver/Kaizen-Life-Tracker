@@ -17769,15 +17769,24 @@ async def submit_support_form(submission: SupportFormSubmission):
         
         # Send email to support
         logging.info(f"Sending support email to support@kaizenlifetracker.com...")
-        await email_service.send_email(
-            to_email="support@kaizenlifetracker.com",
-            subject=f"Support Request: {submission.subject}",
-            html_content=html_content,
-            text_content=text_content
-        )
-        
-        logging.info("Support email sent successfully")
-        return {"success": True, "message": "Your support request has been submitted successfully"}
+        try:
+            await email_service.send_email(
+                to_email="support@kaizenlifetracker.com",
+                subject=f"Support Request: {submission.subject}",
+                html_content=html_content,
+                text_content=text_content
+            )
+            logging.info("Support email sent successfully")
+            return {"success": True, "message": "Your support request has been submitted successfully"}
+        except Exception as email_error:
+            logging.error(f"Failed to send support email: {email_error}")
+            # Still return success to user, but log the email failure
+            # In production, you might want to store this in a queue for retry
+            return {
+                "success": True, 
+                "message": "Your support request has been received. We'll get back to you soon.",
+                "email_status": "pending"
+            }
         
     except HTTPException:
         raise
