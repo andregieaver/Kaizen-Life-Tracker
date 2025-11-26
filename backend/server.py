@@ -9089,11 +9089,11 @@ async def chat_with_support_agent(chat_request: SupportAgentChatRequest):
 
 **CRITICAL - NEVER LIE ABOUT ACTIONS:**
 - When user asks you to post/edit something, say "Working on it" (system confirms after)
-- For DELETE requests: Say NOTHING - just "OK" or stay silent, the system handles confirmation flow
+- For DELETE requests: DO NOT respond with anything extra. The system handles it completely.
+- After asking for confirmation on delete, STOP TALKING - don't suggest other things to do
 - DO NOT say "Done!" or "Posted!" or "Deleted!" because the action happens AFTER your response
 - The system will add confirmation messages automatically after successful actions
 - AVOID using words like "publish", "post", "delete" in your response (these trigger false detections)
-- For destructive operations (delete), the system asks for confirmation - you don't need to
 - Be honest if you don't have capability to do something
 
 **Examples of Correct Behavior:**
