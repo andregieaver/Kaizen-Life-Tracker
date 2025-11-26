@@ -9431,6 +9431,10 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         return {"response": response, "action_taken": action_taken, "action_result": action_result}
         
     except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Support Agent chat error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to get support agent response: {str(e)}")
 
 @api_router.post("/support-agent/upload-media/{athlete_id}")
 async def support_agent_upload_media(
