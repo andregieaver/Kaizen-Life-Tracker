@@ -165,7 +165,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
           </div>
           <Button 
             onClick={startNewConversation}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] hover:from-[#2a5d7d] hover:to-[#42E3FF] text-white"
           >
             <Plus className="w-4 h-4 mr-2" />
             New Conversation
