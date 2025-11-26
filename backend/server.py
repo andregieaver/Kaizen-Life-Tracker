@@ -9701,9 +9701,9 @@ IMPORTANT: This app HAS a community feature. You CAN post. You CAN take photos. 
                     'voice': 'alloy',
                     'instructions': system_message,
                     'modalities': ['audio', 'text'],
-                    'temperature': 0.8,
+                    'temperature': 0.9,  # Higher temperature for more creative function use
                     'tools': tools,
-                    'tool_choice': 'auto',
+                    'tool_choice': 'required',  # FORCE function calling - must use a function
                     'turn_detection': {
                         'type': 'server_vad',
                         'threshold': 0.5,
