@@ -9625,13 +9625,13 @@ NEVER RESPOND WITHOUT CALLING A FUNCTION."""
                     {
                         "type": "function",
                         "name": "take_photo_and_post",
-                        "description": "Opens the camera for the user to take a photo, then creates a community post with that photo and the provided caption",
+                        "description": "CAMERA: Opens camera when user says 'picture', 'photo', 'selfie', 'camera'. Use this for ANY photo request.",
                         "parameters": {
                             "type": "object",
                             "properties": {
                                 "caption": {
                                     "type": "string",
-                                    "description": "The caption/text content for the post that will accompany the photo"
+                                    "description": "Caption for the photo post"
                                 }
                             },
                             "required": ["caption"]
@@ -9640,13 +9640,13 @@ NEVER RESPOND WITHOUT CALLING A FUNCTION."""
                     {
                         "type": "function",
                         "name": "create_post",
-                        "description": "Creates a community post with the specified text content",
+                        "description": "POST: Creates community post when user says 'post', 'publish', 'share'. Use this for ANY posting request.",
                         "parameters": {
                             "type": "object",
                             "properties": {
                                 "content": {
                                     "type": "string",
-                                    "description": "The text content of the post to publish"
+                                    "description": "The post content"
                                 }
                             },
                             "required": ["content"]
@@ -9654,14 +9654,30 @@ NEVER RESPOND WITHOUT CALLING A FUNCTION."""
                     },
                     {
                         "type": "function",
+                        "name": "navigate_to_page",
+                        "description": "NAVIGATE: Goes to dashboard page when user says 'go to', 'show me', 'take me to'",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "page": {
+                                    "type": "string",
+                                    "enum": ["community", "calendar", "journal", "workouts", "nutrition", "account", "settings"],
+                                    "description": "Page to navigate to"
+                                }
+                            },
+                            "required": ["page"]
+                        }
+                    },
+                    {
+                        "type": "function",
                         "name": "edit_post",
-                        "description": "Adds additional content to the user's most recent community post",
+                        "description": "EDIT: Adds to latest post when user says 'edit', 'add to post', 'update'",
                         "parameters": {
                             "type": "object",
                             "properties": {
                                 "additional_content": {
                                     "type": "string",
-                                    "description": "The content to add to the existing post (e.g., hashtags, additional text)"
+                                    "description": "Content to add"
                                 }
                             },
                             "required": ["additional_content"]
@@ -9670,13 +9686,13 @@ NEVER RESPOND WITHOUT CALLING A FUNCTION."""
                     {
                         "type": "function",
                         "name": "delete_post_request",
-                        "description": "Requests deletion of the user's most recent post. Must be followed by user confirmation.",
+                        "description": "DELETE: Deletes latest post when user says 'delete post', 'remove post'",
                         "parameters": {
                             "type": "object",
                             "properties": {
                                 "confirmed": {
                                     "type": "boolean",
-                                    "description": "Whether the user has confirmed the deletion"
+                                    "description": "Whether deletion is confirmed"
                                 }
                             },
                             "required": ["confirmed"]
@@ -9684,18 +9700,17 @@ NEVER RESPOND WITHOUT CALLING A FUNCTION."""
                     },
                     {
                         "type": "function",
-                        "name": "navigate_to_page",
-                        "description": "Navigates the user to a specific page in the dashboard",
+                        "name": "respond_to_user",
+                        "description": "CHAT: Use when user is just chatting or asking questions (not requesting an action)",
                         "parameters": {
                             "type": "object",
                             "properties": {
-                                "page": {
+                                "response": {
                                     "type": "string",
-                                    "enum": ["community", "calendar", "journal", "workouts", "nutrition", "account", "settings"],
-                                    "description": "The dashboard page to navigate to"
+                                    "description": "Your response to the user"
                                 }
                             },
-                            "required": ["page"]
+                            "required": ["response"]
                         }
                     }
                 ]
