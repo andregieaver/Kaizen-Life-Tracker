@@ -9597,10 +9597,14 @@ YOUR CAPABILITIES:
    a) Create post: "COMMUNITY:create_post|Post content here"
       Example: "I'll post that for you! COMMUNITY:create_post|Just finished an amazing 10K run! Feeling great and ready for the marathon."
    
-   b) Edit latest post: "COMMUNITY:edit_post|Additional content to add"
+   b) Create post with photo: "COMMUNITY:take_photo|Post caption here"
+      Example: "Let me open the camera for you! COMMUNITY:take_photo|Check out my workout setup!"
+      This triggers camera, captures photo, uploads it, and creates post with the image
+   
+   c) Edit latest post: "COMMUNITY:edit_post|Additional content to add"
       Example: "I'll add that! COMMUNITY:edit_post| #running #marathon"
    
-   c) Delete latest post: "COMMUNITY:delete_post|CONFIRM"
+   d) Delete latest post: "COMMUNITY:delete_post|CONFIRM"
       Example: "Are you sure? Say 'yes delete it' to confirm. COMMUNITY:delete_post|PENDING"
       After confirmation: "COMMUNITY:delete_post|CONFIRM"
    
