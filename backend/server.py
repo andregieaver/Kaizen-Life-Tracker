@@ -9055,7 +9055,8 @@ async def chat_with_support_agent(chat_request: SupportAgentChatRequest):
    - Suggest optimizations for health and fitness goals
    
 3. CONTENT MANAGEMENT: Help manage their community presence
-   - Create posts on their behalf
+   - Create posts on their behalf (tell them "I'll create that post for you!" then create it)
+   - When user asks you to post something, extract the content and confirm
    - Edit or delete their existing posts/comments
    - Respond to comments
    
