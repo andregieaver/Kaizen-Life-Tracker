@@ -166,7 +166,7 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
               <div
                 className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                   msg.role === 'user'
-                    ? 'bg-gradient-to-br from-purple-600 to-indigo-600 text-white'
+                    ? 'bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] text-white'
                     : msg.isError
                     ? 'bg-red-900/20 text-red-400 border border-red-800'
                     : 'bg-gray-800 text-gray-100'
