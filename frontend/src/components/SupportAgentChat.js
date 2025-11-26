@@ -92,12 +92,16 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       });
 
       const assistantMessage = response.data.response;
+      const actionTaken = response.data.action_taken;
+      const actionResult = response.data.action_result;
 
-      // Add assistant message to display
+      // Add assistant message to display with action metadata
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: assistantMessage,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        actionTaken: actionTaken,
+        actionResult: actionResult
       }]);
 
       // Check for navigation commands in the response
