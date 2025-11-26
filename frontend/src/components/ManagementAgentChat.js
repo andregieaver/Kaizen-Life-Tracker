@@ -152,7 +152,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
         <div className="p-4 border-b border-gray-800">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
-              <Shield className="w-6 h-6 text-blue-400" />
+              <Shield className="w-6 h-6 text-[#32D3FF]" />
               <h2 className="text-xl font-semibold text-white">Management Agent</h2>
             </div>
             {/* Close button for mobile */}
