@@ -313,7 +313,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
             </div>
 
             {/* Input Area - Fixed at bottom */}
-            <div className="flex-shrink-0 border-t border-gray-800 p-3 sm:p-4 bg-[#0B1220]">
+            <div ref={inputContainerRef} className="flex-shrink-0 border-t border-gray-800 p-3 sm:p-4 bg-[#0B1220]">
               <form onSubmit={sendMessage} className="flex space-x-2">
                 <Input
                   ref={inputRef}
@@ -323,11 +323,12 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
                   placeholder="Ask me anything..."
                   className="flex-1 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-blue-500 text-sm sm:text-base"
                   disabled={isLoading}
+                  autoComplete="off"
                 />
                 <Button 
                   type="submit" 
                   disabled={isLoading || !newMessage.trim()}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 flex-shrink-0"
                 >
                   <Send className="w-4 h-4" />
                 </Button>
