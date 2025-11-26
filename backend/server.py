@@ -9648,25 +9648,50 @@ Remember: You're their personal assistant with REAL capabilities - be DECISIVE a
         
         realtime = OpenAIChatRealtime(api_key=openai_key)
         
-        # Try to create session with system_message, fall back if not supported
+        # Create session (system_message not supported in create method)
         try:
             logging.info(f"[SUPPORT VOICE] Creating ephemeral session with voice=alloy")
-            session_data = await realtime.create_ephemeral_session_for_audio_chat(
-                voice='alloy',
-                system_message=system_message
-            )
-            logging.info(f"[SUPPORT VOICE] Session data received: {type(session_data)}")
+            session_data = await realtime.create_ephemeral_session_for_audio_chat(voice='alloy')
+            logging.info(f"[SUPPORT VOICE] Session created: {type(session_data)}")
         except TypeError as te:
-            logging.info(f"[SUPPORT VOICE] TypeError with system_message: {te}")
+            logging.info(f"[SUPPORT VOICE] TypeError with voice parameter: {te}")
+            session_data = await realtime.create_ephemeral_session_for_audio_chat()
+            logging.info(f"[SUPPORT VOICE] Session created with defaults: {type(session_data)}")
+        
+        # Update session with custom instructions via direct API call
+        if session_data and 'client_secret' in session_data:
             try:
-                logging.info(f"[SUPPORT VOICE] Retrying with just voice parameter")
-                session_data = await realtime.create_ephemeral_session_for_audio_chat(voice='alloy')
-                logging.info(f"[SUPPORT VOICE] Session data received (fallback 1): {type(session_data)}")
-            except TypeError as te2:
-                logging.info(f"[SUPPORT VOICE] TypeError with voice only: {te2}")
-                logging.info(f"[SUPPORT VOICE] Using default parameters")
-                session_data = await realtime.create_ephemeral_session_for_audio_chat()
-                logging.info(f"[SUPPORT VOICE] Session data received (fallback 2): {type(session_data)}")
+                import aiohttp
+                session_id = session_data.get('id')
+                
+                # Update session instructions via OpenAI API
+                async with aiohttp.ClientSession() as http_session:
+                    headers = {
+                        'Authorization': f'Bearer {openai_key}',
+                        'Content-Type': 'application/json',
+                        'OpenAI-Beta': 'realtime=v1'
+                    }
+                    update_data = {
+                        'instructions': system_message
+                    }
+                    
+                    async with http_session.post(
+                        f'https://api.openai.com/v1/realtime/sessions/{session_id}',
+                        headers=headers,
+                        json=update_data
+                    ) as response:
+                        if response.status == 200:
+                            updated_session = await response.json()
+                            logging.info(f"[SUPPORT VOICE] Session instructions updated successfully")
+                            # Update the session_data with new instructions
+                            session_data['instructions'] = system_message
+                        else:
+                            error_text = await response.text()
+                            logging.warning(f"[SUPPORT VOICE] Failed to update session instructions: {response.status} - {error_text}")
+                            
+            except Exception as update_error:
+                logging.warning(f"[SUPPORT VOICE] Could not update session instructions: {update_error}")
+                # Continue anyway with default instructions
         
         return session_data
         
