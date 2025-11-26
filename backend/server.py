@@ -4126,41 +4126,6 @@ async def google_login(google_data: GoogleLoginRequest):
         "email": email
     }
 
-@api_router.post("/auth/reset-password")
-async def reset_password(request: PasswordResetConfirm):
-    """Complete password reset with token"""
-    athlete = await db.athlete_profiles.find_one(
-        {"email": request.email.lower().strip()}, 
-        {"_id": 0}
-    )
-    if not athlete:
-        raise HTTPException(status_code=400, detail="Invalid reset request")
-    
-    # Check if reset token exists and is valid
-    if not athlete.get("reset_token") or athlete.get("reset_token") != request.reset_token:
-        raise HTTPException(status_code=400, detail="Invalid or expired reset token")
-    
-    # Check if token is expired
-    if athlete.get("reset_token_expires"):
-        expires = datetime.fromisoformat(athlete["reset_token_expires"])
-        if datetime.now(timezone.utc) > expires:
-            raise HTTPException(status_code=400, detail="Reset token has expired")
-    
-    # Hash new password and update
-    hashed_password = pwd_context.hash(request.new_password)
-    
-    await db.athlete_profiles.update_one(
-        {"id": athlete["id"]},
-        {"$set": {
-            "password": hashed_password
-        }, "$unset": {
-            "reset_token": "",
-            "reset_token_expires": ""
-        }}
-    )
-    
-    return {"message": "Password reset successfully"}
-
 @api_router.post("/auth/change-password")
 async def change_password(request: ChangePasswordRequest):
     """Change password for logged-in user"""
