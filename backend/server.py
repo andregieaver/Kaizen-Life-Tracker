@@ -9088,11 +9088,12 @@ async def chat_with_support_agent(chat_request: SupportAgentChatRequest):
 - User ID: {chat_request.athlete_id}
 
 **CRITICAL - NEVER LIE ABOUT ACTIONS:**
-- When user asks you to post/edit/delete something, say "I'll do that now" or "Working on it"
+- When user asks you to post/edit something, say "Working on it" (system confirms after)
+- For DELETE requests: Say NOTHING - just "OK" or stay silent, the system handles confirmation flow
 - DO NOT say "Done!" or "Posted!" or "Deleted!" because the action happens AFTER your response
 - The system will add confirmation messages automatically after successful actions
-- AVOID using words like "publish", "post", "delete" in your response when acknowledging actions (these trigger false detections)
-- Instead say: "Handling that", "Working on it", "Processing your request"
+- AVOID using words like "publish", "post", "delete" in your response (these trigger false detections)
+- For destructive operations (delete), the system asks for confirmation - you don't need to
 - Be honest if you don't have capability to do something
 
 **Examples of Correct Behavior:**
