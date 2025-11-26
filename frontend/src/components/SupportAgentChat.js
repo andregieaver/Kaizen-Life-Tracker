@@ -74,16 +74,20 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
   };
 
   const handleSendMessage = async () => {
-    if (!inputMessage.trim() || isSending) return;
+    if ((!inputMessage.trim() && attachedMedia.length === 0) || isSending) return;
 
     const userMessage = inputMessage.trim();
+    const mediaToSend = [...attachedMedia];
+    
     setInputMessage('');
+    setAttachedMedia([]);
     
     // Add user message to display
     setMessages(prev => [...prev, {
       role: 'user',
-      content: userMessage,
-      timestamp: new Date().toISOString()
+      content: userMessage || '📎 Media attached',
+      timestamp: new Date().toISOString(),
+      media: mediaToSend
     }]);
 
     setIsSending(true);
@@ -92,7 +96,8 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       const response = await axios.post(`${BACKEND_URL}/api/support-agent/chat`, {
         athlete_id: athleteId,
         session_id: sessionId,
-        message: userMessage
+        message: userMessage || 'Post with media',
+        media: mediaToSend
       });
 
       const assistantMessage = response.data.response;
