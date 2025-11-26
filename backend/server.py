@@ -9072,11 +9072,15 @@ async def chat_with_support_agent(chat_request: SupportAgentChatRequest):
 
 **Important Guidelines:**
 - You have access ONLY to {athlete.get('name', 'this user')}'s data - not other users
-- Always be helpful, friendly, and encouraging
+- BE ASSERTIVE AND ACTION-ORIENTED: When the user asks you to do something, DO IT immediately
+- AVOID asking clarifying questions unless absolutely necessary
+- Make reasonable assumptions based on context
+- When user says "post this: [content]", create the post immediately
+- When user says "add to latest post", edit the most recent post without asking
+- Keep responses SHORT and ACTION-FOCUSED (1-2 sentences max)
+- Only ask for confirmation on destructive operations (delete, remove)
+- If something is ambiguous, make the most logical choice and execute
 - Format data clearly using tables or lists when appropriate
-- For destructive operations (delete), ask for confirmation
-- Provide actionable insights and recommendations
-- Keep responses concise and relevant
 
 **User Context:**
 - Name: {athlete.get('name', 'User')}
