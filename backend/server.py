@@ -9393,6 +9393,46 @@ async def get_support_agent_history(athlete_id: str, limit: int = 20):
         
         messages = await db.support_agent_messages.find(
             {"athlete_id": athlete_id}, 
+
+@api_router.post("/support-agent/create-post/{athlete_id}")
+async def support_agent_create_post(athlete_id: str, request: dict):
+    """Support Agent creates a community post on behalf of the user"""
+    try:
+        # Verify user is logged in
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        post_content = request.get("content", "").strip()
+        if not post_content:
+            raise HTTPException(status_code=400, detail="Post content is required")
+        
+        # Create the community post
+        new_post = CommunityPost(
+            athlete_id=athlete_id,
+            athlete_name=athlete.get("name", "User"),
+            athlete_profile_picture=athlete.get("profile_picture"),
+            content=post_content,
+            visibility="public"
+        )
+        
+        post_dict = prepare_for_mongo(new_post.model_dump())
+        await db.community_posts.insert_one(post_dict)
+        
+        return {
+            "success": True,
+            "post_id": new_post.id,
+            "message": "Post created successfully!",
+            "post": parse_from_mongo(post_dict)
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to create post via support agent: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
             {"_id": 0}
         ).sort("timestamp", -1).limit(limit).to_list(length=limit)
         
