@@ -219,7 +219,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
               >
                 <Menu className="w-6 h-6" />
               </button>
-              <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] flex items-center justify-center">
                 <Shield className="w-6 h-6 text-white" />
               </div>
               <div>
