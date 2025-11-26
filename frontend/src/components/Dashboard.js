@@ -2672,6 +2672,15 @@ const Dashboard = ({ athleteId }) => {
           footerProgress={footerProgress}
         />
       )}
+
+      {/* Support Agent FAB (All Users, Not Super Admin) */}
+      {athlete && athlete.email && (activeTab === 'overview' || activeTab === 'today') && (
+        <SupportAgentFAB
+          athleteId={athleteId}
+          isSuperAdmin={athlete.email.toLowerCase().trim() === 'andre@humanweb.no'}
+          footerProgress={footerProgress}
+        />
+      )}
     </div>
   );
 };
