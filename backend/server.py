@@ -9646,54 +9646,51 @@ NEVER SAY: "I can't do that", "I don't have access", "I'm unable to" - You CAN d
 TONE: Confident, action-oriented, brief. Keep voice responses under 1-2 sentences.
 Remember: You're their personal assistant with REAL capabilities - be DECISIVE and helpful!"""
         
-        realtime = OpenAIChatRealtime(api_key=openai_key)
+        # Create session directly with OpenAI API to include custom instructions
+        import aiohttp
         
-        # Create session (system_message not supported in create method)
         try:
-            logging.info(f"[SUPPORT VOICE] Creating ephemeral session with voice=alloy")
-            session_data = await realtime.create_ephemeral_session_for_audio_chat(voice='alloy')
-            logging.info(f"[SUPPORT VOICE] Session created: {type(session_data)}")
-        except TypeError as te:
-            logging.info(f"[SUPPORT VOICE] TypeError with voice parameter: {te}")
-            session_data = await realtime.create_ephemeral_session_for_audio_chat()
-            logging.info(f"[SUPPORT VOICE] Session created with defaults: {type(session_data)}")
-        
-        # Update session with custom instructions via direct API call
-        if session_data and 'client_secret' in session_data:
-            try:
-                import aiohttp
-                session_id = session_data.get('id')
+            logging.info(f"[SUPPORT VOICE] Creating session with custom instructions via OpenAI API")
+            
+            async with aiohttp.ClientSession() as http_session:
+                headers = {
+                    'Authorization': f'Bearer {openai_key}',
+                    'Content-Type': 'application/json',
+                    'OpenAI-Beta': 'realtime=v1'
+                }
                 
-                # Update session instructions via OpenAI API
-                async with aiohttp.ClientSession() as http_session:
-                    headers = {
-                        'Authorization': f'Bearer {openai_key}',
-                        'Content-Type': 'application/json',
-                        'OpenAI-Beta': 'realtime=v1'
+                session_config = {
+                    'model': 'gpt-4o-realtime-preview-2024-12-17',
+                    'voice': 'alloy',
+                    'instructions': system_message,
+                    'modalities': ['audio', 'text'],
+                    'temperature': 0.8,
+                    'turn_detection': {
+                        'type': 'server_vad',
+                        'threshold': 0.5,
+                        'prefix_padding_ms': 300,
+                        'silence_duration_ms': 200
                     }
-                    update_data = {
-                        'instructions': system_message
-                    }
-                    
-                    async with http_session.post(
-                        f'https://api.openai.com/v1/realtime/sessions/{session_id}',
-                        headers=headers,
-                        json=update_data
-                    ) as response:
-                        if response.status == 200:
-                            updated_session = await response.json()
-                            logging.info(f"[SUPPORT VOICE] Session instructions updated successfully")
-                            # Update the session_data with new instructions
-                            session_data['instructions'] = system_message
-                        else:
-                            error_text = await response.text()
-                            logging.warning(f"[SUPPORT VOICE] Failed to update session instructions: {response.status} - {error_text}")
-                            
-            except Exception as update_error:
-                logging.warning(f"[SUPPORT VOICE] Could not update session instructions: {update_error}")
-                # Continue anyway with default instructions
-        
-        return session_data
+                }
+                
+                async with http_session.post(
+                    'https://api.openai.com/v1/realtime/sessions',
+                    headers=headers,
+                    json=session_config
+                ) as response:
+                    if response.status == 200:
+                        session_data = await response.json()
+                        logging.info(f"[SUPPORT VOICE] Session created successfully with custom instructions")
+                        logging.info(f"[SUPPORT VOICE] Instructions length: {len(session_data.get('instructions', ''))}")
+                        return session_data
+                    else:
+                        error_text = await response.text()
+                        logging.error(f"[SUPPORT VOICE] Failed to create session: {response.status} - {error_text}")
+                        raise HTTPException(status_code=response.status, detail=f"OpenAI API error: {error_text}")
+                        
+        except aiohttp.ClientError as e:
+            logging.error(f"[SUPPORT VOICE] Network error creating session: {e}")
+            raise HTTPException(status_code=500, detail=f"Failed to connect to OpenAI: {str(e)}")
         
     except HTTPException:
         raise
