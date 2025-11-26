@@ -343,7 +343,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
               <Button 
                 type="submit" 
                 disabled={isLoading || !newMessage.trim()}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 flex-shrink-0"
+                className="bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] hover:from-[#2a5d7d] hover:to-[#42E3FF] text-white px-3 sm:px-4 flex-shrink-0"
               >
                 <Send className="w-4 h-4" />
               </Button>
