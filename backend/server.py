@@ -9228,9 +9228,10 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                     if posts:
                         action_taken = "pending_delete"
                         action_result = {"pending": True, "post_id": posts[0]["id"], "post_content": posts[0].get("content", "")[:100]}
-                        response += f'\n\n⚠️ CONFIRMATION REQUIRED: Delete post "{posts[0].get("content", "")[:50]}..."?\nReply "yes" to confirm.'
+                        # Override AI response with confirmation message
+                        response = f'⚠️ Are you sure you want to delete this post?\n\n"{posts[0].get("content", "")[:100]}..."\n\nClick "Delete Post" to confirm or "Cancel" to keep it.'
                     else:
-                        response += f"\n\n❌ No posts found to delete."
+                        response = "❌ No posts found to delete."
         
         # 2. CHECK FOR EDIT/UPDATE (second priority) - More flexible patterns
         elif (any(keyword in user_msg_lower for keyword in ["add to", "add hashtag", "add emoji", "edit", "update", "append"]) and
