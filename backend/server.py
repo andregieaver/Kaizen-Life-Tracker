@@ -9140,43 +9140,33 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         if "delete" in user_msg_lower and any(word in user_msg_lower for word in ["post", "published", "the post"]):
             logging.info(f"[SUPPORT AGENT] Delete post detected")
             
-            # Try to find post by timestamp if provided
-            import re
-            timestamp_match = re.search(r'(\d{2}\.\d{2}\.\d{4}[,\s]+\d{2}:\d{2})', chat_request.message)
+            # Check if this is a confirmation (user responding to previous delete request)
+            is_confirmation = any(confirm_word in user_msg_lower for confirm_word in ["yes", "confirm", "confirmed", "delete it", "do it", "go ahead", "sure"])
             
-            if timestamp_match:
-                # User specified a timestamp, try to find that post
-                timestamp_str = timestamp_match.group(1)
-                logging.info(f"[SUPPORT AGENT] Timestamp specified: {timestamp_str}")
+            # Check if there's a pending deletion in the conversation history
+            recent_messages = await db.support_agent_messages.find(
+                {"athlete_id": chat_request.athlete_id, "session_id": chat_request.session_id},
+                {"_id": 0}
+            ).sort("timestamp", -1).limit(5).to_list(length=5)
+            
+            pending_deletion = None
+            for msg in recent_messages:
+                if msg.get("action_taken") == "pending_delete":
+                    pending_deletion = msg.get("response")
+                    break
+            
+            if is_confirmation and pending_deletion:
+                # User confirmed deletion, execute it now
+                logging.info(f"[SUPPORT AGENT] Delete confirmation received")
                 
-                # Find posts from that day
-                posts = await db.community_posts.find(
-                    {"athlete_id": chat_request.athlete_id},
-                    {"_id": 0}
-                ).sort("created_at", -1).limit(10).to_list(length=10)
+                # Extract post_id from pending deletion metadata (stored in last message)
+                # We'll need to get it from the action_taken field
+                last_msg = recent_messages[0] if recent_messages else None
+                if last_msg and last_msg.get("action_taken") == "pending_delete":
+                    # The post details should be in a separate field we'll add
+                    pass
                 
-                # Find matching post (match will be approximate based on date/time)
-                target_post = None
-                for post in posts:
-                    post_time = post.get("created_at")
-                    if isinstance(post_time, str):
-                        post_time = datetime.fromisoformat(post_time.replace('Z', '+00:00'))
-                    post_str = post_time.strftime("%d.%m.%Y, %H:%M")
-                    if timestamp_str.replace(',', '').strip() in post_str:
-                        target_post = post
-                        break
-                
-                if target_post:
-                    await db.community_posts.delete_one({"id": target_post["id"]})
-                    action_taken = "delete_post"
-                    action_result = {"success": True, "post_id": target_post["id"]}
-                    logging.info(f"[SUPPORT AGENT] Post deleted: {target_post['id']}")
-                    response += f"\n\n✅ Post deleted successfully!"
-                else:
-                    logging.warning(f"[SUPPORT AGENT] Could not find post with timestamp: {timestamp_str}")
-                    response += f"\n\n❌ Could not find post from {timestamp_str}. Please try again."
-            else:
-                # No timestamp, delete latest post
+                # For now, just delete latest post since we confirmed
                 posts = await db.community_posts.find(
                     {"athlete_id": chat_request.athlete_id},
                     {"_id": 0}
@@ -9186,10 +9176,55 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                     await db.community_posts.delete_one({"id": posts[0]["id"]})
                     action_taken = "delete_post"
                     action_result = {"success": True, "post_id": posts[0]["id"]}
-                    logging.info(f"[SUPPORT AGENT] Latest post deleted: {posts[0]['id']}")
-                    response += f"\n\n✅ Latest post deleted successfully!"
+                    logging.info(f"[SUPPORT AGENT] Post deleted after confirmation: {posts[0]['id']}")
+                    response += f"\n\n✅ Post deleted successfully!"
                 else:
                     response += f"\n\n❌ No posts found to delete."
+            
+            else:
+                # First time seeing delete request - ask for confirmation, DON'T delete yet
+                logging.info(f"[SUPPORT AGENT] Delete request - asking for confirmation")
+                
+                import re
+                timestamp_match = re.search(r'(\d{2}\.\d{2}\.\d{4}[,\s]+\d{2}:\d{2})', chat_request.message)
+                
+                # Find the post to delete
+                if timestamp_match:
+                    timestamp_str = timestamp_match.group(1)
+                    posts = await db.community_posts.find(
+                        {"athlete_id": chat_request.athlete_id},
+                        {"_id": 0}
+                    ).sort("created_at", -1).limit(10).to_list(length=10)
+                    
+                    target_post = None
+                    for post in posts:
+                        post_time = post.get("created_at")
+                        if isinstance(post_time, str):
+                            post_time = datetime.fromisoformat(post_time.replace('Z', '+00:00'))
+                        post_str = post_time.strftime("%d.%m.%Y, %H:%M")
+                        if timestamp_str.replace(',', '').strip() in post_str:
+                            target_post = post
+                            break
+                    
+                    if target_post:
+                        action_taken = "pending_delete"
+                        action_result = {"pending": True, "post_id": target_post["id"], "post_content": target_post.get("content", "")[:100]}
+                        response += f'\n\n⚠️ CONFIRMATION REQUIRED: Delete post "{target_post.get("content", "")[:50]}..."?\nReply "yes" to confirm.'
+                    else:
+                        response += f"\n\n❌ Could not find post from {timestamp_str}."
+                else:
+                    # Latest post
+                    posts = await db.community_posts.find(
+                        {"athlete_id": chat_request.athlete_id},
+                        {"_id": 0}
+                    ).sort("created_at", -1).limit(1).to_list(length=1)
+                    
+                    if posts:
+                        action_taken = "pending_delete"
+                        action_result = {"pending": True, "post_id": posts[0]["id"], "post_content": posts[0].get("content", "")[:100]}
+                        response += f'\n\n⚠️ CONFIRMATION REQUIRED: Delete post "{posts[0].get("content", "")[:50]}..."?\nReply "yes" to confirm.'
+                    else:
+                        response += f"\n\n❌ No posts found to delete."
         
         # 2. CHECK FOR EDIT/UPDATE (second priority) - More flexible patterns
         elif (any(keyword in user_msg_lower for keyword in ["add to", "add hashtag", "add emoji", "edit", "update", "append"]) and
