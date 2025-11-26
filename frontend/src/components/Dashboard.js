@@ -2664,8 +2664,8 @@ const Dashboard = ({ athleteId }) => {
         />
       )}
 
-      {/* Management Agent FAB (Super Admin Only) */}
-      {athlete && athlete.email && (activeTab === 'overview' || activeTab === 'today') && (
+      {/* Management Agent FAB (Super Admin Only) - Available on all tabs */}
+      {athlete && athlete.email && (
         <ManagementAgentFAB
           athleteId={athleteId}
           isSuperAdmin={athlete.email.toLowerCase().trim() === 'andre@humanweb.no'}
@@ -2673,8 +2673,8 @@ const Dashboard = ({ athleteId }) => {
         />
       )}
 
-      {/* Support Agent FAB (All Users, Not Super Admin) */}
-      {athlete && athlete.email && (activeTab === 'overview' || activeTab === 'today') && (
+      {/* Support Agent FAB (All Users, Not Super Admin) - Available on all tabs */}
+      {athlete && athlete.email && (
         <SupportAgentFAB
           athleteId={athleteId}
           isSuperAdmin={athlete.email.toLowerCase().trim() === 'andre@humanweb.no'}
