@@ -17779,9 +17779,8 @@ async def submit_support_form(submission: SupportFormSubmission):
         logging.info("Support email sent successfully")
         return {"success": True, "message": "Your support request has been submitted successfully"}
         
-    except EmailDeliveryError as e:
-        logging.error(f"Failed to send support email: {e}")
-        raise HTTPException(status_code=500, detail="Failed to send support request. Please try again or contact support@kaizenlifetracker.com directly")
+    except HTTPException:
+        raise
     except Exception as e:
         logging.error(f"Error submitting support form: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Failed to submit support request: {str(e)}")
