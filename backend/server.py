@@ -9361,7 +9361,7 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
             else:
                 logging.warning(f"[SUPPORT AGENT] No valid post content found. Extracted: {post_content}")
         
-        # Save to database
+        # Save to database (including action result for pending operations)
         message_record = SupportAgentMessage(
             athlete_id=chat_request.athlete_id,
             session_id=chat_request.session_id,
@@ -9370,6 +9370,11 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
             action_taken=action_taken
         )
         message_dict = prepare_for_mongo(message_record.model_dump())
+        
+        # Add action_result to the document for tracking pending operations
+        if action_result:
+            message_dict["action_result"] = action_result
+        
         await db.support_agent_messages.insert_one(message_dict)
         
         return {"response": response, "action_taken": action_taken, "action_result": action_result}
