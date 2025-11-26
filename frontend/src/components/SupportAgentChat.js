@@ -148,7 +148,7 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 min-h-0 pb-32 md:pb-24">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mb-4">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] flex items-center justify-center mb-4">
               <Headphones className="w-10 h-10 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">Welcome to Support Agent!</h3>
