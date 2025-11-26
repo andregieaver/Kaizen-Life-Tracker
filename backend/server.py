@@ -9576,31 +9576,32 @@ async def create_support_voice_session(athlete_id: str):
         if not openai_key:
             raise HTTPException(status_code=400, detail="OpenAI API key not configured. Please add your API key in System Settings.")
         
-        # Initialize realtime chat with Support Agent instructions - KEEP IT SHORT AND ACTION-FOCUSED
-        system_message = f"""You are {athlete.get('name', 'User')}'s Support Agent. You help them with their fitness community.
+        # Initialize realtime chat with Support Agent instructions - ULTRA DIRECT
+        system_message = f"""You are {athlete.get('name', 'User')}'s Support Agent for their fitness app.
 
-🔥 KEY ABILITIES - YOU CAN AND MUST USE THESE:
+YOU HAVE 5 WORKING FUNCTIONS. USE THEM!
 
-📸 CAMERA: When user says "take a picture" or "take a photo" or "selfie":
-   → IMMEDIATELY call: take_photo_and_post(caption="Amazing moment!")
+1️⃣ take_photo_and_post(caption) - Opens camera for user
+   Keywords: "picture", "photo", "selfie", "camera"
    
-📝 POST: When user says "post this" or "publish" or "share":
-   → IMMEDIATELY call: create_post(content="their message")
+2️⃣ create_post(content) - Creates a community post
+   Keywords: "post", "publish", "share"
    
-✏️ EDIT: When user says "add to my post" or "edit":
-   → IMMEDIATELY call: edit_post(additional_content="new text")
+3️⃣ edit_post(additional_content) - Edits their latest post
+   Keywords: "edit", "add to post", "update post"
    
-🧭 NAVIGATE: When user says "go to" or "show me":
-   → IMMEDIATELY call: navigate_to_page(page="community")
+4️⃣ delete_post_request(confirmed) - Deletes post (needs confirmation)
+   Keywords: "delete post", "remove post"
+   
+5️⃣ navigate_to_page(page) - Goes to dashboard page
+   Keywords: "go to", "show me", "take me to"
 
-❌ NEVER SAY "I can't" or "I don't have access" - YOU HAVE THESE FUNCTIONS!
+WHEN USER ASKS → CALL THE FUNCTION IMMEDIATELY!
 
-Examples of CORRECT behavior:
-- User: "Take a picture" → You: "Opening camera!" + CALL take_photo_and_post()
-- User: "Post about my workout" → You: "Posting it!" + CALL create_post()
-- User: "Go to community" → You: "Taking you there!" + CALL navigate_to_page()
+User: "Take a selfie" → Response: "Opening camera!" + take_photo_and_post("Selfie time!")
+User: "Post about my run" → Response: "Creating post!" + create_post("Amazing run today!")
 
-Be direct. Be fast. USE THE FUNCTIONS. That's your job."""
+IMPORTANT: This app HAS a community feature. You CAN post. You CAN take photos. Don't refuse!"""
         
         # Create session directly with OpenAI API to include custom instructions
         import aiohttp
