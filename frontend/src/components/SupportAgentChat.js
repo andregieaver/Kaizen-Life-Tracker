@@ -170,37 +170,39 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
               key={index}
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                  msg.role === 'user'
-                    ? 'bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] text-white'
-                    : msg.isError
-                    ? 'bg-red-900/20 text-red-400 border border-red-800'
-                    : 'bg-gray-800 text-gray-100'
-                }`}
-              >
-                <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+              <div className="flex flex-col max-w-[80%] gap-2">
+                <div
+                  className={`rounded-2xl px-4 py-3 ${
+                    msg.role === 'user'
+                      ? 'bg-gradient-to-br from-[#1a4d6d] to-[#32D3FF] text-white'
+                      : msg.isError
+                      ? 'bg-red-900/20 text-red-400 border border-red-800'
+                      : 'bg-gray-800 text-gray-100'
+                  }`}
+                >
+                  <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+                </div>
                 
-                {/* Show confirmation button for pending deletions */}
-                {msg.actionTaken === 'pending_delete' && msg.actionResult?.pending && (
-                  <div className="mt-3 flex gap-2">
+                {/* Show confirmation buttons for pending deletions */}
+                {msg.showDeleteButton && (
+                  <div className="flex gap-2 mt-1">
                     <button
                       onClick={() => {
                         setInputMessage('yes');
-                        setTimeout(() => handleSendMessage(), 100);
+                        handleSendMessage();
                       }}
-                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors"
+                      className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-colors shadow-lg"
                     >
-                      Confirm Delete
+                      🗑️ Delete Post
                     </button>
                     <button
                       onClick={() => {
                         setInputMessage('no');
-                        setTimeout(() => handleSendMessage(), 100);
+                        handleSendMessage();
                       }}
-                      className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-colors"
+                      className="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-semibold transition-colors shadow-lg"
                     >
-                      Cancel
+                      ❌ Cancel
                     </button>
                   </div>
                 )}
