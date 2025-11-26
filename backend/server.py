@@ -9215,9 +9215,10 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
                     if target_post:
                         action_taken = "pending_delete"
                         action_result = {"pending": True, "post_id": target_post["id"], "post_content": target_post.get("content", "")[:100]}
-                        response += f'\n\n⚠️ CONFIRMATION REQUIRED: Delete post "{target_post.get("content", "")[:50]}..."?\nReply "yes" to confirm.'
+                        # Override AI response with confirmation message
+                        response = f'⚠️ Are you sure you want to delete this post?\n\n"{target_post.get("content", "")[:100]}..."\n\nClick "Delete Post" to confirm or "Cancel" to keep it.'
                     else:
-                        response += f"\n\n❌ Could not find post from {timestamp_str}."
+                        response = f"❌ Could not find post from {timestamp_str}."
                 else:
                     # Latest post
                     posts = await db.community_posts.find(
