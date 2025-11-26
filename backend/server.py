@@ -9319,8 +9319,61 @@ async def process_support_voice_command(request: dict, athlete_id: str = Query(.
             results.append({"type": "navigate", "path": nav_path})
         
         if "COMMUNITY:" in command_text:
-            action = command_text.split("COMMUNITY:")[1].split()[0].strip()
-            results.append({"type": "community_action", "action": action, "athlete_id": athlete_id})
+            # Extract action and content
+            community_part = command_text.split("COMMUNITY:")[1].strip()
+            
+            # Check if it's a create_post action with content
+            if community_part.startswith("create_post"):
+                # Extract the post content from the command
+                # Format: COMMUNITY:create_post|Post content here
+                if "|" in community_part:
+                    _, post_content = community_part.split("|", 1)
+                    post_content = post_content.strip()
+                    
+                    # Get athlete info for the post
+                    athlete_data = await db.athlete_profiles.find_one(
+                        {"id": athlete_id},
+                        {"_id": 0, "name": 1, "profile_picture": 1}
+                    )
+                    
+                    if athlete_data and post_content:
+                        # Create the community post
+                        new_post = CommunityPost(
+                            athlete_id=athlete_id,
+                            athlete_name=athlete_data.get("name", "User"),
+                            athlete_profile_picture=athlete_data.get("profile_picture"),
+                            content=post_content,
+                            visibility="public"
+                        )
+                        
+                        post_dict = prepare_for_mongo(new_post.model_dump())
+                        await db.community_posts.insert_one(post_dict)
+                        
+                        results.append({
+                            "type": "community_action",
+                            "action": "create_post",
+                            "success": True,
+                            "post_id": new_post.id,
+                            "message": "Post created successfully!"
+                        })
+                    else:
+                        results.append({
+                            "type": "community_action",
+                            "action": "create_post",
+                            "success": False,
+                            "message": "Failed to create post - missing content or user data"
+                        })
+                else:
+                    results.append({
+                        "type": "community_action",
+                        "action": "create_post",
+                        "success": False,
+                        "message": "Invalid command format - use COMMUNITY:create_post|Your post content"
+                    })
+            else:
+                # Generic community action (for future use)
+                action = community_part.split()[0] if community_part else "unknown"
+                results.append({"type": "community_action", "action": action, "athlete_id": athlete_id})
         
         return {"results": results, "command_processed": len(results) > 0}
         
