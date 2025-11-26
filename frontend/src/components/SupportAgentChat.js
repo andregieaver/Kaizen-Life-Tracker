@@ -145,7 +145,7 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 min-h-0">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 min-h-0 pb-32 md:pb-24">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mb-4">
