@@ -8980,6 +8980,418 @@ async def get_management_agent_conversations(athlete_id: str):
         logging.error(f"Failed to get management agent conversations: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+# ========================================
+# SUPPORT AGENT ENDPOINTS (All Logged-in Users)
+# ========================================
+
+class SupportAgentChatRequest(BaseModel):
+    athlete_id: str
+    session_id: str
+    message: str
+
+class SupportAgentMessage(BaseModel):
+    athlete_id: str
+    session_id: str
+    message: str
+    response: str
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    action_taken: Optional[str] = None
+
+@api_router.post("/support-agent/chat")
+async def chat_with_support_agent(chat_request: SupportAgentChatRequest):
+    """
+    User-scoped AI assistant with full access to user's own data
+    Can query user data, navigate pages, and manage user's community content
+    """
+    try:
+        # Verify user is logged in (no super admin check - available to all users)
+        athlete = await db.athlete_profiles.find_one({"id": chat_request.athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Get OpenAI key from system settings
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        if not settings:
+            settings = await db.system_settings.find_one({}, {"_id": 0})
+        
+        openai_key = None
+        if settings:
+            openai_key = settings.get("advanced", {}).get("openaiApiKey")
+            if not openai_key:
+                openai_key = settings.get("openaiApiKey")
+        
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured in system settings")
+        
+        # Load conversation history for this session
+        conversation_history = []
+        if chat_request.session_id:
+            history_messages = await db.support_agent_messages.find(
+                {"athlete_id": chat_request.athlete_id, "session_id": chat_request.session_id},
+                {"_id": 0}
+            ).sort("timestamp", 1).limit(20).to_list(length=20)
+            
+            # Convert to message format (last 10 exchanges)
+            for msg in history_messages[-10:]:
+                conversation_history.append({"role": "user", "content": msg.get("message", "")})
+                conversation_history.append({"role": "assistant", "content": msg.get("response", "")})
+        
+        # System prompt for Support Agent
+        system_prompt = f"""You are the Support Agent, a helpful AI assistant for {athlete.get('name', 'User')} with access to their personal health and fitness data.
+
+**Your Capabilities:**
+1. USER DATA ACCESS: You can view and analyze the user's personal data
+   - Profile information (name, email, subscription, settings)
+   - Health metrics (Oura sleep, HRV, readiness; Strava activities, VO2max)
+   - Journal entries (daily reflections, mood, notes)
+   - Workouts and training data
+   - Nutrition logs and meal tracking
+   - Community activity (posts, comments, groups, events)
+   
+2. DATA INSIGHTS: Generate personalized insights and recommendations
+   - Analyze trends in sleep, recovery, and training
+   - Provide coaching based on their data
+   - Suggest optimizations for health and fitness goals
+   
+3. CONTENT MANAGEMENT: Help manage their community presence
+   - Create posts on their behalf
+   - Edit or delete their existing posts/comments
+   - Respond to comments
+   
+4. PAGE NAVIGATION: Guide them to relevant sections
+   - Navigate to dashboard pages (community, calendar, journal, etc.)
+   - Direct to specific features or settings
+   
+5. PERSONALIZED ASSISTANCE: 
+   - Answer questions about their data and progress
+   - Help with account settings and integrations
+   - Provide health and fitness guidance
+   - Troubleshoot issues
+
+**Important Guidelines:**
+- You have access ONLY to {athlete.get('name', 'this user')}'s data - not other users
+- Always be helpful, friendly, and encouraging
+- Format data clearly using tables or lists when appropriate
+- For destructive operations (delete), ask for confirmation
+- Provide actionable insights and recommendations
+- Keep responses concise and relevant
+
+**User Context:**
+- Name: {athlete.get('name', 'User')}
+- Subscription: {athlete.get('subscription_tier', 'free').upper()}
+- User ID: {chat_request.athlete_id}
+
+Remember: You are this user's personal assistant. Be supportive, insightful, and helpful!"""
+
+        # Use emergentintegrations LlmChat for OpenAI GPT-5
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        
+        chat = LlmChat(
+            api_key=openai_key,
+            session_id=chat_request.session_id,
+            system_message=system_prompt
+        ).with_model("openai", "gpt-5")
+        
+        user_message = UserMessage(text=chat_request.message)
+        
+        # Send message and get response
+        response = await chat.send_message(user_message)
+        
+        # Save to database
+        message_record = SupportAgentMessage(
+            athlete_id=chat_request.athlete_id,
+            session_id=chat_request.session_id,
+            message=chat_request.message,
+            response=response,
+            action_taken=None
+        )
+        message_dict = prepare_for_mongo(message_record.model_dump())
+        await db.support_agent_messages.insert_one(message_dict)
+        
+        return {"response": response}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Support Agent chat error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to get support agent response: {str(e)}")
+
+@api_router.post("/support-agent/voice/session/{athlete_id}")
+async def create_support_voice_session(athlete_id: str):
+    """Create a voice session for Support Agent (All logged-in users)"""
+    try:
+        # Verify user is logged in
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Get OpenAI key from system settings
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        if not settings:
+            settings = await db.system_settings.find_one({}, {"_id": 0})
+        
+        openai_key = None
+        if settings:
+            openai_key = settings.get("advanced", {}).get("openaiApiKey")
+            if not openai_key:
+                openai_key = settings.get("openaiApiKey")
+        
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured. Please add your API key in System Settings.")
+        
+        # Initialize realtime chat with Support Agent instructions
+        system_message = f"""You are the Support Agent for {athlete.get('name', 'User')}, their personal AI assistant with access to their health and fitness data.
+
+IMPORTANT: You have access to real-time data through special commands. Use them to provide personalized assistance.
+
+YOUR CAPABILITIES:
+
+1. INSPECT USER DATA - Check what data the user has:
+   Say: "Let me check your data. INSPECT:user"
+   This shows their profile, integrations, and recent activity.
+
+2. NAVIGATE PAGES - Guide user to dashboard pages:
+   Format: "NAVIGATE:/dashboard/[page]"
+   Pages: community, calendar, journal, workouts, nutrition, account, etc.
+   Example: "Taking you to your journal now. NAVIGATE:/dashboard/journal"
+
+3. QUERY USER DATA - Get specific user data:
+   Format: "QUERY:collection:user_id"
+   Example: "Let me check your sleep. QUERY:oura_sleep:{athlete_id}"
+   
+4. GET STATISTICS - Get user's statistics:
+   Format: "STATS:user:{athlete_id}"
+   Example: "STATS:user:{athlete_id}"
+
+5. USER PROFILE - Get detailed profile:
+   Format: "PROFILE:{athlete_id}"
+   Example: "Looking up your profile. PROFILE:{athlete_id}"
+
+6. COMMUNITY ACTIONS - Manage user's community content:
+   Format: "COMMUNITY:create_post" or "COMMUNITY:edit_post:post_id"
+   Example: "I'll create that post for you. COMMUNITY:create_post"
+
+WORKFLOW:
+- First interaction: Use INSPECT:user to understand their data
+- Answer questions: Use QUERY, STATS, or PROFILE commands
+- Navigate when asked: Use NAVIGATE command
+- Always acknowledge before using commands
+- Be encouraging and supportive
+
+TONE: Friendly, supportive, conversational. Keep voice responses under 2 sentences.
+Remember: You're their personal assistant - be helpful and encouraging!"""
+        
+        realtime = OpenAIChatRealtime(api_key=openai_key)
+        
+        # Try to create session with system_message, fall back if not supported
+        try:
+            logging.info(f"[SUPPORT VOICE] Creating ephemeral session with voice=alloy")
+            session_data = await realtime.create_ephemeral_session_for_audio_chat(
+                voice='alloy',
+                system_message=system_message
+            )
+            logging.info(f"[SUPPORT VOICE] Session data received: {type(session_data)}")
+        except TypeError as te:
+            logging.info(f"[SUPPORT VOICE] TypeError with system_message: {te}")
+            try:
+                logging.info(f"[SUPPORT VOICE] Retrying with just voice parameter")
+                session_data = await realtime.create_ephemeral_session_for_audio_chat(voice='alloy')
+                logging.info(f"[SUPPORT VOICE] Session data received (fallback 1): {type(session_data)}")
+            except TypeError as te2:
+                logging.info(f"[SUPPORT VOICE] TypeError with voice only: {te2}")
+                logging.info(f"[SUPPORT VOICE] Using default parameters")
+                session_data = await realtime.create_ephemeral_session_for_audio_chat()
+                logging.info(f"[SUPPORT VOICE] Session data received (fallback 2): {type(session_data)}")
+        
+        return session_data
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Support voice session error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/support-agent/voice/negotiate/{athlete_id}")
+async def negotiate_support_voice_connection(athlete_id: str, sdp: str = Body(..., media_type="application/sdp")):
+    """Negotiate WebRTC connection for Support Agent voice (All logged-in users)"""
+    try:
+        # Verify user is logged in
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Get OpenAI key
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        if not settings:
+            settings = await db.system_settings.find_one({}, {"_id": 0})
+        
+        openai_key = None
+        if settings:
+            openai_key = settings.get("advanced", {}).get("openaiApiKey")
+            if not openai_key:
+                openai_key = settings.get("openaiApiKey")
+        
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured.")
+        
+        realtime = OpenAIChatRealtime(api_key=openai_key)
+        answer_sdp = await realtime.negotiate_connection(sdp)
+        return {"sdp": answer_sdp}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Support voice negotiation error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/support-agent/voice/process-command")
+async def process_support_voice_command(request: dict, athlete_id: str = Query(...)):
+    """Process commands from voice transcript (INSPECT, QUERY, STATS, PROFILE, NAVIGATE, COMMUNITY)"""
+    try:
+        # Verify user is logged in
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        command_text = request.get("command", "")
+        results = []
+        
+        # Parse and execute commands (USER-SCOPED ONLY)
+        if "INSPECT:" in command_text:
+            aspect = command_text.split("INSPECT:")[1].split()[0].strip()
+            inspection_data = {}
+            
+            if aspect in ["user", "all"]:
+                # Get user's profile
+                user_profile = await db.athlete_profiles.find_one(
+                    {"id": athlete_id},
+                    {"_id": 0, "email": 1, "name": 1, "subscription_tier": 1, "birth_date": 1}
+                )
+                inspection_data["profile"] = user_profile
+                
+                # Get user's integrations
+                integrations = await db.integrations.find_one(
+                    {"athlete_id": athlete_id},
+                    {"_id": 0}
+                )
+                inspection_data["integrations"] = integrations if integrations else {}
+                
+                # Quick stats
+                inspection_data["quick_stats"] = {
+                    "journal_entries": await db.journal_entries.count_documents({"athlete_id": athlete_id}),
+                    "workouts": await db.workouts.count_documents({"athlete_id": athlete_id}),
+                    "community_posts": await db.community_posts.count_documents({"athlete_id": athlete_id})
+                }
+            
+            results.append({"type": "inspection", "data": inspection_data})
+        
+        if "QUERY:" in command_text:
+            parts = command_text.split("QUERY:")[1].split(":")
+            collection = parts[0].strip()
+            
+            # Always scope to user's data
+            count = await db[collection].count_documents({"athlete_id": athlete_id})
+            results.append({"type": "query", "collection": collection, "count": count})
+        
+        if "STATS:" in command_text:
+            stat_type = command_text.split("STATS:")[1].split()[0].strip()
+            stats = {}
+            
+            if stat_type in ["user", "all"]:
+                stats["journal_entries"] = await db.journal_entries.count_documents({"athlete_id": athlete_id})
+                stats["workouts"] = await db.workouts.count_documents({"athlete_id": athlete_id})
+                stats["nutrition_logs"] = await db.nutrition_entries.count_documents({"athlete_id": athlete_id})
+                stats["community_posts"] = await db.community_posts.count_documents({"athlete_id": athlete_id})
+                stats["community_comments"] = await db.community_comments.count_documents({"athlete_id": athlete_id})
+            
+            results.append({"type": "statistics", "data": stats})
+        
+        if "PROFILE:" in command_text:
+            user = await db.athlete_profiles.find_one(
+                {"id": athlete_id},
+                {"_id": 0, "email": 1, "name": 1, "subscription_tier": 1, "birth_date": 1, "gender": 1}
+            )
+            results.append({"type": "profile", "data": user})
+        
+        if "NAVIGATE:" in command_text:
+            nav_path = command_text.split("NAVIGATE:")[1].split()[0].strip()
+            results.append({"type": "navigate", "path": nav_path})
+        
+        if "COMMUNITY:" in command_text:
+            action = command_text.split("COMMUNITY:")[1].split()[0].strip()
+            results.append({"type": "community_action", "action": action, "athlete_id": athlete_id})
+        
+        return {"results": results, "command_processed": len(results) > 0}
+        
+    except Exception as e:
+        logging.error(f"Support voice command processing error: {e}")
+        return {"results": [], "error": str(e)}
+
+@api_router.get("/support-agent/history/{athlete_id}")
+async def get_support_agent_history(athlete_id: str, limit: int = 20):
+    """Get Support Agent chat history (User's own history only)"""
+    try:
+        # Verify user is logged in
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        messages = await db.support_agent_messages.find(
+            {"athlete_id": athlete_id}, 
+            {"_id": 0}
+        ).sort("timestamp", -1).limit(limit).to_list(length=limit)
+        
+        return [parse_from_mongo(m) for m in messages]
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to get support agent history: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/support-agent/conversations/{athlete_id}")
+async def get_support_agent_conversations(athlete_id: str):
+    """Get list of Support Agent conversations (User's own conversations only)"""
+    try:
+        # Verify user is logged in
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Aggregate to get unique sessions with preview
+        pipeline = [
+            {"$match": {"athlete_id": athlete_id}},
+            {"$group": {
+                "_id": "$session_id",
+                "last_message": {"$max": "$timestamp"},
+                "message_count": {"$sum": 1},
+                "preview": {"$first": "$message"}
+            }},
+            {"$sort": {"last_message": -1}},
+            {"$limit": 50}
+        ]
+        
+        conversations = await db.support_agent_messages.aggregate(pipeline).to_list(length=50)
+        
+        result = []
+        for conv in conversations:
+            result.append({
+                "session_id": conv["_id"],
+                "last_message": conv["last_message"].isoformat() if isinstance(conv["last_message"], datetime) else conv["last_message"],
+                "message_count": conv["message_count"],
+                "preview": conv["preview"][:50] + "..." if len(conv["preview"]) > 50 else conv["preview"]
+            })
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to get support agent conversations: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ========================================
 # AGENTS MANAGEMENT ENDPOINTS (Super Admin Only)
 # ========================================
