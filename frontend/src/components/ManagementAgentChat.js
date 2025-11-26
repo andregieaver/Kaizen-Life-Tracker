@@ -336,7 +336,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Ask me anything..."
-                className="flex-1 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-blue-500 text-sm sm:text-base"
+                className="flex-1 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-[#32D3FF] text-sm sm:text-base"
                 disabled={isLoading}
                 autoComplete="off"
               />
