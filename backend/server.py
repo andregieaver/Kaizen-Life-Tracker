@@ -4126,54 +4126,6 @@ async def google_login(google_data: GoogleLoginRequest):
         "email": email
     }
 
-@api_router.post("/auth/forgot-password")
-async def forgot_password(request: PasswordResetRequest):
-    """Initiate password reset process"""
-    athlete = await db.athlete_profiles.find_one(
-        {"email": request.email.lower().strip()}, 
-        {"_id": 0}
-    )
-    if not athlete:
-        # Don't reveal if email exists or not for security
-        return {"message": "If the email exists, a reset link will be sent"}
-    
-    # Generate a reset token (valid for 1 hour)
-    reset_token = secrets.token_urlsafe(32)
-    reset_expires = datetime.now(timezone.utc) + timedelta(hours=1)
-    
-    # Store reset token in database
-    await db.athlete_profiles.update_one(
-        {"id": athlete["id"]},
-        {"$set": {
-            "reset_token": reset_token,
-            "reset_token_expires": reset_expires.isoformat()
-        }}
-    )
-    
-    # Send password reset email
-    email_service = get_email_service()
-    if email_service.enabled:
-        try:
-            # Get the frontend URL from environment or use default
-            frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
-            reset_url = f"{frontend_url}/reset-password"
-            
-            email_service.send_password_reset_email(
-                to_email=request.email,
-                reset_token=reset_token,
-                reset_url=reset_url
-            )
-            logging.info(f"Password reset email sent to {request.email}")
-        except Exception as e:
-            logging.error(f"Failed to send password reset email: {e}")
-            # Don't fail the request if email sending fails
-    
-    return {
-        "message": "If the email exists, a reset link will be sent",
-        # In development, optionally return the token for testing
-        **({"reset_token": reset_token} if os.getenv('ENVIRONMENT') == 'development' else {})
-    }
-
 @api_router.post("/auth/reset-password")
 async def reset_password(request: PasswordResetConfirm):
     """Complete password reset with token"""
