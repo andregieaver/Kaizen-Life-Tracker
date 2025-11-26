@@ -26,6 +26,7 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const voiceChatRef = useRef(null);
+  const inputContainerRef = useRef(null);
 
   useEffect(() => {
     // Load conversations list on mount
@@ -35,6 +36,21 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    // Handle keyboard visibility on mobile
+    const handleFocus = () => {
+      setTimeout(() => {
+        inputContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 300); // Wait for keyboard animation
+    };
+
+    const inputElement = inputRef.current;
+    if (inputElement) {
+      inputElement.addEventListener('focus', handleFocus);
+      return () => inputElement.removeEventListener('focus', handleFocus);
+    }
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
