@@ -186,7 +186,10 @@ class RealtimeAudioChat {
             return;
         }
         
+        // CRITICAL LOG - Show function call was received
+        console.log('🔥 FUNCTION CALL RECEIVED:', functionName, args);
         logger.debug(null, `Executing function: ${functionName}`, args);
+        alert(`Function called: ${functionName}`);
         
         // Convert function calls to commands
         let command = '';
