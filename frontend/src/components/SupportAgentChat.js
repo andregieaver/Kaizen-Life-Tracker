@@ -170,25 +170,25 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
         )}
       </div>
 
-      {/* Input Area */}
-      <div className="flex-shrink-0 p-6 border-t border-gray-800">
-        <div className="flex items-end space-x-3">
+      {/* Input Area - Fixed at bottom */}
+      <div className="flex-shrink-0 p-3 sm:p-6 border-t border-gray-800 bg-[#0B1220]">
+        <div className="flex items-end space-x-2 sm:space-x-3">
           <textarea
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Ask me anything about your health, workouts, or data..."
-            className="flex-1 bg-gray-800 text-white rounded-2xl px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-purple-600"
-            rows="3"
+            className="flex-1 bg-gray-800 text-white rounded-2xl px-3 sm:px-4 py-2 sm:py-3 resize-none focus:outline-none focus:ring-2 focus:ring-purple-600 text-sm sm:text-base"
+            rows="2"
             disabled={isSending}
           />
           <button
             onClick={handleSendMessage}
             disabled={!inputMessage.trim() || isSending}
-            className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center
+            className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center
                      hover:from-purple-700 hover:to-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Send className="w-5 h-5 text-white" />
+            <Send className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </button>
         </div>
       </div>
