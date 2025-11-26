@@ -10025,11 +10025,14 @@ async def support_agent_create_post(athlete_id: str, request: dict):
         
         logging.info(f"[SUPPORT AGENT] Created post with {len(media)} media items")
         
+        # Get the created post without _id
+        created_post = await db.community_posts.find_one({"id": new_post.id}, {"_id": 0})
+        
         return {
             "success": True,
             "post_id": new_post.id,
             "message": "Post created successfully!",
-            "post": parse_from_mongo(post_dict)
+            "post": created_post
         }
         
     except HTTPException:
