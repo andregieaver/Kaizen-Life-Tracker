@@ -187,22 +187,66 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
                 {msg.showDeleteButton && (
                   <div className="flex gap-2 mt-1">
                     <button
-                      onClick={() => {
-                        setInputMessage('yes');
-                        handleSendMessage();
+                      onClick={async () => {
+                        // Send "yes" automatically without populating input
+                        setIsSending(true);
+                        try {
+                          const response = await axios.post(`${BACKEND_URL}/api/support-agent/chat`, {
+                            athlete_id: athleteId,
+                            session_id: sessionId,
+                            message: 'yes'
+                          });
+
+                          const assistantMessage = response.data.response;
+                          const actionTaken = response.data.action_taken;
+                          const actionResult = response.data.action_result;
+
+                          setMessages(prev => [...prev, 
+                            { role: 'user', content: 'yes', timestamp: new Date().toISOString() },
+                            { 
+                              role: 'assistant', 
+                              content: assistantMessage, 
+                              timestamp: new Date().toISOString(),
+                              actionTaken: actionTaken,
+                              actionResult: actionResult
+                            }
+                          ]);
+                        } catch (error) {
+                          console.error('Failed to confirm:', error);
+                        } finally {
+                          setIsSending(false);
+                        }
                       }}
                       className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-colors shadow-lg"
                     >
-                      🗑️ Delete Post
+                      Yes
                     </button>
                     <button
-                      onClick={() => {
-                        setInputMessage('no');
-                        handleSendMessage();
+                      onClick={async () => {
+                        // Send "no" automatically without populating input
+                        setIsSending(true);
+                        try {
+                          const response = await axios.post(`${BACKEND_URL}/api/support-agent/chat`, {
+                            athlete_id: athleteId,
+                            session_id: sessionId,
+                            message: 'no'
+                          });
+
+                          const assistantMessage = response.data.response;
+
+                          setMessages(prev => [...prev, 
+                            { role: 'user', content: 'no', timestamp: new Date().toISOString() },
+                            { role: 'assistant', content: assistantMessage, timestamp: new Date().toISOString() }
+                          ]);
+                        } catch (error) {
+                          console.error('Failed to cancel:', error);
+                        } finally {
+                          setIsSending(false);
+                        }
                       }}
                       className="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-semibold transition-colors shadow-lg"
                     >
-                      ❌ Cancel
+                      No
                     </button>
                   </div>
                 )}
