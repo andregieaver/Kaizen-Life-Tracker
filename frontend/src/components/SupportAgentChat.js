@@ -11,6 +11,8 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
   const [isSending, setIsSending] = useState(false);
   const [sessionId, setSessionId] = useState('');
   const navigate = useNavigate();
+  const inputRef = React.useRef(null);
+  const inputContainerRef = React.useRef(null);
 
   useEffect(() => {
     // Generate or retrieve session ID from localStorage
@@ -23,6 +25,21 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       const newSessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       setSessionId(newSessionId);
       localStorage.setItem('support_agent_session_id', newSessionId);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Handle keyboard visibility on mobile
+    const handleFocus = () => {
+      setTimeout(() => {
+        inputContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 300); // Wait for keyboard animation
+    };
+
+    const inputElement = inputRef.current;
+    if (inputElement) {
+      inputElement.addEventListener('focus', handleFocus);
+      return () => inputElement.removeEventListener('focus', handleFocus);
     }
   }, []);
 
