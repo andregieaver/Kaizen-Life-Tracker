@@ -23262,49 +23262,6 @@ async def delete_conversation(conversation_id: str, athlete_id: str = Query(...)
         logging.error(f"Error deleting conversation: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# Support form endpoint
-@api_router.post("/support/submit")
-async def submit_support_request(request: dict):
-    """Submit a support request from user"""
-    try:
-        name = request.get("name", "").strip()
-        email = request.get("email", "").strip()
-        subject = request.get("subject", "").strip()
-        message = request.get("message", "").strip()
-        
-        if not all([name, email, subject, message]):
-            raise HTTPException(status_code=400, detail="All fields are required")
-        
-        # Log the support request
-        logging.info(f"[SUPPORT REQUEST] From: {name} ({email}), Subject: {subject}")
-        
-        # Store in database
-        support_request = {
-            "id": str(uuid4()),
-            "name": name,
-            "email": email,
-            "subject": subject,
-            "message": message,
-            "created_at": datetime.now(timezone.utc).isoformat(),
-            "status": "new"
-        }
-        
-        await db.support_requests.insert_one(support_request)
-        
-        logging.info(f"[SUPPORT REQUEST] Saved with ID: {support_request['id']}")
-        
-        return {
-            "success": True,
-            "message": "Support request submitted successfully",
-            "request_id": support_request['id']
-        }
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        logging.error(f"Failed to submit support request: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
 @api_router.get("/messages/unread-count")
 async def get_unread_count(athlete_id: str = Query(...)):
     """Get total unread message count for a user"""
