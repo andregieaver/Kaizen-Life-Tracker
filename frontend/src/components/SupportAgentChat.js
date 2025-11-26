@@ -113,22 +113,22 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#0B1220]">
+    <div className="h-full flex flex-col bg-[#0B1220] min-h-0">
       {/* Header */}
-      <div className="flex-shrink-0 p-6 border-b border-gray-800">
+      <div className="flex-shrink-0 p-4 sm:p-6 border-b border-gray-800">
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center">
-            <Headphones className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center">
+            <Headphones className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-white">Support Agent</h2>
-            <p className="text-sm text-gray-400">Your Personal AI Assistant</p>
+            <h2 className="text-lg sm:text-xl font-semibold text-white">Support Agent</h2>
+            <p className="text-xs sm:text-sm text-gray-400">Your Personal AI Assistant</p>
           </div>
         </div>
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 min-h-0">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mb-4">
