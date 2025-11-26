@@ -296,8 +296,8 @@ const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area */}
-            <div className="border-t border-gray-800 p-3 sm:p-4 bg-[#0B1220]">
+            {/* Input Area - Fixed at bottom */}
+            <div className="flex-shrink-0 border-t border-gray-800 p-3 sm:p-4 bg-[#0B1220]">
               <form onSubmit={sendMessage} className="flex space-x-2">
                 <Input
                   ref={inputRef}
