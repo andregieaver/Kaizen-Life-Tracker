@@ -95,13 +95,16 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
       const actionTaken = response.data.action_taken;
       const actionResult = response.data.action_result;
 
+      console.log('Support Agent Response:', { actionTaken, actionResult });
+
       // Add assistant message to display with action metadata
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: assistantMessage,
         timestamp: new Date().toISOString(),
         actionTaken: actionTaken,
-        actionResult: actionResult
+        actionResult: actionResult,
+        showDeleteButton: actionTaken === 'pending_delete' && actionResult?.pending === true
       }]);
 
       // Check for navigation commands in the response
