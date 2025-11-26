@@ -255,6 +255,11 @@ class RealtimeAudioChat {
                     this.processSupportCommands(content);
                 }
             }
+            
+            // CRITICAL: Also parse USER input for direct action triggers (bypass function calling)
+            if (role === 'user' && content && this.apiBasePath === '/support-agent/voice') {
+                this.parseUserInputForActions(content);
+            }
         }
     }
     
