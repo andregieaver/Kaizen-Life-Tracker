@@ -87,7 +87,7 @@ const SupportAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
           transform: `translateY(${(1 - footerProgress) * 100}px)`,
           opacity: 0.08 + footerProgress * 0.92,
           transition: 'background 300ms',
-          background: showSupportMenu ? 'var(--grad-danger)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: showSupportMenu ? 'var(--grad-danger)' : 'linear-gradient(135deg, #1a4d6d 0%, #32D3FF 100%)',
           boxShadow: showSupportMenu 
             ? 'none' 
             : '0 10px 40px rgba(102,126,234,.3)',
