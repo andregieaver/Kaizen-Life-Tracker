@@ -145,6 +145,104 @@ const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
     }
   };
 
+  const handleFileUpload = async (files) => {
+    if (files.length === 0) return;
+    
+    setIsUploading(true);
+    const formData = new FormData();
+    
+    Array.from(files).forEach(file => {
+      formData.append('files', file);
+    });
+
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/support-agent/upload-media/${athleteId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+
+      if (response.data.success) {
+        setAttachedMedia(prev => [...prev, ...response.data.media]);
+      }
+    } catch (error) {
+      console.error('Failed to upload media:', error);
+      alert('Failed to upload media. Please try again.');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      
+      // Create video element for preview
+      const video = document.createElement('video');
+      video.srcObject = stream;
+      video.play();
+      
+      // Create canvas for capture
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      
+      // Simple modal for camera
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;';
+      
+      video.style.cssText = 'max-width:90%;max-height:70vh;';
+      modal.appendChild(video);
+      
+      const buttonContainer = document.createElement('div');
+      buttonContainer.style.cssText = 'display:flex;gap:16px;margin-top:20px;';
+      
+      const captureBtn = document.createElement('button');
+      captureBtn.textContent = '📸 Capture';
+      captureBtn.style.cssText = 'padding:12px 24px;background:#32D3FF;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;';
+      
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = '❌ Cancel';
+      cancelBtn.style.cssText = 'padding:12px 24px;background:#666;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;';
+      
+      buttonContainer.appendChild(captureBtn);
+      buttonContainer.appendChild(cancelBtn);
+      modal.appendChild(buttonContainer);
+      
+      document.body.appendChild(modal);
+      
+      const cleanup = () => {
+        stream.getTracks().forEach(track => track.stop());
+        document.body.removeChild(modal);
+      };
+      
+      captureBtn.onclick = async () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0);
+        
+        canvas.toBlob(async (blob) => {
+          const file = new File([blob], `camera-${Date.now()}.jpg`, { type: 'image/jpeg' });
+          await handleFileUpload([file]);
+          cleanup();
+        }, 'image/jpeg', 0.9);
+      };
+      
+      cancelBtn.onclick = cleanup;
+      
+    } catch (error) {
+      console.error('Camera error:', error);
+      alert('Could not access camera. Please check permissions.');
+    }
+  };
+
+  const removeMedia = (index) => {
+    setAttachedMedia(prev => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="h-full flex flex-col bg-[#0B1220] min-h-0">
       {/* Header */}
