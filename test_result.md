@@ -184,6 +184,56 @@ frontend:
         agent: "testing"
         comment: "✅ MANAGEMENT AGENT TEXT CHAT INTERFACE VERIFIED WORKING CORRECTLY - Text chat functionality tested and confirmed operational. TESTING DETAILS: 1) MODAL ACTIVATION ✅ - Text Mode button from FAB successfully opens full-screen ManagementAgentChat modal with proper dark theme (#0B1220 background). 2) INTERFACE ELEMENTS ✅ - Modal displays 'Welcome, Super Admin' message with Shield icon, proper header with 'Management Agent' title and 'Super Admin Assistant' subtitle. 3) CHAT INPUT ✅ - Text input field present and functional with placeholder 'Ask me anything...', send button with Send icon available. 4) MODAL CONTROLS ✅ - Close button (X) in top-right corner working correctly to close modal. 5) RESPONSIVE DESIGN ✅ - Modal adapts properly to mobile viewport (390x844) with appropriate spacing and touch-friendly elements. 6) SESSION MANAGEMENT ✅ - Component properly initializes with session ID for conversation continuity. 7) BACKEND INTEGRATION ✅ - Ready to send POST requests to /api/management-agent/chat endpoint with athlete_id, session_id, and message parameters. RESULT: Management Agent Text Chat interface is production-ready with all UI components working correctly. Backend chat endpoint integration is functional and ready for message processing."
 
+backend:
+  - task: "Support Agent Backend Endpoints - User Scoped"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "SUPPORT AGENT BACKEND IMPLEMENTED - Created complete backend for Support Agent (user-scoped version of Management Agent). ENDPOINTS CREATED (lines 8985-9394 in server.py): 1) POST /support-agent/chat - Text chat with GPT-5, personalized system prompt with user's name and data context, conversation history management, saves to support_agent_messages collection. 2) POST /support-agent/voice/session/{athlete_id} - Voice session creation with OpenAI Realtime API, user-specific system message, fallback handling for emergentintegrations compatibility. 3) POST /support-agent/voice/negotiate/{athlete_id} - WebRTC connection negotiation. 4) POST /support-agent/voice/process-command - Command processing for voice transcripts with USER-SCOPED COMMANDS: INSPECT:user (user profile + integrations + quick stats), QUERY:collection (always filtered by athlete_id), STATS:user (user's journal, workouts, nutrition, community stats), PROFILE (detailed user profile), NAVIGATE:/path (page navigation), COMMUNITY:action (create/edit community content). 5) GET /support-agent/history/{athlete_id} - User's chat history. 6) GET /support-agent/conversations/{athlete_id} - User's conversation list. SECURITY: All endpoints verify user is logged in, all data queries scoped to athlete_id, NO super admin requirement (available to all users). SYSTEM PROMPT: Personalized with user's name, subscription tier, explains capabilities (data access, insights, content management, navigation), friendly and supportive tone. Backend restarted successfully. TESTING NEEDED: 1) Test with regular user (not super admin), 2) Test all command types with user data, 3) Verify data scoping (no access to other users' data), 4) Test voice session creation, 5) Test text chat with conversation history."
+
+frontend:
+  - task: "Support Agent FAB - User Facing"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/SupportAgentFAB.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "SUPPORT AGENT FAB IMPLEMENTED - Created Floating Action Button for all logged-in users (non-super-admin). FILE: /app/frontend/src/components/SupportAgentFAB.js. FEATURES: 1) VISIBILITY: Only visible to regular users (NOT super admin), same position as ManagementAgentFAB (bottom-left), mutually exclusive visibility. 2) ICON: Headphones icon (lucide-react) in purple-indigo gradient. 3) TWO MODES: Text chat (MessageCircle icon), Voice mode (Mic icon). 4) STYLING: Identical glassmorphic styling as ManagementAgentFAB, fan-out animation at 0° and 30° angles, backdrop on menu open. 5) VOICE INTEGRATION: Uses VoiceChat component with apiBasePath='/support-agent/voice', autoStart=true for seamless experience, purple-themed voice indicator ('Support Agent Listening...'). 6) EVENT LISTENERS: Listens for 'support-agent-navigate' events for navigation, listens for 'support-agent-data' events for command results (displays via alert, can be enhanced). 7) INTEGRATION: Imported and integrated into Dashboard.js, renders alongside ManagementAgentFAB but with opposite visibility logic. TESTING NEEDED: 1) Login as regular user, verify Support Agent FAB appears with Headphones icon, 2) Click to expand menu, verify text/voice buttons appear, 3) Test text mode activation, 4) Test voice mode activation, 5) Login as super admin, verify Support Agent FAB is hidden."
+
+  - task: "Support Agent Chat Interface"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/SupportAgentChat.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "SUPPORT AGENT CHAT INTERFACE IMPLEMENTED - Created user-facing chat interface for Support Agent. FILE: /app/frontend/src/components/SupportAgentChat.js. FEATURES: 1) INTERFACE: Full-screen modal with purple-indigo theme, Headphones icon header, 'Your Personal AI Assistant' subtitle. 2) WELCOME MESSAGE: Shows when no messages, explains capabilities ('access to your health data, training logs, and community activity'). 3) MESSAGE DISPLAY: User messages in purple-indigo gradient (right-aligned), assistant messages in gray (left-aligned), error messages in red theme. 4) INPUT: Textarea with placeholder 'Ask me anything about your health, workouts, or data...', Send button with gradient background, Enter key support (Shift+Enter for new line). 5) SESSION MANAGEMENT: Generates session_id, stores in localStorage ('support_agent_session_id'), loads conversation history on mount. 6) BACKEND INTEGRATION: POST to /support-agent/chat with athlete_id, session_id, message, GET /support-agent/history for loading past conversations. 7) NAVIGATION HANDLING: Detects NAVIGATE: commands in responses, automatically navigates after 1.5s delay. 8) LOADING STATES: Spinner while sending message, disabled input during send, error handling with user-friendly messages. RESPONSIVE: Works on mobile and desktop, textarea auto-resizes (3 rows), scrollable message area. TESTING NEEDED: 1) Open chat from Support Agent FAB, 2) Verify welcome message displays, 3) Send test message, 4) Verify response appears, 5) Test navigation command, 6) Close and reopen, verify history persists."
+
+  - task: "Voice Command Processing - Support Agent Integration"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/VoiceChat.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "VOICE COMMAND PROCESSING UPDATED FOR SUPPORT AGENT - Extended VoiceChat component to handle Support Agent commands. IMPLEMENTATION: 1) COMMAND ROUTING: Updated addToTranscript() to check apiBasePath, calls processManagementCommands() for '/management-agent/voice', calls processSupportCommands() for '/support-agent/voice'. 2) NEW METHOD processSupportCommands(): Detects NAVIGATE:/path patterns, dispatches 'support-agent-navigate' event; Detects data commands (INSPECT:, QUERY:, STATS:, PROFILE:, COMMUNITY:), sends POST to /support-agent/voice/process-command, dispatches 'support-agent-data' event with results. 3) ERROR HANDLING: Try-catch blocks, logging with 'Support Agent:' prefix for debugging. 4) DUAL SUPPORT: VoiceChat now supports both Management Agent and Support Agent seamlessly, command processing logic isolated by apiBasePath. RESULT: Voice transcript → Command detection → Backend API → Event dispatch → UI action. Support Agent voice mode fully integrated. TESTING NEEDED: 1) Activate Support Agent voice mode, 2) Simulate assistant transcript with NAVIGATE: command, 3) Verify navigation event dispatched and handled, 4) Simulate INSPECT:user command, 5) Verify API call to support-agent/voice/process-command, 6) Verify results event dispatched."
+
   - task: "Dashboard Integration - Body Score Replacement"
     implemented: true
     working: true
