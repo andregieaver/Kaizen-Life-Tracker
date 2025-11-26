@@ -9763,8 +9763,31 @@ async def process_support_voice_command(request: dict, athlete_id: str = Query(.
             # Extract action and content
             community_part = command_text.split("COMMUNITY:")[1].strip()
             
+            # TAKE PHOTO AND CREATE POST
+            if community_part.startswith("take_photo"):
+                # Format: COMMUNITY:take_photo|Post caption
+                if "|" in community_part:
+                    _, caption = community_part.split("|", 1)
+                    caption = caption.strip()
+                    
+                    # Return trigger for frontend to open camera
+                    results.append({
+                        "type": "community_action",
+                        "action": "take_photo",
+                        "success": True,
+                        "caption": caption,
+                        "message": "Opening camera..."
+                    })
+                else:
+                    results.append({
+                        "type": "community_action",
+                        "action": "take_photo",
+                        "success": False,
+                        "message": "Invalid format - use COMMUNITY:take_photo|Your caption"
+                    })
+            
             # CREATE POST
-            if community_part.startswith("create_post"):
+            elif community_part.startswith("create_post"):
                 # Extract the post content from the command
                 # Format: COMMUNITY:create_post|Post content here
                 if "|" in community_part:
