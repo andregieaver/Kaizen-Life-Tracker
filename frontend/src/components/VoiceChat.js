@@ -230,6 +230,51 @@ class RealtimeAudioChat {
             logger.error(null, 'Error processing management commands:', error);
         }
     }
+    
+    async processSupportCommands(content) {
+        try {
+            // Check for NAVIGATE commands
+            const navigateMatch = content.match(/NAVIGATE:(\/[^\s]+)/);
+            if (navigateMatch) {
+                const path = navigateMatch[1];
+                logger.debug(null, 'Support Agent: Navigation command detected:', path);
+                // Emit event for SupportAgentFAB to handle
+                window.dispatchEvent(new CustomEvent('support-agent-navigate', {
+                    detail: { path }
+                }));
+                return;
+            }
+            
+            // Check for data commands (INSPECT, QUERY, STATS, PROFILE, COMMUNITY)
+            const hasDataCommand = /(?:INSPECT:|QUERY:|STATS:|PROFILE:|COMMUNITY:)/.test(content);
+            if (hasDataCommand) {
+                logger.debug(null, 'Support Agent: Data command detected, processing:', content);
+                
+                // Send to backend for processing
+                const response = await fetch(`${this.backendUrl}/api/support-agent/voice/process-command?athlete_id=${this.athleteId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ command: content })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    logger.debug(null, 'Support Agent: Command processing result:', result);
+                    
+                    // Emit event with results for display
+                    window.dispatchEvent(new CustomEvent('support-agent-data', {
+                        detail: { results: result.results, command: content }
+                    }));
+                } else {
+                    logger.error(null, 'Support Agent: Failed to process command:', await response.text());
+                }
+            }
+        } catch (error) {
+            logger.error(null, 'Error processing support agent commands:', error);
+        }
+    }
 
     async disconnect() {
         try {
