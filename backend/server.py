@@ -9140,6 +9140,7 @@ Remember: You are this user's DECISIVE personal assistant. Execute actions confi
         # Check if the user is asking to create a post, edit, or delete
         user_msg_lower = chat_request.message.lower()
         logging.info(f"[SUPPORT AGENT] Processing message: {chat_request.message[:100]}")
+        logging.info(f"[SUPPORT AGENT] AI Response: {response[:200]}")
         
         # Check if this is just a confirmation response first
         is_confirmation = chat_request.message.strip().lower() in ["yes", "confirm", "confirmed", "ok", "sure", "do it"]
