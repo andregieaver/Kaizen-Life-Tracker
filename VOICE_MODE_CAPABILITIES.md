@@ -262,10 +262,11 @@ curl -X POST ".../support-agent/voice/process-command?athlete_id=..." \
 
 Support Agent voice mode is now production-ready with:
 - **Complete CRUD operations** for community posts
+- **Voice-controlled camera capture** for photos
 - **Two-step voice confirmation** for deletions
 - **Full data access** capabilities
 - **Seamless navigation** control
 - **User-friendly feedback** system
 - **Secure, user-scoped** operations
 
-Voice mode provides a hands-free, natural way to interact with the platform while maintaining all the power and safety features of text mode.
+Voice mode provides a hands-free, natural way to interact with the platform while maintaining all the power and safety features of text mode. Users can now create posts with photos using just their voice and camera!
