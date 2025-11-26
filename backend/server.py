@@ -9446,6 +9446,16 @@ async def get_support_agent_history(athlete_id: str, limit: int = 20):
         
         messages = await db.support_agent_messages.find(
             {"athlete_id": athlete_id}, 
+            {"_id": 0}
+        ).sort("timestamp", -1).limit(limit).to_list(length=limit)
+        
+        return [parse_from_mongo(m) for m in messages]
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to get support agent history: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/support-agent/create-post/{athlete_id}")
 async def support_agent_create_post(athlete_id: str, request: dict):
