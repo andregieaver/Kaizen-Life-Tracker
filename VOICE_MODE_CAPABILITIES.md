@@ -18,6 +18,28 @@ The Support Agent voice mode now has **complete feature parity** with text mode,
 - AI responds: "I'll post that for you! COMMUNITY:create_post|Just finished an amazing 10K run! Feeling great and ready for the marathon."
 - Result: Post created with the specified content
 
+#### Take Photo and Post (Camera Capture) 📸 NEW!
+**Voice Command Format:**
+```
+"COMMUNITY:take_photo|Your caption here"
+```
+
+**Example Usage:**
+- User says: "Take a photo and post it"
+- AI responds: "Let me open the camera for you! COMMUNITY:take_photo|Check out my workout setup!"
+- Camera modal opens with live video preview
+- User clicks "📸 Capture & Post" button
+- Photo is captured, uploaded, and posted automatically
+- Success notification: "✅ Photo captured and posted successfully!"
+
+**Features:**
+- Live camera preview
+- Front-facing camera by default
+- High-quality JPEG capture
+- Automatic upload and post creation
+- Error handling with user feedback
+- Cancel option at any time
+
 #### Edit Post (Add to Latest Post)
 **Voice Command Format:**
 ```
