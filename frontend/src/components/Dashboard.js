@@ -379,7 +379,11 @@ const Dashboard = ({ athleteId }) => {
           setSiteTitle(seo.siteTitle);
         }
         if (seo.logoUrl) {
-          setLogoUrl(seo.logoUrl);
+          // If logoUrl starts with http, use as-is, otherwise prepend backend URL
+          const fullLogoUrl = seo.logoUrl.startsWith('http') 
+            ? seo.logoUrl 
+            : `${API}${seo.logoUrl}`;
+          setLogoUrl(fullLogoUrl);
         }
       }
     } catch (error) {
