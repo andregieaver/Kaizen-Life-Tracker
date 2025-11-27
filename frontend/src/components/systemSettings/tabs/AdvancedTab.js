@@ -110,6 +110,43 @@ const AdvancedTab = ({
     }
   };
 
+  const createWaitlistTemplate = async () => {
+    setCreatingTemplate(true);
+    setTemplateMessage(null);
+    
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/email-templates`,
+        {
+          template_id: 'waitlist_autoresponder',
+          name: 'Waitlist Auto-responder',
+          subject: 'Thank You for Joining Our Waitlist!',
+          body: 'Hi {{user_name}},\n\nThank you for signing up for our waitlist! We are excited to have you join us.\n\nYour email: {{user_email}}\nPreferred language: {{preferred_language}}\n\nWe will notify you as soon as we launch. Stay tuned!\n\nBest regards,\nThe Team',
+          html_body: '<p>Hi {{user_name}},</p><p>Thank you for signing up for our waitlist! We are excited to have you join us.</p><p><strong>Your email:</strong> {{user_email}}<br><strong>Preferred language:</strong> {{preferred_language}}</p><p>We will notify you as soon as we launch. Stay tuned!</p><p>Best regards,<br>The Team</p>',
+          variables: ['{{user_name}}', '{{user_email}}', '{{preferred_language}}']
+        }
+      );
+      
+      setTemplateMessage({
+        type: 'success',
+        text: 'Waitlist email template created successfully'
+      });
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => setTemplateMessage(null), 5000);
+    } catch (error) {
+      setTemplateMessage({
+        type: 'error',
+        text: error.response?.data?.detail || error.response?.data?.message || 'Failed to create template'
+      });
+      
+      // Clear error message after 5 seconds
+      setTimeout(() => setTemplateMessage(null), 5000);
+    } finally {
+      setCreatingTemplate(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* SEO Settings */}
