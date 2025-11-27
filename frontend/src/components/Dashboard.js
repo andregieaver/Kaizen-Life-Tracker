@@ -382,10 +382,10 @@ const Dashboard = ({ athleteId }) => {
           // If logoUrl starts with http, use as-is, otherwise prepend backend URL
           const fullLogoUrl = seo.logoUrl.startsWith('http') 
             ? seo.logoUrl 
-            : `${API}${seo.logoUrl}`;
+            : `${BACKEND_URL}${seo.logoUrl}`;
           console.log('🖼️ Logo URL loaded:', {
             original: seo.logoUrl,
-            API,
+            BACKEND_URL,
             full: fullLogoUrl
           });
           setLogoUrl(fullLogoUrl);
