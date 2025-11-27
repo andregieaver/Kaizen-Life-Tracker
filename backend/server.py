@@ -21845,9 +21845,18 @@ async def add_to_waiting_list(entry_data: dict):
             logging.error("=" * 80)
             # Don't fail the whole request if email fails
         
+        # Add debug info to response (will be removed after debugging)
+        email_status = {
+            "email_sent": False,
+            "email_error": None,
+            "service_enabled": False,
+            "template_found": False
+        }
+        
         return {
             "message": "Successfully added to waiting list",
-            "id": entry.id
+            "id": entry.id,
+            "debug": email_status
         }
         
     except HTTPException:
