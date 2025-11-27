@@ -524,42 +524,76 @@ const AdvancedTab = ({
                 </p>
               </div>
               
-              <div className="flex items-center gap-3">
-                <Button
-                  onClick={reloadEmailService}
-                  disabled={reloadingEmail}
-                  className="bg-[#32D3FF] hover:bg-[#28B8E8] text-white"
-                >
-                  {reloadingEmail ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Reloading...
-                    </>
-                  ) : (
-                    <>
-                      <RefreshCw className="w-4 h-4 mr-2" />
-                      Reload Email Service
-                    </>
-                  )}
-                </Button>
-                
-                {reloadMessage && (
-                  <div className={`flex items-center gap-2 ${
-                    reloadMessage.type === 'success' ? 'text-green-400' : 'text-red-400'
-                  }`}>
-                    {reloadMessage.type === 'success' ? (
-                      <CheckCircle className="w-4 h-4" />
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <Button
+                    onClick={reloadEmailService}
+                    disabled={reloadingEmail}
+                    className="bg-[#32D3FF] hover:bg-[#28B8E8] text-white"
+                  >
+                    {reloadingEmail ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Reloading...
+                      </>
                     ) : (
-                      <XCircle className="w-4 h-4" />
+                      <>
+                        <RefreshCw className="w-4 h-4 mr-2" />
+                        Reload Email Service
+                      </>
                     )}
-                    <span className="text-sm">{reloadMessage.text}</span>
-                  </div>
-                )}
+                  </Button>
+                  
+                  <Button
+                    onClick={createWaitlistTemplate}
+                    disabled={creatingTemplate}
+                    className="bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    {creatingTemplate ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Creating...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        Create Waitlist Template
+                      </>
+                    )}
+                  </Button>
+                  
+                  {reloadMessage && (
+                    <div className={`flex items-center gap-2 ${
+                      reloadMessage.type === 'success' ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {reloadMessage.type === 'success' ? (
+                        <CheckCircle className="w-4 h-4" />
+                      ) : (
+                        <XCircle className="w-4 h-4" />
+                      )}
+                      <span className="text-sm">{reloadMessage.text}</span>
+                    </div>
+                  )}
+                  
+                  {templateMessage && (
+                    <div className={`flex items-center gap-2 ${
+                      templateMessage.type === 'success' ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {templateMessage.type === 'success' ? (
+                        <CheckCircle className="w-4 h-4" />
+                      ) : (
+                        <XCircle className="w-4 h-4" />
+                      )}
+                      <span className="text-sm">{templateMessage.text}</span>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="text-xs text-gray-400 space-y-1">
+                  <p>• Click "Reload Email Service" after saving SendGrid settings to apply changes</p>
+                  <p>• Click "Create Waitlist Template" to set up the auto-responder email template</p>
+                </div>
               </div>
-              
-              <p className="text-xs text-gray-400">
-                Click "Reload Email Service" after saving changes to apply the new configuration without restarting the server.
-              </p>
             </div>
           )}
         </CardContent>
