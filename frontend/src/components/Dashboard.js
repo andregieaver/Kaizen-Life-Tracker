@@ -383,7 +383,14 @@ const Dashboard = ({ athleteId }) => {
           const fullLogoUrl = seo.logoUrl.startsWith('http') 
             ? seo.logoUrl 
             : `${API}${seo.logoUrl}`;
+          console.log('🖼️ Logo URL loaded:', {
+            original: seo.logoUrl,
+            API,
+            full: fullLogoUrl
+          });
           setLogoUrl(fullLogoUrl);
+        } else {
+          console.log('⚠️ No logoUrl in SEO settings');
         }
       }
     } catch (error) {
