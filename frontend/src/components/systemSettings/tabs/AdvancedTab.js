@@ -35,6 +35,10 @@ const AdvancedTab = ({
   // Reload email service state
   const [reloadingEmail, setReloadingEmail] = useState(false);
   const [reloadMessage, setReloadMessage] = useState(null);
+  
+  // Create template state
+  const [creatingTemplate, setCreatingTemplate] = useState(false);
+  const [templateMessage, setTemplateMessage] = useState(null);
 
   const testIntegration = async (integrationType) => {
     setTestDialog({
