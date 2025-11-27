@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from environment
-BACKEND_URL = "https://assistify-4.preview.emergentagent.com/api"
+BACKEND_URL = "https://admin-ai-tools.preview.emergentagent.com/api"
 
 def debug_schedule_limit_issue():
     """Debug the specific schedule limit issue"""
