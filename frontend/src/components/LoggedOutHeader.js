@@ -120,7 +120,8 @@ const LoggedOutHeader = () => {
                             );
                           }
                           
-                          const IconComponent = item.icon ? require('lucide-react')[item.icon] : null;
+                          // Safely get icon component
+                          const IconComponent = item.icon && LucideIcons[item.icon] ? LucideIcons[item.icon] : null;
                           
                           return (
                             <button
