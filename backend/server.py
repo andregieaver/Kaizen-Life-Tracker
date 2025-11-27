@@ -21753,6 +21753,16 @@ async def add_to_waiting_list(entry_data: dict):
         
         # Send waitlist auto-responder email
         try:
+            # Get email service
+            email_service = get_email_service()
+            
+            if not email_service or not email_service.enabled:
+                logging.warning("Email service not configured, skipping waitlist auto-responder")
+                return {
+                    "message": "Successfully added to waiting list",
+                    "id": entry.id
+                }
+            
             # Get email template
             template = await db.email_templates.find_one({"template_id": "waitlist_autoresponder"})
             
