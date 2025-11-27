@@ -21857,6 +21857,31 @@ async def add_to_waiting_list(entry_data: dict):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@api_router.post("/waiting-list/test-debug")
+async def test_waitlist_debug(test_email: str = "test@example.com"):
+    """
+    Test endpoint to trigger waitlist signup with detailed logging
+    Use this to debug the auto-responder flow
+    """
+    test_data = {
+        "name": "Debug Test User",
+        "email": test_email,
+        "nationality": "English",
+        "integrations": ["test"],
+        "source": "debug_test"
+    }
+    
+    logging.info("🧪 TEST ENDPOINT CALLED - Starting debug test")
+    
+    # Call the actual waitlist endpoint
+    result = await add_to_waiting_list(test_data)
+    
+    return {
+        "test_result": "completed",
+        "message": "Check logs for detailed debug output",
+        "result": result
+    }
+
 @api_router.get("/waiting-list/diagnostic")
 async def waitlist_diagnostic():
     """
