@@ -32,6 +32,10 @@ const AdvancedTab = ({
     details: ''
   });
 
+  // Reload email service state
+  const [reloadingEmail, setReloadingEmail] = useState(false);
+  const [reloadMessage, setReloadMessage] = useState(null);
+
   const testIntegration = async (integrationType) => {
     setTestDialog({
       open: true,
