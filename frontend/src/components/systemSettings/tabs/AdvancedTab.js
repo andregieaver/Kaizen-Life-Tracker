@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Settings, Save, Eye, EyeOff, Upload, CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { Settings, Save, Eye, EyeOff, Upload, CheckCircle, XCircle, Loader2, RefreshCw } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../ui/card';
 import { Button } from '../../ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../ui/dialog';
