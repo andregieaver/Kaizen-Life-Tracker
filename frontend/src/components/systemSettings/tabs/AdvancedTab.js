@@ -74,6 +74,38 @@ const AdvancedTab = ({
     }
   };
 
+  const reloadEmailService = async () => {
+    setReloadingEmail(true);
+    setReloadMessage(null);
+    
+    try {
+      const athleteId = localStorage.getItem('athleteId');
+      const response = await axios.post(
+        `${BACKEND_URL}/api/system/reload-email-service`,
+        {},
+        { params: { athlete_id: athleteId } }
+      );
+      
+      setReloadMessage({
+        type: 'success',
+        text: response.data.message || 'Email service reloaded successfully'
+      });
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => setReloadMessage(null), 5000);
+    } catch (error) {
+      setReloadMessage({
+        type: 'error',
+        text: error.response?.data?.message || 'Failed to reload email service'
+      });
+      
+      // Clear error message after 5 seconds
+      setTimeout(() => setReloadMessage(null), 5000);
+    } finally {
+      setReloadingEmail(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* SEO Settings */}
