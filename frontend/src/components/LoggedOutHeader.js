@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import axios from 'axios';
 import { logger } from '../utils/logger';
