@@ -21809,6 +21809,52 @@ async def add_to_waiting_list(entry_data: dict):
         logging.error(f"Error adding to waiting list: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@api_router.get("/waiting-list/diagnostic")
+async def waitlist_diagnostic():
+    """
+    Diagnostic endpoint to verify waitlist auto-responder configuration
+    This is a public endpoint to help verify deployment
+    """
+    try:
+        # Check email service
+        email_service = get_email_service()
+        email_configured = email_service is not None and email_service.enabled
+        
+        # Check email template
+        template = await db.email_templates.find_one({"template_id": "waitlist_autoresponder"})
+        template_exists = template is not None
+        
+        # Build diagnostic response
+        diagnostic = {
+            "status": "ok",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "email_service": {
+                "configured": email_configured,
+                "enabled": email_service.enabled if email_service else False,
+                "sender_email": email_service.sender_email if email_service else None
+            },
+            "waitlist_template": {
+                "exists": template_exists,
+                "template_id": "waitlist_autoresponder"
+            },
+            "code_version": "2024-11-27_fix_deployed",  # Version marker
+            "checks": {
+                "email_service_initialized": email_configured,
+                "template_found": template_exists,
+                "ready_to_send": email_configured and template_exists
+            }
+        }
+        
+        return diagnostic
+        
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
 @api_router.get("/waiting-list")
 async def get_waiting_list(
     athlete_id: str,
