@@ -21,6 +21,54 @@ const AdvancedTab = ({
   isSaving
 }) => {
   const { t } = useTranslation();
+  
+  // Test integration dialog state
+  const [testDialog, setTestDialog] = useState({
+    open: false,
+    integration: '',
+    testing: false,
+    success: null,
+    message: '',
+    details: ''
+  });
+
+  const testIntegration = async (integrationType) => {
+    setTestDialog({
+      open: true,
+      integration: integrationType,
+      testing: true,
+      success: null,
+      message: 'Testing connection...',
+      details: ''
+    });
+
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/system/test-integration`, {
+        type: integrationType,
+        config: integrationType === 'openai' ? advancedSettings.integrations?.openaiApiKey :
+               integrationType === 'sendgrid' ? advancedSettings.sendgrid :
+               integrationType === 'stripe' ? advancedSettings.stripe : null
+      });
+
+      setTestDialog({
+        open: true,
+        integration: integrationType,
+        testing: false,
+        success: response.data.success,
+        message: response.data.message,
+        details: response.data.details || ''
+      });
+    } catch (error) {
+      setTestDialog({
+        open: true,
+        integration: integrationType,
+        testing: false,
+        success: false,
+        message: error.response?.data?.message || 'Connection failed',
+        details: error.response?.data?.details || error.message
+      });
+    }
+  };
 
   return (
     <div className="space-y-6">
