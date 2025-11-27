@@ -21765,6 +21765,15 @@ async def add_to_waiting_list(entry_data: dict):
         logging.info(f"✅ STEP 4: Entry saved to database - ID: {entry.id}")
         logging.info(f"📧 Starting auto-responder process for {entry.email}")
         
+        # Debug tracking
+        email_status = {
+            "email_sent": False,
+            "email_error": None,
+            "service_enabled": False,
+            "template_found": False,
+            "step_reached": "4 - Entry saved"
+        }
+        
         # Send waitlist auto-responder email
         try:
             logging.info("🔄 STEP 5a: Getting email service...")
@@ -21777,11 +21786,16 @@ async def add_to_waiting_list(entry_data: dict):
                 logging.error("❌ STEP 5b: Email service NOT configured or NOT enabled!")
                 logging.error(f"   email_service exists: {email_service is not None}")
                 logging.error(f"   email_service.enabled: {email_service.enabled if email_service else 'N/A'}")
+                email_status["step_reached"] = "5b - Service not enabled"
+                email_status["email_error"] = "Email service not configured or not enabled"
                 return {
                     "message": "Successfully added to waiting list",
-                    "id": entry.id
+                    "id": entry.id,
+                    "debug": email_status
                 }
             
+            email_status["service_enabled"] = True
+            email_status["step_reached"] = "5b - Service enabled"
             logging.info("✅ STEP 5b: Email service is configured and enabled")
             
             # Get email template
@@ -21791,11 +21805,16 @@ async def add_to_waiting_list(entry_data: dict):
             if not template:
                 logging.error("❌ STEP 6b: Template NOT FOUND in database!")
                 logging.error("   Queried for: {'template_id': 'waitlist_autoresponder'}")
+                email_status["step_reached"] = "6b - Template not found"
+                email_status["email_error"] = "Template not found in database"
                 return {
                     "message": "Successfully added to waiting list",
-                    "id": entry.id
+                    "id": entry.id,
+                    "debug": email_status
                 }
             
+            email_status["template_found"] = True
+            email_status["step_reached"] = "6b - Template found"
             logging.info(f"✅ STEP 6b: Template found - Subject: {template.get('subject', 'N/A')}")
             
             # Replace variables
@@ -21817,6 +21836,7 @@ async def add_to_waiting_list(entry_data: dict):
                 html_body = html_body.replace(var, value)
                 text_body = text_body.replace(var, value)
             
+            email_status["step_reached"] = "7 - Variables replaced"
             logging.info(f"✅ STEP 7: Variables replaced - Final subject: {subject}")
             
             # Send email
@@ -21825,12 +21845,17 @@ async def add_to_waiting_list(entry_data: dict):
             logging.info(f"   Recipient: {entry.email}")
             logging.info(f"   Subject: {subject}")
             
+            email_status["step_reached"] = "8 - Sending email..."
+            
             await email_service.send_email(
                 to_email=entry.email,
                 subject=subject,
                 html_content=html_body,
                 text_content=text_body
             )
+            
+            email_status["email_sent"] = True
+            email_status["step_reached"] = "8 - Email sent successfully!"
             
             logging.info("=" * 80)
             logging.info(f"✅ ✅ ✅ SUCCESS! Waitlist auto-responder sent to {entry.email}")
@@ -21843,15 +21868,8 @@ async def add_to_waiting_list(entry_data: dict):
             logging.error(f"Error message: {str(email_error)}")
             logging.error(f"Full traceback:", exc_info=True)
             logging.error("=" * 80)
+            email_status["email_error"] = f"{type(email_error).__name__}: {str(email_error)}"
             # Don't fail the whole request if email fails
-        
-        # Add debug info to response (will be removed after debugging)
-        email_status = {
-            "email_sent": False,
-            "email_error": None,
-            "service_enabled": False,
-            "template_found": False
-        }
         
         return {
             "message": "Successfully added to waiting list",
