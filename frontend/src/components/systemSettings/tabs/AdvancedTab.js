@@ -476,9 +476,48 @@ const AdvancedTab = ({
           </div>
 
           {advancedSettings.sendgrid?.apiKey && advancedSettings.sendgrid?.senderEmail && (
-            <div className="p-3 bg-green-900/20 border border-green-700 rounded-lg">
-              <p className="text-green-400 text-sm">
-                ✓ SendGrid configured - Email service is enabled
+            <div className="space-y-3">
+              <div className="p-3 bg-green-900/20 border border-green-700 rounded-lg">
+                <p className="text-green-400 text-sm">
+                  ✓ SendGrid configured - Email service is enabled
+                </p>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <Button
+                  onClick={reloadEmailService}
+                  disabled={reloadingEmail}
+                  className="bg-[#32D3FF] hover:bg-[#28B8E8] text-white"
+                >
+                  {reloadingEmail ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Reloading...
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Reload Email Service
+                    </>
+                  )}
+                </Button>
+                
+                {reloadMessage && (
+                  <div className={`flex items-center gap-2 ${
+                    reloadMessage.type === 'success' ? 'text-green-400' : 'text-red-400'
+                  }`}>
+                    {reloadMessage.type === 'success' ? (
+                      <CheckCircle className="w-4 h-4" />
+                    ) : (
+                      <XCircle className="w-4 h-4" />
+                    )}
+                    <span className="text-sm">{reloadMessage.text}</span>
+                  </div>
+                )}
+              </div>
+              
+              <p className="text-xs text-gray-400">
+                Click "Reload Email Service" after saving changes to apply the new configuration without restarting the server.
               </p>
             </div>
           )}
