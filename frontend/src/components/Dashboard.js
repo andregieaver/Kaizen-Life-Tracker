@@ -886,9 +886,14 @@ const Dashboard = ({ athleteId }) => {
               <div className="flex items-center mr-8 cursor-pointer hover:opacity-90 transition-opacity relative" onClick={() => navigate('/dashboard')}>
                 {logoUrl && (
                   <img 
-                    src={logoUrl} 
+                    src={logoUrl}
                     alt={siteTitle}
                     className="w-8 h-8 object-contain mr-2"
+                    onError={(e) => {
+                      console.error('❌ Logo failed to load:', logoUrl);
+                      console.error('Image error:', e.target.error);
+                    }}
+                    onLoad={() => console.log('✅ Logo loaded successfully:', logoUrl)}
                   />
                 )}
                 <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-logo)' }}>
