@@ -21724,9 +21724,17 @@ async def get_platform_metrics():
 async def add_to_waiting_list(entry_data: dict):
     """Add entry to waiting list (public endpoint, no auth required)"""
     try:
+        logging.info("=" * 80)
+        logging.info("🔵 WAITLIST SIGNUP REQUEST RECEIVED")
+        logging.info(f"📝 Request data: {entry_data}")
+        logging.info("=" * 80)
+        
         # Validate required fields
         if not entry_data.get("name") or not entry_data.get("email") or not entry_data.get("nationality"):
+            logging.error(f"❌ VALIDATION FAILED - Missing fields. Data: {entry_data}")
             raise HTTPException(status_code=400, detail="Name, email, and nationality are required")
+        
+        logging.info(f"✅ STEP 1: Validation passed")
         
         # Check if email already exists
         existing = await db.waiting_list.find_one(
@@ -21735,7 +21743,10 @@ async def add_to_waiting_list(entry_data: dict):
         )
         
         if existing:
+            logging.warning(f"⚠️ DUPLICATE: Email {entry_data['email']} already in waitlist")
             raise HTTPException(status_code=409, detail="Email already registered in waiting list")
+        
+        logging.info(f"✅ STEP 2: No duplicate found")
         
         # Create entry
         entry = WaitingListEntry(
@@ -21747,55 +21758,91 @@ async def add_to_waiting_list(entry_data: dict):
             notes=entry_data.get("notes")
         )
         
+        logging.info(f"✅ STEP 3: Entry object created for {entry.email}")
+        
         await db.waiting_list.insert_one(entry.model_dump())
         
-        logging.info(f"Waiting list entry added: {entry.email}")
+        logging.info(f"✅ STEP 4: Entry saved to database - ID: {entry.id}")
+        logging.info(f"📧 Starting auto-responder process for {entry.email}")
         
         # Send waitlist auto-responder email
         try:
+            logging.info("🔄 STEP 5a: Getting email service...")
             # Get email service
             email_service = get_email_service()
             
+            logging.info(f"📊 Email service status: enabled={email_service.enabled if email_service else 'None'}, sender={email_service.sender_email if email_service else 'None'}")
+            
             if not email_service or not email_service.enabled:
-                logging.warning("Email service not configured, skipping waitlist auto-responder")
+                logging.error("❌ STEP 5b: Email service NOT configured or NOT enabled!")
+                logging.error(f"   email_service exists: {email_service is not None}")
+                logging.error(f"   email_service.enabled: {email_service.enabled if email_service else 'N/A'}")
                 return {
                     "message": "Successfully added to waiting list",
                     "id": entry.id
                 }
             
+            logging.info("✅ STEP 5b: Email service is configured and enabled")
+            
             # Get email template
+            logging.info("🔄 STEP 6a: Fetching email template...")
             template = await db.email_templates.find_one({"template_id": "waitlist_autoresponder"})
             
-            if template:
-                # Replace variables
-                subject = template.get("subject", "Thank You for Joining Our Waitlist!")
-                html_body = template.get("html_body", "")
-                text_body = template.get("body", "")
-                
-                # Replace template variables
-                variables = {
-                    "{{user_name}}": entry.name,
-                    "{{user_email}}": entry.email,
-                    "{{preferred_language}}": entry.nationality
+            if not template:
+                logging.error("❌ STEP 6b: Template NOT FOUND in database!")
+                logging.error("   Queried for: {'template_id': 'waitlist_autoresponder'}")
+                return {
+                    "message": "Successfully added to waiting list",
+                    "id": entry.id
                 }
-                
-                for var, value in variables.items():
-                    subject = subject.replace(var, value)
-                    html_body = html_body.replace(var, value)
-                    text_body = text_body.replace(var, value)
-                
-                # Send email
-                await email_service.send_email(
-                    to_email=entry.email,
-                    subject=subject,
-                    html_content=html_body,
-                    text_content=text_body
-                )
-                logging.info(f"Waitlist auto-responder sent to {entry.email}")
-            else:
-                logging.warning("Waitlist auto-responder template not found")
+            
+            logging.info(f"✅ STEP 6b: Template found - Subject: {template.get('subject', 'N/A')}")
+            
+            # Replace variables
+            subject = template.get("subject", "Thank You for Joining Our Waitlist!")
+            html_body = template.get("html_body", "")
+            text_body = template.get("body", "")
+            
+            logging.info("🔄 STEP 7: Replacing template variables...")
+            
+            # Replace template variables
+            variables = {
+                "{{user_name}}": entry.name,
+                "{{user_email}}": entry.email,
+                "{{preferred_language}}": entry.nationality
+            }
+            
+            for var, value in variables.items():
+                subject = subject.replace(var, value)
+                html_body = html_body.replace(var, value)
+                text_body = text_body.replace(var, value)
+            
+            logging.info(f"✅ STEP 7: Variables replaced - Final subject: {subject}")
+            
+            # Send email
+            logging.info(f"📤 STEP 8: Sending email to {entry.email}...")
+            logging.info(f"   Sender: {email_service.sender_email}")
+            logging.info(f"   Recipient: {entry.email}")
+            logging.info(f"   Subject: {subject}")
+            
+            await email_service.send_email(
+                to_email=entry.email,
+                subject=subject,
+                html_content=html_body,
+                text_content=text_body
+            )
+            
+            logging.info("=" * 80)
+            logging.info(f"✅ ✅ ✅ SUCCESS! Waitlist auto-responder sent to {entry.email}")
+            logging.info("=" * 80)
+            
         except Exception as email_error:
-            logging.error(f"Error sending waitlist auto-responder: {email_error}")
+            logging.error("=" * 80)
+            logging.error(f"❌ ❌ ❌ ERROR sending waitlist auto-responder!")
+            logging.error(f"Error type: {type(email_error).__name__}")
+            logging.error(f"Error message: {str(email_error)}")
+            logging.error(f"Full traceback:", exc_info=True)
+            logging.error("=" * 80)
             # Don't fail the whole request if email fails
         
         return {
@@ -21806,7 +21853,7 @@ async def add_to_waiting_list(entry_data: dict):
     except HTTPException:
         raise
     except Exception as e:
-        logging.error(f"Error adding to waiting list: {e}")
+        logging.error(f"❌ CRITICAL ERROR adding to waiting list: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
