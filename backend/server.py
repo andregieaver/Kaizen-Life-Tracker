@@ -139,6 +139,7 @@ from routes.system_complete import router as system_router
 from routes.waitlist_complete import router as waitlist_router
 from routes.subscriptions_complete import router as subscriptions_router
 from routes.coach_complete import router as coach_router
+from routes.journal_complete import router as journal_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
@@ -148,6 +149,7 @@ api_router.include_router(system_router)
 api_router.include_router(waitlist_router)
 api_router.include_router(subscriptions_router)
 api_router.include_router(coach_router)
+api_router.include_router(journal_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
