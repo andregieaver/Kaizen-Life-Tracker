@@ -162,6 +162,7 @@ from routes.drinks_complete import router as drinks_router
 from routes.documents_complete import router as documents_router
 from routes.recipes_complete import router as recipes_router
 from routes.cookies_complete import router as cookies_router
+from routes.pages_complete import router as pages_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
