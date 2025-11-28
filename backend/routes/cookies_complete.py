@@ -11,7 +11,7 @@ import uuid
 from datetime import datetime, timezone
 from database import db
 
-router = APIRouter(prefix="/cookies", tags=["cookies"])
+router = APIRouter(tags=["cookies"])
 
 
 # Models
