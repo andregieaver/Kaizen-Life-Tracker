@@ -385,6 +385,74 @@ const AgentModal = ({ athleteId, agent, onClose }) => {
             </p>
           </div>
 
+          {/* Knowledge Base */}
+          {isEditing && (
+            <div className="space-y-3 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium text-gray-300">
+                  Knowledge Base Files
+                </label>
+                <button
+                  type="button"
+                  onClick={() => knowledgeFileInputRef.current?.click()}
+                  disabled={uploadingFile}
+                  className="flex items-center space-x-2 px-3 py-1.5 text-sm text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  <Upload className="w-4 h-4" />
+                  <span>{uploadingFile ? 'Uploading...' : 'Upload File'}</span>
+                </button>
+                <input
+                  ref={knowledgeFileInputRef}
+                  type="file"
+                  accept=".txt,.md,.csv,.json"
+                  onChange={handleKnowledgeFileSelect}
+                  className="hidden"
+                />
+              </div>
+              
+              <p className="text-xs text-gray-400">
+                Upload reference files (.txt, .md, .csv, .json) to give your agent specific knowledge. Max 500KB per file.
+              </p>
+
+              {knowledgeBase.length > 0 ? (
+                <div className="space-y-2 mt-3">
+                  {knowledgeBase.map((file) => (
+                    <div
+                      key={file.filename}
+                      className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg border border-gray-700"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-gray-200 truncate">{file.filename}</p>
+                        <p className="text-xs text-gray-500">
+                          {(file.size / 1024).toFixed(1)} KB • {new Date(file.uploaded_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteKnowledgeFile(file.filename)}
+                        className="ml-3 p-1.5 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500 text-sm">
+                  No knowledge files uploaded yet
+                </div>
+              )}
+            </div>
+          )}
+
+          {!isEditing && (
+            <div className="p-4 bg-blue-500/10 rounded-lg border border-blue-500/30">
+              <p className="text-sm text-blue-400">
+                💡 Tip: Save the agent first, then you can upload knowledge base files to enhance its responses.
+              </p>
+            </div>
+          )}
+
           {/* Is Active */}
           <div className="flex items-center space-x-3">
             <input
