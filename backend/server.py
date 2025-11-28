@@ -10373,6 +10373,8 @@ async def delete_agent_knowledge(agent_id: str, filename: str, athlete_id: str =
     except HTTPException:
         raise
     except Exception as e:
+        logging.error(f"Error in agent endpoint: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/system/fix-broken-images")
 async def fix_broken_images(athlete_id: str = Query(...)):
