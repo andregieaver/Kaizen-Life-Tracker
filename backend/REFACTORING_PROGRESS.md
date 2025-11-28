@@ -93,10 +93,9 @@ None currently
 
 ---
 
-## 📝 Remaining Domains (20/23)
+## 📝 Remaining Domains (19/23)
 
 ### High Priority (Core Functionality)
-4. **System** (~10 routes) - Settings, email config, SEO
 5. **Subscriptions** (~15 routes) - Stripe, subscriptions, webhooks
 6. **Waitlist** (~5 routes) - Waitlist management
 
