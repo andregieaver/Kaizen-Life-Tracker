@@ -16424,7 +16424,7 @@ async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = 
         logging.error(f"Error uploading SEO image: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to upload image: {str(e)}")
 
-# Duplicate system settings (GET/POST /system/settings) moved to routes/system_complete.py
+# Duplicate system settings (GET/POST /system/settings, GET /system/subscriber-stats) moved to routes/system_complete.py
 
 # Waiting List Endpoints
 @api_router.get("/platform-metrics")
