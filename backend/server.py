@@ -19729,57 +19729,46 @@ async def translate_menus(athlete_id: str = Query(..., description="Athlete ID f
 
 @api_router.post("/system/upload-seo-image")
 async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = File(...)):
-    """Upload favicon or logo for SEO settings (Super Admin only)"""
+    """Upload favicon or logo for SEO settings - stores as base64 data URL (Super Admin only)"""
     await verify_super_admin(athlete_id)
     
     try:
-        # Validate file type
         if not file.content_type or not file.content_type.startswith('image/'):
             raise HTTPException(status_code=400, detail="File must be an image")
         
-        # Check file size (limit to 2MB)
         file_content = await file.read()
         if len(file_content) > 2 * 1024 * 1024:
             raise HTTPException(status_code=400, detail="File size must be less than 2MB")
         
-        # Process image
         try:
             image = Image.open(io.BytesIO(file_content))
             
-            # Keep transparency for PNG images (logos and favicons)
-            # Only convert P mode (palette) to RGBA to preserve transparency
             if image.mode == 'P':
                 image = image.convert('RGBA')
             elif image.mode not in ('RGB', 'RGBA'):
-                # Convert other modes to RGBA to be safe
                 image = image.convert('RGBA')
             
-            # Resize based on image type
             if image_type == "favicon":
-                # Favicon: 32x32 for browser compatibility
                 image = image.resize((32, 32), Image.Resampling.LANCZOS)
             elif image_type == "logo":
-                # Logo: max 200x200, maintain aspect ratio
                 image.thumbnail((200, 200), Image.Resampling.LANCZOS)
             elif image_type == "og_image":
-                # OG Image: 1200x630 (standard Open Graph size)
                 image = image.resize((1200, 630), Image.Resampling.LANCZOS)
             
-            # Create directory if it doesn't exist
-            seo_dir = Path("/app/backend/uploaded_images/seo")
-            seo_dir.mkdir(parents=True, exist_ok=True)
+            output = io.BytesIO()
+            image.save(output, format='PNG', optimize=True)
+            output.seek(0)
+            optimized_content = output.read()
             
-            # Save to file - always save as PNG to preserve transparency
-            filename = f"{image_type}_{int(datetime.now(timezone.utc).timestamp())}.png"
-            filepath = f"/app/backend/uploaded_images/seo/{filename}"
+            import base64
+            encoded = base64.b64encode(optimized_content).decode('utf-8')
+            data_url = f"data:image/png;base64,{encoded}"
             
-            # Save with transparency
-            image.save(filepath, format='PNG', optimize=True)
-            
-            # Store path with /api prefix for Kubernetes ingress routing
-            image_path = f"/api/uploaded_images/seo/{filename}"
-            
-            return {"success": True, "message": f"{image_type.title()} uploaded successfully", "path": image_path}
+            return {
+                "success": True,
+                "message": f"{image_type.title()} uploaded successfully",
+                "path": data_url
+            }
             
         except Exception as e:
             logging.error(f"Error processing SEO image: {e}")
