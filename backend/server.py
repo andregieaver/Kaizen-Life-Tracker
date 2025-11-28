@@ -11441,16 +11441,7 @@ async def execute_schedule_now(schedule_id: str):
     
     return {"message": "Schedule executed successfully", "schedule_id": schedule_id}
 
-# Recommendations Routes  
-@api_router.get("/recommendations/{athlete_id}", response_model=List[Recommendation])
-async def get_athlete_recommendations(athlete_id: str, limit: int = 20):
-    """Get AI-generated recommendations for an athlete"""
-    recommendations = await db.recommendations.find(
-        {"athlete_id": athlete_id}, 
-        {"_id": 0}
-    ).sort("generated_at", -1).limit(limit).limit(100).to_list(length=100)
-    return [parse_from_mongo(r) for r in recommendations]
-
+# Recommendations Routes (other CRUD endpoints moved to routes/recommendations_complete.py)
 @api_router.post("/recommendations/{athlete_id}/generate")
 async def generate_recommendation(athlete_id: str, prompt: str, schedule_id: str = None):
     """Generate a new AI recommendation based on a prompt"""
