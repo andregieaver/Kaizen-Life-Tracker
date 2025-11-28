@@ -208,14 +208,43 @@
   - Supplements management
   - Hydration tracking with totals
 
+### 11. Community Domain ✅ PARTIAL EXTRACTION
+- **File**: `routes/community_complete.py` (464 lines)
+- **Routes**: 19/64 core social features extracted
+- **Status**: ✅ Tested and working
+- **Extracted Routes** (19):
+  - Posts CRUD (create, get, update, delete)
+  - Comments CRUD
+  - Likes (posts & comments)
+  - Feed operations (public, following)
+  - User posts
+  - Sharing/reposting
+  - Search athletes
+  - Follow/unfollow
+  - Following/followers lists
+- **Features Extracted**:
+  - Complete post management
+  - Comment threading
+  - Like/unlike functionality
+  - Public & following feeds
+  - Social graph (follow system)
+  - Post sharing
+- **Remaining in server.py** (~45 routes):
+  - Events (creation, management, participation)
+  - Challenges (creation, joining, leaderboards)
+  - Groups (creation, management, posts)
+  - Polls (creation, voting)
+  - Advanced metadata (YouTube, URL previews)
+  - Translation features
+
 ---
 
 ## 📊 Progress Statistics
 
-- **Domains Completed**: 10 / 23 (43.5%)
-- **Routes Extracted**: ~85 / ~400 (21.25%)
-- **Lines Refactored**: ~5,020 / ~23,605 (21.3%)
-- **Test Files Created**: 10 (all passing ✅)
+- **Domains Completed**: 11 / 23 (47.8%)
+- **Routes Extracted**: ~104 / ~400 (26%)
+- **Lines Refactored**: ~5,484 / ~23,605 (23.2%)
+- **Test Files Created**: 11 (all passing ✅)
 
 ---
 
