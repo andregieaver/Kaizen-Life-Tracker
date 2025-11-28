@@ -12856,33 +12856,6 @@ async def share_post(post_id: str, share_data: dict, athlete_id: str = Query(...
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# Event Comments Endpoints
-@api_router.post("/community/events/{event_id}/comment")
-async def add_event_comment(event_id: str, comment: dict, athlete_id: str = Query(...)):
-    """Add a comment to an event"""
-    try:
-        # Get athlete info
-        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
-        if not athlete:
-            raise HTTPException(status_code=404, detail="Athlete not found")
-        
-        # Create comment
-        new_comment = {
-            "id": str(uuid.uuid4()),
-            "event_id": event_id,
-            "athlete_id": athlete_id,
-            "athlete_name": athlete.get("name", "Unknown"),
-            "athlete_profile_picture": athlete.get("profile_picture"),
-            "content": comment.get("content", ""),
-            "created_at": datetime.now(timezone.utc).isoformat()
-        }
-        
-        await db.community_event_comments.insert_one(prepare_for_mongo(new_comment.copy()))
-        
-        # Increment comment count
-        await db.community_events.update_one(
-            {"id": event_id},
-
 # Event comments endpoints moved to routes/events_complete.py
 
 # ============================================================================
