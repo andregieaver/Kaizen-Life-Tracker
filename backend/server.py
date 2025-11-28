@@ -10285,6 +10285,104 @@ async def upload_agent_image(agent_id: str, file: UploadFile = File(...), athlet
         logging.error(f"Failed to upload agent image: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/agents/{agent_id}/upload-knowledge")
+async def upload_agent_knowledge(
+    agent_id: str,
+    file: UploadFile = File(...),
+    athlete_id: str = Query(...)
+):
+    """Upload knowledge base file for agent"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        agent = await db.agents.find_one({"id": agent_id}, {"_id": 0})
+        if not agent:
+            raise HTTPException(status_code=404, detail="Agent not found")
+        
+        allowed_extensions = [".txt", ".md", ".csv", ".json"]
+        file_ext = os.path.splitext(file.filename)[1].lower()
+        
+        if file_ext not in allowed_extensions:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unsupported file type. Allowed: {', '.join(allowed_extensions)}"
+            )
+        
+        content = await file.read()
+        text_content = content.decode('utf-8', errors='ignore')
+        
+        max_size = 500000
+        if len(text_content) > max_size:
+            raise HTTPException(status_code=400, detail="File too large. Max 500KB")
+        
+        knowledge_base = agent.get("knowledge_base", [])
+        
+        existing_index = next(
+            (i for i, kb in enumerate(knowledge_base) if kb["filename"] == file.filename),
+            None
+        )
+        
+        file_entry = {
+            "filename": file.filename,
+            "content": text_content,
+            "uploaded_at": datetime.now(timezone.utc).isoformat(),
+            "size": len(text_content)
+        }
+        
+        if existing_index is not None:
+            knowledge_base[existing_index] = file_entry
+        else:
+            knowledge_base.append(file_entry)
+        
+        await db.agents.update_one(
+            {"id": agent_id},
+            {"$set": {"knowledge_base": knowledge_base, "updated_at": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        return {
+            "success": True,
+            "filename": file.filename,
+            "size": len(text_content),
+            "total_files": len(knowledge_base)
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to upload knowledge file: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/agents/{agent_id}/knowledge/{filename}")
+async def delete_agent_knowledge(agent_id: str, filename: str, athlete_id: str = Query(...)):
+    """Delete knowledge base file from agent"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        agent = await db.agents.find_one({"id": agent_id}, {"_id": 0})
+        if not agent:
+            raise HTTPException(status_code=404, detail="Agent not found")
+        
+        knowledge_base = agent.get("knowledge_base", [])
+        knowledge_base = [kb for kb in knowledge_base if kb["filename"] != filename]
+        
+        await db.agents.update_one(
+            {"id": agent_id},
+            {"$set": {"knowledge_base": knowledge_base, "updated_at": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        return {
+            "success": True,
+            "message": f"Deleted {filename}",
+            "remaining_files": len(knowledge_base)
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Failed to delete knowledge file: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/agents/by-accessibility/{accessibility_level}")
 async def get_agents_by_accessibility(accessibility_level: str, athlete_id: str = Query(...)):
     """Get agents by accessibility level"""
