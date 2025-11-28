@@ -76,7 +76,7 @@ async def get_drink_logs(athlete_id: str, date: Optional[str] = None):
     return {"drinks": parsed_drinks}
 
 
-@router.post("/{athlete_id}")
+@router.post("/drinks/{athlete_id}")
 async def create_drink_log(athlete_id: str, drink_data: dict):
     """Create a new drink log entry"""
     # Create drink log with athlete_id
