@@ -19240,27 +19240,26 @@ async def upload_page_image(page_id: str, athlete_id: str, image_type: str, file
                 # OG image: 1200x630 (recommended for social media)
                 image.thumbnail((1200, 630), Image.Resampling.LANCZOS)
             
-            # Save to file
-            filename = f"{page_id}_{image_type}_{int(datetime.now(timezone.utc).timestamp())}.jpg"
-            filepath = f"/app/backend/uploaded_images/pages/{filename}"
+            output = io.BytesIO()
+            image.save(output, format='JPEG', quality=85, optimize=True)
+            output.seek(0)
+            optimized_content = output.read()
             
-            image.save(filepath, format='JPEG', quality=85)
+            import base64
+            encoded = base64.b64encode(optimized_content).decode('utf-8')
+            data_url = f"data:image/jpeg;base64,{encoded}"
             
-            # Store path with /api prefix for Kubernetes ingress routing
-            image_path = f"/api/uploaded_images/pages/{filename}"
-            
-            # Update page
             update_field = "thumbnail" if image_type == "thumbnail" else "og_image"
             await db.pages.update_one(
                 {"id": page_id},
                 {"$set": {
-                    update_field: image_path,
+                    update_field: data_url,
                     "updated_at": datetime.now(timezone.utc).isoformat(),
                     "last_modified_by": athlete_id
                 }}
             )
             
-            return {"success": True, "message": f"{image_type.title()} uploaded successfully", "path": image_path}
+            return {"success": True, "message": f"{image_type.title()} uploaded successfully", "path": data_url}
             
         except Exception as e:
             logging.error(f"Error processing image: {e}")
