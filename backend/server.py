@@ -1727,34 +1727,7 @@ class GroupPost(BaseModel):
 
 
 # Event Models
-class Event(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    name: str
-    description: str
-    visibility: str  # 'open', 'private'
-    event_date: str  # ISO format date
-    event_time: str  # HH:MM format
-    location: Optional[str] = None
-    profile_image: Optional[str] = None
-    cover_photo: Optional[str] = None
-    group_id: Optional[str] = None  # Connected group (optional)
-    creator_id: str
-    interested_count: int = 0
-    going_count: int = 0
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    updated_at: Optional[datetime] = None
-
-class EventAttendance(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    event_id: str
-    athlete_id: str
-    status: str  # 'interested', 'going', 'not_going'
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
+# Event, EventAttendance models moved to routes/events_complete.py
 # Challenge, ChallengeParticipation, ChallengeComment, ChallengeAchievement models moved to routes/challenges_complete.py
 # ContentBlock, MenuItem, MenuSettings, Page, PageCreate, PageUpdate models moved to routes/pages_complete.py
 
