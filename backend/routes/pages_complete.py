@@ -538,3 +538,72 @@ async def get_page_meta_html(page_id: str):
     except Exception as e:
         logging.error(f"Error generating page meta HTML: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to generate meta HTML: {str(e)}")
+
+@router.post("/update-index-html")
+async def update_index_html_meta(athlete_id: str):
+    """
+    Update index.html with current home page metadata
+    Super admin only - updates the default OG tags in index.html
+    """
+    try:
+        # Verify super admin
+        await verify_super_admin(athlete_id)
+        
+        # Find home page (slug "/")
+        home_page = await db.pages.find_one({"url_slug": "/", "status": "published"}, {"_id": 0})
+        
+        if not home_page:
+            raise HTTPException(status_code=404, detail="Home page not found")
+        
+        # Extract metadata
+        meta_title = home_page.get('meta_title') or home_page.get('title') or 'My Health Tracker'
+        meta_description = home_page.get('meta_description') or 'Your personal AI Health & Fitness coach'
+        og_image = home_page.get('og_image') or ''
+        
+        # Construct full image URL
+        backend_url = os.environ.get('REACT_APP_BACKEND_URL', 'https://trainsmart-cms.emergent.host')
+        if og_image and not og_image.startswith('http'):
+            og_image = f"{backend_url}{og_image}"
+        
+        # Read current index.html
+        index_path = "/app/frontend/public/index.html"
+        
+        if not os.path.exists(index_path):
+            raise HTTPException(status_code=500, detail="index.html not found")
+        
+        with open(index_path, 'r', encoding='utf-8') as f:
+            html = f.read()
+        
+        # Replace meta tags
+        html = re.sub(r'<title>.*?</title>', f'<title>{meta_title}</title>', html)
+        html = re.sub(r'<meta name="description" content=".*?"', f'<meta name="description" content="{meta_description}"', html)
+        html = re.sub(r'<meta property="og:title" content=".*?"', f'<meta property="og:title" content="{meta_title}"', html)
+        html = re.sub(r'<meta property="og:description" content=".*?"', f'<meta property="og:description" content="{meta_description}"', html)
+        
+        if og_image:
+            html = re.sub(r'<meta property="og:image" content=".*?"', f'<meta property="og:image" content="{og_image}"', html)
+            html = re.sub(r'<meta property="og:image:secure_url" content=".*?"', f'<meta property="og:image:secure_url" content="{og_image}"', html)
+            html = re.sub(r'<meta name="twitter:image" content=".*?"', f'<meta name="twitter:image" content="{og_image}"', html)
+        
+        html = re.sub(r'<meta name="twitter:title" content=".*?"', f'<meta name="twitter:title" content="{meta_title}"', html)
+        html = re.sub(r'<meta name="twitter:description" content=".*?"', f'<meta name="twitter:description" content="{meta_description}"', html)
+        
+        # Write updated index.html
+        with open(index_path, 'w', encoding='utf-8') as f:
+            f.write(html)
+        
+        logging.info(f"✅ Updated index.html with home page metadata by {athlete_id}")
+        
+        return {
+            "success": True,
+            "message": "index.html updated with home page metadata",
+            "meta_title": meta_title,
+            "meta_description": meta_description,
+            "og_image": og_image
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating index.html: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Failed to update index.html")
