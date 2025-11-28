@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from environment
-BACKEND_URL = "https://admin-ai-tools.preview.emergentagent.com/api"
+BACKEND_URL = "https://bugfix-central-45.preview.emergentagent.com/api"
 
 def test_schedule_creation_with_pro_tier():
     """Test what would happen if the user had pro tier"""
