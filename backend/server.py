@@ -3859,58 +3859,9 @@ async def create_athlete_profile(profile: AthleteProfile):
     created_profile = await db.athlete_profiles.find_one({"id": profile.id}, {"_id": 0})
     return parse_from_mongo(created_profile)
 
-@api_router.post("/auth/login")
-async def login_athlete(login_data: LoginRequest):
-    """Login athlete by email and password"""
-    # Debug logging
-    logging.info(f"[LOGIN] Attempt for email: {login_data.email}")
-    logging.info(f"[LOGIN] Password length: {len(login_data.password)}, first 3 chars: {login_data.password[:3] if len(login_data.password) >= 3 else login_data.password}")
-    
-    # Try athlete_profiles first (new collection)
-    athlete = await db.athlete_profiles.find_one(
-        {"email": login_data.email.lower().strip()}, 
-        {"_id": 0}
-    )
-    
-    # Fallback to athletes collection (legacy)
-    if not athlete:
-        athlete = await db.athletes.find_one(
-            {"email": login_data.email.lower().strip()}, 
-            {"_id": 0}
-        )
-    
-    if not athlete:
-        logging.warning(f"[LOGIN] User not found: {login_data.email}")
-        raise HTTPException(status_code=401, detail="Invalid email or password")
-    
-    # Verify password
-    logging.info(f"[LOGIN] Stored password hash starts with: {athlete['password'][:20]}")
-    password_valid = pwd_context.verify(login_data.password, athlete["password"])
-    logging.info(f"[LOGIN] Password verification result: {password_valid}")
-    
-    if not password_valid:
-        logging.warning(f"[LOGIN] Invalid password for: {login_data.email}")
-        raise HTTPException(status_code=401, detail="Invalid email or password")
-    
-    # Use id if it exists, otherwise use email as identifier
-    athlete_identifier = athlete.get("id") or athlete.get("email")
-    
-    # Update last_active_at
-    from datetime import datetime, timezone
-    await db.athlete_profiles.update_one(
-        {"id": athlete_identifier},
-        {"$set": {"last_active_at": datetime.now(timezone.utc).isoformat()}}
-    )
-    
-    return {
-        "athlete_id": athlete_identifier,
-        "name": athlete["name"],
-        "email": athlete["email"],
-        "role": athlete.get("role", "user")  # Include role for frontend access control
-    }
+# Auth endpoints (login, forgot-password, etc.) moved to routes/auth_complete.py
 
-@api_router.post("/auth/forgot-password")
-async def forgot_password(request: dict):
+@api_router.get("/athlete/{athlete_id}")
     """Generate password reset token and send email"""
     email = request.get("email", "").lower().strip()
     
