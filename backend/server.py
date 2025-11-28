@@ -1753,71 +1753,7 @@ class EventAttendance(BaseModel):
     status: str  # 'interested', 'going', 'not_going'
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
-class Challenge(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    title: str
-    description: str
-    challenge_type: str  # 'distance', 'activity_count', 'duration'
-    goal_value: float  # Target value (km for distance, count for activities, minutes for duration)
-    goal_unit: str  # 'km', 'activities', 'minutes'
-    time_period: str = 'total'  # 'total', 'daily', 'weekly', 'monthly' - how often to reach the goal
-    start_date: str  # ISO format date
-    end_date: str  # ISO format date
-    visibility: str  # 'public', 'private'
-    competition_type: str  # 'individual', 'team'
-    cover_photo: Optional[str] = None
-    trophy_image: Optional[str] = None  # Badge/trophy image for completed challenges
-    creator_id: str
-    creator_name: str
-    creator_profile_picture: Optional[str] = None
-    participants_count: int = 0
-    is_recurring: bool = False
-    recurrence_frequency: Optional[str] = None  # 'daily', 'weekly', 'monthly'
-    recurrence_count: Optional[int] = None  # How many times to repeat
-    group_id: Optional[str] = None  # Optional group association
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    updated_at: Optional[datetime] = None
-
-class ChallengeParticipation(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    challenge_id: str
-    athlete_id: str
-    athlete_name: str
-    athlete_profile_picture: Optional[str] = None
-    current_progress: float = 0.0  # Current progress value
-    percentage_complete: float = 0.0  # Calculated percentage
-    rank: Optional[int] = None  # Position in leaderboard
-    joined_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    last_updated: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-class ChallengeComment(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    challenge_id: str
-    athlete_id: str
-    athlete_name: str
-    athlete_profile_picture: Optional[str] = None
-    content: str
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-class ChallengeAchievement(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    challenge_id: str
-    challenge_title: str
-    challenge_type: str
-    trophy_image: Optional[str] = None
-    athlete_id: str
-    athlete_name: str
-    completed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    final_value: float  # Final progress value achieved
-
+# Challenge, ChallengeParticipation, ChallengeComment, ChallengeAchievement models moved to routes/challenges_complete.py
 # ContentBlock, MenuItem, MenuSettings, Page, PageCreate, PageUpdate models moved to routes/pages_complete.py
 
 class MenuItem(BaseModel):
