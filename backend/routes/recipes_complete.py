@@ -248,7 +248,7 @@ async def get_recipe(recipe_id: str):
     return parse_from_mongo(recipe)
 
 
-@router.put("/{recipe_id}/rating")
+@router.put("/recipes/{recipe_id}/rating")
 async def rate_recipe(recipe_id: str, rating: dict):
     """Update recipe rating"""
     user_rating = rating.get('rating')
