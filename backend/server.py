@@ -148,6 +148,7 @@ from routes.schedules_complete import router as schedules_router
 from routes.crm_complete import router as crm_router
 from routes.push_complete import router as push_router
 from routes.files_complete import router as files_router
+from routes.referrals_complete import router as referrals_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
@@ -166,6 +167,7 @@ api_router.include_router(schedules_router)
 api_router.include_router(crm_router)
 api_router.include_router(push_router)
 api_router.include_router(files_router)
+api_router.include_router(referrals_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
