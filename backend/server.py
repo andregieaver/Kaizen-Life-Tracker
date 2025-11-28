@@ -159,6 +159,7 @@ from routes.training_calendar_complete import router as training_calendar_router
 from routes.subscription_plans_complete import router as subscription_plans_router
 from routes.supplements_complete import router as supplements_router
 from routes.drinks_complete import router as drinks_router
+from routes.documents_complete import router as documents_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
