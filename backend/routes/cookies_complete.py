@@ -302,7 +302,7 @@ async def get_cookie_settings(athlete_id: str):
         raise HTTPException(status_code=500, detail=f"Failed to get cookie settings: {str(e)}")
 
 
-@router.post("/settings")
+@router.post("/cookies/settings")
 async def save_cookie_settings(athlete_id: str, settings: dict):
     """Save cookie management settings"""
     try:
