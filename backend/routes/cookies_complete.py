@@ -255,7 +255,7 @@ async def scan_cookies(athlete_id: str, request: Request):
         raise HTTPException(status_code=500, detail=f"Failed to scan cookies: {str(e)}")
 
 
-@router.get("/settings")
+@router.get("/cookies/settings")
 async def get_cookie_settings(athlete_id: str):
     """Get cookie management settings"""
     try:
