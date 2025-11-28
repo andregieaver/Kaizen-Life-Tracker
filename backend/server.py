@@ -141,6 +141,7 @@ from routes.subscriptions_complete import router as subscriptions_router
 from routes.coach_complete import router as coach_router
 from routes.journal_complete import router as journal_router
 from routes.workouts_complete import router as workouts_router
+from routes.nutrition_complete import router as nutrition_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
@@ -152,6 +153,7 @@ api_router.include_router(subscriptions_router)
 api_router.include_router(coach_router)
 api_router.include_router(journal_router)
 api_router.include_router(workouts_router)
+api_router.include_router(nutrition_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
