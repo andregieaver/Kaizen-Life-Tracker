@@ -155,6 +155,7 @@ from routes.messages_complete import router as messages_router
 from routes.coupons_complete import router as coupons_router
 from routes.test_results_complete import router as test_results_router
 from routes.weekly_menus_complete import router as weekly_menus_router
+from routes.training_calendar_complete import router as training_calendar_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
@@ -180,6 +181,7 @@ api_router.include_router(messages_router)
 api_router.include_router(coupons_router)
 api_router.include_router(test_results_router)
 api_router.include_router(weekly_menus_router)
+api_router.include_router(training_calendar_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
