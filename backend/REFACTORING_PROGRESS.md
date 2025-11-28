@@ -96,14 +96,39 @@
   - Entry management (update/delete)
   - Super admin access control
 
+### 6. Subscriptions Domain ✅ COMPLETE
+- **File**: `routes/subscriptions_complete.py` (822 lines)
+- **Routes**: 9 subscription and payment management endpoints
+- **Status**: ✅ Tested and working
+- **Routes**:
+  - POST /subscriptions/create-checkout-session
+  - GET /subscriptions/checkout-status/{session_id}
+  - GET /subscriptions/status/{athlete_id}
+  - POST /subscriptions/create-portal-session
+  - GET /subscriptions/invoices/{athlete_id}
+  - POST /subscriptions/cancel
+  - POST /subscriptions/update-plan
+  - POST /subscriptions/downgrade-to-free
+  - POST /subscriptions/reactivate
+- **Features**:
+  - Complete Stripe integration
+  - Checkout session creation with discounts
+  - Referral and coupon code support
+  - Subscription lifecycle management
+  - Invoice retrieval
+  - Plan upgrades/downgrades with proration
+  - Customer portal integration
+  - Subscription confirmation emails
+- **Note**: Stripe webhooks endpoint remains in server.py (requires special configuration)
+
 ---
 
 ## 📊 Progress Statistics
 
-- **Domains Completed**: 5 / 23 (21.7%)
-- **Routes Extracted**: ~40 / ~400 (10%)
-- **Lines Refactored**: ~2,628 / ~23,605 (11.1%)
-- **Test Files Created**: 5 (all passing ✅)
+- **Domains Completed**: 6 / 23 (26.1%)
+- **Routes Extracted**: ~49 / ~400 (12.25%)
+- **Lines Refactored**: ~3,450 / ~23,605 (14.6%)
+- **Test Files Created**: 6 (all passing ✅)
 
 ---
 
