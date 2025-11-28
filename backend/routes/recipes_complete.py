@@ -220,7 +220,7 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         raise HTTPException(status_code=500, detail=f"Error generating recipe: {str(e)}")
 
 
-@router.get("/{athlete_id}")
+@router.get("/recipes/{athlete_id}")
 async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None, include_images: bool = True):
     """Get recipes for an athlete, optionally filtered by week"""
     query = {"athlete_id": athlete_id}
