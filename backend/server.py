@@ -10918,11 +10918,9 @@ async def startup_scheduler():
         scheduler.start()
         print("=" * 50)
         print("SCHEDULER STARTED SUCCESSFULLY")
-        print("Cookie auto-scan: Every Monday at 2 AM")
         print("Strava & Oura auto-sync: Daily at 8 AM")
         print("=" * 50)
         logging.info("Scheduler started - checking for due schedules every minute")
-        logging.info("Cookie auto-scan scheduled - every Monday at 2 AM")
         logging.info("Strava & Oura auto-sync scheduled - daily at 8 AM")
     except Exception as e:
         print(f"ERROR STARTING SCHEDULER: {e}")
