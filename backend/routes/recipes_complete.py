@@ -237,7 +237,7 @@ async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None, in
     return {"recipes": [parse_from_mongo(recipe) for recipe in recipes]}
 
 
-@router.get("/{recipe_id}/details")
+@router.get("/recipe/{recipe_id}")
 async def get_recipe(recipe_id: str):
     """Get a single recipe by ID with full details including image"""
     recipe = await db.recipes.find_one({"id": recipe_id}, {"_id": 0})
