@@ -266,7 +266,7 @@ async def rate_recipe(recipe_id: str, rating: dict):
     return {"success": True}
 
 
-@router.delete("/{recipe_id}")
+@router.delete("/recipes/{recipe_id}")
 async def delete_recipe(recipe_id: str):
     """Delete a recipe"""
     result = await db.recipes.delete_one({"id": recipe_id})
