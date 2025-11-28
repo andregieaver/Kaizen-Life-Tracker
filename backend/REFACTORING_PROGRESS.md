@@ -143,14 +143,33 @@
   - Memory organization by category
 - **Note**: Chat endpoint and voice routes remain in server.py (AI service dependencies)
 
+### 8. Journal Domain ✅ COMPLETE
+- **File**: `routes/journal_complete.py` (453 lines)
+- **Routes**: 7 journal management and transcription endpoints
+- **Status**: ✅ Tested and working
+- **Routes**:
+  - GET /journal/{athlete_id}
+  - POST /journal
+  - PUT /journal/{entry_id}
+  - DELETE /journal/{entry_id}
+  - POST /journal/transcribe/{athlete_id}
+  - POST /journal/transcribe-video/{athlete_id}
+  - POST /journal/process-video/{athlete_id}
+- **Features**:
+  - Journal CRUD operations
+  - Audio transcription with OpenAI Whisper
+  - Video transcription with timestamps
+  - Subtitle generation (SRT format)
+  - Video compression & subtitle burning (FFmpeg)
+
 ---
 
 ## 📊 Progress Statistics
 
-- **Domains Completed**: 7 / 23 (30.4%)
-- **Routes Extracted**: ~57 / ~400 (14.25%)
-- **Lines Refactored**: ~3,691 / ~23,605 (15.6%)
-- **Test Files Created**: 7 (all passing ✅)
+- **Domains Completed**: 8 / 23 (34.8%)
+- **Routes Extracted**: ~64 / ~400 (16%)
+- **Lines Refactored**: ~4,144 / ~23,605 (17.5%)
+- **Test Files Created**: 8 (all passing ✅)
 
 ---
 
