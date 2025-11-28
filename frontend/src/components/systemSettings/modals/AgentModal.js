@@ -54,7 +54,10 @@ const AgentModal = ({ athleteId, agent, onClose }) => {
   const [profileImage, setProfileImage] = useState(agent?.profile_image_url || null);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [knowledgeBase, setKnowledgeBase] = useState(agent?.knowledge_base || []);
+  const [uploadingFile, setUploadingFile] = useState(false);
   const fileInputRef = useRef(null);
+  const knowledgeFileInputRef = useRef(null);
 
   const isEditing = !!agent;
 
