@@ -12710,13 +12710,7 @@ try:
 except Exception as e:
     logging.warning(f"Could not register OpenAI Realtime routes: {e}")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=[origin.strip().strip('"').strip("'") for origin in os.environ.get('CORS_ORIGINS', '*').split(',')],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# CORS is already configured at the top of the file - no need to duplicate
 
 # Mount static files for uploaded images - MUST be before including the router
 UPLOAD_DIR = Path("/app/backend/uploads/images")
