@@ -113,11 +113,10 @@ None currently
 
 ---
 
-## 📝 Remaining Domains (19/23)
+## 📝 Remaining Domains (18/23)
 
 ### High Priority (Core Functionality)
-5. **Subscriptions** (~15 routes) - Stripe, subscriptions, webhooks
-6. **Waitlist** (~5 routes) - Waitlist management
+6. **Subscriptions** (~15 routes) - Stripe, subscriptions, webhooks
 
 ### Medium Priority (Key Features)
 7. **Voice** (~6 routes) - Voice chat
