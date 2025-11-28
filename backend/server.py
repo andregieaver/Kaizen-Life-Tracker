@@ -10262,12 +10262,16 @@ async def upload_agent_image(agent_id: str, file: UploadFile = File(...), athlet
         encoded = base64.b64encode(content).decode('utf-8')
         data_url = f"data:{file.content_type};base64,{encoded}"
         
-        await db.agents.update_one(
+        logging.info(f"Agent {agent_id}: Converting image to base64 data URL (size: {len(data_url)} chars)")
+        
+        result = await db.agents.update_one(
             {"id": agent_id},
             {"$set": {"profile_image_url": data_url, "updated_at": datetime.now(timezone.utc).isoformat()}}
         )
         
-        return {"url": data_url}
+        logging.info(f"Agent {agent_id}: Database updated (matched: {result.matched_count}, modified: {result.modified_count})")
+        
+        return {"url": data_url, "success": True}
         
     except HTTPException:
         raise
