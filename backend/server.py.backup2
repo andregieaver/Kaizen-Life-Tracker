@@ -16426,6 +16426,398 @@ async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = 
 
 # Duplicate system settings (GET/POST /system/settings) moved to routes/system_complete.py
 
+@api_router.get("/system/subscriber-stats")
+async def get_subscriber_stats(
+    athlete_id: str, 
+    period: str = "90d",  # Options: 7d, 30d, 90d, 1y, all
+    compare: bool = False
+):
+    """Get subscriber statistics over time (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    print(f"=== SUBSCRIBER STATS DEBUG: period={period}, compare={compare} ===", flush=True)
+    
+    try:
+        from datetime import datetime, timedelta
+        
+        # Define period ranges
+        period_days = {
+            "7d": 7,
+            "30d": 30,
+            "90d": 90,
+            "1y": 365,
+            "all": None
+        }
+        
+        days = period_days.get(period, 90)
+        
+        # Get all athletes
+        athletes = await db.athlete_profiles.find(
+            {},
+            {"_id": 0, "created_at": 1, "subscription_tier": 1}
+        ).to_list(length=1000)
+        
+        print(f"Found {len(athletes)} total athletes", flush=True)
+        
+        # Calculate date ranges
+        now = datetime.now()
+        if days:
+            current_period_start = now - timedelta(days=days)
+            previous_period_start = current_period_start - timedelta(days=days)
+        else:
+            # For "all", use earliest subscriber date
+            dates = [datetime.fromisoformat(a["created_at"].replace('Z', '+00:00')) 
+                    for a in athletes if a.get("created_at")]
+            if dates:
+                current_period_start = min(dates)
+                days = (now - current_period_start).days
+                previous_period_start = current_period_start - timedelta(days=days)
+            else:
+                current_period_start = now - timedelta(days=90)
+                previous_period_start = current_period_start - timedelta(days=90)
+                days = 90
+        
+        # Filter athletes by period for accurate metrics
+        period_athletes = []
+        for athlete in athletes:
+            if not athlete.get("created_at"):
+                period_athletes.append(athlete)  # Include athletes without dates
+                continue
+            try:
+                created_date = datetime.fromisoformat(athlete["created_at"].replace('Z', '+00:00'))
+                # Include all athletes created up to now (cumulative)
+                if created_date <= now:
+                    period_athletes.append(athlete)
+            except Exception:
+                period_athletes.append(athlete)
+        
+        # Current period data (new subscribers in period)
+        current_period_athletes = []
+        previous_period_athletes = []
+        
+        for athlete in athletes:
+            if not athlete.get("created_at"):
+                continue
+            try:
+                created_date = datetime.fromisoformat(athlete["created_at"].replace('Z', '+00:00'))
+                if created_date >= current_period_start:
+                    current_period_athletes.append(athlete)
+                elif compare and created_date >= previous_period_start and created_date < current_period_start:
+                    previous_period_athletes.append(athlete)
+            except Exception:
+                continue
+        
+        # Current period counts (cumulative at end of period)
+        tier_counts = {"free": 0, "pro": 0, "premium": 0}
+        for athlete in period_athletes:
+            tier = athlete.get("subscription_tier", "free")
+            tier_counts[tier] = tier_counts.get(tier, 0) + 1
+        
+        total_subscribers = sum(tier_counts.values())
+        paid_subscribers = tier_counts.get("pro", 0) + tier_counts.get("premium", 0)
+        
+        # Growth in current period
+        growth_count = len(current_period_athletes)
+        base_count = total_subscribers - growth_count
+        growth_percentage = (growth_count / max(base_count, 1)) * 100 if base_count > 0 else 0
+        
+        # Create time series data for current period
+        daily_counts = {}
+        for athlete in athletes:
+            created_at = athlete.get("created_at")
+            if created_at:
+                try:
+                    date_obj = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                    if date_obj >= current_period_start:
+                        date_key = date_obj.strftime('%Y-%m-%d')
+                        daily_counts[date_key] = daily_counts.get(date_key, 0) + 1
+                except Exception:
+                    continue
+        
+        # Create cumulative counts
+        sorted_dates = sorted(daily_counts.keys())
+        cumulative_data = []
+        cumulative_total = total_subscribers - sum(daily_counts.values())
+        
+        for date in sorted_dates:
+            cumulative_total += daily_counts[date]
+            cumulative_data.append({
+                "date": date,
+                "count": cumulative_total
+            })
+        
+        # If no data, provide default points
+        if not cumulative_data:
+            for i in range(min(days, 7), 0, -1):
+                date = (now - timedelta(days=i)).strftime('%Y-%m-%d')
+                cumulative_data.append({
+                    "date": date,
+                    "count": total_subscribers
+                })
+        
+        result = {
+            "total_subscribers": total_subscribers,
+            "paid_subscribers": paid_subscribers,
+            "free_subscribers": tier_counts.get("free", 0),
+            "pro_subscribers": tier_counts.get("pro", 0),
+            "premium_subscribers": tier_counts.get("premium", 0),
+            "growth_count": growth_count,
+            "growth_percentage": round(growth_percentage, 1),
+            "time_series": cumulative_data,
+            "period": period
+        }
+        
+        # Calculate business metrics
+        # Conversion rate: percentage of free users who became paid
+        conversion_rate = (paid_subscribers / max(total_subscribers, 1)) * 100
+        
+        # Average Revenue Per User (ARPU) - assuming Pro = €9.99/mo, Premium = €19.99/mo
+        pro_revenue = tier_counts.get("pro", 0) * 9.99
+        premium_revenue = tier_counts.get("premium", 0) * 19.99
+        total_revenue = pro_revenue + premium_revenue
+        arpu = total_revenue / max(total_subscribers, 1)
+        
+        # Monthly Recurring Revenue (MRR)
+        mrr = total_revenue
+        
+        # Annual Recurring Revenue (ARR)
+        arr = mrr * 12
+        
+        # Customer Lifetime Value (LTV) - simplified: ARPU * avg customer lifetime (assume 24 months)
+        avg_lifetime_months = 24
+        ltv = arpu * avg_lifetime_months
+        
+        # Average Revenue Per Paid User (ARPPU)
+        arppu = total_revenue / max(paid_subscribers, 1) if paid_subscribers > 0 else 0
+        
+        # Pro vs Premium ratio
+        pro_percentage = (tier_counts.get("pro", 0) / max(paid_subscribers, 1)) * 100 if paid_subscribers > 0 else 0
+        premium_percentage = (tier_counts.get("premium", 0) / max(paid_subscribers, 1)) * 100 if paid_subscribers > 0 else 0
+        
+        result["business_metrics"] = {
+            "conversion_rate": round(conversion_rate, 2),
+            "arpu": round(arpu, 2),
+            "arppu": round(arppu, 2),
+            "mrr": round(mrr, 2),
+            "arr": round(arr, 2),
+            "ltv": round(ltv, 2),
+            "pro_percentage": round(pro_percentage, 1),
+            "premium_percentage": round(premium_percentage, 1)
+        }
+        
+        # Calculate community metrics
+        # Get posts from the period
+        posts_query = {}
+        if days:
+            posts_query["created_at"] = {"$gte": current_period_start.isoformat()}
+        
+        # Use aggregation for better performance instead of loading all posts
+        total_posts = await db.community_posts.count_documents(posts_query)
+        
+        # Calculate engagement metrics using aggregation
+        likes_result = await db.community_posts.aggregate([
+            {"$match": posts_query},
+            {"$group": {
+                "_id": None,
+                "total_likes": {"$sum": "$likes_count"},
+                "total_comments": {"$sum": "$comments_count"}
+            }}
+        ]).to_list(length=1)
+        
+        total_likes = likes_result[0]["total_likes"] if likes_result else 0
+        total_comments = likes_result[0]["total_comments"] if likes_result else 0
+        
+        # Get unique posters using aggregation
+        unique_posters_result = await db.community_posts.aggregate([
+            {"$match": posts_query},
+            {"$group": {"_id": "$athlete_id"}},
+            {"$count": "unique_count"}
+        ]).to_list(length=1)
+        unique_posters = unique_posters_result[0]["unique_count"] if unique_posters_result else 0
+        
+        # Calculate averages
+        avg_likes_per_post = total_likes / max(total_posts, 1)
+        avg_comments_per_post = total_comments / max(total_posts, 1)
+        engagement_rate = (unique_posters / max(total_subscribers, 1)) * 100
+        
+        # Get top contributors (most posts) using aggregation
+        top_contributors_result = await db.community_posts.aggregate([
+            {"$match": posts_query},
+            {"$group": {
+                "_id": "$athlete_id",
+                "count": {"$sum": 1}
+            }},
+            {"$sort": {"count": -1}},
+            {"$limit": 5}
+        ]).to_list(length=5)
+        
+        top_contributors = [(item["_id"], item["count"]) for item in top_contributors_result]
+        
+        # Calculate daily post distribution for time series using aggregation
+        daily_posts_result = await db.community_posts.aggregate([
+            {"$match": posts_query},
+            {"$project": {
+                "date": {
+                    "$dateToString": {
+                        "format": "%Y-%m-%d",
+                        "date": {"$toDate": "$created_at"}
+                    }
+                }
+            }},
+            {"$group": {
+                "_id": "$date",
+                "count": {"$sum": 1}
+            }},
+            {"$sort": {"_id": 1}},
+            {"$limit": 100}
+        ]).to_list(length=100)
+        
+        # Create time series for posts
+        post_time_series = []
+        for item in daily_posts_result:
+            post_time_series.append({
+                "date": item["_id"],
+                "count": item["count"]
+            })
+        
+        result["community_metrics"] = {
+            "total_posts": total_posts,
+            "total_likes": total_likes,
+            "total_comments": total_comments,
+            "unique_posters": unique_posters,
+            "avg_likes_per_post": round(avg_likes_per_post, 1),
+            "avg_comments_per_post": round(avg_comments_per_post, 1),
+            "engagement_rate": round(engagement_rate, 2),
+            "top_contributors_count": len(top_contributors),
+            "post_time_series": post_time_series
+        }
+        
+        # Calculate referral metrics
+        # Get all referrals
+        referrals_query = {}
+        if days:
+            # Convert current_period_start to datetime for comparison
+            if isinstance(current_period_start, str):
+                date_threshold = datetime.fromisoformat(current_period_start.replace('Z', '+00:00'))
+            else:
+                date_threshold = current_period_start
+            referrals_query["created_at"] = {"$gte": date_threshold}
+        
+        # Use aggregation for better performance
+        total_referrals = await db.referrals.count_documents(referrals_query)
+        
+        # Count successful referrals using aggregation
+        successful_referrals_result = await db.referrals.aggregate([
+            {"$match": referrals_query},
+            {"$match": {
+                "$or": [
+                    {"status": {"$in": ["converted", "rewarded"]}},
+                    {"referred_user_id": {"$exists": True, "$ne": None}}
+                ]
+            }},
+            {"$count": "successful_count"}
+        ]).to_list(length=1)
+        successful_referrals = successful_referrals_result[0]["successful_count"] if successful_referrals_result else 0
+        
+        # Calculate referral conversion rate
+        referral_conversion_rate = (successful_referrals / max(total_referrals, 1)) * 100
+        
+        # Get unique referrers using aggregation
+        unique_referrers_result = await db.referrals.aggregate([
+            {"$match": referrals_query},
+            {"$group": {"_id": "$referrer_id"}},
+            {"$count": "unique_count"}
+        ]).to_list(length=1)
+        unique_referrers = unique_referrers_result[0]["unique_count"] if unique_referrers_result else 0
+        
+        # Calculate total rewards using aggregation
+        total_rewards_result = await db.referrals.aggregate([
+            {"$match": {**referrals_query, "status": "rewarded"}},
+            {"$group": {
+                "_id": None,
+                "total": {"$sum": "$reward_amount"}
+            }}
+        ]).to_list(length=1)
+        total_rewards = total_rewards_result[0]["total"] if total_rewards_result else 0
+        
+        # Get top referrers using aggregation
+        top_referrers_result = await db.referrals.aggregate([
+            {"$match": referrals_query},
+            {"$group": {
+                "_id": "$referrer_id",
+                "count": {"$sum": 1}
+            }},
+            {"$sort": {"count": -1}},
+            {"$limit": 5}
+        ]).to_list(length=5)
+        
+        top_referrers = [(item["_id"], item["count"]) for item in top_referrers_result]
+        top_referrers_count = len(top_referrers)
+        
+        # Calculate average referrals per referrer
+        avg_referrals_per_user = total_referrals / max(unique_referrers, 1)
+        
+        # Calculate referral participation rate (users who made at least 1 referral)
+        referral_participation = (unique_referrers / max(total_subscribers, 1)) * 100
+        
+        # Daily referral distribution using aggregation
+        daily_referrals_result = await db.referrals.aggregate([
+            {"$match": referrals_query},
+            {"$project": {
+                "date": {
+                    "$dateToString": {
+                        "format": "%Y-%m-%d",
+                        "date": {"$toDate": "$created_at"}
+                    }
+                }
+            }},
+            {"$group": {
+                "_id": "$date",
+                "count": {"$sum": 1}
+            }},
+            {"$sort": {"_id": 1}},
+            {"$limit": 100}
+        ]).to_list(length=100)
+        
+        daily_referrals = {item["_id"]: item["count"] for item in daily_referrals_result}
+        
+        result["referral_metrics"] = {
+            "total_referrals": total_referrals,
+            "successful_referrals": successful_referrals,
+            "referral_conversion_rate": round(referral_conversion_rate, 1),
+            "unique_referrers": unique_referrers,
+            "total_rewards": round(total_rewards, 2),
+            "avg_referrals_per_user": round(avg_referrals_per_user, 1),
+            "referral_participation": round(referral_participation, 2),
+            "top_referrers_count": top_referrers_count
+        }
+        
+        # Add comparison data if requested
+        if compare:
+            previous_growth_count = len(previous_period_athletes)
+            comparison_change = growth_count - previous_growth_count
+            comparison_percentage = ((comparison_change / max(previous_growth_count, 1)) * 100) if previous_growth_count > 0 else 0
+            
+            result["comparison"] = {
+                "previous_period_growth": previous_growth_count,
+                "change": comparison_change,
+                "change_percentage": round(comparison_percentage, 1)
+            }
+        
+        return result
+    except Exception as e:
+        logging.error(f"Error getting subscriber stats: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ===========================
+# COUPON MANAGEMENT ENDPOINTS
+
+# ===========================
+# SUBSCRIPTION PLAN MANAGEMENT
+
 # Waiting List Endpoints
 @api_router.get("/platform-metrics")
 async def get_platform_metrics():
