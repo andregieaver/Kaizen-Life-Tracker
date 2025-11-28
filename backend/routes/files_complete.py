@@ -123,7 +123,7 @@ async def update_file_entry(entry_id: str, file_entry: FileEntry):
     return {"success": True}
 
 
-@api_router.delete("/{entry_id}")
+@router.delete("/{entry_id}")
 async def delete_file_entry(entry_id: str):
     """Delete a file entry"""
     result = await db.file_entries.delete_one({"id": entry_id})
