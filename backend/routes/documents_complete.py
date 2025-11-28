@@ -71,7 +71,7 @@ async def get_documents(athlete_id: str, category: Optional[str] = None):
     return {"documents": [parse_from_mongo(doc) for doc in documents]}
 
 
-@router.post("")
+@router.post("/documents")
 async def create_document(document: Document):
     """Create a new document"""
     try:
