@@ -29,7 +29,7 @@ def parse_from_mongo(item):
 
 
 # Routes
-@router.post("/generate/{athlete_id}")
+@router.post("/recipes/generate/{athlete_id}")
 async def generate_recipe(athlete_id: str, recipe_request: dict):
     """Generate a single recipe (breakfast, lunch, or dinner) using OpenAI based on athlete's nutrition data"""
     meal_type = recipe_request.get('meal_type')  # 'breakfast', 'lunch', or 'dinner'
