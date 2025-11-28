@@ -64,7 +64,7 @@ async def verify_super_admin(athlete_id: str):
 
 
 # Routes
-@router.post("/scan")
+@router.post("/cookies/scan")
 async def scan_cookies(athlete_id: str, request: Request):
     """Scan for cookies - frontend, backend, and third-party"""
     try:
