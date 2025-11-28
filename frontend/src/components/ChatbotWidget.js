@@ -216,7 +216,7 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
                       className="w-8 h-8 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#32D3FF] to-[#1FB8E8] flex items-center justify-center">
                       <Bot className="w-4 h-4 text-white" />
                     </div>
                   )}
