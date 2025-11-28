@@ -99,7 +99,7 @@ async def create_drink_log(athlete_id: str, drink_data: dict):
     return {"success": True, "drink": drink_log}
 
 
-@router.put("/{athlete_id}/{drink_id}")
+@router.put("/drinks/{athlete_id}/{drink_id}")
 async def update_drink_log(athlete_id: str, drink_id: str, drink_data: dict):
     """Update a drink log entry"""
     # Prepare update data
