@@ -240,13 +240,13 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
               >
                 <div className={`flex items-start space-x-2 max-w-[85%] ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                   {message.type === 'agent' && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#32D3FF] to-[#1FB8E8] flex items-center justify-center flex-shrink-0">
                       <Bot className="w-4 h-4 text-white" />
                     </div>
                   )}
                   <div className={`rounded-lg p-3 ${
                     message.type === 'user'
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-[#32D3FF] text-white'
                       : message.isError
                       ? 'bg-red-900/30 text-red-200 border border-red-800'
                       : 'bg-gray-700 text-gray-100'
