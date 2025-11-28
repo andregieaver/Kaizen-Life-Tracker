@@ -210,9 +210,10 @@ All extracted domains have passing tests:
 5. `routes/agents_complete.py` - Agents router
 6. `routes/system_complete.py` - System router
 7. `routes/waitlist_complete.py` - Waitlist router
-8. `server_refactored_example.py` - Target structure example
-9. Test files (5)
-10. Documentation files (5)
+8. `routes/subscriptions_complete.py` - Subscriptions router
+9. `server_refactored_example.py` - Target structure example
+10. Test files (6)
+11. Documentation files (5)
 
 ### Documentation
 - `REFACTORING_PLAN.md` - Overall strategy
