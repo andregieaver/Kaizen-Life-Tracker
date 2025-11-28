@@ -131,7 +131,7 @@ async def update_drink_log(athlete_id: str, drink_id: str, drink_data: dict):
     return {"success": True}
 
 
-@router.delete("/{athlete_id}/{drink_id}")
+@router.delete("/drinks/{athlete_id}/{drink_id}")
 async def delete_drink_log(athlete_id: str, drink_id: str):
     """Delete a drink log entry"""
     result = await db.drink_logs.delete_one({"id": drink_id, "athlete_id": athlete_id})
