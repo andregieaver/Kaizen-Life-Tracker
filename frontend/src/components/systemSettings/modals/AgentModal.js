@@ -111,6 +111,82 @@ const AgentModal = ({ athleteId, agent, onClose }) => {
     }
   };
 
+  const handleKnowledgeFileSelect = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedExtensions = ['.txt', '.md', '.csv', '.json'];
+    const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+    
+    if (!allowedExtensions.includes(fileExtension)) {
+      alert(`Please select a valid file type: ${allowedExtensions.join(', ')}`);
+      return;
+    }
+
+    // Validate file size (max 500KB)
+    if (file.size > 500 * 1024) {
+      alert('File size must be less than 500KB');
+      return;
+    }
+
+    if (!isEditing) {
+      alert('Please save the agent first before uploading knowledge files');
+      return;
+    }
+
+    try {
+      setUploadingFile(true);
+      const formDataObj = new FormData();
+      formDataObj.append('file', file);
+
+      const response = await axios.post(
+        `${API}/agents/${agent.id}/upload-knowledge?athlete_id=${athleteId}`,
+        formDataObj,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
+
+      // Add the uploaded file to knowledge base
+      const newFile = {
+        filename: response.data.filename,
+        size: response.data.size,
+        uploaded_at: new Date().toISOString()
+      };
+      
+      setKnowledgeBase(prev => [...prev.filter(f => f.filename !== newFile.filename), newFile]);
+      
+      // Reset file input
+      if (knowledgeFileInputRef.current) {
+        knowledgeFileInputRef.current.value = '';
+      }
+      
+      alert(`Successfully uploaded ${file.name}`);
+    } catch (error) {
+      console.error('Error uploading knowledge file:', error);
+      alert(error.response?.data?.detail || 'Failed to upload file');
+    } finally {
+      setUploadingFile(false);
+    }
+  };
+
+  const handleDeleteKnowledgeFile = async (filename) => {
+    if (!confirm(`Delete ${filename} from knowledge base?`)) return;
+
+    try {
+      await axios.delete(
+        `${API}/agents/${agent.id}/knowledge/${encodeURIComponent(filename)}?athlete_id=${athleteId}`
+      );
+      
+      setKnowledgeBase(prev => prev.filter(f => f.filename !== filename));
+      alert(`Deleted ${filename}`);
+    } catch (error) {
+      console.error('Error deleting knowledge file:', error);
+      alert('Failed to delete file');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
