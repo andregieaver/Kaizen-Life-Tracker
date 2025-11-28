@@ -16369,62 +16369,7 @@ async def translate_menus(athlete_id: str = Query(..., description="Athlete ID f
         logging.error(f"Error translating menus: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to translate menus: {str(e)}")
 
-@api_router.post("/system/upload-seo-image")
-async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = File(...)):
-    """Upload favicon or logo for SEO settings - stores as base64 data URL (Super Admin only)"""
-    await verify_super_admin(athlete_id)
-    
-    try:
-        if not file.content_type or not file.content_type.startswith('image/'):
-            raise HTTPException(status_code=400, detail="File must be an image")
-        
-        file_content = await file.read()
-        if len(file_content) > 2 * 1024 * 1024:
-            raise HTTPException(status_code=400, detail="File size must be less than 2MB")
-        
-        try:
-            image = Image.open(io.BytesIO(file_content))
-            
-            if image.mode == 'P':
-                image = image.convert('RGBA')
-            elif image.mode not in ('RGB', 'RGBA'):
-                image = image.convert('RGBA')
-            
-            if image_type == "favicon":
-                image = image.resize((32, 32), Image.Resampling.LANCZOS)
-            elif image_type == "logo":
-                image.thumbnail((200, 200), Image.Resampling.LANCZOS)
-            elif image_type == "og_image":
-                image = image.resize((1200, 630), Image.Resampling.LANCZOS)
-            
-            output = io.BytesIO()
-            image.save(output, format='PNG', optimize=True)
-            output.seek(0)
-            optimized_content = output.read()
-            
-            import base64
-            encoded = base64.b64encode(optimized_content).decode('utf-8')
-            data_url = f"data:image/png;base64,{encoded}"
-            
-            logging.info(f"SEO image {image_type}: Converted to base64 data URL (size: {len(data_url)} chars)")
-            
-            return {
-                "success": True,
-                "message": f"{image_type.title()} uploaded successfully",
-                "path": data_url
-            }
-            
-        except Exception as e:
-            logging.error(f"Error processing SEO image: {e}")
-            raise HTTPException(status_code=400, detail="Invalid image file")
-            
-    except HTTPException:
-        raise
-    except Exception as e:
-        logging.error(f"Error uploading SEO image: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to upload image: {str(e)}")
-
-# Duplicate system settings (GET/POST /system/settings, GET /system/subscriber-stats) moved to routes/system_complete.py
+# Duplicate system settings (GET/POST /system/settings, GET /system/subscriber-stats, POST /system/upload-seo-image) moved to routes/system_complete.py
 
 # Waiting List Endpoints
 @api_router.get("/platform-metrics")
