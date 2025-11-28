@@ -153,6 +153,7 @@ from routes.memories_complete import router as memories_router
 from routes.recommendations_complete import router as recommendations_router
 from routes.messages_complete import router as messages_router
 from routes.coupons_complete import router as coupons_router
+from routes.test_results_complete import router as test_results_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
@@ -176,6 +177,7 @@ api_router.include_router(memories_router)
 api_router.include_router(recommendations_router)
 api_router.include_router(messages_router)
 api_router.include_router(coupons_router)
+api_router.include_router(test_results_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
