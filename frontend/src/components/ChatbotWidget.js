@@ -166,7 +166,7 @@ const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
       {isOpen && (
         <div className="fixed bottom-20 right-4 md:right-6 w-[calc(100vw-2rem)] md:w-96 h-[600px] max-h-[calc(100vh-8rem)] bg-gray-900 rounded-lg shadow-2xl flex flex-col z-[9999] border border-gray-700">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 rounded-t-lg flex items-center justify-between">
+          <div className="bg-gradient-to-r from-[#32D3FF] to-[#1FB8E8] p-4 rounded-t-lg flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {selectedAgent?.profile_image_url ? (
                 <img
