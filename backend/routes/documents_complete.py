@@ -56,7 +56,7 @@ def parse_from_mongo(item):
 
 
 # Routes
-@router.get("/{athlete_id}")
+@router.get("/documents/{athlete_id}")
 async def get_documents(athlete_id: str, category: Optional[str] = None):
     """Get all documents for an athlete, optionally filtered by category"""
     query = {"athlete_id": athlete_id}
