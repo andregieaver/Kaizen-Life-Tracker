@@ -1682,49 +1682,7 @@ class ReferralReward(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
-class Group(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    name: str
-    description: str
-    privacy: str  # 'public' or 'private'
-    profile_image: Optional[str] = None  # Base64 encoded image (group avatar)
-    cover_photo: Optional[str] = None  # Base64 encoded image (banner)
-    rules: Optional[str] = None  # Optional group rules that must be accepted
-    admin_id: str  # Creator/admin of the group
-    members_count: int = 1  # Starts with admin
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    updated_at: Optional[datetime] = None
-
-class GroupMembership(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    group_id: str
-    athlete_id: str
-    role: str  # 'admin', 'manager', 'moderator', 'member'
-    status: str  # 'pending', 'approved'
-    rules_accepted: bool = False  # Whether user accepted group rules
-    joined_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-class GroupPost(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    group_id: str
-    athlete_id: str
-    athlete_name: str  # Cached for display
-    athlete_profile_picture: Optional[str] = None  # Cached for display
-    content: str  # Post text content
-    image_data: Optional[str] = None  # Base64 encoded image (optional)
-    likes_count: int = 0
-    comments_count: int = 0
-    shares_count: int = 0
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    updated_at: Optional[datetime] = None
-    is_edited: bool = False
-
+# Group, GroupMembership, GroupPost models moved to routes/groups_complete.py
 
 # Event Models
 class Event(BaseModel):
