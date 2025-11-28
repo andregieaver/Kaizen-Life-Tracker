@@ -142,6 +142,7 @@ from routes.coach_complete import router as coach_router
 from routes.journal_complete import router as journal_router
 from routes.workouts_complete import router as workouts_router
 from routes.nutrition_complete import router as nutrition_router
+from routes.community_complete import router as community_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
