@@ -10629,8 +10629,19 @@ async def chat_with_agent(request: AgentChatRequest):
         
         session_id = request.session_id or f"agent_chat_{uuid.uuid4()}"
         
-        # Load conversation history
-        messages = [{"role": "system", "content": agent_obj.get("custom_instructions")}]
+        # Build system prompt with knowledge base
+        system_prompt = agent_obj.get("custom_instructions", "")
+        
+        knowledge_base = agent_obj.get("knowledge_base", [])
+        if knowledge_base:
+            kb_context = "\n\n## Knowledge Base\n\nYou have access to these reference files:\n\n"
+            for kb_file in knowledge_base:
+                kb_context += f"### {kb_file['filename']}\n{kb_file['content']}\n\n---\n\n"
+            kb_context += "Use this knowledge base to provide accurate, informed responses.\n"
+            system_prompt += kb_context
+        
+        # Load conversation history (last 20 exchanges)
+        messages = [{"role": "system", "content": system_prompt}]
         
         if request.session_id:
             history_records = await db.agent_conversations.find(
@@ -10640,9 +10651,11 @@ async def chat_with_agent(request: AgentChatRequest):
                     "athlete_id": request.athlete_id or "guest"
                 },
                 {"_id": 0}
-            ).sort("timestamp", 1).to_list(length=50)
+            ).sort("timestamp", 1).to_list(length=100)
             
-            for record in history_records:
+            recent_history = history_records[-40:] if len(history_records) > 40 else history_records
+            
+            for record in recent_history:
                 messages.append({"role": "user", "content": record.get("message", "")})
                 messages.append({"role": "assistant", "content": record.get("response", "")})
         
