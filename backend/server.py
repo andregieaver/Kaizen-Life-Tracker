@@ -10373,6 +10373,45 @@ async def delete_agent_knowledge(agent_id: str, filename: str, athlete_id: str =
     except HTTPException:
         raise
     except Exception as e:
+
+@api_router.post("/system/fix-broken-images")
+async def fix_broken_images(athlete_id: str = Query(...)):
+    """Remove broken image URLs from database (Super Admin only)"""
+    try:
+        await verify_super_admin(athlete_id)
+        
+        fixed_count = 0
+        
+        # Fix agents with broken file path images
+        agents = await db.agents.find({"profile_image_url": {"$regex": "^/api/"}}, {"_id": 0}).to_list(1000)
+        for agent in agents:
+            await db.agents.update_one(
+                {"id": agent["id"]},
+                {"$set": {"profile_image_url": None}}
+            )
+            fixed_count += 1
+        
+        # Fix system settings with broken logo
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        if settings and settings.get("seo", {}).get("logoUrl", "").startswith("/api/"):
+            await db.system_settings.update_one(
+                {"setting_type": "global"},
+                {"$set": {"seo.logoUrl": None}}
+            )
+            fixed_count += 1
+        
+        return {
+            "success": True,
+            "message": f"Cleared {fixed_count} broken image references",
+            "note": "Please re-upload images - they will now be stored as persistent base64 data URLs"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fixing broken images: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
         logging.error(f"Failed to delete knowledge file: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
