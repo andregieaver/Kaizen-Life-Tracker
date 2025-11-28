@@ -14,7 +14,7 @@ import json
 from datetime import datetime, timezone, timedelta, date, time
 from database import db
 
-router = APIRouter(prefix="/recipes", tags=["recipes"])
+router = APIRouter(tags=["recipes"])
 
 
 # Helper functions
