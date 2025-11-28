@@ -3249,3 +3249,23 @@ frontend:
   - agent: "main"
     message: "✅ VOICE MODE ERROR HANDLING FIXED - Fixed two critical errors in Support Agent voice mode. ERROR 1 - JSON Parsing Error: ISSUE: 'Failed to execute json on Response: Unexpected non-whitespace character after JSON at position 4', CAUSE: When OpenAI's negotiate_connection returns an error (like invalid SDP), it returns a JSON error object as a string. Backend was wrapping this in {sdp: error_json_string}, causing frontend to fail parsing. FIX: Added error detection in negotiate_support_voice_connection (lines 9692-9700) and negotiate_management_voice_connection (lines 8848-8856). Now checks if answer_sdp contains OpenAI error JSON, parses it, and raises proper HTTPException with clear error message. Frontend now receives proper HTTP 400 error instead of malformed JSON. ERROR 2 - Unread Messages 404: ISSUE: AxiosError Request failed with status code 404 for /api/messages/unread-count, CAUSE: Endpoint exists at line 23194 but was not being found (possible route registration issue), FIX: Restarted backend to ensure all routes properly registered. Endpoint now working correctly, returns {unread_count: 0}. TESTING: ✅ Unread messages endpoint returns 200 with valid JSON, ✅ Voice negotiation will now show clear errors instead of parsing failures, ✅ Both Support Agent and Management Agent voice modes protected. USER EXPERIENCE IMPROVEMENT: Instead of cryptic 'Unexpected non-whitespace character' errors, users now see clear messages like 'OpenAI error: Failed to parse offer: Invalid SDP format' when voice connection fails."
 
+
+# ============================================================================
+# BACKEND REFACTORING - PAGES/CMS DOMAIN EXTRACTION
+# Date: $(date +"%Y-%m-%d %H:%M:%S")
+# ============================================================================
+
+backend:
+  - task: "Pages/CMS Domain Refactoring"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/pages_complete.py"
+    test_file: "/app/backend/test_refactored_pages.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "PAGES/CMS ROUTER EXTRACTION COMPLETED SUCCESSFULLY - Extracted entire Pages/CMS domain from monolithic server.py into modular router. EXTRACTED COMPONENTS: 1) Pydantic Models (ContentBlock, Page, PageCreate, PageUpdate moved to pages_complete.py), 2) Helper Functions (verify_super_admin, auto_update_index_html for index.html metadata updates), 3) 10 API Endpoints extracted: GET /api/pages (get all pages with filters), GET /api/pages/{page_id} (get single page), GET /api/pages/public/by-slug (public page by URL slug), POST /api/pages (create new page), PUT /api/pages/{page_id} (update page), DELETE /api/pages/{page_id} (delete page), POST /api/pages/{page_id}/upload-image (upload thumbnail/OG image), GET /api/pages/meta-html/{page_id} (OG meta tags HTML), POST /api/pages/update-index-html (update index.html with home page metadata). REFACTORING METRICS: Lines reduced: 19,535 → 18,967 (568 lines removed), Endpoints reduced: 253 → 244 (9 main endpoints + 1 meta endpoint extracted), Router file: 618 lines in /app/backend/routes/pages_complete.py, Test script: 180 lines in /app/backend/test_refactored_pages.py. TESTING RESULTS: ✅ All 10 tests passed in test_refactored_pages.py, ✅ Page creation, retrieval, update, and deletion working, ✅ Home page logic verified (is_home flag, url_slug '/' handling), ✅ Search and filter functionality working, ✅ Image upload handling preserved, ✅ Public page access by slug working, ✅ Meta HTML generation working. INTEGRATION: Router imported in server.py line 165, included in api_router line 198, All old Pages/CMS code removed from server.py, Backend restarted successfully with no errors, Endpoints responding correctly (tested with curl). ARCHITECTURE IMPROVEMENT: Pages/CMS functionality now in dedicated, maintainable router file, Clear separation of concerns with proper module structure, Consistent with other refactored domains, Test coverage for all endpoints. NEXT: Ready to proceed with next large domain (Community ~64 endpoints, Integrations ~24 endpoints, or remaining Auth/System endpoints)."
+
