@@ -140,7 +140,7 @@ async def update_document(document_id: str, data: dict):
     return {"success": True}
 
 
-@router.delete("/{document_id}")
+@router.delete("/documents/{document_id}")
 async def delete_document(document_id: str):
     """Delete a document"""
     result = await db.documents.delete_one({"id": document_id})
