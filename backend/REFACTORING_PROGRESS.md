@@ -237,14 +237,31 @@
   - Advanced metadata (YouTube, URL previews)
   - Translation features
 
+### 12. Training Domain ✅ COMPLETE
+- **File**: `routes/training_complete.py` (219 lines)
+- **Routes**: 5 training calendar and workout planning endpoints
+- **Status**: ✅ Tested and working
+- **Routes**:
+  - GET /training-calendar/{athlete_id}
+  - POST /training-calendar
+  - PUT /training-calendar/{block_id}
+  - DELETE /training-calendar/{block_id}
+  - GET /training-calendar/{athlete_id}/weekly-summary
+- **Features**:
+  - Training block CRUD
+  - Workout planning with dates/times
+  - Completion tracking (actual vs planned)
+  - Weekly summary with stats
+  - Date range filtering
+
 ---
 
 ## 📊 Progress Statistics
 
-- **Domains Completed**: 11 / 23 (47.8%)
-- **Routes Extracted**: ~104 / ~400 (26%)
-- **Lines Refactored**: ~5,484 / ~23,605 (23.2%)
-- **Test Files Created**: 11 (all passing ✅)
+- **Domains Completed**: 12 / 23 (52.2%)
+- **Routes Extracted**: ~109 / ~400 (27.25%)
+- **Lines Refactored**: ~5,703 / ~23,605 (24.2%)
+- **Test Files Created**: 12 (all passing ✅)
 
 ---
 
