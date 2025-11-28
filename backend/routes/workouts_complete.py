@@ -186,15 +186,24 @@ async def get_personal_records(athlete_id: str):
             sort=[("pace", 1)]
         )
         
-        merit = {
-            "distance": distance_key,
-            "recent_best": recent_best_workout,
-            "all_time_best": all_time_best_workout
-        }
+        # Calculate times (pace * distance in km = time in minutes, convert to seconds)
+        recent_best_time = None
+        all_time_best_time = None
         
-        merits.append(merit)
+        if recent_best_workout:
+            # pace is min/km, distance is in meters
+            recent_best_time = recent_best_workout['pace'] * (distance_meters / 1000) * 60  # in seconds
+        
+        if all_time_best_workout:
+            all_time_best_time = all_time_best_workout['pace'] * (distance_meters / 1000) * 60  # in seconds
+        
+        merits.append({
+            "distance": distance_key,
+            "recent_best": recent_best_time,
+            "all_time_best": all_time_best_time
+        })
     
-    return {"merits": merits}
+    return merits
 
 
 # NOTE: The readiness calculation uses ai_coach service in production
