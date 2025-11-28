@@ -93,7 +93,7 @@ async def create_file_entry(athlete_id: str, file_entry: FileEntry):
         )
 
 
-@api_router.get("/{athlete_id}")
+@router.get("/{athlete_id}")
 async def get_file_entries(athlete_id: str):
     """Get all file entries for an athlete"""
     entries = await db.file_entries.find(
