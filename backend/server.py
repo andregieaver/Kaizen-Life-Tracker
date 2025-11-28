@@ -130,6 +130,26 @@ async def update_last_active(request: Request, call_next):
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
+# ============= REFACTORED ROUTERS =============
+# Import refactored domain routers
+from routes.auth_complete import router as auth_router
+from routes.athletes_complete import router as athletes_router
+from routes.agents_complete import router as agents_router
+from routes.system_complete import router as system_router
+from routes.waitlist_complete import router as waitlist_router
+from routes.subscriptions_complete import router as subscriptions_router
+from routes.coach_complete import router as coach_router
+
+# Include refactored routers (these routes are now extracted)
+api_router.include_router(auth_router)
+api_router.include_router(athletes_router)
+api_router.include_router(agents_router)
+api_router.include_router(system_router)
+api_router.include_router(waitlist_router)
+api_router.include_router(subscriptions_router)
+api_router.include_router(coach_router)
+# ============= END REFACTORED ROUTERS =============
+
 # Helper functions for datetime serialization
 def prepare_for_mongo(data):
     """Prepare data for MongoDB storage by converting datetime objects to ISO strings"""
