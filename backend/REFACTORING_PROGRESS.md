@@ -219,6 +219,7 @@ All extracted domains have passing tests:
 - ✅ `test_refactored_system.py` - All tests pass
 - ✅ `test_refactored_waitlist.py` - All tests pass
 - ✅ `test_refactored_subscriptions.py` - All tests pass
+- ✅ `test_refactored_coach.py` - All tests pass
 
 ---
 
