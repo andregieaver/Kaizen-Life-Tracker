@@ -1242,6 +1242,7 @@ class Agent(BaseModel):
     personality: Optional[str] = None  # zen, science, tough, cheerleader, etc.
     accessibility: str = 'frontend'  # frontend, logged_in, admin
     is_active: bool = True
+    knowledge_base: List[Dict[str, str]] = Field(default_factory=list)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
