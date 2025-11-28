@@ -341,7 +341,7 @@ async def save_cookie_settings(athlete_id: str, settings: dict):
         raise HTTPException(status_code=500, detail=f"Failed to save cookie settings: {str(e)}")
 
 
-@router.get("/consent/public")
+@router.get("/cookies/consent/public")
 async def get_public_cookie_consent():
     """Get public cookie consent settings (no auth required)"""
     try:
