@@ -19767,6 +19767,8 @@ async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = 
             encoded = base64.b64encode(optimized_content).decode('utf-8')
             data_url = f"data:image/png;base64,{encoded}"
             
+            logging.info(f"SEO image {image_type}: Converted to base64 data URL (size: {len(data_url)} chars)")
+            
             return {
                 "success": True,
                 "message": f"{image_type.title()} uploaded successfully",
