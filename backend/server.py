@@ -10240,44 +10240,34 @@ async def delete_agent(agent_id: str, athlete_id: str = Query(...)):
 
 @api_router.post("/agents/{agent_id}/upload-image")
 async def upload_agent_image(agent_id: str, file: UploadFile = File(...), athlete_id: str = Query(...)):
-    """Upload agent profile image (Super Admin only)"""
+    """Upload agent profile image (Super Admin only) - stores as base64 data URL"""
     try:
         await verify_super_admin(athlete_id)
         
-        # Validate agent exists
         agent = await db.agents.find_one({"id": agent_id})
         if not agent:
             raise HTTPException(status_code=404, detail="Agent not found")
         
-        # Validate file type
         allowed_types = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
         if file.content_type not in allowed_types:
             raise HTTPException(status_code=400, detail="Only JPEG, PNG, and WebP images are allowed")
         
-        # Create uploads directory if it doesn't exist
-        upload_dir = "/app/uploads/agents"
-        os.makedirs(upload_dir, exist_ok=True)
+        content = await file.read()
         
-        # Generate unique filename
-        file_extension = file.filename.split(".")[-1]
-        unique_filename = f"{agent_id}_{uuid.uuid4()}.{file_extension}"
-        file_path = os.path.join(upload_dir, unique_filename)
+        max_size = 500 * 1024
+        if len(content) > max_size:
+            raise HTTPException(status_code=400, detail="Image must be less than 500KB")
         
-        # Save file
-        with open(file_path, "wb") as buffer:
-            content = await file.read()
-            buffer.write(content)
+        import base64
+        encoded = base64.b64encode(content).decode('utf-8')
+        data_url = f"data:{file.content_type};base64,{encoded}"
         
-        # Generate URL (served at /api/agents-uploads)
-        image_url = f"/api/agents-uploads/agents/{unique_filename}"
-        
-        # Update agent with image URL
         await db.agents.update_one(
             {"id": agent_id},
-            {"$set": {"profile_image_url": image_url, "updated_at": datetime.now(timezone.utc).isoformat()}}
+            {"$set": {"profile_image_url": data_url, "updated_at": datetime.now(timezone.utc).isoformat()}}
         )
         
-        return {"url": image_url}
+        return {"url": data_url}
         
     except HTTPException:
         raise
