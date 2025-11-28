@@ -11470,33 +11470,6 @@ async def generate_recommendation(athlete_id: str, prompt: str, schedule_id: str
         
     except Exception as e:
         logging.error(f"Error generating recommendation: {e}")
-        raise HTTPException(status_code=500, detail="Failed to generate recommendation")
-
-@api_router.post("/recommendations/{recommendation_id}/read")
-async def mark_recommendation_read(recommendation_id: str):
-    """Mark a recommendation as read"""
-    await db.recommendations.update_one(
-        {"id": recommendation_id},
-        {"$set": {"read": True}}
-    )
-    return {"message": "Recommendation marked as read"}
-
-@api_router.put("/recommendations/{recommendation_id}/read")
-async def mark_recommendation_read_put(recommendation_id: str):
-    """Mark a recommendation as read (PUT method)"""
-    await db.recommendations.update_one(
-        {"id": recommendation_id},
-        {"$set": {"read": True}}
-    )
-    return {"message": "Recommendation marked as read"}
-
-@api_router.delete("/recommendations/{recommendation_id}")
-async def delete_recommendation(recommendation_id: str):
-    """Delete a recommendation"""
-    result = await db.recommendations.delete_one({"id": recommendation_id})
-    if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Recommendation not found")
-    return {"message": "Recommendation deleted successfully"}
     
     return {"categories": categories}
 
