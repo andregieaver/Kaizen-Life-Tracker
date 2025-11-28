@@ -199,6 +199,7 @@ api_router.include_router(recipes_router)
 api_router.include_router(cookies_router)
 api_router.include_router(pages_router)
 api_router.include_router(challenges_router)
+api_router.include_router(groups_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
