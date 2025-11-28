@@ -155,6 +155,7 @@ api_router.include_router(coach_router)
 api_router.include_router(journal_router)
 api_router.include_router(workouts_router)
 api_router.include_router(nutrition_router)
+api_router.include_router(community_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
