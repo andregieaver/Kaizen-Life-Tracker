@@ -116,7 +116,7 @@ async def create_document(document: Document):
             )
 
 
-@router.put("/{document_id}")
+@router.put("/documents/{document_id}")
 async def update_document(document_id: str, data: dict):
     """Update a document"""
     update_data = {
