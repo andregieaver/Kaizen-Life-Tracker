@@ -10898,12 +10898,13 @@ async def startup_scheduler():
         )
         
         # Add job for weekly cookie scan (every Monday at 2 AM)
-        scheduler.add_job(
-            auto_scan_cookies,
-            CronTrigger(day_of_week='mon', hour=2, minute=0),
-            id='auto_cookie_scan',
-            replace_existing=True
-        )
+        # TODO: Re-enable when auto_scan_cookies function is properly defined in cookies router
+        # scheduler.add_job(
+        #     auto_scan_cookies,
+        #     CronTrigger(day_of_week='mon', hour=2, minute=0),
+        #     id='auto_cookie_scan',
+        #     replace_existing=True
+        # )
         
 
         # Add job for daily Strava and Oura sync at 8 AM
