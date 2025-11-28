@@ -2,7 +2,7 @@
 import sys
 import asyncio
 from routes.crm_complete import router
-from database import get_database
+from database import db
 
 async def test_crm_router():
     print("🧪 Testing Refactored CRM Router\n")
@@ -26,7 +26,6 @@ async def test_crm_router():
     
     # Test database connection
     try:
-        db = get_database()
         collections = await db.list_collection_names()
         print(f"\n✅ Database connected. Collections: {len(collections)}")
     except Exception as e:
