@@ -11,7 +11,7 @@ import uuid
 from datetime import datetime, timezone, date, time
 from database import db
 
-router = APIRouter(prefix="/documents", tags=["documents"])
+router = APIRouter(tags=["documents"])
 
 
 # Models
