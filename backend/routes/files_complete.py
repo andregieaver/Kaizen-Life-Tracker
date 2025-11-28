@@ -108,7 +108,7 @@ async def get_file_entries(athlete_id: str):
     return {"entries": entries}
 
 
-@api_router.put("/{entry_id}")
+@router.put("/{entry_id}")
 async def update_file_entry(entry_id: str, file_entry: FileEntry):
     """Update a file entry"""
     file_entry_dict = prepare_for_mongo(file_entry.model_dump())
