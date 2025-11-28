@@ -55,7 +55,7 @@ def parse_from_mongo(item):
 
 
 # Routes
-@api_router.post("/{athlete_id}")
+@router.post("/{athlete_id}")
 async def create_file_entry(athlete_id: str, file_entry: FileEntry):
     """Create a new file entry"""
     try:
