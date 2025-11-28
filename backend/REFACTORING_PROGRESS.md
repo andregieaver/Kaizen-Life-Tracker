@@ -162,14 +162,32 @@
   - Subtitle generation (SRT format)
   - Video compression & subtitle burning (FFmpeg)
 
+### 9. Workouts Domain ✅ COMPLETE
+- **File**: `routes/workouts_complete.py` (231 lines)
+- **Routes**: 6 workout, sleep, and readiness endpoints
+- **Status**: ✅ Tested and working
+- **Routes**:
+  - POST /workout
+  - GET /workouts/{athlete_id}
+  - POST /sleep
+  - GET /sleep/{athlete_id}
+  - GET /readiness/{athlete_id}
+  - GET /merits/{athlete_id}
+- **Features**:
+  - Workout logging with metrics
+  - Sleep data tracking
+  - Daily readiness scores
+  - Personal records by distance
+  - 12-month and all-time bests
+
 ---
 
 ## 📊 Progress Statistics
 
-- **Domains Completed**: 8 / 23 (34.8%)
-- **Routes Extracted**: ~64 / ~400 (16%)
-- **Lines Refactored**: ~4,144 / ~23,605 (17.5%)
-- **Test Files Created**: 8 (all passing ✅)
+- **Domains Completed**: 9 / 23 (39.1%)
+- **Routes Extracted**: ~70 / ~400 (17.5%)
+- **Lines Refactored**: ~4,375 / ~23,605 (18.5%)
+- **Test Files Created**: 9 (all passing ✅)
 
 ---
 
