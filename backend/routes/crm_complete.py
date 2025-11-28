@@ -7,11 +7,10 @@ from fastapi import APIRouter, HTTPException, Query
 from typing import List
 import logging
 from datetime import datetime, timezone
-from database import get_database
+from database import db
 import stripe
 
 router = APIRouter(prefix="/crm", tags=["crm"])
-db = get_database()
 
 
 async def verify_super_admin(athlete_id: str):
