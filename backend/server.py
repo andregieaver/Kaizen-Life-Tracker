@@ -16715,57 +16715,7 @@ async def waitlist_diagnostic():
         }
 
 
-@api_router.post("/system/reload-email-service")
-async def reload_email_service(athlete_id: str):
-    """
-    Reload email service configuration from database
-    Super Admin only - use after updating SendGrid settings
-    """
-    try:
-        # Verify super admin
-        await verify_super_admin(athlete_id)
-        
-        # Load SendGrid settings from database
-        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
-        
-        if not settings or not settings.get("advanced", {}).get("sendgrid"):
-            return {
-                "success": False,
-                "message": "SendGrid configuration not found in database"
-            }
-        
-        sendgrid_config = settings["advanced"]["sendgrid"]
-        
-        if not sendgrid_config.get("apiKey") or not sendgrid_config.get("senderEmail"):
-            return {
-                "success": False,
-                "message": "SendGrid configuration incomplete (missing API key or sender email)"
-            }
-        
-        # Reinitialize email service
-        initialize_email_service(
-            api_key=sendgrid_config["apiKey"],
-            sender_email=sendgrid_config["senderEmail"],
-            sender_name=sendgrid_config.get("senderName", "TrainSmart")
-        )
-        
-        logging.info(f"Email service reloaded from database: {sendgrid_config['senderEmail']}")
-        
-        return {
-            "success": True,
-            "message": "Email service reloaded successfully",
-            "sender_email": sendgrid_config["senderEmail"],
-            "sender_name": sendgrid_config.get("senderName", "TrainSmart")
-        }
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        logging.error(f"Failed to reload email service: {e}")
-        return {
-            "success": False,
-            "message": f"Failed to reload email service: {str(e)}"
-        }
+# Duplicate system endpoints (reload-email-service) moved to routes/system_complete.py
 
 @api_router.get("/waiting-list")
 async def get_waiting_list(
