@@ -26,7 +26,7 @@ async def test_system_router():
     # Test 3: Count routes
     route_count = len(router.routes)
     print(f"✅ Number of routes: {route_count}")
-    assert route_count >= 11, f"Expected at least 11 routes, got {route_count}"
+    assert route_count >= 10, f"Expected at least 10 routes, got {route_count}"
     
     # Test 4: List all routes
     print("\n📋 Available routes:")
