@@ -187,6 +187,7 @@ api_router.include_router(weekly_menus_router)
 api_router.include_router(training_calendar_router)
 api_router.include_router(subscription_plans_router)
 api_router.include_router(supplements_router)
+api_router.include_router(drinks_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
