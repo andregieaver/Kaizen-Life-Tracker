@@ -18301,11 +18301,7 @@ async def get_public_system_settings():
             }
         }
 
-@api_router.get("/crm/users")
-async def get_all_users(athlete_id: str):
-    """Get all users for CRM (Super Admin only)"""
-    # Verify super admin
-    await verify_super_admin(athlete_id)
+# CRM endpoints moved to routes/crm_complete.py
     
     try:
         # Fetch all athlete profiles with required data
