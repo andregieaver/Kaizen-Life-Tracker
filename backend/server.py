@@ -221,6 +221,7 @@ app.include_router(weather_router)
 app.include_router(voice_realtime_router)
 app.include_router(health_metrics_router)
 app.include_router(bookmarks_router)
+app.include_router(ai_coach_chat_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
