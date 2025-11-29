@@ -9,13 +9,32 @@ Handles analytics tracking, statistics, menu management, and system utilities:
 
 from fastapi import APIRouter, HTTPException, Request
 from motor.motor_asyncio import AsyncIOMotorClient
-from typing import Optional
+from pydantic import BaseModel, Field
+from typing import Optional, List
 from datetime import datetime, timezone, timedelta
+import uuid
 import logging
 import os
 
 # Initialize router
 router = APIRouter(prefix="/api", tags=["analytics_system"])
+
+# Pydantic Models
+class MenuItem(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    label: str
+    url: str
+    order: int = 0
+    is_separator: bool = False  # Only for slideout menu
+    icon: Optional[str] = None  # Icon name (Lucide icon)
+    highlighted: bool = False  # Highlight menu item with accent color
+    highlight_color: Optional[str] = None  # Custom highlight color (hex)
+
+class MenuSettings(BaseModel):
+    header_logged_out: List[MenuItem] = []
+    header_logged_in: List[MenuItem] = []
+    slideout_menu: List[MenuItem] = []
+    slideout_menu_logged_out: List[MenuItem] = []
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
