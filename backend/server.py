@@ -3855,33 +3855,9 @@ async def get_personal_records(athlete_id: str):
 
 # Management Agent endpoints - MOVED to routes/agent_assistants_complete.py
 
+
 # ========================================
 # SUPPORT AGENT ENDPOINTS (All Logged-in Users)
-# ========================================
-
-class SupportAgentChatRequest(BaseModel):
-    athlete_id: str
-    session_id: str
-    message: str
-    media: Optional[List[dict]] = []  # Array of media items: [{"type": "image/video", "url": "...", "thumbnail": "..."}]
-
-class SupportAgentMessage(BaseModel):
-    athlete_id: str
-    session_id: str
-    message: str
-    response: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    action_taken: Optional[str] = None
-
-@api_router.post("/support-agent/chat")
-async def chat_with_support_agent(chat_request: SupportAgentChatRequest):
-    """
-    Super admin-only AI assistant with full system access
-    Can query database, navigate pages, and manage community content
-    """
-    try:
-        # Verify super admin
-        await verify_super_admin(chat_request.athlete_id)
         
         # Get OpenAI key from system settings
         settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
