@@ -4037,8 +4037,10 @@ async def delete_memory(memory_id: str):
         raise HTTPException(status_code=404, detail="Memory not found")
     return {"message": "Memory deleted successfully"}
 
-# OpenAI Realtime Voice API routes
-@api_router.post("/coach/voice/session/{athlete_id}")
+# OpenAI Realtime Voice API routes - MOVED to routes/voice_realtime_complete.py
+
+# ========================================
+# MANAGEMENT AGENT ENDPOINTS (Super Admin Only)
 async def create_voice_session(athlete_id: str):
     """Create a new realtime voice session for the athlete"""
     try:
