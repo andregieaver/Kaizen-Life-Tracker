@@ -2843,6 +2843,7 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Weather Card Location Display on Today Page"
     - "Drink Logging API Endpoints"
     - "Drinks Page and Hydration Tracker"
     - "Dashboard Floating Action Buttons"
