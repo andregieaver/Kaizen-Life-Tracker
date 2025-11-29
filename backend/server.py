@@ -8500,13 +8500,10 @@ async def get_body_score_leaderboard(limit: int = 50):
 
 
 # ==========================================
-# WEATHER API ENDPOINTS
+# WEATHER API ENDPOINTS - MOVED to routes/weather_complete.py
 # ==========================================
 
-# In-memory cache for weather data (simple hourly caching)
-weather_cache = {}
-
-@app.get("/api/weather/current")
+# BOOKMARKS ENDPOINTS
 async def get_current_weather(lat: float = Query(..., description="Latitude"), 
                                lon: float = Query(..., description="Longitude")):
     """
