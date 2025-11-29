@@ -16031,30 +16031,50 @@ def test_logo_upload_functionality():
         return False
 
 if __name__ == "__main__":
-    print("🚀 STARTING COMPREHENSIVE BACKEND API TESTING AFTER REFACTORING")
+    print("🚀 STARTING BACKEND TESTING - LOGO UPLOAD FUNCTIONALITY")
     print("=" * 80)
     
-    # Run the main refactoring verification test
     try:
+        # Run the logo upload functionality test as requested
         print(f"\n{'='*80}")
-        result = test_critical_endpoints_after_refactoring()
+        logo_result = test_logo_upload_functionality()
         
-        if result:
-            print(f"\n🎉 REFACTORING VERIFICATION SUCCESSFUL!")
-            print(f"   ✅ All critical endpoints working correctly")
-            print(f"   ✅ Server.py refactoring from 14,234 to 5,986 lines verified")
-            print(f"   ✅ ~145 endpoints extracted into 45+ modular routers")
-            print(f"   ✅ Centralized utility functions and models operational")
-            print(f"   ✅ No 500 errors from refactoring issues detected")
+        if logo_result:
+            print(f"\n🎉 LOGO UPLOAD FUNCTIONALITY TESTING SUCCESSFUL!")
+            print(f"   ✅ Header logo upload working correctly")
+            print(f"   ✅ Super admin authentication verified")
+            print(f"   ✅ All validation and error handling working")
+            print(f"   ✅ Response format correct (success: true, path with base64)")
+            print(f"   ✅ System settings advanced tab logo upload ready")
+        else:
+            print(f"\n❌ LOGO UPLOAD FUNCTIONALITY TESTING FAILED!")
+            print(f"   ⚠️  Logo upload endpoint has issues")
+            print(f"   ⚠️  Please review the test results above")
+        
+        # Also run a quick verification of critical endpoints
+        print(f"\n{'='*80}")
+        print("🔍 RUNNING QUICK CRITICAL ENDPOINTS VERIFICATION")
+        print("=" * 80)
+        
+        refactor_result = test_critical_endpoints_after_refactoring()
+        
+        if logo_result and refactor_result:
+            print(f"\n🎉 ALL TESTING COMPLETED SUCCESSFULLY!")
+            print(f"   ✅ Logo upload functionality working")
+            print(f"   ✅ Critical endpoints working correctly")
+            print(f"   ✅ Backend is ready for production")
             sys.exit(0)
         else:
-            print(f"\n❌ REFACTORING VERIFICATION FAILED!")
-            print(f"   ⚠️  Some critical endpoints are not working correctly")
+            print(f"\n❌ SOME TESTS FAILED!")
+            if not logo_result:
+                print(f"   ⚠️  Logo upload functionality needs attention")
+            if not refactor_result:
+                print(f"   ⚠️  Some critical endpoints need attention")
             print(f"   ⚠️  Please review the test results above")
             sys.exit(1)
             
     except Exception as e:
-        print(f"❌ EXCEPTION during refactoring verification: {str(e)}")
+        print(f"❌ EXCEPTION during testing: {str(e)}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
