@@ -4,27 +4,19 @@ Handles OpenAI API key management and generic integration CRUD operations
 """
 
 from fastapi import APIRouter, HTTPException, Request
-from motor.motor_asyncio import AsyncIOMotorDatabase
 from pydantic import BaseModel
 from typing import Dict, Any, List
 from datetime import datetime, timezone
 import logging
 import uuid
 
+from database import db
+
 # Create router
 router = APIRouter(prefix="", tags=["integrations_basic"])
 
 # Logger
 logger = logging.getLogger(__name__)
-
-# Database - will be injected via dependency
-_db: AsyncIOMotorDatabase = None
-
-
-def init_db(db: AsyncIOMotorDatabase):
-    """Initialize database connection"""
-    global _db
-    _db = db
 
 
 # ==================== Pydantic Models ====================
