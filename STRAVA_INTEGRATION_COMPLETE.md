@@ -445,8 +445,8 @@ profile:read_all      - Read detailed profile
 ### Development
 ```
 Callback Domain: multilingual-app-27.preview.emergentagent.com
-OAuth Redirect: https://monolith-splitter-1.preview.emergentagent.com/api/auth/strava/callback
-Webhook URL: https://monolith-splitter-1.preview.emergentagent.com/api/webhook/strava
+OAuth Redirect: https://modular-backend-12.preview.emergentagent.com/api/auth/strava/callback
+Webhook URL: https://modular-backend-12.preview.emergentagent.com/api/webhook/strava
 ```
 
 ### Production
