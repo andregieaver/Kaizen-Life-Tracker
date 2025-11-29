@@ -9020,8 +9020,7 @@ async def chat_with_agent(request: AgentChatRequest):
 
 # ============================================================================
 # OURA INTEGRATION ENDPOINTS - Moved to routes/integrations_oura.py
-        "settings": integration.get("settings", {})
-    }
+# ============================================================================
 
 # Schedule Management Routes
 # Manual trigger endpoint for testing (CRUD endpoints moved to routes/schedules_complete.py)
