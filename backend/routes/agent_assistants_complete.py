@@ -7,7 +7,7 @@ Handles Management Agent (super admin) and Support Agent (all users) endpoints:
 - Conversation history and management
 """
 
-from fastapi import APIRouter, HTTPException, Query, Body
+from fastapi import APIRouter, HTTPException, Query, Body, UploadFile, File
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional, Dict, Any
@@ -16,6 +16,9 @@ import uuid
 import logging
 import os
 import json
+import re
+import aiohttp
+import subprocess
 
 # Initialize router
 router = APIRouter(prefix="/api", tags=["agent_assistants"])
