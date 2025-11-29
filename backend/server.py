@@ -9014,9 +9014,9 @@ async def chat_with_agent(request: AgentChatRequest):
         logging.error(f"Agent chat error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to chat with agent: {str(e)}")
 
-# Strava OAuth routes
+# Legacy Strava Integration routes moved to routes/integrations_strava.py
 
-@api_router.post("/integrations/strava/{athlete_id}/sync")
+# Oura OAuth routes
 async def sync_strava_activities_legacy(athlete_id: str, force_full: bool = False):
     """Manually sync activities from Strava"""
     try:
