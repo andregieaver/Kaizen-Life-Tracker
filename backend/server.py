@@ -4125,8 +4125,9 @@ async def upload_background_image(athlete_id: str, file: UploadFile = File(...))
 # Nutrition routes - MOVED to routes/nutrition_complete.py
 
 
-# Workout routes
-@api_router.post("/workout", response_model=Workout)
+# Workout routes - MOVED to routes/workouts_complete.py
+
+# Sleep data routes
 async def log_workout(workout: Workout):
     workout_dict = prepare_for_mongo(workout.model_dump())
     await db.workouts.insert_one(workout_dict)
