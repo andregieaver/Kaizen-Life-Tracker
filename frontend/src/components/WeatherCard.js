@@ -225,9 +225,16 @@ const WeatherCard = () => {
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold" style={{ color: 'var(--text-hi)' }}>
-          {t('weather.title')}
-        </h3>
+        <div>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-hi)' }}>
+            {t('weather.title')}
+          </h3>
+          {locationName && (
+            <p className="text-xs mt-0.5" style={{ color: 'var(--text-med)' }}>
+              {locationName}
+            </p>
+          )}
+        </div>
         <div style={{ color: 'var(--c-brand-500)' }}>
           {getWeatherIcon(forecast?.next_1h?.symbol)}
         </div>
