@@ -3749,8 +3749,6 @@ async def root():
 
 # Athlete Profile routes - MOVED to routes/athletes_complete.py
 
-        raise HTTPException(status_code=500, detail="Failed to upload background image")
-
 # Subscription routes - MOVED to routes/subscriptions_complete.py
 
 
