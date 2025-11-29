@@ -8,66 +8,22 @@ Handles all AI Coach chat conversation endpoints including:
 """
 
 from fastapi import APIRouter, HTTPException
-from motor.motor_asyncio import AsyncIOMotorClient
-from pydantic import BaseModel, Field, ConfigDict
-from typing import List, Optional, Dict, Any
-from datetime import datetime, timezone
-import uuid
+from typing import Optional
+from datetime import datetime
 import logging
 import asyncio
-import os
+
+# Import shared utilities and models
+import sys
+sys.path.append('/app/backend')
+from utils import prepare_for_mongo, parse_from_mongo, get_db
+from models import ChatMessage, CoachChat, AthleteMemory
 
 # Initialize router
 router = APIRouter(prefix="/api", tags=["ai_coach"])
 
 # MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
-
-# Helper functions
-def prepare_for_mongo(data):
-    """Prepare data for MongoDB storage by converting datetime objects to ISO strings"""
-    if isinstance(data, dict):
-        for key, value in data.items():
-            if isinstance(value, datetime):
-                data[key] = value.isoformat()
-    return data
-
-def parse_from_mongo(item):
-    """Parse data from MongoDB"""
-    # Keep date fields as strings for JSON serialization
-    return item
-
-# Pydantic Models
-class ChatMessage(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    athlete_id: str
-    session_id: str
-    message: str
-    response: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-
-class CoachChat(BaseModel):
-    athlete_id: str
-    message: str
-    session_id: str
-
-class AthleteMemory(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    athlete_id: str
-    category: str  # goals, prs, injuries, preferences, progress, equipment
-    content: str
-    importance: int = 5  # 1-10, higher = more important
-    source_session: Optional[str] = None
-    embedding: Optional[List[float]] = None  # For future vector search
-    metadata: Optional[Dict[str, Any]] = None  # Flexible metadata
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+db = get_db()
 
 # Import AI Coach Service (we'll need to get the instance from server.py)
 # For now, we'll create a reference that will be set when router is included
