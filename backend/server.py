@@ -173,6 +173,7 @@ from routes.integrations_oura import router as integrations_oura_router
 from routes.integrations_other import router as integrations_other_router
 from routes.weather_complete import router as weather_router
 from routes.voice_realtime_complete import router as voice_realtime_router
+from routes.health_metrics_complete import router as health_metrics_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
