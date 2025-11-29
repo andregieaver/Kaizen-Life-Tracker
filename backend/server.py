@@ -4119,8 +4119,9 @@ async def upload_background_image(athlete_id: str, file: UploadFile = File(...))
 # Subscription routes - MOVED to routes/subscriptions_complete.py
 
 
-# Journal routes
-@api_router.get("/journal/{athlete_id}")
+# Journal routes - MOVED to routes/journal_complete.py
+
+# Nutrition routes
 async def get_journal_entries(athlete_id: str):
     """Get all journal entries for an athlete"""
     entries = await db.journal_entries.find(
