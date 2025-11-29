@@ -4122,8 +4122,9 @@ async def upload_background_image(athlete_id: str, file: UploadFile = File(...))
 # Journal routes - MOVED to routes/journal_complete.py
 
 
-# Nutrition routes
-@api_router.get("/nutrition/{athlete_id}")
+# Nutrition routes - MOVED to routes/nutrition_complete.py
+
+# Workout routes
 async def get_nutrition_entries(athlete_id: str, date: Optional[str] = None):
     """Get nutrition entries for an athlete, optionally filtered by date"""
     query = {"athlete_id": athlete_id}
