@@ -12846,10 +12846,15 @@ app.include_router(api_router)
 # STRAVA INTEGRATION ENDPOINTS - Moved to routes/integrations_strava.py
 # ============================================================================
 
+# ============================================================================
+# OURA INTEGRATION ENDPOINTS - Moved to routes/integrations_oura.py
+# ============================================================================
 
-        logging.error(f"Error fetching unread count: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
+# ============================================================================
+# OTHER INTEGRATION ENDPOINTS - Moved to routes/integrations_other.py
+# Includes: COROS, Garmin, Polar, Fitbit, Whoop, Suunto status stubs
+# Plus: Generic provider endpoints for all integrations
+# ============================================================================
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
