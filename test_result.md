@@ -3192,15 +3192,15 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Support Agent Backend Endpoints - User Scoped"
+    - "Referrals Page settingsLoaded Error Fix"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
   next_steps:
-    - "Support Agent backend testing completed successfully"
-    - "All endpoints working for regular users"
-    - "Data scoping verified - users can only access their own data"
-    - "Ready for frontend testing if needed"
+    - "Test Referrals page fix for settingsLoaded error"
+    - "Verify page loads without ReferenceError"
+    - "Check console for any errors"
+    - "Verify referral content displays correctly"
 
 agent_communication:
   - agent: "main"
