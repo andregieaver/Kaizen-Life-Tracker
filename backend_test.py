@@ -441,7 +441,13 @@ def test_critical_endpoints_after_refactoring():
         
         if integrations_response.status_code == 200:
             integrations_data = integrations_response.json()
-            integrations_count = len(integrations_data.get("integrations", []))
+            # Handle both dict and list responses
+            if isinstance(integrations_data, dict):
+                integrations_count = len(integrations_data.get("integrations", []))
+            elif isinstance(integrations_data, list):
+                integrations_count = len(integrations_data)
+            else:
+                integrations_count = 0
             print_test_result("Get Basic Integrations", True, f"Found {integrations_count} integrations")
         else:
             print_test_result("Get Basic Integrations", False, f"Status: {integrations_response.status_code}")
