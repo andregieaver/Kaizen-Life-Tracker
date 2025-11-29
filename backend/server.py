@@ -175,6 +175,7 @@ from routes.weather_complete import router as weather_router
 from routes.voice_realtime_complete import router as voice_realtime_router
 from routes.health_metrics_complete import router as health_metrics_router
 from routes.bookmarks_complete import router as bookmarks_router
+from routes.ai_coach_chat_complete import router as ai_coach_chat_router, set_ai_coach_service
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
