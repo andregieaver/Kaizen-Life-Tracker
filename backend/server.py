@@ -4116,8 +4116,9 @@ async def upload_background_image(athlete_id: str, file: UploadFile = File(...))
         logging.error(f"Error uploading background image: {e}")
         raise HTTPException(status_code=500, detail="Failed to upload background image")
 
-# Subscription routes
-SUBSCRIPTION_PLANS = {
+# Subscription routes - MOVED to routes/subscriptions_complete.py
+
+# Journal routes
     "pro_monthly": {"price": 9.99, "interval": "month", "interval_count": 1, "tier": "pro", "name": "Pro Monthly"},
     "pro_annual": {"price": 99.0, "interval": "year", "interval_count": 1, "tier": "pro", "name": "Pro Annual"},
     "premium_monthly": {"price": 19.99, "interval": "month", "interval_count": 1, "tier": "premium", "name": "Premium Monthly"},
