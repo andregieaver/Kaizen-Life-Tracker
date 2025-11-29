@@ -2813,15 +2813,18 @@ frontend:
 frontend:
   - task: "Weather Card Location Display on Today Page"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/WeatherCard.js, /app/frontend/src/components/Today.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Weather Card location display feature implemented on Today page. IMPLEMENTATION: 1) Added locationName state to WeatherCard component to store reverse geocoded location, 2) Implemented getLocationName() function using OpenStreetMap Nominatim API for reverse geocoding (converts coordinates to readable location), 3) Fetches weather and location name in parallel using Promise.all, 4) Displays location with MapPin icon under 'Current Weather' title (lines 232-239), 5) Location format: 'City, Country' (e.g., 'Oslo, Norway' or 'San Francisco, United States'), 6) Styled with text-xs and medium color (var(--text-med)), 7) MapPin icon styled with brand color (var(--c-brand-500)). TESTING NEEDED: 1) Login with test credentials, 2) Navigate to Today page (/dashboard/today), 3) Allow location permission when prompted, 4) Wait for weather card to load, 5) Verify 'Current Weather' title displays, 6) CRITICAL: Verify location name appears under title with MapPin icon, 7) Check location text styling (small text, medium color), 8) Check browser console for errors, 9) Verify weather data loads correctly with temperature and conditions."
+      - working: false
+        agent: "testing"
+        comment: "❌ WEATHER CARD LOCATION DISPLAY TESTING BLOCKED - Unable to complete comprehensive testing due to authentication requirements, but verified backend APIs and code implementation. TESTING ATTEMPTS: 1) AUTHENTICATION ISSUE ❌ - Attempted login with 9 different test credential combinations (test.files@example.com, andre@example.com, etc.) but all failed with authentication errors. Login system requires valid credentials not available for testing. 2) DIRECT ACCESS BLOCKED ❌ - Direct navigation to /dashboard/today redirects to landing page without authentication, preventing access to Today page where WeatherCard is located. 3) BACKEND API VERIFICATION ✅ - Weather API endpoint /api/weather/current working correctly (tested with Oslo coordinates: lat=59.9139, lon=10.7522), returns proper weather data including temperature (7.8°C), conditions, and training recommendations. 4) NOMINATIM API VERIFICATION ✅ - OpenStreetMap reverse geocoding API working correctly, returns proper location format 'Oslo, Norge' for test coordinates. 5) CODE ANALYSIS VERIFICATION ✅ - WeatherCard.js implementation correctly structured: locationName state (line 14), getLocationName() function (lines 20-52), parallel API calls (lines 73-81), location display with MapPin icon (lines 232-239), proper styling with text-xs and var(--text-med). CRITICAL FINDINGS: Backend weather and location APIs are functional, WeatherCard component implementation appears correct based on code analysis, but actual UI testing requires valid authentication credentials. RECOMMENDATION: Main agent should provide valid test credentials or create a test user account to enable full end-to-end testing of the Weather Card location display feature."
 
   - task: "Dashboard Floating Action Buttons"
     implemented: true
