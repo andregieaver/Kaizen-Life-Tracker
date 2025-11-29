@@ -121,7 +121,7 @@ async def save_openai_key(athlete_id: str, key_request: APIKeyRequest):
 @router.get("/integrations/{athlete_id}")
 async def get_athlete_integrations(athlete_id: str):
     """Get all integrations for an athlete"""
-    integrations = await _db.integrations.find(
+    integrations = await db.integrations.find(
         {"athlete_id": athlete_id, "is_active": True},
         {"_id": 0, "credentials": 0}  # Don't return sensitive credentials
     ).limit(100).to_list(length=100)
@@ -132,7 +132,7 @@ async def get_athlete_integrations(athlete_id: str):
 @router.delete("/integrations/{athlete_id}/{integration_type}")
 async def disconnect_integration(athlete_id: str, integration_type: str):
     """Disconnect/deactivate an integration"""
-    result = await _db.integrations.update_one(
+    result = await db.integrations.update_one(
         {"athlete_id": athlete_id, "integration_type": integration_type},
         {"$set": {"is_active": False}}
     )
