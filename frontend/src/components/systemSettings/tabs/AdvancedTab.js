@@ -183,7 +183,7 @@ const AdvancedTab = ({
               <div className="relative flex-shrink-0">
                 {advancedSettings.seo?.logoUrl ? (
                   <img
-                    src={advancedSettings.seo.logoUrl.startsWith('http') ? advancedSettings.seo.logoUrl : `${process.env.REACT_APP_BACKEND_URL}${advancedSettings.seo.logoUrl}`}
+                    src={advancedSettings.seo.logoUrl.startsWith('http') || advancedSettings.seo.logoUrl.startsWith('data:') ? advancedSettings.seo.logoUrl : `${process.env.REACT_APP_BACKEND_URL}${advancedSettings.seo.logoUrl}`}
                     alt="Logo"
                     className="w-20 h-20 object-contain bg-gray-900 rounded border-2 border-gray-600"
                   />
