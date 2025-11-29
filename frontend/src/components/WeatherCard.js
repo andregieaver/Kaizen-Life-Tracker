@@ -91,6 +91,43 @@ const WeatherCard = () => {
         },
         (err) => {
           console.error('Geolocation error:', err);
+          
+          // If timeout and high accuracy enabled, try again without high accuracy
+          if (err.code === 3 && err.message.includes('Timeout')) {
+            console.log('Retrying geolocation without high accuracy...');
+            navigator.geolocation.getCurrentPosition(
+              async (position) => {
+                try {
+                  const { latitude, longitude } = position.coords;
+                  const [weatherResponse, locName] = await Promise.all([
+                    axios.get(`${API}/api/weather/current`, {
+                      params: { lat: latitude, lon: longitude }
+                    }),
+                    getLocationName(latitude, longitude)
+                  ]);
+                  setWeather(weatherResponse.data);
+                  setLocationName(locName);
+                  setLoading(false);
+                } catch (err) {
+                  console.error('Error fetching weather:', err);
+                  setError(err.response?.data?.detail || 'Failed to fetch weather data');
+                  setLoading(false);
+                }
+              },
+              (retryErr) => {
+                console.error('Retry geolocation error:', retryErr);
+                setLocationError(t('weather.errors.timeout'));
+                setLoading(false);
+              },
+              {
+                enableHighAccuracy: false,
+                timeout: 15000,
+                maximumAge: 300000
+              }
+            );
+            return;
+          }
+          
           setLocationError(
             err.code === 1 ? t('weather.errors.permissionDenied') :
             err.code === 2 ? t('weather.errors.locationUnavailable') :
@@ -101,7 +138,7 @@ const WeatherCard = () => {
         },
         {
           enableHighAccuracy: true,
-          timeout: 10000,
+          timeout: 20000, // Increased from 10s to 20s
           maximumAge: 300000 // 5 minutes
         }
       );
