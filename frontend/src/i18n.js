@@ -38,7 +38,11 @@ i18n
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage']
-    }
+    },
+    // Language normalization to handle invalid language tags
+    load: 'languageOnly', // Load only 'en' instead of 'en-US'
+    cleanCode: true, // Clean language codes
+    nonExplicitSupportedLngs: true // Support base language codes
   });
 
 export default i18n;
