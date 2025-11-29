@@ -216,12 +216,21 @@ def test_critical_endpoints_after_refactoring():
         
         if agents_response.status_code == 200:
             agents_data = agents_response.json()
-            agents_count = len(agents_data.get("agents", []))
+            # Handle both dict and list responses
+            if isinstance(agents_data, dict):
+                agents_list = agents_data.get("agents", [])
+                agents_count = len(agents_list)
+            elif isinstance(agents_data, list):
+                agents_list = agents_data
+                agents_count = len(agents_list)
+            else:
+                agents_list = []
+                agents_count = 0
             print_test_result("List Agents", True, f"Found {agents_count} agents")
             
             # Test 3.2: Get Specific Agent (Super Admin Only)
             if agents_count > 0:
-                first_agent = agents_data["agents"][0]
+                first_agent = agents_list[0]
                 agent_id = first_agent.get("id")
                 
                 print("   Test 3.2: GET /agents/{agent_id}?athlete_id={admin_id} - Get Specific Agent")
