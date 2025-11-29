@@ -3767,8 +3767,10 @@ async def root():
 # Workout routes - MOVED to routes/workouts_complete.py
 
 
-# Sleep data routes
-@api_router.post("/sleep", response_model=SleepData)
+# Sleep data routes - MOVED to routes/health_metrics_complete.py
+# Readiness score routes - MOVED to routes/health_metrics_complete.py
+
+# Merits / Personal Records routes
 async def log_sleep_data(sleep_data: SleepData):
     sleep_dict = prepare_for_mongo(sleep_data.model_dump())
     await db.sleep_data.insert_one(sleep_dict)
