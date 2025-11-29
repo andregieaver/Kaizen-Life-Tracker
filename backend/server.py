@@ -170,6 +170,7 @@ from routes.community_misc_complete import router as community_misc_router
 from routes.integrations_basic import router as integrations_basic_router
 from routes.integrations_strava import router as integrations_strava_router
 from routes.integrations_oura import router as integrations_oura_router
+from routes.integrations_other import router as integrations_other_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
