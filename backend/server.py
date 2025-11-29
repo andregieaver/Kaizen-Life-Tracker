@@ -6496,8 +6496,7 @@ async def get_platform_metrics():
                 {"name": "Realist", "description": "Down-to-earth"}
             ],
             "integrationsList": ["Strava", "Oura", "Polar", "Fitbit", "Garmin", "Whoop", "Coros", "Suunto"]
-        logging.error(f"Error deleting waiting list entry: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        }
 
 # Function to read and modify the React index.html with SEO meta tags
 async def get_html_with_seo_tags(slug: str, backend_url: str):
