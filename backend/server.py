@@ -3721,6 +3721,7 @@ class OuraDataManager:
 
 # Initialize services
 ai_coach = AICoachService()
+set_ai_coach_service(ai_coach)  # Set AI coach service for router
 strava_token_manager = StravaTokenManager()
 strava_activity_manager = StravaActivityManager(strava_token_manager)
 oura_token_manager = OuraTokenManager()
