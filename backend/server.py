@@ -4037,9 +4037,7 @@ async def delete_memory(memory_id: str):
         raise HTTPException(status_code=404, detail="Memory not found")
     return {"message": "Memory deleted successfully"}
 
-    except Exception as e:
-        logging.error(f"Error saving voice conversation: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to save voice conversation: {str(e)}")
+# OpenAI Realtime Voice API routes - MOVED to routes/voice_realtime_complete.py
 
 # ========================================
 # MANAGEMENT AGENT ENDPOINTS (Super Admin Only)
