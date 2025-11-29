@@ -19,9 +19,10 @@ const Referrals = ({ athleteId }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [referralCode, setReferralCode] = useState('');
   const [siteTitle, setSiteTitle] = useState('');
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
 
   useEffect(() => {
-    initializeSiteTitle(setSiteTitle);
+    initializeSiteTitle(setSiteTitle).then(() => setSettingsLoaded(true));
     generateReferralCode();
   }, [athleteId]);
 
