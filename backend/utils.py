@@ -82,3 +82,92 @@ def apply_query_limit(limit: int | None = None, max_limit: int = 1000) -> int:
     if limit is None:
         return DEFAULT_QUERY_LIMIT
     return min(max(1, limit), max_limit)
+
+# Database-related utilities
+from fastapi import HTTPException
+from motor.motor_asyncio import AsyncIOMotorClient
+import os
+
+# MongoDB connection (shared across all routers)
+_mongo_url = os.environ.get('MONGO_URL')
+_client = None
+_db = None
+
+def get_db():
+    """
+    Get database connection (lazy initialization)
+    
+    Returns:
+        MongoDB database instance
+    """
+    global _client, _db
+    if _db is None:
+        _client = AsyncIOMotorClient(_mongo_url)
+        _db = _client[os.environ['DB_NAME']]
+    return _db
+
+
+def get_db_client():
+    """
+    Get MongoDB client
+    
+    Returns:
+        MongoDB client instance
+    """
+    global _client
+    if _client is None:
+        _client = AsyncIOMotorClient(_mongo_url)
+    return _client
+
+
+async def verify_super_admin(athlete_id: str):
+    """
+    Verify if an athlete is a super admin
+    
+    Args:
+        athlete_id: The ID of the athlete to verify
+        
+    Returns:
+        The athlete profile dictionary if verified
+        
+    Raises:
+        HTTPException: 404 if user not found, 403 if not super admin
+    """
+    db = get_db()
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    
+    if not athlete:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Check both field names for backwards compatibility
+    is_admin = athlete.get("is_super_admin", False) or athlete.get("role") == "super_admin"
+    
+    if not is_admin:
+        raise HTTPException(
+            status_code=403, 
+            detail="Access denied. Super admin privileges required."
+        )
+    
+    return athlete
+
+
+async def verify_athlete(athlete_id: str):
+    """
+    Verify if an athlete exists
+    
+    Args:
+        athlete_id: The ID of the athlete to verify
+        
+    Returns:
+        The athlete profile dictionary if found
+        
+    Raises:
+        HTTPException: 404 if user not found
+    """
+    db = get_db()
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    
+    if not athlete:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return athlete
