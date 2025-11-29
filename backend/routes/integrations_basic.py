@@ -101,7 +101,7 @@ async def save_openai_key(athlete_id: str, key_request: APIKeyRequest):
         }
         
         # Upsert integration
-        await _db.integrations.update_one(
+        await db.integrations.update_one(
             {"athlete_id": athlete_id, "integration_type": "openai"},
             {"$set": integration_data},
             upsert=True
