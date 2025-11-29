@@ -177,6 +177,7 @@ from routes.health_metrics_complete import router as health_metrics_router
 from routes.bookmarks_complete import router as bookmarks_router
 from routes.ai_coach_chat_complete import router as ai_coach_chat_router, set_ai_coach_service
 from routes.agent_assistants_complete import router as agent_assistants_router
+from routes.agents_crud_complete import router as agents_crud_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
