@@ -8016,10 +8016,10 @@ async def get_body_score_leaderboard(limit: int = 50):
 # ==========================================
 # WEATHER API ENDPOINTS - MOVED to routes/weather_complete.py
 # ==========================================
-# BOOKMARKS ENDPOINTS
-# ==========================================
+# BOOKMARKS ENDPOINTS - MOVED to routes/bookmarks_complete.py
 
-@app.post("/api/bookmarks/{athlete_id}/{post_id}")
+# ==========================================
+# UPLOAD ENDPOINTS
 async def bookmark_post(athlete_id: str, post_id: str):
     """Bookmark a post for an athlete"""
     try:
