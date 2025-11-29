@@ -354,7 +354,13 @@ def test_critical_endpoints_after_refactoring():
         
         if templates_response.status_code == 200:
             templates_data = templates_response.json()
-            templates_count = len(templates_data.get("templates", []))
+            # Handle both dict and list responses
+            if isinstance(templates_data, dict):
+                templates_count = len(templates_data.get("templates", []))
+            elif isinstance(templates_data, list):
+                templates_count = len(templates_data)
+            else:
+                templates_count = 0
             print_test_result("List Email Templates", True, f"Found {templates_count} templates")
         else:
             print_test_result("List Email Templates", False, f"Status: {templates_response.status_code}")
