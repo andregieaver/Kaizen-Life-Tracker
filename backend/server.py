@@ -3853,12 +3853,28 @@ async def get_personal_records(athlete_id: str):
 
 # OpenAI Realtime Voice API routes - MOVED to routes/voice_realtime_complete.py
 
+# Management Agent endpoints - MOVED to routes/agent_assistants_complete.py
+
 # ========================================
-# MANAGEMENT AGENT ENDPOINTS (Super Admin Only)
+# SUPPORT AGENT ENDPOINTS (All Logged-in Users)
 # ========================================
 
-@api_router.post("/management-agent/chat")
-async def chat_with_management_agent(chat_request: ManagementAgentChatRequest):
+class SupportAgentChatRequest(BaseModel):
+    athlete_id: str
+    session_id: str
+    message: str
+    media: Optional[List[dict]] = []  # Array of media items: [{"type": "image/video", "url": "...", "thumbnail": "..."}]
+
+class SupportAgentMessage(BaseModel):
+    athlete_id: str
+    session_id: str
+    message: str
+    response: str
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    action_taken: Optional[str] = None
+
+@api_router.post("/support-agent/chat")
+async def chat_with_support_agent(chat_request: SupportAgentChatRequest):
     """
     Super admin-only AI assistant with full system access
     Can query database, navigate pages, and manage community content
