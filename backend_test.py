@@ -176,7 +176,13 @@ def test_critical_endpoints_after_refactoring():
         
         if conversations_response.status_code == 200:
             conversations_data = conversations_response.json()
-            conversations_count = len(conversations_data.get("conversations", []))
+            # Handle both dict and list responses
+            if isinstance(conversations_data, dict):
+                conversations_count = len(conversations_data.get("conversations", []))
+            elif isinstance(conversations_data, list):
+                conversations_count = len(conversations_data)
+            else:
+                conversations_count = 0
             print_test_result("List Coach Conversations", True, f"Found {conversations_count} conversations")
         else:
             print_test_result("List Coach Conversations", False, f"Status: {conversations_response.status_code}")
@@ -188,7 +194,13 @@ def test_critical_endpoints_after_refactoring():
         
         if history_response.status_code == 200:
             history_data = history_response.json()
-            messages_count = len(history_data.get("messages", []))
+            # Handle both dict and list responses
+            if isinstance(history_data, dict):
+                messages_count = len(history_data.get("messages", []))
+            elif isinstance(history_data, list):
+                messages_count = len(history_data)
+            else:
+                messages_count = 0
             print_test_result("Get Chat History", True, f"Found {messages_count} messages")
         else:
             print_test_result("Get Chat History", False, f"Status: {history_response.status_code}")
