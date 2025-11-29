@@ -3858,9 +3858,6 @@ async def get_personal_records(athlete_id: str):
 
 # ========================================
 # SUPPORT AGENT ENDPOINTS (All Logged-in Users)
-        
-        # Get OpenAI key from system settings
-        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
         if not settings:
             settings = await db.system_settings.find_one({}, {"_id": 0})
         
