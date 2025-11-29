@@ -16,30 +16,14 @@ import uuid
 import logging
 import os
 
-# Import shared utilities
+# Import shared utilities and models
 import sys
 sys.path.append('/app/backend')
 from utils import verify_super_admin, get_db
+from models import MenuItem, MenuSettings
 
 # Initialize router
 router = APIRouter(prefix="/api", tags=["analytics_system"])
-
-# Pydantic Models
-class MenuItem(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    label: str
-    url: str
-    order: int = 0
-    is_separator: bool = False  # Only for slideout menu
-    icon: Optional[str] = None  # Icon name (Lucide icon)
-    highlighted: bool = False  # Highlight menu item with accent color
-    highlight_color: Optional[str] = None  # Custom highlight color (hex)
-
-class MenuSettings(BaseModel):
-    header_logged_out: List[MenuItem] = []
-    header_logged_in: List[MenuItem] = []
-    slideout_menu: List[MenuItem] = []
-    slideout_menu_logged_out: List[MenuItem] = []
 
 # MongoDB connection
 db = get_db()
