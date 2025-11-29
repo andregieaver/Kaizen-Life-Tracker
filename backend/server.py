@@ -217,6 +217,7 @@ api_router.include_router(integrations_oura_router)
 api_router.include_router(integrations_other_router)
 app.include_router(weather_router)
 app.include_router(voice_realtime_router)
+app.include_router(health_metrics_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
