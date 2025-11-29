@@ -7,7 +7,7 @@ Handles analytics tracking, statistics, menu management, and system utilities:
 - System utilities (language, translations)
 """
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, Query
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field
 from typing import Optional, List
