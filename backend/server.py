@@ -3747,7 +3747,9 @@ async def get_realtime_chat_for_athlete(athlete_id: str):
 async def root():
     return {"message": "RunWisely AI Coach API"}
 
-# Athlete Profile routes
+# Athlete Profile routes - MOVED to routes/athletes_complete.py
+
+# Subscription routes - MOVED to routes/subscriptions_complete.py
 @api_router.post("/athlete", response_model=AthleteProfile)
 async def create_athlete_profile(profile: AthleteProfile):
     # Check if email already exists
