@@ -225,14 +225,17 @@ const WeatherCard = () => {
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <div>
+        <div className="flex-1">
           <h3 className="text-lg font-semibold" style={{ color: 'var(--text-hi)' }}>
             {t('weather.title')}
           </h3>
           {locationName && (
-            <p className="text-xs mt-0.5" style={{ color: 'var(--text-med)' }}>
-              {locationName}
-            </p>
+            <div className="flex items-center gap-1 mt-1">
+              <MapPin className="w-3 h-3" style={{ color: 'var(--c-brand-500)' }} />
+              <p className="text-xs" style={{ color: 'var(--text-med)' }}>
+                {locationName}
+              </p>
+            </div>
           )}
         </div>
         <div style={{ color: 'var(--c-brand-500)' }}>
