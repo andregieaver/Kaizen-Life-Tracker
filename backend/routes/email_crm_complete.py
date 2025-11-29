@@ -16,27 +16,17 @@ import uuid
 import logging
 import os
 
-# Import email service
+# Import email service and shared utilities
 import sys
 sys.path.append('/app/backend')
 from email_service import get_email_service
+from utils import prepare_for_mongo, get_db
 
 # Initialize router
 router = APIRouter(prefix="/api", tags=["email_crm"])
 
 # MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
-
-# Helper functions
-def prepare_for_mongo(data):
-    """Prepare data for MongoDB storage by converting datetime objects to ISO strings"""
-    if isinstance(data, dict):
-        for key, value in data.items():
-            if isinstance(value, datetime):
-                data[key] = value.isoformat()
-    return data
+db = get_db()
 
 # Pydantic Models
 class EmailTemplateUpdate(BaseModel):
