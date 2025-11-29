@@ -121,7 +121,7 @@ Lines removed entirely
 **Fix Applied:**
 ```bash
 # BEFORE
-CORS_ORIGINS="https://trainsmart-cms.emergent.host,https://kaizenlifetracker.com,https://modular-backend-12.preview.emergentagent.com"
+CORS_ORIGINS="https://trainsmart-cms.emergent.host,https://kaizenlifetracker.com,https://api-decompose.preview.emergentagent.com"
 
 # AFTER
 CORS_ORIGINS="*"
