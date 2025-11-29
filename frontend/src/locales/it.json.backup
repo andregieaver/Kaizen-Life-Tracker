@@ -2016,14 +2016,14 @@
     }
   },
   "onboarding": {
-    "title": "Benvenuto! Iniziamo",
+    "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
     "skipStep": "Skip This Step",
     "skipForNow": "Skip For Now",
     "neverShow": "Never Show Again",
     "confirmNeverShow": "Are you sure?",
-    "back": "Indietro",
-    "next": "Prossimo",
+    "back": "Back",
+    "next": "Next",
     "finish": "Finish",
     "requiredFields": "Required fields",
     "optional": "Optional",
@@ -2046,21 +2046,21 @@
       "integration": {
         "title": "Connect Your Devices",
         "description": "Connect a fitness tracker",
-        "hint": "Dopo la connessione, torna qui per continuare il processo di onboarding."
+        "hint": "After connecting, come back here."
       },
       "communityPost": {
         "title": "Join the Community",
         "description": "Introduce yourself",
         "postContent": "Your First Post",
         "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Aggiungi immagine",
+        "addImage": "Add Image",
         "hint": "Share about your fitness goals!"
       }
     },
     "celebration": {
-      "title": "Benvenuto a bordo! 🎉",
+      "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
-      "cta": "Andiamo!"
+      "cta": "Let's Go!"
     },
     "description": "Iniziamo il tuo percorso di allenamento",
     "insightMessage": "Useremo queste informazioni per personalizzare la tua esperienza"

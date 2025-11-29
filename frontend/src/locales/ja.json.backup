@@ -2289,14 +2289,14 @@
     }
   },
   "onboarding": {
-    "title": "いらっしゃいませ！始めましょう",
+    "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
     "skipStep": "Skip This Step",
     "skipForNow": "Skip For Now",
     "neverShow": "Never Show Again",
     "confirmNeverShow": "Are you sure?",
-    "back": "戻る",
-    "next": "次",
+    "back": "Back",
+    "next": "Next",
     "finish": "Finish",
     "requiredFields": "Required fields",
     "optional": "Optional",
@@ -2319,21 +2319,21 @@
       "integration": {
         "title": "Connect Your Devices",
         "description": "Connect a fitness tracker",
-        "hint": "接続後、ここに戻ってオンボーディング プロセスを続行してください。"
+        "hint": "After connecting, come back here."
       },
       "communityPost": {
         "title": "Join the Community",
         "description": "Introduce yourself",
         "postContent": "Your First Post",
         "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "画像を追加",
+        "addImage": "Add Image",
         "hint": "Share about your fitness goals!"
       }
     },
     "celebration": {
-      "title": "ようこそ！ 🎉",
+      "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
-      "cta": "さあ行こう！"
+      "cta": "Let's Go!"
     },
     "description": "トレーニングの旅を始めましょう",
     "insightMessage": "この情報を使用して、あなたの体験をパーソナライズします"

@@ -30,14 +30,14 @@
     "enterDetails": "Indtast dine detaljer for at komme i gang med personlig træning"
   },
   "onboarding": {
-    "title": "Velkomst! Lad os komme i gang",
+    "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
     "skipStep": "Skip This Step",
     "skipForNow": "Skip For Now",
     "neverShow": "Never Show Again",
     "confirmNeverShow": "Are you sure?",
-    "back": "Tilbage",
-    "next": "Næste",
+    "back": "Back",
+    "next": "Next",
     "finish": "Finish",
     "requiredFields": "Required fields",
     "optional": "Optional",
@@ -60,21 +60,21 @@
       "integration": {
         "title": "Connect Your Devices",
         "description": "Connect a fitness tracker",
-        "hint": "Når du har oprettet forbindelse, skal du komme tilbage hertil for at fortsætte onboarding-processen."
+        "hint": "After connecting, come back here."
       },
       "communityPost": {
         "title": "Join the Community",
         "description": "Introduce yourself",
         "postContent": "Your First Post",
         "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Tilføj billede",
+        "addImage": "Add Image",
         "hint": "Share about your fitness goals!"
       }
     },
     "celebration": {
-      "title": "Velkommen ombord! 🎉",
+      "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
-      "cta": "Lad os gå!"
+      "cta": "Let's Go!"
     },
     "description": "Lad os komme i gang med din træningsrejse",
     "insightMessage": "Vi vil bruge disse oplysninger til at tilpasse din oplevelse"

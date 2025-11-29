@@ -2054,14 +2054,14 @@
     }
   },
   "onboarding": {
-    "title": "欢迎！让我们开始吧",
+    "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
     "skipStep": "Skip This Step",
     "skipForNow": "Skip For Now",
     "neverShow": "Never Show Again",
     "confirmNeverShow": "Are you sure?",
-    "back": "后退",
-    "next": "下一个",
+    "back": "Back",
+    "next": "Next",
     "finish": "Finish",
     "requiredFields": "Required fields",
     "optional": "Optional",
@@ -2084,21 +2084,21 @@
       "integration": {
         "title": "Connect Your Devices",
         "description": "Connect a fitness tracker",
-        "hint": "连接后，返回此处继续入职流程。"
+        "hint": "After connecting, come back here."
       },
       "communityPost": {
         "title": "Join the Community",
         "description": "Introduce yourself",
         "postContent": "Your First Post",
         "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "添加图片",
+        "addImage": "Add Image",
         "hint": "Share about your fitness goals!"
       }
     },
     "celebration": {
-      "title": "欢迎登机！ 🎉",
+      "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
-      "cta": "我们走吧！"
+      "cta": "Let's Go!"
     },
     "description": "让我们开始您的训练之旅",
     "insightMessage": "我们将使用此信息来个性化您的体验"

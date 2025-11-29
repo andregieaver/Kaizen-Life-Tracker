@@ -30,14 +30,14 @@
     "enterDetails": "Entrez vos détails pour commencer l'entraînement personnalisé"
   },
   "onboarding": {
-    "title": "Welcome! Let's Get Started",
+    "title": "¡Bienvenido! Empecemos",
     "step": "Step {{current}} of {{total}}",
     "skipStep": "Skip This Step",
     "skipForNow": "Skip For Now",
     "neverShow": "Never Show Again",
     "confirmNeverShow": "Are you sure?",
-    "back": "Back",
-    "next": "Next",
+    "back": "Atrás",
+    "next": "Próximo",
     "finish": "Finish",
     "requiredFields": "Required fields",
     "optional": "Optional",
@@ -60,21 +60,21 @@
       "integration": {
         "title": "Connect Your Devices",
         "description": "Connect a fitness tracker",
-        "hint": "After connecting, come back here."
+        "hint": "Después de conectarse, regrese aquí para continuar con el proceso de incorporación."
       },
       "communityPost": {
         "title": "Join the Community",
         "description": "Introduce yourself",
         "postContent": "Your First Post",
         "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Add Image",
+        "addImage": "Agregar imagen",
         "hint": "Share about your fitness goals!"
       }
     },
     "celebration": {
-      "title": "Welcome Aboard! 🎉",
+      "title": "¡Bienvenido a bordo! 🎉",
       "message": "You're all set!",
-      "cta": "Let's Go!"
+      "cta": "¡Vamos!"
     },
     "description": "Comencemos con tu viaje de entrenamiento",
     "insightMessage": "Usaremos esta información para personalizar tu experiencia"
@@ -2551,7 +2551,7 @@
     "connectIntegrations": "Conecta Oura, Strava u otras integraciones para calcular tu índice corporal",
     "missingData": "Datos faltantes",
     "noData": "No hay datos disponibles",
-    "error": "Error al cargar",
+    "error": "No se pudo cargar",
     "onboarding": {
       "title": "Welcome! Let's Get Started",
       "step": "Step {{current}} of {{total}}",

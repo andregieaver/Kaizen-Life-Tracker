@@ -30,14 +30,14 @@
     "enterDetails": "Entrez vos détails pour commencer l'entraînement personnalisé"
   },
   "onboarding": {
-    "title": "Accueillir! Commençons",
+    "title": "Welcome! Let's Get Started",
     "step": "Step {{current}} of {{total}}",
     "skipStep": "Skip This Step",
     "skipForNow": "Skip For Now",
     "neverShow": "Never Show Again",
     "confirmNeverShow": "Are you sure?",
-    "back": "Dos",
-    "next": "Suivant",
+    "back": "Back",
+    "next": "Next",
     "finish": "Finish",
     "requiredFields": "Required fields",
     "optional": "Optional",
@@ -60,24 +60,24 @@
       "integration": {
         "title": "Connect Your Devices",
         "description": "Connect a fitness tracker",
-        "hint": "Après vous être connecté, revenez ici pour poursuivre le processus d'intégration."
+        "hint": "After connecting, come back here."
       },
       "communityPost": {
         "title": "Join the Community",
         "description": "Introduce yourself",
         "postContent": "Your First Post",
         "placeholder": "Hi everyone! I'm excited to start...",
-        "addImage": "Ajouter une image",
+        "addImage": "Add Image",
         "hint": "Share about your fitness goals!"
       }
     },
     "celebration": {
-      "title": "Bienvenue à bord ! 🎉",
+      "title": "Welcome Aboard! 🎉",
       "message": "You're all set!",
-      "cta": "Allons-y!"
+      "cta": "Let's Go!"
     },
-    "description": "Commençons votre parcours d'entraînement",
-    "insightMessage": "Nous utiliserons ces informations pour personnaliser votre expérience"
+    "description": "Comencemos con tu viaje de entrenamiento",
+    "insightMessage": "Usaremos esta información para personalizar tu experiencia"
   },
   "dashboard": {
     "welcome": "Bon retour",
@@ -168,45 +168,6 @@
           "title": "Welcome Aboard! 🎉",
           "message": "You're all set!",
           "cta": "Let's Go!"
-        }
-      },
-      "weather": {
-        "title": "Météo actuelle",
-        "temperature": "Température",
-        "feelsLike": "Ressenti",
-        "wind": "Vent",
-        "humidity": "Humidité",
-        "precipitation": "Précipitations (1h)",
-        "pressure": "Pression",
-        "refresh": "Actualiser",
-        "loading": "Chargement météo...",
-        "errors": {
-          "permissionDenied": "Permission de localisation refusée",
-          "locationUnavailable": "Localisation indisponible",
-          "timeout": "Délai de demande de localisation dépassé",
-          "failedToGetLocation": "Impossible d'obtenir votre position",
-          "notSupported": "La géolocalisation n'est pas prise en charge par votre navigateur"
-        },
-        "tryAgain": "Réessayer",
-        "recommendations": {
-          "good": "Bonnes conditions pour l'entraînement en extérieur",
-          "caution": "Conditions difficiles",
-          "poor": "Entraînement en intérieur recommandé",
-          "coldWeather": "Temps froid - habillez-vous chaudement",
-          "coolWeather": "Temps frais - habillez-vous en couches",
-          "hotWeather": "Temps chaud - restez hydraté",
-          "veryHot": "Très chaud - entraînement en intérieur recommandé",
-          "highWinds": "Vents forts - conditions difficiles",
-          "moderateWinds": "Vents modérés - ajustez le rythme",
-          "heavyRain": "Pluie forte - entraînement en intérieur recommandé",
-          "lightRain": "Pluie attendue - apportez l'équipement approprié",
-          "idealConditions": "Conditions idéales pour les activités en extérieur",
-          "layerUp": "Habillez-vous en couches et échauffez-vous progressivement",
-          "bringWater": "Apportez de l'eau supplémentaire et envisagez un entraînement tôt le matin/soir",
-          "heatRisk": "Risque élevé de chaleur - envisagez des alternatives en intérieur",
-          "windWarning": "Les vents forts peuvent affecter les activités en extérieur",
-          "rainfallExpected": "Précipitations importantes attendues",
-          "lightRainExpected": "Pluie légère attendue"
         }
       }
     }
@@ -548,7 +509,7 @@
     "tabs": {
       "feed": "Fil d'actualités",
       "following": "Abonnements",
-      "bookmarks": "Favoris",
+      "bookmarks": "Marcadores",
       "challenges": "Défis",
       "events": "Événements",
       "myGroups": "Mes groupes",
@@ -710,7 +671,7 @@
       "beFirstToShare": "Sois le premier à partager quelque chose !",
       "noFollowingPosts": "Pas de publications des personnes que tu suis",
       "followOthers": "Suis d'autres personnes pour voir leurs publications ici",
-      "followUsersToSee": "Suivez les utilisateurs pour voir leurs publications",
+      "followUsersToSee": "Sigue a los usuarios para ver sus publicaciones",
       "loadingPosts": "Chargement des publications..."
     },
     "messages": {
@@ -891,7 +852,7 @@
   "crm": {
     "title": "Gestion des utilisateurs",
     "description": "Voir et gérer tous les utilisateurs enregistrés",
-    "usersCount": "Affichage de {{filtered}} sur {{total}} utilisateurs",
+    "usersCount": "Mostrando {{filtered}} de {{total}} usuarios",
     "totalUsers": "Total utilisateurs",
     "activeUsers": "Utilisateurs actifs",
     "newUsersThisMonth": "Nouveaux ce mois-ci",
@@ -1760,14 +1721,14 @@
       "annualRecurringRevenue": "Revenu récurrent annuel",
       "averageRevenuePerUser": "Revenu moyen par utilisateur",
       "averageRevenuePerPaidUser": "Revenu moyen par utilisateur payant",
-      "totalSubscribers": "Total d'Abonnés",
-      "active": "Actifs",
-      "trial": "Essai",
-      "cancelled": "Annulés",
-      "comparedToPrevious": "Comparé à la période précédente",
-      "subscriberGrowth": "Croissance des Abonnés",
-      "loading": "Chargement...",
-      "noData": "Aucune donnée disponible"
+      "totalSubscribers": "Total de Suscriptores",
+      "active": "Activos",
+      "trial": "Prueba",
+      "cancelled": "Cancelados",
+      "comparedToPrevious": "Comparado con período anterior",
+      "subscriberGrowth": "Crecimiento de Suscriptores",
+      "loading": "Cargando...",
+      "noData": "No hay datos disponibles"
     }
   },
   "recipeBrowser": {
@@ -2227,14 +2188,14 @@
     "conversionRate": "Taux de conversion",
     "loading": "Chargement...",
     "tryAgain": "Réessayer",
-    "description": "Partagez {{appName}} avec vos amis et gagnez des récompenses ! Vous et vos amis recevez des codes de réduction lorsqu'ils s'abonnent.",
-    "shareMessage": "Découvrez {{appName}} ! Rejoignez en utilisant mon lien de parrainage : {{link}}",
-    "emailSubject": "Rejoignez {{appName}} avec mon lien de parrainage",
-    "emailBody": "Je voulais partager {{appName}} avec vous ! Rejoignez en utilisant mon lien de parrainage et nous recevrons tous les deux des récompenses : {{link}}",
-    "howItWorksInfo": "Gagnez {{discount}}% de réduction sur votre prochain paiement pour chaque ami qui s'abonne",
-    "discountAvailable": "{{discount}}% de réduction disponible",
-    "discount": "{{percent}}% de réduction",
-    "expires": "Expire le {{date}}"
+    "description": "¡Comparte {{appName}} con amigos y gana recompensas! Tanto tú como tus amigos obtienen códigos de descuento cuando se suscriben.",
+    "shareMessage": "¡Mira {{appName}}! Únete usando mi enlace de referido: {{link}}",
+    "emailSubject": "Únete a {{appName}} con mi enlace de referido",
+    "emailBody": "¡Quería compartir {{appName}} contigo! Únete usando mi enlace de referido y ambos obtendremos recompensas: {{link}}",
+    "howItWorksInfo": "Gana {{discount}}% de descuento en tu próximo pago por cada amigo que se suscriba",
+    "discountAvailable": "{{discount}}% de descuento disponible",
+    "discount": "{{percent}}% de descuento",
+    "expires": "Vence el {{date}}"
   },
   "calculators": {
     "title": "Calculatrices de course",
@@ -2577,20 +2538,20 @@
     "searchEmoji": "Rechercher un emoji..."
   },
   "bodyScore": {
-    "title": "Score Corporel",
-    "description": "Santé et forme physique générale",
-    "excellent": "Excellent",
-    "good": "Bon",
-    "fair": "Correct",
-    "poor": "Faible",
-    "viewBreakdown": "Voir la répartition des composants",
-    "componentsUsed": "Utilisation de {{count}} sur {{total}} composants",
-    "topDrivers": "Principaux moteurs",
-    "topDrags": "Principaux freins",
-    "connectIntegrations": "Connectez Oura, Strava ou d'autres intégrations pour calculer votre score corporel",
-    "missingData": "Données manquantes",
-    "noData": "Aucune donnée disponible",
-    "error": "Échec du chargement",
+    "title": "Índice Corporal",
+    "description": "Salud y fitness general",
+    "excellent": "Excelente",
+    "good": "Bueno",
+    "fair": "Regular",
+    "poor": "Pobre",
+    "viewBreakdown": "Ver desglose de componentes",
+    "componentsUsed": "Usando {{count}} de {{total}} componentes",
+    "topDrivers": "Factores principales",
+    "topDrags": "Factores débiles",
+    "connectIntegrations": "Conecta Oura, Strava u otras integraciones para calcular tu índice corporal",
+    "missingData": "Datos faltantes",
+    "noData": "No hay datos disponibles",
+    "error": "Error al cargar",
     "onboarding": {
       "title": "Welcome! Let's Get Started",
       "step": "Step {{current}} of {{total}}",
@@ -2638,6 +2599,45 @@
         "message": "You're all set!",
         "cta": "Let's Go!"
       }
+    }
+  },
+  "weather": {
+    "title": "Tiempo actual",
+    "temperature": "Temperatura",
+    "feelsLike": "Sensación térmica",
+    "wind": "Viento",
+    "humidity": "Humedad",
+    "precipitation": "Precipitación (1h)",
+    "pressure": "Presión",
+    "refresh": "Actualizar",
+    "loading": "Cargando clima...",
+    "errors": {
+      "permissionDenied": "Permiso de ubicación denegado",
+      "locationUnavailable": "Ubicación no disponible",
+      "timeout": "Tiempo de espera de ubicación agotado",
+      "failedToGetLocation": "No se pudo obtener tu ubicación",
+      "notSupported": "La geolocalización no es compatible con tu navegador"
+    },
+    "tryAgain": "Intentar de nuevo",
+    "recommendations": {
+      "good": "Buenas condiciones para entrenamiento al aire libre",
+      "caution": "Condiciones desafiantes",
+      "poor": "Se recomienda entrenamiento en interior",
+      "coldWeather": "Clima frío - abrígate bien",
+      "coolWeather": "Clima fresco - vístete en capas",
+      "hotWeather": "Clima caluroso - mantente hidratado",
+      "veryHot": "Muy caluroso - se recomienda entrenamiento en interior",
+      "highWinds": "Vientos fuertes - condiciones desafiantes",
+      "moderateWinds": "Vientos moderados - ajusta el ritmo",
+      "heavyRain": "Lluvia intensa - se recomienda entrenamiento en interior",
+      "lightRain": "Se espera lluvia - trae equipo apropiado",
+      "idealConditions": "Condiciones ideales para actividades al aire libre",
+      "layerUp": "Vístete en capas y calienta gradualmente",
+      "bringWater": "Trae agua extra y considera entrenar temprano en la mañana/tarde",
+      "heatRisk": "Alto riesgo de calor - considera alternativas en interior",
+      "windWarning": "Los vientos fuertes pueden afectar las actividades al aire libre",
+      "rainfallExpected": "Se espera precipitación significativa",
+      "lightRainExpected": "Se espera lluvia ligera"
     }
   }
 }
