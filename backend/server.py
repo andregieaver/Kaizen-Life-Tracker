@@ -3859,8 +3859,6 @@ async def get_personal_records(athlete_id: str):
 # ========================================
 # SUPPORT AGENT ENDPOINTS (All Logged-in Users)
 # ========================================
-# SUPPORT AGENT ENDPOINTS (All Logged-in Users)
-# ========================================
 
 class SupportAgentChatRequest(BaseModel):
     athlete_id: str
