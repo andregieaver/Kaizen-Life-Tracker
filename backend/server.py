@@ -9017,7 +9017,6 @@ async def chat_with_agent(request: AgentChatRequest):
 # Legacy Strava Integration routes moved to routes/integrations_strava.py
 
 # Oura OAuth routes
-# Oura OAuth routes
 @api_router.post("/integrations/oura/{athlete_id}/credentials")
 async def save_oura_credentials(athlete_id: str, credentials: OuraCredentials):
     """Save user-specific Oura API credentials"""
