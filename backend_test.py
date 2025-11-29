@@ -397,7 +397,13 @@ def test_critical_endpoints_after_refactoring():
         
         if posts_response.status_code == 200:
             posts_data = posts_response.json()
-            posts_count = len(posts_data.get("posts", []))
+            # Handle both dict and list responses
+            if isinstance(posts_data, dict):
+                posts_count = len(posts_data.get("posts", []))
+            elif isinstance(posts_data, list):
+                posts_count = len(posts_data)
+            else:
+                posts_count = 0
             print_test_result("List Community Posts", True, f"Found {posts_count} posts")
         else:
             print_test_result("List Community Posts", False, f"Status: {posts_response.status_code}")
