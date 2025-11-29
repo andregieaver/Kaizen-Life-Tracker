@@ -17,6 +17,40 @@ const WeatherCard = () => {
     fetchWeather();
   }, []);
 
+  const getLocationName = async (latitude, longitude) => {
+    try {
+      // Use OpenStreetMap Nominatim for reverse geocoding (free, no API key needed)
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`,
+        {
+          headers: {
+            'User-Agent': 'TrainSmart Weather App'
+          }
+        }
+      );
+      
+      const address = response.data?.address;
+      if (address) {
+        // Try to get city, town, village, or municipality
+        const location = address.city || address.town || address.village || address.municipality || address.county;
+        const country = address.country;
+        
+        if (location && country) {
+          return `${location}, ${country}`;
+        } else if (location) {
+          return location;
+        } else if (country) {
+          return country;
+        }
+      }
+      
+      return null;
+    } catch (err) {
+      console.error('Error fetching location name:', err);
+      return null;
+    }
+  };
+
   const fetchWeather = async () => {
     try {
       setLoading(true);
@@ -35,14 +69,19 @@ const WeatherCard = () => {
           try {
             const { latitude, longitude } = position.coords;
             
-            const response = await axios.get(`${API}/api/weather/current`, {
-              params: {
-                lat: latitude,
-                lon: longitude
-              }
-            });
+            // Fetch weather and location name in parallel
+            const [weatherResponse, locName] = await Promise.all([
+              axios.get(`${API}/api/weather/current`, {
+                params: {
+                  lat: latitude,
+                  lon: longitude
+                }
+              }),
+              getLocationName(latitude, longitude)
+            ]);
 
-            setWeather(response.data);
+            setWeather(weatherResponse.data);
+            setLocationName(locName);
             setLoading(false);
           } catch (err) {
             console.error('Error fetching weather:', err);
