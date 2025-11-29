@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Community Feature Backend API Testing
-Tests the complete Community feature backend API endpoints as requested
+Comprehensive Backend Testing After Refactoring
+Tests critical endpoints after server.py refactoring from 14,234 lines to 5,986 lines
 """
 
 import requests
@@ -15,6 +15,10 @@ from PIL import Image
 
 # Backend URL from environment
 BACKEND_URL = "https://api-decompose.preview.emergentagent.com/api"
+
+# Test credentials from review request
+SUPER_ADMIN_CREDENTIALS = {"email": "andre@humanweb.no", "password": "Pernilla666!"}
+REGULAR_USER_CREDENTIALS = {"email": "testuser@example.com", "password": "password123"}
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
