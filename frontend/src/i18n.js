@@ -26,8 +26,30 @@ const resources = {
   it: { translation: it }
 };
 
+// Custom language detector to handle invalid language tags
+const languageDetector = new LanguageDetector();
+languageDetector.addDetector({
+  name: 'customNavigator',
+  lookup() {
+    let found = [];
+    if (typeof navigator !== 'undefined') {
+      if (navigator.languages) {
+        // Clean up invalid language tags
+        found = navigator.languages.map(lang => {
+          // Remove @posix and other invalid suffixes
+          return lang.replace(/@.*$/, '').split('-')[0];
+        });
+      }
+      if (navigator.language) {
+        found.push(navigator.language.replace(/@.*$/, '').split('-')[0]);
+      }
+    }
+    return found.filter(lang => resources[lang]);
+  }
+});
+
 i18n
-  .use(LanguageDetector)
+  .use(languageDetector)
   .use(initReactI18next)
   .init({
     resources,
@@ -36,7 +58,7 @@ i18n
       escapeValue: false
     },
     detection: {
-      order: ['localStorage', 'navigator'],
+      order: ['localStorage', 'customNavigator'],
       caches: ['localStorage']
     },
     // Language normalization to handle invalid language tags
