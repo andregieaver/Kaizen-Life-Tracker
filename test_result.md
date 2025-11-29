@@ -2811,6 +2811,18 @@ frontend:
         comment: "Drinks/Hydration tracker frontend implementation complete. FEATURES: 1) Header with title, description, and 'Log Drink' button. 2) Date selector to filter drinks by date. 3) Summary cards showing: Total ml consumed today, Goal progress (% of 2000ml goal), Number of logs today. 4) Drinks list displaying all logs with drink type icons/colors, amount, time, notes, and delete buttons. 5) Add Drink Modal with: Drink type selector (8 types with icons/colors), Amount selector (quick buttons for 250/330/500/750/1000ml plus custom input), Date and time pickers, Notes field, Cancel/Log Drink buttons. 6) Dark theme consistent with app design. Route: /dashboard/drinks. TESTING NEEDED: 1) Navigate to /dashboard/drinks, 2) Log different drink types, 3) Verify summary calculations, 4) Filter by date, 5) Delete drink log."
 
 frontend:
+  - task: "Weather Card Location Display on Today Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/WeatherCard.js, /app/frontend/src/components/Today.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Weather Card location display feature implemented on Today page. IMPLEMENTATION: 1) Added locationName state to WeatherCard component to store reverse geocoded location, 2) Implemented getLocationName() function using OpenStreetMap Nominatim API for reverse geocoding (converts coordinates to readable location), 3) Fetches weather and location name in parallel using Promise.all, 4) Displays location with MapPin icon under 'Current Weather' title (lines 232-239), 5) Location format: 'City, Country' (e.g., 'Oslo, Norway' or 'San Francisco, United States'), 6) Styled with text-xs and medium color (var(--text-med)), 7) MapPin icon styled with brand color (var(--c-brand-500)). TESTING NEEDED: 1) Login with test credentials, 2) Navigate to Today page (/dashboard/today), 3) Allow location permission when prompted, 4) Wait for weather card to load, 5) Verify 'Current Weather' title displays, 6) CRITICAL: Verify location name appears under title with MapPin icon, 7) Check location text styling (small text, medium color), 8) Check browser console for errors, 9) Verify weather data loads correctly with temperature and conditions."
+
   - task: "Dashboard Floating Action Buttons"
     implemented: true
     working: "NA"
