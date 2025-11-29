@@ -9016,6 +9016,9 @@ async def chat_with_agent(request: AgentChatRequest):
         logging.error(f"Agent chat error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to chat with agent: {str(e)}")
 
+# ============================================================================
+# OURA INTEGRATION ENDPOINTS - Moved to routes/integrations_oura.py
+# ============================================================================
 
 # ==========================================
 # OTHER INTEGRATION STUB ENDPOINTS
