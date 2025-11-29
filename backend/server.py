@@ -3856,25 +3856,10 @@ async def get_personal_records(athlete_id: str):
 # Management Agent endpoints - MOVED to routes/agent_assistants_complete.py
 
 
+# Support Agent endpoints - MOVED to routes/agent_assistants_complete.py
+
 # ========================================
-# SUPPORT AGENT ENDPOINTS (All Logged-in Users)
-# ========================================
-
-class SupportAgentChatRequest(BaseModel):
-    athlete_id: str
-    session_id: str
-    message: str
-    media: Optional[List[dict]] = []  # Array of media items: [{"type": "image/video", "url": "...", "thumbnail": "..."}]
-
-class SupportAgentMessage(BaseModel):
-    athlete_id: str
-    session_id: str
-    message: str
-    response: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    action_taken: Optional[str] = None
-
-@api_router.post("/support-agent/chat")
+# AGENTS MANAGEMENT ENDPOINTS (Super Admin Only)
 async def chat_with_support_agent(chat_request: SupportAgentChatRequest):
     """
     User-scoped AI assistant with full access to user's own data
