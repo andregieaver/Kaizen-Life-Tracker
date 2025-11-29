@@ -22,7 +22,11 @@ const Referrals = ({ athleteId }) => {
   const [settingsLoaded, setSettingsLoaded] = useState(false);
 
   useEffect(() => {
-    initializeSiteTitle(setSiteTitle).then(() => setSettingsLoaded(true));
+    // Initialize site title
+    initializeSiteTitle(setSiteTitle);
+    setSettingsLoaded(true); // Settings are loaded synchronously from cache or default
+    
+    // Generate referral code
     generateReferralCode();
   }, [athleteId]);
 
