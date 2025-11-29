@@ -181,6 +181,7 @@ from routes.agents_crud_complete import router as agents_crud_router
 from routes.email_crm_complete import router as email_crm_router
 from routes.waitinglist_complete import router as waitinglist_router
 from routes.analytics_system_complete import router as analytics_system_router
+from routes.misc_utilities_complete import router as misc_utilities_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
