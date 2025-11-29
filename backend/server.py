@@ -3860,7 +3860,6 @@ async def get_personal_records(athlete_id: str):
 
 # ========================================
 # AGENTS MANAGEMENT ENDPOINTS (Super Admin Only)
-# AGENTS MANAGEMENT ENDPOINTS (Super Admin Only)
 # ========================================
 
 @api_router.get("/agents")
