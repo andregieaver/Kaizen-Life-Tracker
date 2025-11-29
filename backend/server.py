@@ -227,6 +227,7 @@ app.include_router(bookmarks_router)
 app.include_router(ai_coach_chat_router)
 app.include_router(agent_assistants_router)
 app.include_router(agents_crud_router)
+app.include_router(email_crm_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
