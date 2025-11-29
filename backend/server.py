@@ -209,6 +209,7 @@ api_router.include_router(groups_router)
 api_router.include_router(community_misc_router)
 api_router.include_router(integrations_basic_router)
 api_router.include_router(integrations_strava_router)
+api_router.include_router(integrations_oura_router)
 # ============= END REFACTORED ROUTERS =============
 
 # Helper functions for datetime serialization
