@@ -3860,11 +3860,10 @@ async def get_personal_records(athlete_id: str):
 
 # Support Agent endpoints - MOVED to routes/agent_assistants_complete.py
 
-# ========================================
-# AGENTS MANAGEMENT ENDPOINTS (Super Admin Only)
-# ========================================
+# Agents CRUD endpoints - MOVED to routes/agents_crud_complete.py
 
-@api_router.get("/agents")
+# ============================================================================
+# OURA INTEGRATION ENDPOINTS - Moved to routes/integrations_oura.py
 async def get_agents(athlete_id: str = Query(...)):
     """Get all agents. Super admin gets all, guests get only frontend agents"""
     try:
