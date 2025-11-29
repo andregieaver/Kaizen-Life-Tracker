@@ -18,7 +18,7 @@ import asyncio
 import os
 
 # Initialize router
-router = APIRouter()
+router = APIRouter(prefix="/api", tags=["ai_coach"])
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
