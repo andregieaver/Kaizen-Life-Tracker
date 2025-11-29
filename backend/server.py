@@ -3767,38 +3767,6 @@ async def root():
 # Workout routes - MOVED to routes/workouts_complete.py
 
 
-# Sleep data routes - MOVED to routes/health_metrics_complete.py
-# Readiness score routes - MOVED to routes/health_metrics_complete.py
-
-# Merits / Personal Records routes
-async def log_sleep_data(sleep_data: SleepData):
-    sleep_dict = prepare_for_mongo(sleep_data.model_dump())
-    await db.sleep_data.insert_one(sleep_dict)
-    return sleep_data
-
-@api_router.get("/sleep/{athlete_id}", response_model=List[SleepData])
-async def get_sleep_data(athlete_id: str, limit: int = 14):
-    sleep_data = await db.sleep_data.find(
-        {"athlete_id": athlete_id}, 
-        {"_id": 0}
-    ).sort("date", -1).limit(limit).limit(100).to_list(length=100)
-    return [parse_from_mongo(s) for s in sleep_data]
-
-# Readiness score routes
-@api_router.get("/readiness/{athlete_id}", response_model=ReadinessScore)
-async def get_daily_readiness(athlete_id: str):
-    # Check if we have today's readiness score
-    today = datetime.now(timezone.utc).date().isoformat()
-    existing = await db.readiness_scores.find_one(
-        {"athlete_id": athlete_id, "date": today}, 
-        {"_id": 0}
-    )
-    
-    if existing:
-        return parse_from_mongo(existing)
-    
-    # Calculate new readiness score
-    readiness = await ai_coach.calculate_readiness_score(athlete_id)
     readiness_dict = prepare_for_mongo(readiness.model_dump())
     await db.readiness_scores.insert_one(readiness_dict)
     
