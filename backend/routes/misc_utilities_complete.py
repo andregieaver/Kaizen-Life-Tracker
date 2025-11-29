@@ -478,7 +478,6 @@ class OuraConnector(ProviderConnector):
             import traceback
             logging.error(f"Error in OuraConnector.begin_auth: {e}")
             logging.error(f"Traceback: {traceback.format_exc()}")
---
 @router.get("/providers")
 async def list_providers():
     """List all available providers"""
