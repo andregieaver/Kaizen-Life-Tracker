@@ -865,7 +865,6 @@ async def get_body_score_data(athlete_id: str, response: Response):
             
             if chronic_load > 0:
                 result['acwr'] = acute_load / chronic_load
---
 @router.get("/health")
 async def health_check():
     """Health check endpoint"""
@@ -1067,7 +1066,6 @@ async def startup_scheduler():
         )
 
         scheduler.start()
---
 @router.post("/community/polls/{post_id}/vote")
 async def vote_on_poll(post_id: str, vote_data: dict, athlete_id: str = Query(...)):
     """Vote on a poll"""
