@@ -5732,12 +5732,10 @@ async def verify_super_admin(athlete_id: str):
 # System stats endpoints (stats, waitlist-integration-stats, connected-integration-stats, gender-distribution-stats) moved to routes/system_complete.py
 
 # Email Template Routes
-@api_router.get("/email-templates")
-async def get_email_templates():
-    """Get all email templates"""
-    try:
-        templates = await db.email_templates.find({}, {"_id": 0}).limit(100).to_list(length=100)
-        return templates
+# Email templates & CRM endpoints - MOVED to routes/email_crm_complete.py
+
+# Analytics endpoints start here
+@api_router.post("/analytics/track")
     except Exception as e:
         logging.error(f"Error getting email templates: {e}")
         raise HTTPException(status_code=500, detail=str(e))
