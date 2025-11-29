@@ -167,6 +167,7 @@ from routes.challenges_complete import router as challenges_router
 from routes.events_complete import router as events_router
 from routes.groups_complete import router as groups_router
 from routes.community_misc_complete import router as community_misc_router
+from routes.integrations_basic import router as integrations_basic_router
 
 # Include refactored routers (these routes are now extracted)
 api_router.include_router(auth_router)
