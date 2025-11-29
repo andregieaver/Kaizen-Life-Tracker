@@ -4127,27 +4127,6 @@ async def upload_background_image(athlete_id: str, file: UploadFile = File(...))
 
 # Workout routes - MOVED to routes/workouts_complete.py
 
-# Sleep data routes
-async def log_workout(workout: Workout):
-    workout_dict = prepare_for_mongo(workout.model_dump())
-    await db.workouts.insert_one(workout_dict)
-    return workout
-
-@api_router.get("/workouts/{athlete_id}", response_model=List[Workout])
-async def get_workouts(athlete_id: str, limit: int = 20, date: Optional[str] = None):
-    """Get workouts for an athlete, optionally filtered by date"""
-    query = {"athlete_id": athlete_id}
-    
-    # Add date filter if provided
-    if date:
-        # Match workouts where start_date contains the date string
-        query["start_date"] = {"$regex": f"^{date}"}
-    
-    workouts = await db.workouts.find(
-        query, 
-        {"_id": 0}
-    ).sort("date", -1).limit(limit).limit(100).to_list(length=100)
-    return [parse_from_mongo(w) for w in workouts]
 
 # Sleep data routes
 @api_router.post("/sleep", response_model=SleepData)
