@@ -17,28 +17,17 @@ import os
 import csv
 import io
 
-# Import email service
+# Import email service and shared utilities
 import sys
 sys.path.append('/app/backend')
 from email_service import get_email_service
+from utils import verify_super_admin, get_db
 
 # Initialize router
 router = APIRouter(prefix="/api", tags=["waitinglist"])
 
 # MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
-
-async def verify_super_admin(athlete_id: str):
-    """Verify if athlete is super admin"""
-    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
-    if not athlete:
-        raise HTTPException(status_code=404, detail="User not found")
-    is_admin = athlete.get("is_super_admin", False) or athlete.get("role") == "super_admin"
-    if not is_admin:
-        raise HTTPException(status_code=403, detail="Access denied. Super admin privileges required.")
-    return athlete
+db = get_db()
 
 # ========================================
 # WAITING LIST ENDPOINTS
