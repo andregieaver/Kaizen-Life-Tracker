@@ -9017,7 +9017,7 @@ async def chat_with_agent(request: AgentChatRequest):
 # Legacy Strava Integration routes moved to routes/integrations_strava.py
 
 # Oura OAuth routes
-async def sync_strava_activities_legacy(athlete_id: str, force_full: bool = False):
+@api_router.post("/integrations/oura/{athlete_id}/credentials")
     """Manually sync activities from Strava"""
     try:
         print(f"🔄 [STRAVA SYNC] athlete_id/user_id={athlete_id}, force_full={force_full}")
