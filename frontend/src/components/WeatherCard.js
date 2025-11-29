@@ -11,6 +11,7 @@ const WeatherCard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [locationError, setLocationError] = useState(null);
+  const [locationName, setLocationName] = useState(null);
 
   useEffect(() => {
     fetchWeather();
