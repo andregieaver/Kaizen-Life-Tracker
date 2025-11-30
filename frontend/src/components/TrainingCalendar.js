@@ -269,6 +269,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
   useEffect(() => {
     if (athleteId) {
       loadTrainingBlocks();
+      loadTrainingEvents();
       loadWeeklySummary();
     }
   }, [athleteId, currentDate]);
