@@ -682,6 +682,16 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
               </div>
             </div>
           )}
+          <Button 
+            onClick={() => handleCreateEvent()}
+            className="text-white border-0"
+            style={{ backgroundColor: '#FFB800' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#E6A600'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FFB800'}
+          >
+            <Trophy className="w-4 h-4 mr-2" />
+            Add Event
+          </Button>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button 
