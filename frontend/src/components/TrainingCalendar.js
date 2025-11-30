@@ -463,7 +463,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
   };
 
   // Convert training blocks to calendar events
-  const calendarEvents = trainingBlocks.map(block => {
+  const workoutCalendarEvents = trainingBlocks.map(block => {
     // If start_time is provided, use it; otherwise default to 00:00:00
     const startTime = block.start_time || '00:00';
     const endTime = block.end_time || '23:59';
@@ -474,9 +474,28 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
       start: new Date(block.start_date + 'T' + startTime + ':00'),
       end: new Date(block.end_date + 'T' + endTime + ':59'),
       allDay: !block.start_time, // If no start_time, treat as all-day event
-      resource: block
+      resource: block,
+      type: 'workout'
     };
   });
+
+  // Convert training events to calendar events
+  const eventCalendarEvents = trainingEvents.map(event => {
+    const startTime = event.start_time || '00:00';
+    
+    return {
+      id: event.id,
+      title: event.title,
+      start: new Date(event.event_date + 'T' + startTime + ':00'),
+      end: new Date(event.event_date + 'T' + (event.start_time ? '23:59' : '23:59') + ':59'),
+      allDay: !event.start_time,
+      resource: event,
+      type: 'event'
+    };
+  });
+
+  // Combine both workout and event calendar items
+  const calendarEvents = [...workoutCalendarEvents, ...eventCalendarEvents];
 
   const handleSelectSlot = useCallback((slotInfo) => {
     handleCreateBlock(slotInfo);
