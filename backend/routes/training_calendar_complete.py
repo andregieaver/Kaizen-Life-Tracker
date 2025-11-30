@@ -329,3 +329,87 @@ async def delete_training_block(block_id: str):
         raise HTTPException(status_code=404, detail="Training block not found")
     
     return {"success": True}
+
+# ========================================
+# TRAINING EVENTS ENDPOINTS
+# ========================================
+
+@router.get("/events/{athlete_id}")
+async def get_training_events(athlete_id: str):
+    """Get all training events for an athlete"""
+    events = await db.training_events.find(
+        {"athlete_id": athlete_id},
+        {"_id": 0}
+    ).sort("event_date", 1).limit(100).to_list(length=100)
+    
+    parsed_events = [parse_from_mongo(event) for event in events]
+    return {"events": parsed_events}
+
+
+@router.post("/events")
+async def create_training_event(event: TrainingEvent):
+    """Create a new training event (race, test, competition)"""
+    # Get athlete's unit preference
+    athlete = await db.athlete_profiles.find_one({"id": event.athlete_id}, {"_id": 0})
+    unit_system = athlete.get("distance_unit", "miles") if athlete else "miles"
+    
+    # Override the unit_system with athlete's preference
+    event.unit_system = unit_system
+    
+    event_dict = prepare_for_mongo(event.model_dump())
+    await db.training_events.insert_one(event_dict)
+    return {"success": True, "id": event.id}
+
+
+@router.put("/events/{event_id}")
+async def update_training_event(event_id: str, data: dict):
+    """Update a training event"""
+    # Get the existing event
+    existing_event = await db.training_events.find_one({"id": event_id}, {"_id": 0})
+    if not existing_event:
+        raise HTTPException(status_code=404, detail="Training event not found")
+    
+    # Prepare update data
+    update_data = {
+        "title": data.get("title"),
+        "description": data.get("description"),
+        "event_type": data.get("event_type"),
+        "event_date": data.get("event_date"),
+        "start_time": data.get("start_time"),
+        "target_distance": data.get("target_distance"),
+        "target_time": data.get("target_time"),
+        "target_amount": data.get("target_amount"),
+        "location": data.get("location"),
+        "category": data.get("category"),
+        "notes": data.get("notes"),
+        "actual_time": data.get("actual_time"),
+        "actual_distance": data.get("actual_distance"),
+        "actual_amount": data.get("actual_amount"),
+        "result_notes": data.get("result_notes"),
+        "completed": data.get("completed"),
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    # Remove None values
+    update_data = {k: v for k, v in update_data.items() if v is not None}
+    
+    result = await db.training_events.update_one(
+        {"id": event_id},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0 and result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Training event not found")
+    
+    return {"success": True}
+
+
+@router.delete("/events/{event_id}")
+async def delete_training_event(event_id: str):
+    """Delete a training event"""
+    result = await db.training_events.delete_one({"id": event_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Training event not found")
+    
+    return {"success": True}
