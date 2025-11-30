@@ -511,6 +511,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
 
   const EventComponent = ({ event }) => {
     const block = event.resource;
+    const isEvent = event.type === 'event';
     const isTraining = block.block_type === 'training';
     const isHealth = block.block_type === 'health';
     const isStrava = block.source === 'strava';
@@ -524,7 +525,8 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     
     // Different colors for different sources
     let bgColor = 'bg-blue-500'; // Default for manual training
-    if (isStrava) bgColor = 'bg-orange-500';
+    if (isEvent) bgColor = 'bg-yellow-600'; // Events get a distinct color
+    else if (isStrava) bgColor = 'bg-orange-500';
     else if (isOura) bgColor = 'bg-purple-500';
     else if (isPolar) bgColor = 'bg-red-500';
     else if (isFitbit) bgColor = 'bg-teal-500';
