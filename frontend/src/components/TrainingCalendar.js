@@ -233,10 +233,13 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
 const TrainingCalendar = ({ athleteId, athletePreferences }) => {
   const { t } = useTranslation();
   const [trainingBlocks, setTrainingBlocks] = useState([]);
+  const [trainingEvents, setTrainingEvents] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentView, setCurrentView] = useState(Views.MONTH);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
   const [editingBlock, setEditingBlock] = useState(null);
+  const [editingEvent, setEditingEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [weeklySummary, setWeeklySummary] = useState(null);
   
