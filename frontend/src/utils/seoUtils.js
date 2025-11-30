@@ -138,7 +138,7 @@ export const injectPageSEO = (pageData) => {
   }
 
   if (ogImagePath) {
-    const fullImageUrl = ogImagePath.startsWith('http') 
+    const fullImageUrl = ogImagePath.startsWith('http') || ogImagePath.startsWith('data:')
       ? ogImagePath 
       : `${BACKEND_URL}${ogImagePath}`;
     
