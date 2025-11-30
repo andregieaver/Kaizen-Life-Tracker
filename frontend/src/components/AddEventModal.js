@@ -286,26 +286,28 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
           </div>
 
           {/* Description & Notes */}
-          <div className="space-y-4 pt-4 border-t">
+          <div className="space-y-4 pt-4 border-t border-gray-600">
             <div>
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description" className="text-white">Description</Label>
               <Textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => handleChange('description', e.target.value)}
                 placeholder="Brief description of the event..."
                 rows={2}
+                className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
               />
             </div>
 
             <div>
-              <Label htmlFor="notes">Notes</Label>
+              <Label htmlFor="notes" className="text-white">Notes</Label>
               <Textarea
                 id="notes"
                 value={formData.notes}
                 onChange={(e) => handleChange('notes', e.target.value)}
                 placeholder="Training plan, goals, reminders..."
                 rows={2}
+                className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
               />
             </div>
           </div>
