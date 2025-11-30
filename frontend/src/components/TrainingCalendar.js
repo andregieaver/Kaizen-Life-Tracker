@@ -435,6 +435,33 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     }
   };
 
+  const handleEventSubmit = async (eventData) => {
+    try {
+      const data = {
+        ...eventData,
+        athlete_id: athleteId,
+        target_distance: eventData.target_distance ? parseFloat(eventData.target_distance) : null,
+        target_amount: eventData.target_amount ? parseInt(eventData.target_amount) : null,
+        actual_distance: eventData.actual_distance ? parseFloat(eventData.actual_distance) : null,
+        actual_amount: eventData.actual_amount ? parseInt(eventData.actual_amount) : null,
+      };
+
+      if (editingEvent) {
+        await axios.put(`${API}/training-calendar/events/${editingEvent.id}`, data);
+      } else {
+        await axios.post(`${API}/training-calendar/events`, data);
+      }
+
+      setIsEventDialogOpen(false);
+      setEditingEvent(null);
+      await loadTrainingEvents();
+      await loadWeeklySummary();
+    } catch (error) {
+      logger.error(null, 'Error saving training event:', error);
+      alert('Failed to save event. Please try again.');
+    }
+  };
+
   // Convert training blocks to calendar events
   const calendarEvents = trainingBlocks.map(block => {
     // If start_time is provided, use it; otherwise default to 00:00:00
