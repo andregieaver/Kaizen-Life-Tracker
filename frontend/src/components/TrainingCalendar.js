@@ -372,6 +372,11 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     setIsDialogOpen(true);
   };
 
+  const handleEditEvent = (event) => {
+    setEditingEvent(event);
+    setIsEventDialogOpen(true);
+  };
+
   const handleDeleteBlock = async (blockId) => {
     if (window.confirm('Are you sure you want to delete this training block?')) {
       try {
