@@ -344,6 +344,13 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     setIsDialogOpen(true);
   };
 
+  const handleCreateEvent = (slotInfo = null) => {
+    const eventDate = slotInfo ? moment(slotInfo.start).format('YYYY-MM-DD') : moment(currentDate).format('YYYY-MM-DD');
+    
+    setEditingEvent(null);
+    setIsEventDialogOpen(true);
+  };
+
   const handleEditBlock = (block) => {
     setEditingBlock(block);
     setFormData({
