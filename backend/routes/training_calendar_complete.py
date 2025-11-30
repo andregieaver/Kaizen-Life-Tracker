@@ -42,6 +42,41 @@ class TrainingBlock(BaseModel):
     updated_at: Optional[datetime] = None
 
 
+class TrainingEvent(BaseModel):
+    """Model for training events like races, tests, competitions"""
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    title: str
+    description: Optional[str] = None
+    event_type: str  # 'race', 'test', 'competition', 'goal'
+    event_date: str  # ISO date string (single day event)
+    start_time: Optional[str] = None  # HH:MM format
+    
+    # Event metrics - one of these will be primary
+    target_distance: Optional[float] = None  # For distance-based events
+    target_time: Optional[str] = None  # For time-based events (HH:MM:SS)
+    target_amount: Optional[int] = None  # For count-based events (reps, etc.)
+    
+    # Additional details
+    location: Optional[str] = None
+    unit_system: str = "miles"  # 'miles' or 'km'
+    category: Optional[str] = None  # e.g., '5K', '10K', 'Marathon', 'Triathlon'
+    notes: Optional[str] = None
+    
+    # Results (after event completion)
+    actual_time: Optional[str] = None
+    actual_distance: Optional[float] = None
+    actual_amount: Optional[int] = None
+    result_notes: Optional[str] = None
+    completed: bool = False
+    
+    created_by: str = "user"
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
+
 # Helper functions
 def prepare_for_mongo(data):
     """Prepare data for MongoDB storage by converting datetime objects to ISO strings"""
