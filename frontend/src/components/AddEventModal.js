@@ -105,14 +105,14 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
               </div>
 
               <div>
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category" className="text-white">Category</Label>
                 <Select value={formData.category} onValueChange={(value) => handleChange('category', value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-gray-600 border-gray-500 text-white">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-gray-800 border-gray-700">
                     {categories.map(cat => (
-                      <SelectItem key={cat} value={cat}>
+                      <SelectItem key={cat} value={cat} className="text-white">
                         {cat}
                       </SelectItem>
                     ))}
@@ -123,7 +123,7 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="event_date" className="flex items-center gap-1">
+                <Label htmlFor="event_date" className="flex items-center gap-1 text-white">
                   <Calendar className="w-4 h-4" />
                   Event Date *
                 </Label>
@@ -132,12 +132,13 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                   type="date"
                   value={formData.event_date}
                   onChange={(e) => handleChange('event_date', e.target.value)}
+                  className="bg-gray-600 border-gray-500 text-white"
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="start_time" className="flex items-center gap-1">
+                <Label htmlFor="start_time" className="flex items-center gap-1 text-white">
                   <Clock className="w-4 h-4" />
                   Start Time
                 </Label>
@@ -146,12 +147,13 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                   type="time"
                   value={formData.start_time}
                   onChange={(e) => handleChange('start_time', e.target.value)}
+                  className="bg-gray-600 border-gray-500 text-white"
                 />
               </div>
             </div>
 
             <div>
-              <Label htmlFor="location" className="flex items-center gap-1">
+              <Label htmlFor="location" className="flex items-center gap-1 text-white">
                 <MapPin className="w-4 h-4" />
                 Location
               </Label>
@@ -160,6 +162,7 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                 value={formData.location}
                 onChange={(e) => handleChange('location', e.target.value)}
                 placeholder="e.g., Central Park, New York"
+                className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
               />
             </div>
           </div>
