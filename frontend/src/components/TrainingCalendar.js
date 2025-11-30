@@ -298,6 +298,16 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     }
   };
 
+  const loadTrainingEvents = async () => {
+    try {
+      const response = await axios.get(`${API}/training-calendar/events/${athleteId}`);
+      setTrainingEvents(response.data.events || []);
+    } catch (error) {
+      logger.error(null, 'Error loading training events:', error);
+      setTrainingEvents([]);
+    }
+  };
+
   const loadWeeklySummary = async () => {
     try {
       const year = currentDate.getFullYear();
