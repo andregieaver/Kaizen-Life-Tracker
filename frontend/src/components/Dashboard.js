@@ -379,8 +379,8 @@ const Dashboard = ({ athleteId }) => {
           setSiteTitle(seo.siteTitle);
         }
         if (seo.logoUrl) {
-          // If logoUrl starts with http, use as-is, otherwise prepend backend URL
-          const fullLogoUrl = seo.logoUrl.startsWith('http') 
+          // If logoUrl starts with http or data: (base64), use as-is, otherwise prepend backend URL
+          const fullLogoUrl = seo.logoUrl.startsWith('http') || seo.logoUrl.startsWith('data:')
             ? seo.logoUrl 
             : `${BACKEND_URL}${seo.logoUrl}`;
           console.log('🖼️ Logo URL loaded:', {
