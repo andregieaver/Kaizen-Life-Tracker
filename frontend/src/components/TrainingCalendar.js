@@ -1091,6 +1091,18 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Add Event Modal */}
+      <AddEventModal
+        isOpen={isEventDialogOpen}
+        onClose={() => {
+          setIsEventDialogOpen(false);
+          setEditingEvent(null);
+        }}
+        onSubmit={handleEventSubmit}
+        initialDate={moment(currentDate).format('YYYY-MM-DD')}
+        editingEvent={editingEvent}
+      />
     </div>
   );
 };
