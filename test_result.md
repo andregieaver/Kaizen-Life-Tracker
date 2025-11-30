@@ -688,6 +688,18 @@ agent_communication:
   - agent: "main"
     message: "STRAVA FULL SYNC TIMEOUT FIX IMPLEMENTED - User reported full sync failing on deployed version with custom domain while incremental sync works. Called troubleshoot_agent for RCA. ROOT CAUSE: Full sync processes ALL historical activities synchronously (from epoch 0) which takes several minutes, but axios.post() had default timeout (~60s) and deployment nginx/proxy has timeout limits that terminate long requests. Incremental sync works because it completes quickly. FIX: Added explicit timeout configuration to all sync handlers (handleStravaSync, handleOuraSync, handleGenericSync): 10 minutes for full sync, 2 minutes for incremental. Applied to all 8 integrations. Frontend compiled successfully. TESTING NEEDED: Test full sync on deployed version with custom domain to verify it completes without timeout error."
 
+  - task: "Training Calendar Add Event Feature"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/TrainingCalendar.js, /app/frontend/src/components/AddEventModal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "TRAINING CALENDAR ADD EVENT FEATURE TESTING INITIATED - Testing comprehensive Add Event functionality including event creation, editing, and persistence. TEST SCOPE: 1) Login with andre@humanweb.no credentials, 2) Navigate to Training Calendar from dashboard, 3) Test Race event creation with distance target (Boston Marathon 2026), 4) Test event editing functionality, 5) Test Time-based event creation (5K Time Trial), 6) Verify events persist after page refresh, 7) Verify proper form validation and UI interactions. COMPONENTS IDENTIFIED: TrainingCalendar.js contains main calendar interface with Add Event button (yellow/gold color), AddEventModal.js contains comprehensive form with event types (Race, Test, Competition, Goal), categories (5K, 10K, Marathon, etc.), target goals (Distance, Time, Amount tabs), and all required fields. Ready to begin comprehensive testing."
+
 agent_communication:
   - agent: "testing"
     message: "✅ COMPREHENSIVE BACKEND REFACTORING VERIFICATION COMPLETED SUCCESSFULLY - All critical endpoints tested and verified working correctly after major server.py refactoring. Key findings: 1) Authentication & Core endpoints working (login, profile operations), 2) AI Coach Chat with centralized models functional, 3) Agents system operational, 4) Analytics & System utils working, 5) Waiting List utils functional, 6) Email & CRM utils operational, 7) Community features working, 8) Integrations accessible, 9) Authorization properly enforced, 10) Centralized utilities and models verified. SUCCESS: Server.py refactoring from 14,234 to 5,986 lines (58% reduction) with ~145 endpoints extracted into 45+ modular routers completed successfully with no breaking changes. All critical functionality preserved. Backend is production-ready."
