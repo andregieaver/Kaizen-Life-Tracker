@@ -221,7 +221,7 @@ function App() {
         document.head.appendChild(ogImageTag);
       }
       // Use full URL for OG image
-      const fullImageUrl = seoData.ogImage.startsWith('http') 
+      const fullImageUrl = seoData.ogImage.startsWith('http') || seoData.ogImage.startsWith('data:')
         ? seoData.ogImage 
         : `${BACKEND_URL}${seoData.ogImage}`;
       ogImageTag.setAttribute('content', fullImageUrl);
