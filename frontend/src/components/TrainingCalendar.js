@@ -1102,6 +1102,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
         onSubmit={handleEventSubmit}
         initialDate={moment(currentDate).format('YYYY-MM-DD')}
         editingEvent={editingEvent}
+        userPreferences={athletePreferences}
       />
     </div>
   );
