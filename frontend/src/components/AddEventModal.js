@@ -314,7 +314,7 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
 
           {/* Results Section (for completed events) */}
           {editingEvent && (
-            <div className="space-y-4 pt-4 border-t">
+            <div className="space-y-4 pt-4 border-t border-gray-600">
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -323,7 +323,7 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                   onChange={(e) => handleChange('completed', e.target.checked)}
                   className="rounded"
                 />
-                <Label htmlFor="completed" className="cursor-pointer">
+                <Label htmlFor="completed" className="cursor-pointer text-white">
                   Mark as Completed
                 </Label>
               </div>
@@ -332,46 +332,50 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                 <>
                   <div className="grid grid-cols-3 gap-4">
                     <div>
-                      <Label htmlFor="actual_time">Actual Time</Label>
+                      <Label htmlFor="actual_time" className="text-white">Actual Time</Label>
                       <Input
                         id="actual_time"
                         type="text"
                         value={formData.actual_time}
                         onChange={(e) => handleChange('actual_time', e.target.value)}
                         placeholder="HH:MM:SS"
+                        className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="actual_distance">Actual Distance</Label>
+                      <Label htmlFor="actual_distance" className="text-white">Actual Distance</Label>
                       <Input
                         id="actual_distance"
                         type="number"
                         step="0.01"
                         value={formData.actual_distance}
                         onChange={(e) => handleChange('actual_distance', e.target.value)}
-                        placeholder="miles"
+                        placeholder={formData.unit_system === 'miles' ? 'miles' : 'km'}
+                        className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="actual_amount">Actual Amount</Label>
+                      <Label htmlFor="actual_amount" className="text-white">Actual Amount</Label>
                       <Input
                         id="actual_amount"
                         type="number"
                         value={formData.actual_amount}
                         onChange={(e) => handleChange('actual_amount', e.target.value)}
                         placeholder="count"
+                        className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <Label htmlFor="result_notes">Result Notes</Label>
+                    <Label htmlFor="result_notes" className="text-white">Result Notes</Label>
                     <Textarea
                       id="result_notes"
                       value={formData.result_notes}
                       onChange={(e) => handleChange('result_notes', e.target.value)}
                       placeholder="How did it go? Any notes about the performance..."
                       rows={3}
+                      className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </>
