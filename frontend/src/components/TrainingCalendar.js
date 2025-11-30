@@ -10,12 +10,13 @@ import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { Calendar as CalendarIcon, Plus, Edit, Trash2, Dumbbell, Heart, Clock, MapPin, Timer } from 'lucide-react';
+import { Calendar as CalendarIcon, Plus, Edit, Trash2, Dumbbell, Heart, Clock, MapPin, Timer, Trophy } from 'lucide-react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './TrainingCalendar.css';
 import { formatDistance, formatPace, getDistanceUnitLabel, convertDistanceUnits } from '../utils/formatters';
+import AddEventModal from './AddEventModal';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
