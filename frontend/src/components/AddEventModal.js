@@ -64,9 +64,9 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700 z-[9999] pb-24 sm:pb-6">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+          <DialogTitle className="flex items-center gap-2 text-white">
             <Trophy className="w-5 h-5" />
             {editingEvent ? 'Edit Event' : 'Add Event'}
           </DialogTitle>
@@ -76,26 +76,27 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
           {/* Basic Information */}
           <div className="space-y-4">
             <div>
-              <Label htmlFor="title">Event Name *</Label>
+              <Label htmlFor="title" className="text-white">Event Name *</Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => handleChange('title', e.target.value)}
                 placeholder="e.g., Boston Marathon, 5K Time Trial"
+                className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                 required
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="event_type">Event Type *</Label>
+                <Label htmlFor="event_type" className="text-white">Event Type *</Label>
                 <Select value={formData.event_type} onValueChange={(value) => handleChange('event_type', value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-gray-600 border-gray-500 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-gray-800 border-gray-700">
                     {eventTypes.map(type => (
-                      <SelectItem key={type.value} value={type.value}>
+                      <SelectItem key={type.value} value={type.value} className="text-white">
                         {type.label}
                       </SelectItem>
                     ))}
