@@ -7,7 +7,7 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
-const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = null }) => {
+const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = null, userPreferences = {} }) => {
   const [formData, setFormData] = useState({
     title: editingEvent?.title || '',
     description: editingEvent?.description || '',
@@ -20,6 +20,7 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
     location: editingEvent?.location || '',
     category: editingEvent?.category || '',
     notes: editingEvent?.notes || '',
+    unit_system: editingEvent?.unit_system || userPreferences?.distance_unit || 'miles',
     // Results (for completed events)
     actual_time: editingEvent?.actual_time || '',
     actual_distance: editingEvent?.actual_distance || '',
