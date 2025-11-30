@@ -690,15 +690,18 @@ agent_communication:
 
   - task: "Training Calendar Add Event Feature"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/TrainingCalendar.js, /app/frontend/src/components/AddEventModal.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "TRAINING CALENDAR ADD EVENT FEATURE TESTING INITIATED - Testing comprehensive Add Event functionality including event creation, editing, and persistence. TEST SCOPE: 1) Login with andre@humanweb.no credentials, 2) Navigate to Training Calendar from dashboard, 3) Test Race event creation with distance target (Boston Marathon 2026), 4) Test event editing functionality, 5) Test Time-based event creation (5K Time Trial), 6) Verify events persist after page refresh, 7) Verify proper form validation and UI interactions. COMPONENTS IDENTIFIED: TrainingCalendar.js contains main calendar interface with Add Event button (yellow/gold color), AddEventModal.js contains comprehensive form with event types (Race, Test, Competition, Goal), categories (5K, 10K, Marathon, etc.), target goals (Distance, Time, Amount tabs), and all required fields. Ready to begin comprehensive testing."
+      - working: false
+        agent: "testing"
+        comment: "❌ TRAINING CALENDAR ACCESS ISSUE IDENTIFIED - Unable to complete comprehensive Add Event testing due to persistent access restrictions. TESTING RESULTS: 1) LOGIN SUCCESS ✅ - Successfully authenticated with andre@humanweb.no credentials (athlete_id: abfa7edc-e861-445e-b573-1e5ecea2e2e2), login process working correctly. 2) BACKEND API ACCESS ✅ - Training calendar API endpoint /api/training-calendar/{athlete_id} returns 200 status with empty blocks array, confirming backend functionality is operational. 3) FRONTEND COMPONENT VERIFICATION ✅ - Successfully accessed Training Calendar page once via direct URL navigation, Add Event modal opened correctly with all form fields visible (Event Name, Type, Category, Date, Time, Location, Target Goals with Distance/Time/Amount tabs, Description, Notes). 4) CRITICAL ACCESS ISSUE ❌ - Persistent redirection to landing page (waiting list signup) when attempting to access /dashboard/calendar, suggesting user account lacks proper permissions or subscription level for Training Calendar feature. 5) SESSION MANAGEMENT ✅ - Authentication persists correctly, localStorage contains valid athlete_id, no session timeout issues detected. ROOT CAUSE ANALYSIS: The user account andre@humanweb.no appears to be redirected to a waiting list signup page instead of accessing the Training Calendar feature, indicating either: A) Account lacks required subscription tier for Training Calendar access, B) Feature is gated behind waiting list approval, C) User permissions not properly configured for this feature. RECOMMENDATION: Main agent should verify user account permissions, subscription level, or feature access configuration for andre@humanweb.no to enable Training Calendar access for comprehensive testing."
 
 agent_communication:
   - agent: "testing"
