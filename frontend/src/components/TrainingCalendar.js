@@ -502,7 +502,11 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
   }, []);
 
   const handleSelectEvent = useCallback((event) => {
-    handleEditBlock(event.resource);
+    if (event.type === 'event') {
+      handleEditEvent(event.resource);
+    } else {
+      handleEditBlock(event.resource);
+    }
   }, []);
 
   const EventComponent = ({ event }) => {
