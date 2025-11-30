@@ -255,7 +255,7 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
 
             {activeMetricTab === 'time' && (
               <div>
-                <Label htmlFor="target_time">Target Time (HH:MM:SS)</Label>
+                <Label htmlFor="target_time" className="text-white">Target Time (HH:MM:SS)</Label>
                 <Input
                   id="target_time"
                   type="text"
@@ -263,22 +263,24 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                   onChange={(e) => handleChange('target_time', e.target.value)}
                   placeholder="e.g., 01:30:00"
                   pattern="[0-9]{1,2}:[0-9]{2}:[0-9]{2}"
+                  className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                 />
-                <p className="text-xs text-gray-500 mt-1">Format: hours:minutes:seconds</p>
+                <p className="text-xs text-gray-400 mt-1">Format: hours:minutes:seconds</p>
               </div>
             )}
 
             {activeMetricTab === 'amount' && (
               <div>
-                <Label htmlFor="target_amount">Target Amount (reps/count)</Label>
+                <Label htmlFor="target_amount" className="text-white">Target Amount (reps/count)</Label>
                 <Input
                   id="target_amount"
                   type="number"
                   value={formData.target_amount}
                   onChange={(e) => handleChange('target_amount', e.target.value)}
                   placeholder="e.g., 100"
+                  className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                 />
-                <p className="text-xs text-gray-500 mt-1">For counted activities (push-ups, reps, etc.)</p>
+                <p className="text-xs text-gray-400 mt-1">For counted activities (push-ups, reps, etc.)</p>
               </div>
             )}
           </div>
