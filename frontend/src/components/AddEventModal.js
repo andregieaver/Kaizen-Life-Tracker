@@ -94,9 +94,9 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                   <SelectTrigger className="bg-gray-600 border-gray-500 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700">
+                  <SelectContent className="bg-gray-800 border-gray-700 z-[10000]">
                     {eventTypes.map(type => (
-                      <SelectItem key={type.value} value={type.value} className="text-white">
+                      <SelectItem key={type.value} value={type.value} className="text-white hover:bg-gray-700 focus:bg-gray-700">
                         {type.label}
                       </SelectItem>
                     ))}
@@ -110,9 +110,9 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                   <SelectTrigger className="bg-gray-600 border-gray-500 text-white">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700">
+                  <SelectContent className="bg-gray-800 border-gray-700 z-[10000]">
                     {categories.map(cat => (
-                      <SelectItem key={cat} value={cat} className="text-white">
+                      <SelectItem key={cat} value={cat} className="text-white hover:bg-gray-700 focus:bg-gray-700">
                         {cat}
                       </SelectItem>
                     ))}
