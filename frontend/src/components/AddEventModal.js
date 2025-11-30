@@ -384,11 +384,19 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
           )}
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={onClose}>
+          <div className="flex justify-end gap-2 pt-4 border-t border-gray-600">
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={onClose}
+              className="bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
+            >
               Cancel
             </Button>
-            <Button type="submit">
+            <Button 
+              type="submit"
+              className="bg-teal-600 hover:bg-teal-700 text-white"
+            >
               {editingEvent ? 'Update Event' : 'Create Event'}
             </Button>
           </div>
