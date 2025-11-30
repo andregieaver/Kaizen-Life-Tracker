@@ -538,7 +538,8 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     
     // Icons for different sources
     let sourceIcon = null;
-    if (isStrava) sourceIcon = '🏃';
+    if (isEvent) sourceIcon = '🏆';
+    else if (isStrava) sourceIcon = '🏃';
     else if (isPolar) sourceIcon = '❄️';
     else if (isFitbit) sourceIcon = '📊';
     else if (isGarmin) sourceIcon = '⌚';
@@ -556,19 +557,39 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
           <div className="font-medium truncate flex-1">{block.title}</div>
         </div>
         <div className="flex items-center gap-2 text-xs mt-1 flex-wrap">
-          {block.distance && (
+          {/* For training events, show target metrics */}
+          {isEvent && block.target_distance && (
+            <div className="flex items-center gap-1">
+              <MapPin className="w-3 h-3" />
+              <span>{block.target_distance}{getDistanceUnitLabel(distanceUnit)}</span>
+            </div>
+          )}
+          {isEvent && block.target_time && (
+            <div className="flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              <span>{block.target_time}</span>
+            </div>
+          )}
+          {isEvent && block.location && (
+            <div className="flex items-center gap-1">
+              <MapPin className="w-3 h-3" />
+              <span className="truncate">{block.location}</span>
+            </div>
+          )}
+          {/* For workouts, show regular metrics */}
+          {!isEvent && block.distance && (
             <div className="flex items-center gap-1">
               <MapPin className="w-3 h-3" />
               <span>{block.distance}{getDistanceUnitLabel(distanceUnit)}</span>
             </div>
           )}
-          {block.duration_minutes && (
+          {!isEvent && block.duration_minutes && (
             <div className="flex items-center gap-1">
               <Clock className="w-3 h-3" />
               <span>{block.duration_minutes}min</span>
             </div>
           )}
-          {block.pace_per_unit && (
+          {!isEvent && block.pace_per_unit && (
             <div className="flex items-center gap-1">
               <Timer className="w-3 h-3" />
               <span>{block.pace_per_unit}</span>
