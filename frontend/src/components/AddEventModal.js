@@ -168,8 +168,8 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
           </div>
 
           {/* Target Metrics */}
-          <div className="space-y-3 pt-4 border-t">
-            <Label className="flex items-center gap-1">
+          <div className="space-y-3 pt-4 border-t border-gray-600">
+            <Label className="flex items-center gap-1 text-white">
               <Target className="w-4 h-4" />
               Target Goal (choose one)
             </Label>
@@ -180,6 +180,7 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                 variant={activeMetricTab === 'distance' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setActiveMetricTab('distance')}
+                className={activeMetricTab === 'distance' ? 'bg-teal-600 hover:bg-teal-700 text-white' : 'bg-gray-700 text-white border-gray-600 hover:bg-gray-600'}
               >
                 Distance
               </Button>
@@ -188,6 +189,7 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                 variant={activeMetricTab === 'time' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setActiveMetricTab('time')}
+                className={activeMetricTab === 'time' ? 'bg-teal-600 hover:bg-teal-700 text-white' : 'bg-gray-700 text-white border-gray-600 hover:bg-gray-600'}
               >
                 Time
               </Button>
@@ -196,26 +198,57 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
                 variant={activeMetricTab === 'amount' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setActiveMetricTab('amount')}
+                className={activeMetricTab === 'amount' ? 'bg-teal-600 hover:bg-teal-700 text-white' : 'bg-gray-700 text-white border-gray-600 hover:bg-gray-600'}
               >
                 Amount
               </Button>
             </div>
 
             {activeMetricTab === 'distance' && (
-              <div>
-                <Label htmlFor="target_distance">Target Distance</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="target_distance"
-                    type="number"
-                    step="0.01"
-                    value={formData.target_distance}
-                    onChange={(e) => handleChange('target_distance', e.target.value)}
-                    placeholder="e.g., 26.2"
-                  />
-                  <span className="flex items-center px-3 bg-gray-100 dark:bg-gray-800 rounded text-sm">
-                    miles
-                  </span>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="unit_system" className="text-white">Unit:</Label>
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleChange('unit_system', 'miles')}
+                      className={formData.unit_system === 'miles' 
+                        ? 'bg-teal-600 hover:bg-teal-700 text-white border-teal-600' 
+                        : 'bg-gray-700 text-white border-gray-600 hover:bg-gray-600'}
+                    >
+                      Miles
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleChange('unit_system', 'km')}
+                      className={formData.unit_system === 'km' 
+                        ? 'bg-teal-600 hover:bg-teal-700 text-white border-teal-600' 
+                        : 'bg-gray-700 text-white border-gray-600 hover:bg-gray-600'}
+                    >
+                      Kilometers
+                    </Button>
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="target_distance" className="text-white">Target Distance</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="target_distance"
+                      type="number"
+                      step="0.01"
+                      value={formData.target_distance}
+                      onChange={(e) => handleChange('target_distance', e.target.value)}
+                      placeholder={formData.unit_system === 'miles' ? 'e.g., 26.2' : 'e.g., 42.2'}
+                      className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
+                    />
+                    <span className="flex items-center px-3 bg-gray-700 rounded text-sm text-white">
+                      {formData.unit_system === 'miles' ? 'miles' : 'km'}
+                    </span>
+                  </div>
                 </div>
               </div>
             )}
