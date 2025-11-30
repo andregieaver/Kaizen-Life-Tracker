@@ -705,7 +705,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                 Add Workout
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700 z-[9999] pb-24 sm:pb-6">
               <DialogHeader>
                 <DialogTitle className="text-white">
                   {editingBlock ? 'Edit Workout' : 'Create Workout'}
