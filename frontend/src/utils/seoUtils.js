@@ -53,7 +53,7 @@ export const injectPageSEO = (pageData) => {
   // Update OG image
   if (ogImagePath) {
     // Construct full URL for OG image
-    const fullImageUrl = ogImagePath.startsWith('http') 
+    const fullImageUrl = ogImagePath.startsWith('http') || ogImagePath.startsWith('data:')
       ? ogImagePath 
       : `${BACKEND_URL}${ogImagePath}`;
 
