@@ -101,8 +101,33 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
     onSubmit(cleanedData);
   };
 
+  // Standard distances for common race categories (in miles)
+  const standardDistances = {
+    '5K': { miles: 3.1, km: 5 },
+    '10K': { miles: 6.2, km: 10 },
+    'Half Marathon': { miles: 13.1, km: 21.1 },
+    'Marathon': { miles: 26.2, km: 42.2 },
+    'Ultra': { miles: 31.0, km: 50 },
+    'Sprint Triathlon': { miles: 0.5, km: 0.75 }, // swim portion
+    'Olympic Triathlon': { miles: 0.93, km: 1.5 }, // swim portion
+    'Ironman': { miles: 2.4, km: 3.86 }, // swim portion
+  };
+
   const handleChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => {
+      const updated = { ...prev, [field]: value };
+      
+      // Auto-populate distance when category is selected
+      if (field === 'category' && standardDistances[value]) {
+        const unitSystem = prev.unit_system || 'miles';
+        const distance = standardDistances[value][unitSystem];
+        updated.target_distance = distance;
+        // Also set the active tab to distance
+        setActiveMetricTab('distance');
+      }
+      
+      return updated;
+    });
   };
 
   const eventTypes = [
