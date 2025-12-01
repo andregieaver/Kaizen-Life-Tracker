@@ -126,6 +126,12 @@ const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = 
         setActiveMetricTab('distance');
       }
       
+      // Convert distance when unit system changes
+      if (field === 'unit_system' && prev.category && standardDistances[prev.category]) {
+        const distance = standardDistances[prev.category][value];
+        updated.target_distance = distance;
+      }
+      
       return updated;
     });
   };
