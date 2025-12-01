@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Calendar, Clock, Target, MapPin, Trophy } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Button } from './ui/button';
@@ -9,27 +9,83 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 
 const AddEventModal = ({ isOpen, onClose, onSubmit, initialDate, editingEvent = null, userPreferences = {} }) => {
   const [formData, setFormData] = useState({
-    title: editingEvent?.title || '',
-    description: editingEvent?.description || '',
-    event_type: editingEvent?.event_type || 'race',
-    event_date: editingEvent?.event_date || initialDate || new Date().toISOString().split('T')[0],
-    start_time: editingEvent?.start_time || '',
-    target_distance: editingEvent?.target_distance || '',
-    target_time: editingEvent?.target_time || '',
-    target_amount: editingEvent?.target_amount || '',
-    location: editingEvent?.location || '',
-    category: editingEvent?.category || '',
-    notes: editingEvent?.notes || '',
-    unit_system: editingEvent?.unit_system || userPreferences?.distance_unit || 'miles',
+    title: '',
+    description: '',
+    event_type: 'race',
+    event_date: initialDate || new Date().toISOString().split('T')[0],
+    start_time: '',
+    target_distance: '',
+    target_time: '',
+    target_amount: '',
+    location: '',
+    category: '',
+    notes: '',
+    unit_system: userPreferences?.distance_unit || 'miles',
     // Results (for completed events)
-    actual_time: editingEvent?.actual_time || '',
-    actual_distance: editingEvent?.actual_distance || '',
-    actual_amount: editingEvent?.actual_amount || '',
-    result_notes: editingEvent?.result_notes || '',
-    completed: editingEvent?.completed || false,
+    actual_time: '',
+    actual_distance: '',
+    actual_amount: '',
+    result_notes: '',
+    completed: false,
   });
 
   const [activeMetricTab, setActiveMetricTab] = useState('distance'); // 'distance', 'time', 'amount'
+
+  // Update form data when editingEvent changes
+  useEffect(() => {
+    if (editingEvent) {
+      setFormData({
+        title: editingEvent.title || '',
+        description: editingEvent.description || '',
+        event_type: editingEvent.event_type || 'race',
+        event_date: editingEvent.event_date || initialDate || new Date().toISOString().split('T')[0],
+        start_time: editingEvent.start_time || '',
+        target_distance: editingEvent.target_distance || '',
+        target_time: editingEvent.target_time || '',
+        target_amount: editingEvent.target_amount || '',
+        location: editingEvent.location || '',
+        category: editingEvent.category || '',
+        notes: editingEvent.notes || '',
+        unit_system: editingEvent.unit_system || userPreferences?.distance_unit || 'miles',
+        actual_time: editingEvent.actual_time || '',
+        actual_distance: editingEvent.actual_distance || '',
+        actual_amount: editingEvent.actual_amount || '',
+        result_notes: editingEvent.result_notes || '',
+        completed: editingEvent.completed || false,
+      });
+      
+      // Set active metric tab based on what's populated
+      if (editingEvent.target_distance) {
+        setActiveMetricTab('distance');
+      } else if (editingEvent.target_time) {
+        setActiveMetricTab('time');
+      } else if (editingEvent.target_amount) {
+        setActiveMetricTab('amount');
+      }
+    } else {
+      // Reset form when not editing
+      setFormData({
+        title: '',
+        description: '',
+        event_type: 'race',
+        event_date: initialDate || new Date().toISOString().split('T')[0],
+        start_time: '',
+        target_distance: '',
+        target_time: '',
+        target_amount: '',
+        location: '',
+        category: '',
+        notes: '',
+        unit_system: userPreferences?.distance_unit || 'miles',
+        actual_time: '',
+        actual_distance: '',
+        actual_amount: '',
+        result_notes: '',
+        completed: false,
+      });
+      setActiveMetricTab('distance');
+    }
+  }, [editingEvent, initialDate, userPreferences]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
