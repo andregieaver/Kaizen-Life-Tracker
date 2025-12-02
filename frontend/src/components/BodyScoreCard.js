@@ -330,9 +330,9 @@ const BodyScoreCard = ({ athleteId }) => {
                 const circumference = 2 * Math.PI * 132;
                 const segmentLength = circumference / numSegments;
                 
-                // Define start and end colors (REVERSED: light to dark gray)
-                const startColor = { r: 243, g: 244, b: 246 }; // #F3F4F6 (light)
-                const endColor = { r: 55, g: 65, b: 81 }; // #374151 (dark)
+                // Define start and end colors (dark to light - starting dark at 12 o'clock)
+                const startColor = { r: 55, g: 65, b: 81 }; // #374151 (dark)
+                const endColor = { r: 243, g: 244, b: 246 }; // #F3F4F6 (light)
                 
                 // Calculate how many segments to show based on score
                 const visibleSegments = Math.ceil((scoreResult.totalScore / 100) * numSegments);
@@ -345,7 +345,7 @@ const BodyScoreCard = ({ athleteId }) => {
                   const b = Math.round(startColor.b + (endColor.b - startColor.b) * progress);
                   const color = `rgb(${r}, ${g}, ${b})`;
                   
-                  // Calculate position for this segment
+                  // Calculate position for this segment (clockwise from 12 o'clock)
                   const offset = -circumference + (i * segmentLength);
                   
                   segments.push(
