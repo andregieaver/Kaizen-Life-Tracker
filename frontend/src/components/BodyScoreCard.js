@@ -18,6 +18,7 @@ const BodyScoreCard = ({ athleteId }) => {
   const [expanded, setExpanded] = useState(false);
   const [error, setError] = useState(null);
   const [streak, setStreak] = useState(0);
+  const [animatedScore, setAnimatedScore] = useState(0);
   
   // Fetch health data from backend
   const fetchHealthData = async () => {
