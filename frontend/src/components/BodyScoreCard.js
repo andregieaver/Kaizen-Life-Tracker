@@ -310,48 +310,66 @@ const BodyScoreCard = ({ athleteId }) => {
       <CardContent className="space-y-6">
         {/* Score Display */}
         <div className="text-center">
-          <div 
-            className="inline-flex items-center justify-center rounded-full relative body-score-circle"
-            style={{
-              width: '144px', // 50% larger than 96px (24 * 1.5 = 36, 36 * 4 = 144px)
-              height: '144px',
-              background: 'conic-gradient(from 0deg, #ef4444 0%, #f59e0b 25%, #eab308 50%, #22c55e 75%, #10b981 100%)',
-              padding: '6px', // Border thickness
-              borderRadius: '50%',
-            }}
-          >
+          <div className="inline-block relative" style={{ width: '144px', height: '144px' }}>
+            {/* SVG Circular Gradient Gauge */}
+            <svg width="144" height="144" viewBox="0 0 144 144" style={{ transform: 'rotate(-90deg)' }}>
+              <defs>
+                <linearGradient id="bodyScoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style={{ stopColor: '#ef4444', stopOpacity: 1 }} />
+                  <stop offset="25%" style={{ stopColor: '#f59e0b', stopOpacity: 1 }} />
+                  <stop offset="50%" style={{ stopColor: '#eab308', stopOpacity: 1 }} />
+                  <stop offset="75%" style={{ stopColor: '#22c55e', stopOpacity: 1 }} />
+                  <stop offset="100%" style={{ stopColor: '#10b981', stopOpacity: 1 }} />
+                </linearGradient>
+              </defs>
+              {/* Background circle */}
+              <circle
+                cx="72"
+                cy="72"
+                r="66"
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.1)"
+                strokeWidth="8"
+              />
+              {/* Progress circle with gradient */}
+              <circle
+                cx="72"
+                cy="72"
+                r="66"
+                fill="none"
+                stroke="url(#bodyScoreGradient)"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={`${2 * Math.PI * 66}`}
+                strokeDashoffset={`${2 * Math.PI * 66 * (1 - scoreResult.totalScore / 100)}`}
+                style={{ transition: 'stroke-dashoffset 1s ease-in-out' }}
+              />
+            </svg>
+            
+            {/* Score and Crown Overlay */}
             <div 
-              className="flex items-center justify-center w-full h-full rounded-full relative"
-              style={{
-                backgroundColor: 'var(--bg-800)',
-                clipPath: `polygon(0 0, ${scoreResult.totalScore}% 0, ${scoreResult.totalScore}% 100%, 0 100%)`,
-              }}
+              className="absolute inset-0 flex flex-col items-center justify-center"
+              style={{ top: 0, left: 0, right: 0, bottom: 0 }}
             >
+              {scoreResult.totalScore >= 85 && (
+                <Crown 
+                  className="w-8 h-8 mb-1" 
+                  style={{ 
+                    color: '#FFD700',
+                    filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.5))',
+                    strokeWidth: 2
+                  }} 
+                />
+              )}
               <div 
-                className="absolute inset-0 flex flex-col items-center justify-center rounded-full"
-                style={{
-                  backgroundColor: 'var(--bg-800)',
+                className="font-bold" 
+                style={{ 
+                  fontSize: '48px',
+                  color: 'var(--text-hi)',
+                  lineHeight: '1'
                 }}
               >
-                {scoreResult.totalScore >= 85 && (
-                  <Crown 
-                    className="w-8 h-8 mb-1" 
-                    style={{ 
-                      color: '#FFD700',
-                      filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.5))'
-                    }} 
-                  />
-                )}
-                <div 
-                  className="font-bold" 
-                  style={{ 
-                    fontSize: '48px', // 50% larger than 32px (3xl = 30px, so ~48px)
-                    color: 'var(--text-hi)',
-                    lineHeight: '1'
-                  }}
-                >
-                  {scoreResult.totalScore}
-                </div>
+                {scoreResult.totalScore}
               </div>
             </div>
           </div>
