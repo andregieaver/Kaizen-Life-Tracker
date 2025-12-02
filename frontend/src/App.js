@@ -340,7 +340,7 @@ function App() {
             path="/login" 
             element={
               athleteId ? (
-                <Navigate to="/dashboard" replace />
+                <Navigate to="/dashboard/today" replace />
               ) : (
                 <Login onAthleteLogin={handleAthleteLogin} />
               )
