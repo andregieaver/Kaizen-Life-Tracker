@@ -311,18 +311,8 @@ const BodyScoreCard = ({ athleteId }) => {
         {/* Score Display */}
         <div className="text-center">
           <div className="inline-block relative" style={{ width: '144px', height: '144px' }}>
-            {/* SVG Circular Gradient Gauge */}
+            {/* SVG Circular Gradient Gauge with Conic Gradient Effect */}
             <svg width="144" height="144" viewBox="0 0 144 144" style={{ transform: 'rotate(-90deg)' }}>
-              <defs>
-                {/* Conic gradient that follows the circular path */}
-                <linearGradient id="bodyScoreGradient" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" style={{ stopColor: '#374151', stopOpacity: 1 }} />
-                  <stop offset="25%" style={{ stopColor: '#6B7280', stopOpacity: 1 }} />
-                  <stop offset="50%" style={{ stopColor: '#9CA3AF', stopOpacity: 1 }} />
-                  <stop offset="75%" style={{ stopColor: '#D1D5DB', stopOpacity: 1 }} />
-                  <stop offset="100%" style={{ stopColor: '#F3F4F6', stopOpacity: 1 }} />
-                </linearGradient>
-              </defs>
               {/* Background circle */}
               <circle
                 cx="72"
@@ -332,67 +322,70 @@ const BodyScoreCard = ({ athleteId }) => {
                 stroke="rgba(255, 255, 255, 0.1)"
                 strokeWidth="8"
               />
-              {/* Progress circle with gradient - using multiple segments to simulate conic gradient */}
-              <circle
-                cx="72"
-                cy="72"
-                r="66"
-                fill="none"
-                stroke="#374151"
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeDasharray={`${2 * Math.PI * 66 * 0.25} ${2 * Math.PI * 66 * 0.75}`}
-                strokeDashoffset={`${2 * Math.PI * 66 * (1 - Math.min(scoreResult.totalScore / 100, 0.25))}`}
-                style={{ 
-                  transition: 'stroke-dashoffset 1s ease-in-out',
-                  opacity: scoreResult.totalScore > 0 ? 1 : 0
-                }}
-              />
-              <circle
-                cx="72"
-                cy="72"
-                r="66"
-                fill="none"
-                stroke="#6B7280"
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeDasharray={`${2 * Math.PI * 66 * 0.25} ${2 * Math.PI * 66 * 0.75}`}
-                strokeDashoffset={`${2 * Math.PI * 66 * (0.75 - Math.min(Math.max(scoreResult.totalScore / 100 - 0.25, 0), 0.25))}`}
-                style={{ 
-                  transition: 'stroke-dashoffset 1s ease-in-out',
-                  opacity: scoreResult.totalScore > 25 ? 1 : 0
-                }}
-              />
-              <circle
-                cx="72"
-                cy="72"
-                r="66"
-                fill="none"
-                stroke="#9CA3AF"
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeDasharray={`${2 * Math.PI * 66 * 0.25} ${2 * Math.PI * 66 * 0.75}`}
-                strokeDashoffset={`${2 * Math.PI * 66 * (0.5 - Math.min(Math.max(scoreResult.totalScore / 100 - 0.5, 0), 0.25))}`}
-                style={{ 
-                  transition: 'stroke-dashoffset 1s ease-in-out',
-                  opacity: scoreResult.totalScore > 50 ? 1 : 0
-                }}
-              />
-              <circle
-                cx="72"
-                cy="72"
-                r="66"
-                fill="none"
-                stroke="#D1D5DB"
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeDasharray={`${2 * Math.PI * 66 * 0.25} ${2 * Math.PI * 66 * 0.75}`}
-                strokeDashoffset={`${2 * Math.PI * 66 * (0.25 - Math.min(Math.max(scoreResult.totalScore / 100 - 0.75, 0), 0.25))}`}
-                style={{ 
-                  transition: 'stroke-dashoffset 1s ease-in-out',
-                  opacity: scoreResult.totalScore > 75 ? 1 : 0
-                }}
-              />
+              
+              {/* Layered circles to create gradient effect from dark to light */}
+              {/* Dark Gray Segment: 0-25% */}
+              {scoreResult.totalScore >= 0 && (
+                <circle
+                  cx="72"
+                  cy="72"
+                  r="66"
+                  fill="none"
+                  stroke="#374151"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * 66 * Math.min(scoreResult.totalScore / 100, 0.25)} ${2 * Math.PI * 66}`}
+                  style={{ transition: 'stroke-dasharray 1s ease-in-out' }}
+                />
+              )}
+              
+              {/* Medium-Dark Gray Segment: 25-50% */}
+              {scoreResult.totalScore > 25 && (
+                <circle
+                  cx="72"
+                  cy="72"
+                  r="66"
+                  fill="none"
+                  stroke="#6B7280"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * 66 * Math.min(Math.max(scoreResult.totalScore / 100 - 0.25, 0), 0.25)} ${2 * Math.PI * 66}`}
+                  strokeDashoffset={`${-2 * Math.PI * 66 * 0.25}`}
+                  style={{ transition: 'stroke-dasharray 1s ease-in-out' }}
+                />
+              )}
+              
+              {/* Medium Gray Segment: 50-75% */}
+              {scoreResult.totalScore > 50 && (
+                <circle
+                  cx="72"
+                  cy="72"
+                  r="66"
+                  fill="none"
+                  stroke="#9CA3AF"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * 66 * Math.min(Math.max(scoreResult.totalScore / 100 - 0.5, 0), 0.25)} ${2 * Math.PI * 66}`}
+                  strokeDashoffset={`${-2 * Math.PI * 66 * 0.5}`}
+                  style={{ transition: 'stroke-dasharray 1s ease-in-out' }}
+                />
+              )}
+              
+              {/* Light Gray Segment: 75-100% */}
+              {scoreResult.totalScore > 75 && (
+                <circle
+                  cx="72"
+                  cy="72"
+                  r="66"
+                  fill="none"
+                  stroke="#D1D5DB"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * 66 * Math.min(Math.max(scoreResult.totalScore / 100 - 0.75, 0), 0.25)} ${2 * Math.PI * 66}`}
+                  strokeDashoffset={`${-2 * Math.PI * 66 * 0.75}`}
+                  style={{ transition: 'stroke-dasharray 1s ease-in-out' }}
+                />
+              )}
             </svg>
             
             {/* Score and Crown Overlay */}
