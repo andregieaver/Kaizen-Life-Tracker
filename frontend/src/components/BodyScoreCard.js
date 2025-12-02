@@ -314,7 +314,8 @@ const BodyScoreCard = ({ athleteId }) => {
             {/* SVG Circular Gradient Gauge */}
             <svg width="144" height="144" viewBox="0 0 144 144" style={{ transform: 'rotate(-90deg)' }}>
               <defs>
-                <linearGradient id="bodyScoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                {/* Conic gradient that follows the circular path */}
+                <linearGradient id="bodyScoreGradient" gradientUnits="userSpaceOnUse">
                   <stop offset="0%" style={{ stopColor: '#374151', stopOpacity: 1 }} />
                   <stop offset="25%" style={{ stopColor: '#6B7280', stopOpacity: 1 }} />
                   <stop offset="50%" style={{ stopColor: '#9CA3AF', stopOpacity: 1 }} />
@@ -331,18 +332,66 @@ const BodyScoreCard = ({ athleteId }) => {
                 stroke="rgba(255, 255, 255, 0.1)"
                 strokeWidth="8"
               />
-              {/* Progress circle with gradient */}
+              {/* Progress circle with gradient - using multiple segments to simulate conic gradient */}
               <circle
                 cx="72"
                 cy="72"
                 r="66"
                 fill="none"
-                stroke="url(#bodyScoreGradient)"
+                stroke="#374151"
                 strokeWidth="8"
                 strokeLinecap="round"
-                strokeDasharray={`${2 * Math.PI * 66}`}
-                strokeDashoffset={`${2 * Math.PI * 66 * (1 - scoreResult.totalScore / 100)}`}
-                style={{ transition: 'stroke-dashoffset 1s ease-in-out' }}
+                strokeDasharray={`${2 * Math.PI * 66 * 0.25} ${2 * Math.PI * 66 * 0.75}`}
+                strokeDashoffset={`${2 * Math.PI * 66 * (1 - Math.min(scoreResult.totalScore / 100, 0.25))}`}
+                style={{ 
+                  transition: 'stroke-dashoffset 1s ease-in-out',
+                  opacity: scoreResult.totalScore > 0 ? 1 : 0
+                }}
+              />
+              <circle
+                cx="72"
+                cy="72"
+                r="66"
+                fill="none"
+                stroke="#6B7280"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={`${2 * Math.PI * 66 * 0.25} ${2 * Math.PI * 66 * 0.75}`}
+                strokeDashoffset={`${2 * Math.PI * 66 * (0.75 - Math.min(Math.max(scoreResult.totalScore / 100 - 0.25, 0), 0.25))}`}
+                style={{ 
+                  transition: 'stroke-dashoffset 1s ease-in-out',
+                  opacity: scoreResult.totalScore > 25 ? 1 : 0
+                }}
+              />
+              <circle
+                cx="72"
+                cy="72"
+                r="66"
+                fill="none"
+                stroke="#9CA3AF"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={`${2 * Math.PI * 66 * 0.25} ${2 * Math.PI * 66 * 0.75}`}
+                strokeDashoffset={`${2 * Math.PI * 66 * (0.5 - Math.min(Math.max(scoreResult.totalScore / 100 - 0.5, 0), 0.25))}`}
+                style={{ 
+                  transition: 'stroke-dashoffset 1s ease-in-out',
+                  opacity: scoreResult.totalScore > 50 ? 1 : 0
+                }}
+              />
+              <circle
+                cx="72"
+                cy="72"
+                r="66"
+                fill="none"
+                stroke="#D1D5DB"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={`${2 * Math.PI * 66 * 0.25} ${2 * Math.PI * 66 * 0.75}`}
+                strokeDashoffset={`${2 * Math.PI * 66 * (0.25 - Math.min(Math.max(scoreResult.totalScore / 100 - 0.75, 0), 0.25))}`}
+                style={{ 
+                  transition: 'stroke-dashoffset 1s ease-in-out',
+                  opacity: scoreResult.totalScore > 75 ? 1 : 0
+                }}
               />
             </svg>
             
