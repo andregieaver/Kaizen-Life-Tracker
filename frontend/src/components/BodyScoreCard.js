@@ -311,7 +311,7 @@ const BodyScoreCard = ({ athleteId }) => {
         {/* Score Display */}
         <div className="text-center">
           <div className="inline-block relative" style={{ width: '144px', height: '144px' }}>
-            {/* SVG Circular Gradient Gauge with Conic Gradient Effect */}
+            {/* SVG Circular Gradient Gauge with Smooth Conic Gradient */}
             <svg width="144" height="144" viewBox="0 0 144 144" style={{ transform: 'rotate(-90deg)' }}>
               {/* Background circle */}
               <circle
@@ -323,69 +323,48 @@ const BodyScoreCard = ({ athleteId }) => {
                 strokeWidth="8"
               />
               
-              {/* Layered circles to create gradient effect from dark to light */}
-              {/* Dark Gray Segment: 0-25% */}
-              {scoreResult.totalScore >= 0 && (
-                <circle
-                  cx="72"
-                  cy="72"
-                  r="66"
-                  fill="none"
-                  stroke="#374151"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  strokeDasharray={`${2 * Math.PI * 66 * Math.min(scoreResult.totalScore / 100, 0.25)} ${2 * Math.PI * 66}`}
-                  style={{ transition: 'stroke-dasharray 1s ease-in-out' }}
-                />
-              )}
-              
-              {/* Medium-Dark Gray Segment: 25-50% */}
-              {scoreResult.totalScore > 25 && (
-                <circle
-                  cx="72"
-                  cy="72"
-                  r="66"
-                  fill="none"
-                  stroke="#6B7280"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  strokeDasharray={`${2 * Math.PI * 66 * Math.min(Math.max(scoreResult.totalScore / 100 - 0.25, 0), 0.25)} ${2 * Math.PI * 66}`}
-                  strokeDashoffset={`${-2 * Math.PI * 66 * 0.25}`}
-                  style={{ transition: 'stroke-dasharray 1s ease-in-out' }}
-                />
-              )}
-              
-              {/* Medium Gray Segment: 50-75% */}
-              {scoreResult.totalScore > 50 && (
-                <circle
-                  cx="72"
-                  cy="72"
-                  r="66"
-                  fill="none"
-                  stroke="#9CA3AF"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  strokeDasharray={`${2 * Math.PI * 66 * Math.min(Math.max(scoreResult.totalScore / 100 - 0.5, 0), 0.25)} ${2 * Math.PI * 66}`}
-                  strokeDashoffset={`${-2 * Math.PI * 66 * 0.5}`}
-                  style={{ transition: 'stroke-dasharray 1s ease-in-out' }}
-                />
-              )}
-              
-              {/* Light Gray Segment: 75-100% */}
-              {scoreResult.totalScore > 75 && (
-                <circle
-                  cx="72"
-                  cy="72"
-                  r="66"
-                  fill="none"
-                  stroke="#D1D5DB"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  strokeDasharray={`${2 * Math.PI * 66 * Math.min(Math.max(scoreResult.totalScore / 100 - 0.75, 0), 0.25)} ${2 * Math.PI * 66}`}
-                  strokeDashoffset={`${-2 * Math.PI * 66 * 0.75}`}
-                  style={{ transition: 'stroke-dasharray 1s ease-in-out' }}
-                />
-              )}
+              {/* Generate smooth gradient with many small segments */}
+              {(() => {
+                const segments = [];
+                const numSegments = 100; // Create 100 segments for smooth gradient
+                const circumference = 2 * Math.PI * 66;
+                const segmentLength = circumference / numSegments;
+                
+                // Define start and end colors (dark to light gray)
+                const startColor = { r: 55, g: 65, b: 81 }; // #374151
+                const endColor = { r: 243, g: 244, b: 246 }; // #F3F4F6
+                
+                // Calculate how many segments to show based on score
+                const visibleSegments = Math.ceil((scoreResult.totalScore / 100) * numSegments);
+                
+                for (let i = 0; i < visibleSegments; i++) {
+                  // Calculate color for this segment (interpolate between start and end)
+                  const progress = i / numSegments;
+                  const r = Math.round(startColor.r + (endColor.r - startColor.r) * progress);
+                  const g = Math.round(startColor.g + (endColor.g - startColor.g) * progress);
+                  const b = Math.round(startColor.b + (endColor.b - startColor.b) * progress);
+                  const color = `rgb(${r}, ${g}, ${b})`;
+                  
+                  // Calculate position for this segment
+                  const offset = -circumference + (i * segmentLength);
+                  
+                  segments.push(
+                    <circle
+                      key={i}
+                      cx="72"
+                      cy="72"
+                      r="66"
+                      fill="none"
+                      stroke={color}
+                      strokeWidth="8"
+                      strokeDasharray={`${segmentLength * 1.01} ${circumference}`}
+                      strokeDashoffset={offset}
+                    />
+                  );
+                }
+                
+                return segments;
+              })()}
             </svg>
             
             {/* Score and Crown Overlay */}
