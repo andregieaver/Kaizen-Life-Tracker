@@ -93,6 +93,35 @@ const BodyScoreCard = ({ athleteId }) => {
     return result;
   }, [healthData]);
   
+  // Animate score counting from 0 to actual score
+  useEffect(() => {
+    if (scoreResult && scoreResult.totalScore) {
+      const targetScore = scoreResult.totalScore;
+      const duration = 2000; // 2 seconds
+      const steps = 60; // 60 steps for smooth animation
+      const stepDuration = duration / steps;
+      const increment = targetScore / steps;
+      
+      let currentStep = 0;
+      setAnimatedScore(0);
+      
+      const timer = setInterval(() => {
+        currentStep++;
+        const newScore = Math.min(Math.round(increment * currentStep), targetScore);
+        setAnimatedScore(newScore);
+        
+        if (currentStep >= steps || newScore >= targetScore) {
+          setAnimatedScore(targetScore);
+          clearInterval(timer);
+        }
+      }, stepDuration);
+      
+      return () => clearInterval(timer);
+    } else {
+      setAnimatedScore(0);
+    }
+  }, [scoreResult]);
+  
   const getScoreColor = (score) => {
     if (score >= 85) return { text: '#22C55E', bg: 'rgba(34, 197, 94, 0.1)', border: 'rgba(34, 197, 94, 0.3)' };
     if (score >= 70) return { text: '#32D3FF', bg: 'rgba(50, 211, 255, 0.1)', border: 'rgba(50, 211, 255, 0.3)' };
