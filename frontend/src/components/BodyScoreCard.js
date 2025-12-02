@@ -93,21 +93,27 @@ const BodyScoreCard = ({ athleteId }) => {
     return result;
   }, [healthData]);
   
-  // Animate score counting from 0 to actual score
+  // Animate score counting from 0 to actual score with ease-out
   useEffect(() => {
     if (scoreResult && scoreResult.totalScore) {
       const targetScore = scoreResult.totalScore;
       const duration = 2000; // 2 seconds
       const steps = 60; // 60 steps for smooth animation
       const stepDuration = duration / steps;
-      const increment = targetScore / steps;
       
       let currentStep = 0;
       setAnimatedScore(0);
       
+      // Ease-out cubic function for smooth deceleration
+      const easeOutCubic = (t) => {
+        return 1 - Math.pow(1 - t, 3);
+      };
+      
       const timer = setInterval(() => {
         currentStep++;
-        const newScore = Math.min(Math.round(increment * currentStep), targetScore);
+        const progress = currentStep / steps; // Linear progress 0 to 1
+        const easedProgress = easeOutCubic(progress); // Apply easing
+        const newScore = Math.min(Math.round(targetScore * easedProgress), targetScore);
         setAnimatedScore(newScore);
         
         if (currentStep >= steps || newScore >= targetScore) {
