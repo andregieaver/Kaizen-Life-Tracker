@@ -311,31 +311,49 @@ const BodyScoreCard = ({ athleteId }) => {
         {/* Score Display */}
         <div className="text-center">
           <div 
-            className="inline-flex items-center justify-center w-24 h-24 rounded-full border-4 body-score"
+            className="inline-flex items-center justify-center rounded-full relative body-score-circle"
             style={{
-              color: scoreColors.text,
-              backgroundColor: scoreColors.bg,
-              borderColor: scoreColors.border
+              width: '144px', // 50% larger than 96px (24 * 1.5 = 36, 36 * 4 = 144px)
+              height: '144px',
+              background: 'conic-gradient(from 0deg, #ef4444 0%, #f59e0b 25%, #eab308 50%, #22c55e 75%, #10b981 100%)',
+              padding: '6px', // Border thickness
+              borderRadius: '50%',
             }}
           >
-            <div>
-              <div className="text-3xl font-bold" style={{ color: scoreColors.text }}>{scoreResult.totalScore}</div>
-              <div className="text-xs font-medium" style={{ color: scoreColors.text }}>/ 100</div>
-            </div>
-          </div>
-          <div className="mt-3">
-            <Badge 
-              variant="secondary" 
-              className="border font-medium"
+            <div 
+              className="flex items-center justify-center w-full h-full rounded-full relative"
               style={{
-                color: scoreColors.text,
-                backgroundColor: scoreColors.bg,
-                borderColor: scoreColors.border
+                backgroundColor: 'var(--bg-800)',
+                clipPath: `polygon(0 0, ${scoreResult.totalScore}% 0, ${scoreResult.totalScore}% 100%, 0 100%)`,
               }}
             >
-              {getScoreIcon(scoreResult.totalScore)}
-              <span className="ml-1">{getScoreLabel(scoreResult.totalScore)}</span>
-            </Badge>
+              <div 
+                className="absolute inset-0 flex flex-col items-center justify-center rounded-full"
+                style={{
+                  backgroundColor: 'var(--bg-800)',
+                }}
+              >
+                {scoreResult.totalScore >= 85 && (
+                  <Crown 
+                    className="w-8 h-8 mb-1" 
+                    style={{ 
+                      color: '#FFD700',
+                      filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.5))'
+                    }} 
+                  />
+                )}
+                <div 
+                  className="font-bold" 
+                  style={{ 
+                    fontSize: '48px', // 50% larger than 32px (3xl = 30px, so ~48px)
+                    color: 'var(--text-hi)',
+                    lineHeight: '1'
+                  }}
+                >
+                  {scoreResult.totalScore}
+                </div>
+              </div>
+            </div>
           </div>
           
           {/* Streak Display */}
