@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { RefreshCw, TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp } from 'lucide-react';
+import { RefreshCw, TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Crown } from 'lucide-react';
 import { calculateBodyScore } from '../utils/bodyScoreCalculations';
 import LoadingSpinner from './ui/LoadingSpinner';
 
