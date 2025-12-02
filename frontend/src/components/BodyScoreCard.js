@@ -404,7 +404,7 @@ const BodyScoreCard = ({ athleteId }) => {
               className="absolute inset-0 flex flex-col items-center justify-center"
               style={{ top: 0, left: 0, right: 0, bottom: 0 }}
             >
-              {scoreResult.totalScore >= 85 && (
+              {animatedScore >= 85 && (
                 <Crown 
                   className="w-12 h-12 mb-2" 
                   style={{ 
@@ -428,7 +428,7 @@ const BodyScoreCard = ({ athleteId }) => {
                 className="text-sm font-medium mt-2" 
                 style={{ color: 'var(--text-muted)' }}
               >
-                {getScoreLabel(scoreResult.totalScore)}
+                {getScoreLabel(animatedScore)}
               </div>
             </div>
           </div>
