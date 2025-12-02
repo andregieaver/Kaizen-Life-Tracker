@@ -330,7 +330,7 @@ const BodyScoreCard = ({ athleteId }) => {
                 const circumference = 2 * Math.PI * 132;
                 const segmentLength = circumference / numSegments;
                 
-                // Define start and end colors (dark to light - starting dark at 12 o'clock)
+                // Define start and end colors (dark to light)
                 const startColor = { r: 55, g: 65, b: 81 }; // #374151 (dark)
                 const endColor = { r: 243, g: 244, b: 246 }; // #F3F4F6 (light)
                 
@@ -338,8 +338,9 @@ const BodyScoreCard = ({ athleteId }) => {
                 const visibleSegments = Math.ceil((scoreResult.totalScore / 100) * numSegments);
                 
                 for (let i = 0; i < visibleSegments; i++) {
-                  // Calculate color for this segment (interpolate between start and end)
-                  const progress = i / numSegments;
+                  // Calculate color for this segment relative to the VISIBLE segments
+                  // This makes the gradient span only the visible portion
+                  const progress = visibleSegments > 1 ? i / (visibleSegments - 1) : 0;
                   const r = Math.round(startColor.r + (endColor.r - startColor.r) * progress);
                   const g = Math.round(startColor.g + (endColor.g - startColor.g) * progress);
                   const b = Math.round(startColor.b + (endColor.b - startColor.b) * progress);
