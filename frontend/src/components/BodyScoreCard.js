@@ -347,7 +347,8 @@ const BodyScoreCard = ({ athleteId }) => {
                   const color = `rgb(${r}, ${g}, ${b})`;
                   
                   // Calculate position for this segment (clockwise from 12 o'clock)
-                  const offset = -circumference + (i * segmentLength);
+                  // Positive offset draws clockwise with rotate(-90deg)
+                  const offset = i * segmentLength;
                   
                   segments.push(
                     <circle
