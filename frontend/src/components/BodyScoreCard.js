@@ -343,14 +343,14 @@ const BodyScoreCard = ({ athleteId }) => {
           <div className="inline-block relative" style={{ width: '288px', height: '288px' }}>
             {/* SVG Circular Gradient Gauge with Smooth Conic Gradient */}
             <svg width="288" height="288" viewBox="0 0 288 288" style={{ transform: 'rotate(-90deg)' }}>
-              {/* Background circle */}
+              {/* Background circle - 50% thicker */}
               <circle
                 cx="144"
                 cy="144"
                 r="132"
                 fill="none"
                 stroke="rgba(255, 255, 255, 0.1)"
-                strokeWidth="8"
+                strokeWidth="12"
               />
               
               {/* Generate smooth gradient with many small segments */}
@@ -360,12 +360,12 @@ const BodyScoreCard = ({ athleteId }) => {
                 const circumference = 2 * Math.PI * 132;
                 const segmentLength = circumference / numSegments;
                 
-                // Define start and end colors (dark to light)
+                // Define start and end colors (dark to light - starting dark at 12 o'clock)
                 const startColor = { r: 55, g: 65, b: 81 }; // #374151 (dark)
                 const endColor = { r: 243, g: 244, b: 246 }; // #F3F4F6 (light)
                 
-                // Calculate how many segments to show based on score
-                const visibleSegments = Math.ceil((scoreResult.totalScore / 100) * numSegments);
+                // Calculate how many segments to show based on animated score
+                const visibleSegments = Math.ceil((animatedScore / 100) * numSegments);
                 
                 for (let i = 0; i < visibleSegments; i++) {
                   // Calculate color for this segment relative to the VISIBLE segments
@@ -388,7 +388,7 @@ const BodyScoreCard = ({ athleteId }) => {
                       r="132"
                       fill="none"
                       stroke={color}
-                      strokeWidth="8"
+                      strokeWidth="12"
                       strokeDasharray={`${segmentLength} ${circumference}`}
                       strokeDashoffset={offset}
                     />
