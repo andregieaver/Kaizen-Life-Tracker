@@ -330,9 +330,9 @@ const BodyScoreCard = ({ athleteId }) => {
                 const circumference = 2 * Math.PI * 66;
                 const segmentLength = circumference / numSegments;
                 
-                // Define start and end colors (dark to light gray)
-                const startColor = { r: 55, g: 65, b: 81 }; // #374151
-                const endColor = { r: 243, g: 244, b: 246 }; // #F3F4F6
+                // Define start and end colors (REVERSED: light to dark gray)
+                const startColor = { r: 243, g: 244, b: 246 }; // #F3F4F6 (light)
+                const endColor = { r: 55, g: 65, b: 81 }; // #374151 (dark)
                 
                 // Calculate how many segments to show based on score
                 const visibleSegments = Math.ceil((scoreResult.totalScore / 100) * numSegments);
