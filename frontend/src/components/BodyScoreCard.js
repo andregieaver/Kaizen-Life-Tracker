@@ -376,8 +376,8 @@ const BodyScoreCard = ({ athleteId }) => {
                 <Crown 
                   className="w-8 h-8 mb-1" 
                   style={{ 
-                    color: '#FFD700',
-                    filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.5))',
+                    color: '#F3F4F6',
+                    filter: 'drop-shadow(0 0 8px rgba(243, 244, 246, 0.5))',
                     strokeWidth: 2
                   }} 
                 />
