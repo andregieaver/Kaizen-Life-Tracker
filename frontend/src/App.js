@@ -330,7 +330,7 @@ function App() {
             path="/onboarding" 
             element={
               athleteId ? (
-                <Navigate to="/dashboard" replace />
+                <Navigate to="/dashboard/today" replace />
               ) : (
                 <OnboardingForm onAthleteCreated={handleAthleteCreated} />
               )
