@@ -350,7 +350,7 @@ function App() {
             path="/forgot-password" 
             element={
               athleteId ? (
-                <Navigate to="/dashboard" replace />
+                <Navigate to="/dashboard/today" replace />
               ) : (
                 <ForgotPassword />
               )
