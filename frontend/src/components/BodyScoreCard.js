@@ -310,14 +310,14 @@ const BodyScoreCard = ({ athleteId }) => {
       <CardContent className="space-y-6">
         {/* Score Display */}
         <div className="text-center">
-          <div className="inline-block relative" style={{ width: '144px', height: '144px' }}>
+          <div className="inline-block relative" style={{ width: '288px', height: '288px' }}>
             {/* SVG Circular Gradient Gauge with Smooth Conic Gradient */}
-            <svg width="144" height="144" viewBox="0 0 144 144" style={{ transform: 'rotate(-90deg)' }}>
+            <svg width="288" height="288" viewBox="0 0 288 288" style={{ transform: 'rotate(-90deg)' }}>
               {/* Background circle */}
               <circle
-                cx="72"
-                cy="72"
-                r="66"
+                cx="144"
+                cy="144"
+                r="132"
                 fill="none"
                 stroke="rgba(255, 255, 255, 0.1)"
                 strokeWidth="8"
@@ -327,7 +327,7 @@ const BodyScoreCard = ({ athleteId }) => {
               {(() => {
                 const segments = [];
                 const numSegments = 100; // Create 100 segments for smooth gradient
-                const circumference = 2 * Math.PI * 66;
+                const circumference = 2 * Math.PI * 132;
                 const segmentLength = circumference / numSegments;
                 
                 // Define start and end colors (REVERSED: light to dark gray)
@@ -351,9 +351,9 @@ const BodyScoreCard = ({ athleteId }) => {
                   segments.push(
                     <circle
                       key={i}
-                      cx="72"
-                      cy="72"
-                      r="66"
+                      cx="144"
+                      cy="144"
+                      r="132"
                       fill="none"
                       stroke={color}
                       strokeWidth="8"
@@ -367,14 +367,14 @@ const BodyScoreCard = ({ athleteId }) => {
               })()}
             </svg>
             
-            {/* Score and Crown Overlay */}
+            {/* Score, Crown, and Description Overlay */}
             <div 
               className="absolute inset-0 flex flex-col items-center justify-center"
               style={{ top: 0, left: 0, right: 0, bottom: 0 }}
             >
               {scoreResult.totalScore >= 85 && (
                 <Crown 
-                  className="w-8 h-8 mb-1" 
+                  className="w-12 h-12 mb-2" 
                   style={{ 
                     color: '#F3F4F6',
                     filter: 'drop-shadow(0 0 8px rgba(243, 244, 246, 0.5))',
@@ -385,31 +385,32 @@ const BodyScoreCard = ({ athleteId }) => {
               <div 
                 className="font-bold" 
                 style={{ 
-                  fontSize: '48px',
+                  fontSize: '72px',
                   color: 'var(--text-hi)',
                   lineHeight: '1'
                 }}
               >
                 {scoreResult.totalScore}
               </div>
+              <div 
+                className="text-sm font-medium mt-2" 
+                style={{ color: 'var(--text-muted)' }}
+              >
+                {getScoreLabel(scoreResult.totalScore)}
+              </div>
             </div>
           </div>
           
-          {/* Streak Display */}
+          {/* Streak Display - Plain Text */}
           {streak > 0 && (
-            <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-lg" style={{
-              background: 'linear-gradient(135deg, rgba(255, 149, 0, 0.1) 0%, rgba(255, 204, 0, 0.1) 100%)',
-              border: '1px solid rgba(255, 149, 0, 0.3)'
-            }}>
-              <span className="text-2xl">🔥</span>
-              <div className="text-left">
-                <div className="text-lg font-bold" style={{ color: '#FF9500' }}>{streak}</div>
-                <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Day Streak</div>
+            <div className="mt-4">
+              <div className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                {streak} day streak
               </div>
             </div>
           )}
           
-          <p className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-xs mt-3" style={{ color: 'var(--text-muted)' }}>
             {t('bodyScore.componentsUsed', { count: scoreResult.available, total: scoreResult.total })}
           </p>
         </div>
