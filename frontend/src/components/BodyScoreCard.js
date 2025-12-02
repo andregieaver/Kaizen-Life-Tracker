@@ -422,7 +422,7 @@ const BodyScoreCard = ({ athleteId }) => {
                   lineHeight: '1'
                 }}
               >
-                {scoreResult.totalScore}
+                {animatedScore}
               </div>
               <div 
                 className="text-sm font-medium mt-2" 
