@@ -315,11 +315,11 @@ const BodyScoreCard = ({ athleteId }) => {
             <svg width="144" height="144" viewBox="0 0 144 144" style={{ transform: 'rotate(-90deg)' }}>
               <defs>
                 <linearGradient id="bodyScoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" style={{ stopColor: '#ef4444', stopOpacity: 1 }} />
-                  <stop offset="25%" style={{ stopColor: '#f59e0b', stopOpacity: 1 }} />
-                  <stop offset="50%" style={{ stopColor: '#eab308', stopOpacity: 1 }} />
-                  <stop offset="75%" style={{ stopColor: '#22c55e', stopOpacity: 1 }} />
-                  <stop offset="100%" style={{ stopColor: '#10b981', stopOpacity: 1 }} />
+                  <stop offset="0%" style={{ stopColor: '#374151', stopOpacity: 1 }} />
+                  <stop offset="25%" style={{ stopColor: '#6B7280', stopOpacity: 1 }} />
+                  <stop offset="50%" style={{ stopColor: '#9CA3AF', stopOpacity: 1 }} />
+                  <stop offset="75%" style={{ stopColor: '#D1D5DB', stopOpacity: 1 }} />
+                  <stop offset="100%" style={{ stopColor: '#F3F4F6', stopOpacity: 1 }} />
                 </linearGradient>
               </defs>
               {/* Background circle */}
