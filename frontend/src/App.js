@@ -315,7 +315,7 @@ function App() {
             path="/" 
             element={
               athleteId ? (
-                <Navigate to="/dashboard" replace />
+                <Navigate to="/dashboard/today" replace />
               ) : (
                 <LandingPage />
               )
