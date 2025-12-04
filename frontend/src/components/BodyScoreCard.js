@@ -77,6 +77,14 @@ const BodyScoreCard = ({ athleteId }) => {
     if (athleteId) {
       fetchHealthData();
       fetchStreak();
+      
+      // Set up auto-refresh every 30 seconds to catch Oura data updates
+      const refreshInterval = setInterval(() => {
+        fetchHealthData();
+        fetchStreak();
+      }, 30000); // 30 seconds
+      
+      return () => clearInterval(refreshInterval);
     }
   }, [athleteId]);
   
