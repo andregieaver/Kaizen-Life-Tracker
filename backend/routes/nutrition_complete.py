@@ -315,10 +315,13 @@ async def delete_nutrition_entry(entry_id: str):
 
 @router.post("/nutrition/analyze-image/{athlete_id}")
 async def analyze_nutrition_image(athlete_id: str, data: dict):
-    """Analyze a food image using OpenAI Vision API"""
+    """Analyze food image and/or description using OpenAI API"""
     try:
-        if not data.get("image_data"):
-            raise HTTPException(status_code=400, detail="image_data is required")
+        image_data = data.get("image_data")
+        description = data.get("description", "")
+        
+        if not image_data and not description:
+            raise HTTPException(status_code=400, detail="Either image_data or description is required")
         
         system_settings = await db.system_settings.find_one(
             {"setting_type": "global"},
@@ -331,7 +334,25 @@ async def analyze_nutrition_image(athlete_id: str, data: dict):
         openai_key = system_settings['advanced']['openaiApiKey']
         client = openai.AsyncOpenAI(api_key=openai_key)
         
-        prompt = """Analyze this food image and provide detailed nutritional information.
+        # Build prompt based on what's available
+        if image_data and description:
+            prompt = f"""Analyze this food image and the description: "{description}". Provide detailed nutritional information.
+
+Return your response in this exact JSON format:
+{{
+  "description": "Brief description of the meal/food",
+  "calories": estimated_calories_number,
+  "protein": grams_of_protein,
+  "carbs": grams_of_carbs,
+  "fat": grams_of_fat,
+  "fiber": grams_of_fiber,
+  "ingredients": ["ingredient 1", "ingredient 2", ...],
+  "analysis": "Brief analysis of nutritional value"
+}}
+
+Be as accurate as possible with estimates."""
+        elif image_data:
+            prompt = """Analyze this food image and provide detailed nutritional information.
 
 Return your response in this exact JSON format:
 {
@@ -346,19 +367,45 @@ Return your response in this exact JSON format:
 }
 
 Be as accurate as possible with estimates."""
+        else:
+            # Description only
+            prompt = f"""Analyze this meal description: "{description}". Provide detailed nutritional information based on typical portion sizes.
+
+Return your response in this exact JSON format:
+{{
+  "description": "Brief description of the meal/food",
+  "calories": estimated_calories_number,
+  "protein": grams_of_protein,
+  "carbs": grams_of_carbs,
+  "fat": grams_of_fat,
+  "fiber": grams_of_fiber,
+  "ingredients": ["ingredient 1", "ingredient 2", ...],
+  "analysis": "Brief analysis of nutritional value"
+}}
+
+Be as accurate as possible with estimates."""
+
+        # Build message content based on what's available
+        if image_data:
+            message_content = [
+                {"type": "text", "text": prompt},
+                {
+                    "type": "image_url",
+                    "image_url": {"url": image_data}
+                }
+            ]
+        else:
+            # Text only
+            message_content = [
+                {"type": "text", "text": prompt}
+            ]
 
         response = await client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o" if image_data else "gpt-4o-mini",
             messages=[
                 {
                     "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt},
-                        {
-                            "type": "image_url",
-                            "image_url": {"url": data["image_data"]}
-                        }
-                    ]
+                    "content": message_content
                 }
             ],
             temperature=0.7
