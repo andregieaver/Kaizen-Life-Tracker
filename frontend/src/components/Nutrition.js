@@ -404,10 +404,9 @@ const Nutrition = ({ athleteId }) => {
         const compressedImage = await compressImage(file);
         setImageData(compressedImage);
         setImagePreview(compressedImage);
-        setSaveStatus({ type: 'success', message: 'Image ready!' });
+        setSaveStatus({ type: 'success', message: 'Image ready! Click Analyze to get nutritional data.' });
         
-        // Automatically analyze the image with description if available
-        await analyzeFoodImage(compressedImage, description);
+        // Don't auto-analyze - user will click Analyze button
       } catch (error) {
         logger.error(null, 'Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message });
