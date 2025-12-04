@@ -2295,19 +2295,30 @@ const Nutrition = ({ athleteId }) => {
                         <X className="w-4 h-4" />
                       </button>
                     </div>
-                    <Button
-                      className="w-full mt-3 text-white border-0"
-                      style={{ backgroundColor: '#32D3FF' }}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
-                      onClick={() => analyzeFoodImage(imageData, description)}
-                      disabled={isAnalyzing}
-                    >
-                      {isAnalyzing ? t('nutrition.mealModal.analyzing') : t('nutrition.mealModal.analyzeNutritionAI')}
-                    </Button>
                   </div>
                 )}
               </div>
+
+              {/* Analyze Button - Show when there's image OR description */}
+              {(imageData || description.trim()) && !nutritionData && (
+                <div className="mb-6">
+                  <Button
+                    className="w-full text-white border-0"
+                    style={{ backgroundColor: '#32D3FF' }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
+                    onClick={() => analyzeFoodImage(imageData, description)}
+                    disabled={isAnalyzing}
+                  >
+                    {isAnalyzing ? t('nutrition.mealModal.analyzing') : t('nutrition.mealModal.analyzeNutritionAI')}
+                  </Button>
+                  {!imageData && description.trim() && (
+                    <p className="text-xs text-gray-400 text-center mt-2">
+                      AI will analyze your meal description
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* AI Nutritional Analysis */}
               {isAnalyzing && (
