@@ -359,7 +359,10 @@ const Nutrition = ({ athleteId }) => {
   const analyzeFoodImage = async (imageData, descriptionText = '') => {
     try {
       setIsAnalyzing(true);
-      setSaveStatus({ type: '', message: 'Analyzing food image with AI...' });
+      const message = imageData 
+        ? 'Analyzing food image with AI...' 
+        : 'Analyzing meal description with AI...';
+      setSaveStatus({ type: '', message });
       
       const response = await axios.post(`${API}/nutrition/analyze-image/${athleteId}`, {
         image_data: imageData,
