@@ -4541,13 +4541,20 @@ async def get_body_score_data(athlete_id: str, response: Response):
             "missing_data": []
         }
         
-        # Fetch Oura data if connected
+        # Fetch Oura data if connected or if data exists
         # Try both athlete_id and user_id for backwards compatibility
         oura_connection = await db.oura_connections.find_one({
             "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]
         })
-        if oura_connection and oura_connection.get('access_token'):
-            result['connected_integrations'].append('oura')
+        
+        # Check if Oura data exists even without connection
+        has_oura_data = await db.readiness_scores.count_documents({
+            "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]
+        }, limit=1) > 0
+        
+        if (oura_connection and oura_connection.get('access_token')) or has_oura_data:
+            if oura_connection and oura_connection.get('access_token'):
+                result['connected_integrations'].append('oura')
             
             # Get latest Oura sleep data (for sleep score and RHR)
             # Look for Sleep type activities with complete data first
