@@ -336,9 +336,9 @@ async def analyze_nutrition_image(athlete_id: str, data: dict):
         
         # Build prompt based on what's available
         if image_data and description:
-            prompt = f"""Analyze this food image and the description: "{description}". Provide detailed nutritional information including macronutrients and key micronutrients.
+            prompt = f"""Analyze this food image and the description: "{description}". Provide comprehensive nutritional information including macronutrients and ALL RELEVANT micronutrients based on the specific food identified.
 
-Return your response in this exact JSON format:
+Return your response in this exact JSON format, including ONLY the micronutrients that are significantly present in this food (include a micronutrient if it provides >5% of daily value):
 {{
   "description": "Brief description of the meal/food",
   "calories": estimated_calories_number,
@@ -346,23 +346,45 @@ Return your response in this exact JSON format:
   "carbs": grams_of_carbs,
   "fat": grams_of_fat,
   "fiber": grams_of_fiber,
-  "sodium": milligrams_of_sodium,
-  "cholesterol": milligrams_of_cholesterol,
+  "sugar": grams_of_sugar,
+  "saturated_fat": grams,
+  "trans_fat": grams,
+  "sodium": milligrams,
+  "cholesterol": milligrams,
   "vitamin_a": micrograms_RAE,
   "vitamin_c": milligrams,
   "vitamin_d": micrograms,
+  "vitamin_e": milligrams,
+  "vitamin_k": micrograms,
+  "thiamin_b1": milligrams,
+  "riboflavin_b2": milligrams,
+  "niacin_b3": milligrams,
+  "pantothenic_acid_b5": milligrams,
+  "vitamin_b6": milligrams,
+  "biotin_b7": micrograms,
+  "folate_b9": micrograms,
+  "vitamin_b12": micrograms,
   "calcium": milligrams,
   "iron": milligrams,
+  "magnesium": milligrams,
+  "phosphorus": milligrams,
   "potassium": milligrams,
+  "zinc": milligrams,
+  "copper": milligrams,
+  "manganese": milligrams,
+  "selenium": micrograms,
+  "iodine": micrograms,
+  "omega_3": grams,
+  "omega_6": grams,
   "ingredients": ["ingredient 1", "ingredient 2", ...],
-  "analysis": "Brief analysis of nutritional value and micronutrient content"
+  "analysis": "Brief analysis highlighting the most notable nutrients and their health benefits"
 }}
 
-Be as accurate as possible with estimates. For micronutrients, estimate based on typical values for the identified ingredients."""
+IMPORTANT: Only include micronutrients where the food is a notable source. Omit fields if the food contains negligible amounts (<5% DV). Be as accurate as possible with estimates based on the identified ingredients."""
         elif image_data:
-            prompt = """Analyze this food image and provide detailed nutritional information including macronutrients and key micronutrients.
+            prompt = """Analyze this food image and provide comprehensive nutritional information including macronutrients and ALL RELEVANT micronutrients based on the specific food identified.
 
-Return your response in this exact JSON format:
+Return your response in this exact JSON format, including ONLY the micronutrients that are significantly present in this food (include a micronutrient if it provides >5% of daily value):
 {
   "description": "Brief description of the meal/food",
   "calories": estimated_calories_number,
@@ -370,24 +392,46 @@ Return your response in this exact JSON format:
   "carbs": grams_of_carbs,
   "fat": grams_of_fat,
   "fiber": grams_of_fiber,
-  "sodium": milligrams_of_sodium,
-  "cholesterol": milligrams_of_cholesterol,
+  "sugar": grams_of_sugar,
+  "saturated_fat": grams,
+  "trans_fat": grams,
+  "sodium": milligrams,
+  "cholesterol": milligrams,
   "vitamin_a": micrograms_RAE,
   "vitamin_c": milligrams,
   "vitamin_d": micrograms,
+  "vitamin_e": milligrams,
+  "vitamin_k": micrograms,
+  "thiamin_b1": milligrams,
+  "riboflavin_b2": milligrams,
+  "niacin_b3": milligrams,
+  "pantothenic_acid_b5": milligrams,
+  "vitamin_b6": milligrams,
+  "biotin_b7": micrograms,
+  "folate_b9": micrograms,
+  "vitamin_b12": micrograms,
   "calcium": milligrams,
   "iron": milligrams,
+  "magnesium": milligrams,
+  "phosphorus": milligrams,
   "potassium": milligrams,
+  "zinc": milligrams,
+  "copper": milligrams,
+  "manganese": milligrams,
+  "selenium": micrograms,
+  "iodine": micrograms,
+  "omega_3": grams,
+  "omega_6": grams,
   "ingredients": ["ingredient 1", "ingredient 2", ...],
-  "analysis": "Brief analysis of nutritional value and micronutrient content"
+  "analysis": "Brief analysis highlighting the most notable nutrients and their health benefits"
 }
 
-Be as accurate as possible with estimates. For micronutrients, estimate based on typical values for the identified ingredients."""
+IMPORTANT: Only include micronutrients where the food is a notable source. Omit fields if the food contains negligible amounts (<5% DV). Be as accurate as possible with estimates based on the identified ingredients."""
         else:
             # Description only
-            prompt = f"""Analyze this meal description: "{description}". Provide detailed nutritional information including macronutrients and key micronutrients based on typical portion sizes.
+            prompt = f"""Analyze this meal description: "{description}". Provide comprehensive nutritional information including macronutrients and ALL RELEVANT micronutrients based on the specific food described and typical portion sizes.
 
-Return your response in this exact JSON format:
+Return your response in this exact JSON format, including ONLY the micronutrients that are significantly present in this food (include a micronutrient if it provides >5% of daily value):
 {{
   "description": "Brief description of the meal/food",
   "calories": estimated_calories_number,
@@ -395,19 +439,41 @@ Return your response in this exact JSON format:
   "carbs": grams_of_carbs,
   "fat": grams_of_fat,
   "fiber": grams_of_fiber,
-  "sodium": milligrams_of_sodium,
-  "cholesterol": milligrams_of_cholesterol,
+  "sugar": grams_of_sugar,
+  "saturated_fat": grams,
+  "trans_fat": grams,
+  "sodium": milligrams,
+  "cholesterol": milligrams,
   "vitamin_a": micrograms_RAE,
   "vitamin_c": milligrams,
   "vitamin_d": micrograms,
+  "vitamin_e": milligrams,
+  "vitamin_k": micrograms,
+  "thiamin_b1": milligrams,
+  "riboflavin_b2": milligrams,
+  "niacin_b3": milligrams,
+  "pantothenic_acid_b5": milligrams,
+  "vitamin_b6": milligrams,
+  "biotin_b7": micrograms,
+  "folate_b9": micrograms,
+  "vitamin_b12": micrograms,
   "calcium": milligrams,
   "iron": milligrams,
+  "magnesium": milligrams,
+  "phosphorus": milligrams,
   "potassium": milligrams,
+  "zinc": milligrams,
+  "copper": milligrams,
+  "manganese": milligrams,
+  "selenium": micrograms,
+  "iodine": micrograms,
+  "omega_3": grams,
+  "omega_6": grams,
   "ingredients": ["ingredient 1", "ingredient 2", ...],
-  "analysis": "Brief analysis of nutritional value and micronutrient content"
+  "analysis": "Brief analysis highlighting the most notable nutrients and their health benefits"
 }}
 
-Be as accurate as possible with estimates. For micronutrients, estimate based on typical values for the identified ingredients."""
+IMPORTANT: Only include micronutrients where the food is a notable source. Omit fields if the food contains negligible amounts (<5% DV). Be as accurate as possible with estimates based on the identified ingredients."""
 
         # Build message content based on what's available
         if image_data:
