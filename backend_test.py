@@ -16652,50 +16652,33 @@ def test_logo_upload_functionality():
         return False
 
 if __name__ == "__main__":
-    print("🚀 STARTING BACKEND TESTING - LOGO UPLOAD FUNCTIONALITY")
+    print("🚀 STARTING NUTRITION CRUD TESTING - UPDATE (PUT) FUNCTIONALITY FOCUS")
     print("=" * 80)
     
     try:
-        # Run the logo upload functionality test as requested
+        # Run comprehensive nutrition CRUD testing with focus on UPDATE (PUT) functionality
         print(f"\n{'='*80}")
-        logo_result = test_logo_upload_functionality()
+        nutrition_result = test_nutrition_crud_operations()
         
-        if logo_result:
-            print(f"\n🎉 LOGO UPLOAD FUNCTIONALITY TESTING SUCCESSFUL!")
-            print(f"   ✅ Header logo upload working correctly")
-            print(f"   ✅ Super admin authentication verified")
-            print(f"   ✅ All validation and error handling working")
-            print(f"   ✅ Response format correct (success: true, path with base64)")
-            print(f"   ✅ System settings advanced tab logo upload ready")
-        else:
-            print(f"\n❌ LOGO UPLOAD FUNCTIONALITY TESTING FAILED!")
-            print(f"   ⚠️  Logo upload endpoint has issues")
-            print(f"   ⚠️  Please review the test results above")
-        
-        # Also run a quick verification of critical endpoints
-        print(f"\n{'='*80}")
-        print("🔍 RUNNING QUICK CRITICAL ENDPOINTS VERIFICATION")
-        print("=" * 80)
-        
-        refactor_result = test_critical_endpoints_after_refactoring()
-        
-        if logo_result and refactor_result:
-            print(f"\n🎉 ALL TESTING COMPLETED SUCCESSFULLY!")
-            print(f"   ✅ Logo upload functionality working")
-            print(f"   ✅ Critical endpoints working correctly")
-            print(f"   ✅ Backend is ready for production")
+        if nutrition_result:
+            print(f"\n🎉 NUTRITION CRUD TESTING COMPLETED SUCCESSFULLY!")
+            print(f"   ✅ GET /api/nutrition/{{athlete_id}} - List entries working")
+            print(f"   ✅ POST /api/nutrition - Create entries working")
+            print(f"   ✅ PUT /api/nutrition/{{entry_id}} - Update functionality comprehensive testing passed")
+            print(f"   ✅ DELETE /api/nutrition/{{entry_id}} - Delete entries working")
+            print(f"   ✅ All 10 UPDATE test scenarios passed")
+            print(f"   ✅ Backend behavior verified (response format, data persistence)")
+            print(f"   ✅ Error handling confirmed (404 for invalid IDs)")
+            print(f"   ✅ Field validation working (only allowed fields updated)")
             sys.exit(0)
         else:
-            print(f"\n❌ SOME TESTS FAILED!")
-            if not logo_result:
-                print(f"   ⚠️  Logo upload functionality needs attention")
-            if not refactor_result:
-                print(f"   ⚠️  Some critical endpoints need attention")
+            print(f"\n❌ NUTRITION CRUD TESTING FAILED!")
+            print(f"   ⚠️  Some nutrition endpoints have issues")
             print(f"   ⚠️  Please review the test results above")
             sys.exit(1)
             
     except Exception as e:
-        print(f"❌ EXCEPTION during testing: {str(e)}")
+        print(f"❌ EXCEPTION during nutrition testing: {str(e)}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
