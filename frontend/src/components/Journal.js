@@ -760,17 +760,23 @@ const Journal = ({ athleteId }) => {
                 <div className="space-y-4">
                   {!videoBlob ? (
                     <>
-                      {/* Recording UI */}
+                      {/* Recording UI with Live Preview */}
                       <div className="flex flex-col items-center justify-center py-8 bg-gray-700 rounded-lg border border-gray-600">
+                        {/* Live Video Preview - Always visible when camera is active */}
+                        <video
+                          ref={videoRef}
+                          autoPlay
+                          muted
+                          playsInline
+                          className="w-full max-w-md rounded-lg mb-4"
+                          style={{ 
+                            transform: 'scaleX(-1)', // Mirror the video like a selfie camera
+                            display: videoStream ? 'block' : 'none'
+                          }}
+                        />
+                        
                         {isRecording ? (
                           <>
-                            {/* Live Video Preview */}
-                            <video
-                              ref={videoRef}
-                              autoPlay
-                              muted
-                              className="w-full max-w-md rounded-lg mb-4"
-                            />
                             <p className="text-lg font-semibold text-white mb-2">{t('journal.recording')}</p>
                             <p className="text-3xl font-mono text-red-400 mb-4">{recordingTime}s</p>
                             <Button
@@ -784,16 +790,21 @@ const Journal = ({ athleteId }) => {
                           </>
                         ) : (
                           <>
-                            <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: '#32D3FF' }}>
-                              <Video className="w-10 h-10 text-white" />
-                            </div>
-                            <p className="text-gray-300 mb-4">{t('journal.clickToStartVideo')}</p>
+                            {!videoStream && (
+                              <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: '#32D3FF' }}>
+                                <Video className="w-10 h-10 text-white" />
+                              </div>
+                            )}
+                            <p className="text-gray-300 mb-4">
+                              {videoStream ? t('journal.readyToRecord') : t('journal.clickToStartVideo')}
+                            </p>
                             <Button 
                               onClick={startVideoRecording} 
                               className="text-white border-0"
                               style={{ backgroundColor: '#32D3FF' }}
                               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
                               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
+                              disabled={!videoStream}
                             >
                               <Video className="w-4 h-4 mr-2" />
                               {t('journal.startRecording')}
