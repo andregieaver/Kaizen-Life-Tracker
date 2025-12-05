@@ -2861,15 +2861,18 @@ backend:
 
   - task: "Video Journal Entry Camera Preview Fix"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/Journal.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "critical"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "USER REQUEST: Test the updated Video Journal Entry feature with camera preview functionality. Users should be able to see themselves (camera preview) BEFORE and DURING video recording. IMPLEMENTATION DETAILS: 1) CAMERA PREVIEW ACTIVATION: Auto-starts camera preview when video mode is selected (useEffect on lines 94-105), calls startCameraPreview() which requests getUserMedia with video/audio permissions. 2) LIVE PREVIEW DISPLAY: Video element (lines 766-776) shows live camera feed with autoPlay, muted, playsInline attributes, mirrored display (scaleX(-1)) for selfie mode, visible when videoStream is active. 3) RECORDING FLOW: Camera preview remains visible during recording, recording timer displays, stop button available, video blob created after recording stops. 4) TRANSCRIPTION: Auto-transcription starts after recording, editable transcription text area, burn subtitles option available. 5) SAVE FUNCTIONALITY: Video processing with optional subtitle burning, entry saved to database with video type. CRITICAL TESTING NEEDED: 1) Login with andre@humanweb.no / Pernilla666!, 2) Navigate to /dashboard/journal, 3) Open New Journal Entry modal, 4) Select Video tab, 5) Verify camera preview shows BEFORE recording, 6) Start recording and verify preview stays visible DURING recording, 7) Complete full recording/transcription/save flow."
+      - working: false
+        agent: "testing"
+        comment: "❌ VIDEO JOURNAL ENTRY TESTING BLOCKED BY AUTHENTICATION/SESSION ISSUES - Unable to complete comprehensive testing due to persistent session management problems. TESTING ATTEMPTS: 1) LOGIN SUCCESS ✅ - Successfully logged in with andre@humanweb.no / Pernilla666! credentials, redirected to dashboard as expected. 2) NAVIGATION ISSUES ❌ - Multiple attempts to navigate to /dashboard/journal resulted in redirects to landing page instead of staying on journal page, indicating session persistence problems. 3) MODAL ACCESS BLOCKED ❌ - When journal page was accessible, attempts to open New Journal Entry modal were intercepted by overlay issues and modal conflicts. 4) BACKEND ERRORS DETECTED ❌ - Backend logs show ModuleNotFoundError: No module named 'ai_coach_service' in health_metrics_complete.py, which may be affecting overall application stability. CODE ANALYSIS VERIFICATION ✅ - Reviewed Journal.js implementation and confirmed: Video recording UI is properly implemented (lines 758-896), Camera preview functionality coded correctly with getUserMedia integration, Auto-start camera preview on video mode selection (useEffect lines 94-105), Mirrored video display for selfie mode (scaleX(-1)), Recording workflow with start/stop controls implemented, Transcription and subtitle burning features present. CRITICAL ISSUES PREVENTING TESTING: 1) Session management failure causing redirects to landing page, 2) Backend module import errors affecting application stability, 3) Modal overlay conflicts preventing UI interaction. RECOMMENDATION: Main agent must fix session persistence and backend import errors before video journal functionality can be properly tested end-to-end."
 
 frontend:
   - task: "Video Journal Recording UI"
