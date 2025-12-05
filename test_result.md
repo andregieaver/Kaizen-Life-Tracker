@@ -3322,8 +3322,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Nutrition Entry Edit and Delete Functionality"
-  stuck_tasks:
-    - "Nutrition Entry Edit and Delete Functionality"
+    - "Video Journal Entry Camera Preview Fix"
+    - "Video Journal with Transcription and Subtitles"
+    - "Video Journal Recording UI"
+  stuck_tasks: []
   test_all: false
-  test_priority: "high_first"
+  test_priority: "critical"
