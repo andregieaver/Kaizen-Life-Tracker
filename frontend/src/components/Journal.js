@@ -90,6 +90,20 @@ const Journal = ({ athleteId }) => {
     }
   }, []);
 
+  // Auto-start camera preview when video mode is selected
+  useEffect(() => {
+    if (showModal && entryType === 'video' && !videoBlob && !videoStream && !isRecording) {
+      startCameraPreview();
+    }
+    
+    // Clean up camera stream when modal closes or switching away from video
+    return () => {
+      if ((!showModal || entryType !== 'video') && videoStream) {
+        stopVideoStream();
+      }
+    };
+  }, [showModal, entryType, videoBlob]);
+
   const loadJournalEntries = async () => {
     try {
       setIsLoading(true);
