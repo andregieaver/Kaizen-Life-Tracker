@@ -3297,6 +3297,7 @@ metadata:
 test_plan:
   current_focus:
     - "Nutrition Entry Edit and Delete Functionality"
-  stuck_tasks: []
+  stuck_tasks:
+    - "Nutrition Entry Edit and Delete Functionality"
   test_all: false
   test_priority: "high_first"
