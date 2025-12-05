@@ -3328,3 +3328,7 @@ test_plan:
   stuck_tasks: []
   test_all: false
   test_priority: "critical"
+
+agent_communication:
+  - agent: "testing"
+    message: "TESTING VIDEO JOURNAL ENTRY CAMERA PREVIEW FUNCTIONALITY - Comprehensive testing initiated for updated Video Journal Entry feature. USER REQUEST: Test camera preview functionality where users can see themselves BEFORE and DURING video recording. CRITICAL TEST FLOW: 1) Login with andre@humanweb.no / Pernilla666!, 2) Navigate to /dashboard/journal, 3) Open New Journal Entry modal, 4) Select Video tab, 5) Verify camera preview shows user's face BEFORE recording starts, 6) Start recording and verify preview stays visible DURING recording, 7) Complete recording/transcription/save workflow. KEY VERIFICATION POINTS: Camera auto-activation on video mode selection, mirrored video display (selfie mode), live preview visibility during recording, transcription functionality, video saving to backend. Testing will identify any issues with camera permissions, video element display, or recording workflow."
