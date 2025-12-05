@@ -3289,7 +3289,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "AI Coach Chat Routes Extraction"
+    - "Nutrition Entry Edit and Delete Functionality"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
