@@ -2859,6 +2859,18 @@ backend:
         agent: "main"
         comment: "Complete video journal implementation with transcription and subtitle burning. FEATURES: 1) Video transcription endpoint POST /api/journal/transcribe-video/{athlete_id} - extracts audio from video using FFmpeg, transcribes with OpenAI Whisper (verbose_json with segments), generates SRT subtitles with timestamps. 2) Video processing endpoint POST /api/journal/process-video/{athlete_id} - accepts video file, transcription, SRT content, burn_subtitles flag. If burn_subtitles=true: uses FFmpeg to burn white text (80% black background) subtitles into video with compression (H.264, CRF 28). If false: saves compressed video + separate SRT file. 3) Updated JournalEntry model with video_path, subtitle_path, has_burned_subtitles fields. 4) FFmpeg installed and verified (version 5.1.7). 5) Static file mount for /api/uploaded_videos directory. 6) Video storage: /app/backend/uploaded_videos/journal/. 7) Auto video compression with CRF 28 for optimal quality/size balance. 8) Uses global OpenAI key from system_settings. 9) 50MB video size limit. Backend restarted successfully. TESTING NEEDED: 1) Record video from frontend, 2) Verify transcription works, 3) Test with burn_subtitles=true, 4) Test with burn_subtitles=false, 5) Verify video playback with subtitles."
 
+  - task: "Video Journal Entry Camera Preview Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Journal.js"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "USER REQUEST: Test the updated Video Journal Entry feature with camera preview functionality. Users should be able to see themselves (camera preview) BEFORE and DURING video recording. IMPLEMENTATION DETAILS: 1) CAMERA PREVIEW ACTIVATION: Auto-starts camera preview when video mode is selected (useEffect on lines 94-105), calls startCameraPreview() which requests getUserMedia with video/audio permissions. 2) LIVE PREVIEW DISPLAY: Video element (lines 766-776) shows live camera feed with autoPlay, muted, playsInline attributes, mirrored display (scaleX(-1)) for selfie mode, visible when videoStream is active. 3) RECORDING FLOW: Camera preview remains visible during recording, recording timer displays, stop button available, video blob created after recording stops. 4) TRANSCRIPTION: Auto-transcription starts after recording, editable transcription text area, burn subtitles option available. 5) SAVE FUNCTIONALITY: Video processing with optional subtitle burning, entry saved to database with video type. CRITICAL TESTING NEEDED: 1) Login with andre@humanweb.no / Pernilla666!, 2) Navigate to /dashboard/journal, 3) Open New Journal Entry modal, 4) Select Video tab, 5) Verify camera preview shows BEFORE recording, 6) Start recording and verify preview stays visible DURING recording, 7) Complete full recording/transcription/save flow."
+
 frontend:
   - task: "Video Journal Recording UI"
     implemented: true
