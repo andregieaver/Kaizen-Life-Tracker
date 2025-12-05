@@ -1829,9 +1829,9 @@ frontend:
 
   - task: "Nutrition Entry Edit and Delete Functionality"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/Nutrition.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: true
     status_history:
@@ -1841,6 +1841,9 @@ frontend:
       - working: true
         agent: "main"
         comment: "✅ NUTRITION EDIT/DELETE FUNCTIONALITY IMPLEMENTED - Added complete CRUD operations for nutrition entries. EDIT FUNCTIONALITY: Added Edit button (blue pencil icon) to each nutrition entry card. Click Edit loads entry data into modal (meal type, description, image). Modal title changes to 'Edit Meal or Drink' when editing. Save button text changes to 'Update Entry' when editing. handleEditEntry function populates form with existing entry data including image preview. handleSaveEntry updated to handle both create and update operations using PUT /api/nutrition/{entry_id} for updates. DELETE FUNCTIONALITY: Delete button (red trash icon) already present on each entry card. Confirmation dialog prevents accidental deletion. Successfully removes entries from database and refreshes list. IMAGE UPLOAD: Image upload functionality verified working correctly - Upload Photo and Take Photo buttons present, image preview displays after selection, Remove button (X) allows clearing selected image, base64 image data sent to backend in image_data field. BACKEND SUPPORT: Backend already has complete CRUD endpoints (GET, POST, PUT, DELETE) with image_data support. NutritionEntry model includes optional image_data field for base64 encoded images. SCREENSHOTS VERIFIED: UI shows meal type selector, description textarea, image upload buttons, all functioning correctly. READY FOR TESTING: Full end-to-end testing needed with actual image upload, edit, and delete operations."
+      - working: false
+        agent: "testing"
+        comment: "❌ NUTRITION ENTRY EDIT FUNCTIONALITY TESTING BLOCKED BY CRITICAL SESSION MANAGEMENT ISSUE - Unable to complete comprehensive edit flow testing due to persistent authentication/session problems. TESTING PROGRESS: 1) LOGIN SUCCESSFUL ✅ - Successfully logged in with credentials andre@humanweb.no / Pernilla666!, redirected to /dashboard/today as expected. 2) NUTRITION PAGE ACCESS ✅ - Successfully navigated to /dashboard/nutrition, page loads correctly showing 'Nutrition Tracking' interface. 3) EXISTING ENTRY VERIFIED ✅ - Found target 'Two boiled eggs' entry from Dec 4, 2025 at 00:54 with 156 calories and proper macronutrient data (13g protein, 1g carbs, 11g fat, 0g fiber). 4) UI ELEMENTS CONFIRMED ✅ - Page shows expected elements: Log Supplements button, Day/Week toggle, nutrition statistics, entry cards with proper formatting. CRITICAL ISSUE IDENTIFIED: SESSION PERSISTENCE FAILURE ❌ - After successful login and navigation, user session does not persist properly. Attempting to interact with page elements or navigate causes automatic redirect back to landing page (/) instead of maintaining dashboard session. This prevents testing of: clicking nutrition entries, opening view/edit modals, testing Edit button functionality, verifying form pre-population, testing save operations. ROOT CAUSE: Likely frontend session management, authentication token handling, or routing configuration issue. RECOMMENDATION: Fix session persistence issue before attempting edit functionality testing. The nutrition page and entry display work correctly when accessible."
 
   - task: "Automatic Image Compression for Uploads"
     implemented: true
