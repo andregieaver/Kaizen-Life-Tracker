@@ -186,10 +186,14 @@ const Journal = ({ athleteId }) => {
   };
 
   // Video recording functions
-  const startVideoRecording = async () => {
+  const startCameraPreview = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: 1280, height: 720 },
+        video: { 
+          width: 1280, 
+          height: 720,
+          facingMode: 'user' // Use front camera on mobile
+        },
         audio: true
       });
       
@@ -205,6 +209,22 @@ const Journal = ({ athleteId }) => {
           logger.error(null, 'Error playing video preview:', playError);
         }
       }
+    } catch (error) {
+      logger.error(null, 'Error starting camera preview:', error);
+      setSaveStatus({ type: 'error', message: t('journal.failedToAccessCamera') });
+    }
+  };
+
+  const startVideoRecording = async () => {
+    try {
+      // If camera preview is not already started, start it
+      if (!videoStream) {
+        await startCameraPreview();
+        // Wait a bit for stream to initialize
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+      
+      const stream = videoStream || videoRef.current?.srcObject;
       
       // Start recording
       videoChunksRef.current = [];
