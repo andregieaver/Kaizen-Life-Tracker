@@ -1829,7 +1829,7 @@ frontend:
 
   - task: "Nutrition Entry Edit and Delete Functionality"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/components/Nutrition.js"
     stuck_count: 0
     priority: "high"
