@@ -1841,6 +1841,7 @@
     "writeThoughtsPlaceholder": "Skriv tankene dine her...",
     "clickToStart": "Klikk for å starte opptak",
     "clickToStartVideo": "Klikk for å starte videoopptak",
+    "readyToRecord": "Klar til å ta opp. Klikk knappen nedenfor for å starte.",
     "startRecording": "Start opptak",
     "stopRecording": "Stopp opptak",
     "recording": "Tar opp...",
