@@ -1887,6 +1887,7 @@
     "writeThoughtsPlaceholder": "Write your thoughts here...",
     "clickToStart": "Click to start recording",
     "clickToStartVideo": "Click to start video recording",
+    "readyToRecord": "Ready to record. Click the button below to start.",
     "startRecording": "Start Recording",
     "stopRecording": "Stop Recording",
     "recording": "Recording...",
