@@ -230,7 +230,7 @@ async def endpoint_handler():
 - Email: `testuser@example.com`
 - Password: `password123`
 
-**API Base URL:** `https://training-events-hub.preview.emergentagent.com/api`
+**API Base URL:** `https://nutrition-tracker-49.preview.emergentagent.com/api`
 
 ---
 
