@@ -5075,7 +5075,7 @@ async def save_body_score(athlete_id: str, score: float):
 
 @app.get("/api/body-score/streak/{athlete_id}")
 async def get_body_score_streak(athlete_id: str):
-    """Calculate current streak of days with body score >= 85"""
+    # Calculate current streak of days with body score >= 85
     try:
         # Get all scores for this athlete, sorted by date descending
         scores = await db.body_score_history.find(
