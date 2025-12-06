@@ -314,8 +314,18 @@
 - Separate validation for images and videos
 **Completed**: Dec 6, 2025
 
-### 20. Add Request ID Tracing ⏸️
+### 20. Add Request ID Tracing ✅
+**Status**: COMPLETE
+**Implementation**: Added request_id_middleware in server.py
+- Accepts X-Request-ID from client or generates UUID
+- Stores in request.state for logging
+- Returns X-Request-ID in response headers
+- Enables request tracing across logs
+**Completed**: Dec 6, 2025
+
 ### 21. Force HTTPS Redirect ⏸️
+**Status**: NOT NEEDED
+**Reason**: SSL termination handled by Kubernetes Ingress controller. Application runs behind reverse proxy.
 
 ---
 
