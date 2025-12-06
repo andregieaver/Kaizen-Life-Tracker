@@ -125,7 +125,8 @@ class OuraService(BaseIntegrationService):
                         if timestamp_str:
                             try:
                                 start_date_parsed = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
-                            except:
+                            except (ValueError, AttributeError) as e:
+                                logger.debug(f"Failed to parse timestamp {timestamp_str}, using day fallback: {e}")
                                 start_date_parsed = datetime.fromisoformat(day + "T00:00:00+00:00")
                         else:
                             start_date_parsed = datetime.now()
