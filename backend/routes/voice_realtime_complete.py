@@ -62,15 +62,15 @@ async def get_realtime_chat_for_athlete(athlete_id: str):
 async def create_voice_session(athlete_id: str):
     """Create a new realtime voice session for the athlete"""
     try:
-        print(f"[VOICE] Starting voice session creation for athlete {athlete_id}")
+        logger.debug(f"[VOICE] Starting voice session creation for athlete {athlete_id}")
         
         # Get the realtime chat instance for this athlete (this can raise HTTPException)
         ai_coach = await get_realtime_chat_for_athlete(athlete_id)
-        print(f"[VOICE] Realtime chat instance created")
+        logger.debug(f"[VOICE] Realtime chat instance created")
         
         # Get athlete context for the voice session
         context = await ai_coach.get_athlete_context(athlete_id)
-        print(f"[VOICE] Athlete context retrieved")
+        logger.debug(f"[VOICE] Athlete context retrieved")
         
         # Create the system message with athlete context (similar to text chat)
         athlete_info = context.get('athlete', {})
@@ -171,7 +171,7 @@ Athlete Context:
 
 Remember: This is a VOICE conversation. Keep responses brief, natural, and conversational."""
         
-        print(f"[VOICE] System instructions prepared (language: {language_name}, voice: {voice_preference})")
+        logger.debug(f"[VOICE] System instructions prepared (language: {language_name}, voice: {voice_preference})")
         
         # Return session configuration
         return {
@@ -185,7 +185,7 @@ Remember: This is a VOICE conversation. Keep responses brief, natural, and conve
     except HTTPException:
         raise
     except Exception as e:
-        print(f"[VOICE] Error creating voice session: {e}")
+        logger.debug(f"[VOICE] Error creating voice session: {e}")
         logging.error(f"Error creating voice session: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to create voice session: {str(e)}")
 
