@@ -5134,8 +5134,10 @@ async def auto_sync_integrations():
             if athlete.get("strava_access_token"):
                 try:
                     logging.info(f"Auto-syncing Strava for athlete {athlete_id}")
-                    # Call the existing Strava sync endpoint
-                    await sync_strava_activities(athlete_id)
+                    # Use Strava service for sync
+                    from strava_service import StravaService
+                    strava_service = StravaService()
+                    await strava_service.sync_activities(athlete_id)
                     synced_count += 1
                     logging.info(f"Successfully synced Strava for athlete {athlete_id}")
                 except Exception as strava_error:
