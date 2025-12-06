@@ -562,26 +562,26 @@ async def send_push_notification(athlete_id: str, title: str, body: str, url: st
 async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: str, title: str):
     """Execute a scheduled prompt and save as a recommendation"""
     try:
-        print(f"[SCHEDULER] Starting execution for schedule {schedule_id}")
+        logging.debug(f"[SCHEDULER] Starting execution for schedule {schedule_id}")
         
         # Get comprehensive athlete context
         athlete_context = await ai_coach.get_athlete_context(athlete_id)
         if not athlete_context or not athlete_context.get('athlete'):
-            print(f"[SCHEDULER] ERROR: Athlete {athlete_id} not found")
+            logging.debug(f"[SCHEDULER] ERROR: Athlete {athlete_id} not found")
             logging.error(f"Athlete {athlete_id} not found for schedule {schedule_id}")
             return
         
         athlete = athlete_context['athlete']
-        print(f"[SCHEDULER] Athlete found: {athlete.get('name')}")
+        logging.debug(f"[SCHEDULER] Athlete found: {athlete.get('name')}")
         
         # Get OpenAI API key (checks user's personal key first, then global system settings)
         openai_key = await ai_coach.get_openai_key(athlete_id)
         if not openai_key:
-            print(f"[SCHEDULER] ERROR: No OpenAI API key configured (checked personal and system settings)")
+            logging.debug(f"[SCHEDULER] ERROR: No OpenAI API key configured (checked personal and system settings)")
             logging.error(f"No OpenAI API key configured for athlete {athlete_id} (checked personal and system settings)")
             return
         
-        print(f"[SCHEDULER] OpenAI key found, calling API...")
+        logging.debug(f"[SCHEDULER] OpenAI key found, calling API...")
         
         # Get coach language preference
         coach_language = athlete.get('coach_language', 'en')
@@ -852,7 +852,7 @@ Behavior:
         )
         
         ai_response = response.choices[0].message.content
-        print(f"[SCHEDULER] Got AI response: {ai_response[:100]}...")
+        logging.debug(f"[SCHEDULER] Got AI response: {ai_response[:100]}...")
 
         
         # Save as a recommendation
@@ -872,7 +872,7 @@ Behavior:
         }
         
         await db.recommendations.insert_one(recommendation)
-        print(f"[SCHEDULER] Recommendation saved to database")
+        logging.debug(f"[SCHEDULER] Recommendation saved to database")
         
         # Send push notification
         await send_push_notification(
@@ -881,7 +881,7 @@ Behavior:
             body=recommendation['summary'],
             url="/dashboard/reports"
         )
-        print(f"[SCHEDULER] Push notification sent")
+        logging.debug(f"[SCHEDULER] Push notification sent")
         
         # Update schedule last_executed time
         await db.schedules.update_one(
@@ -889,11 +889,11 @@ Behavior:
             {"$set": {"last_executed": datetime.now(timezone.utc).isoformat()}}
         )
         
-        print(f"[SCHEDULER] Successfully executed schedule {schedule_id}")
+        logging.debug(f"[SCHEDULER] Successfully executed schedule {schedule_id}")
         logging.info(f"Successfully executed schedule {schedule_id} for athlete {athlete_id}")
         
     except Exception as e:
-        print(f"[SCHEDULER] ERROR executing schedule {schedule_id}: {str(e)}")
+        logging.debug(f"[SCHEDULER] ERROR executing schedule {schedule_id}: {str(e)}")
         logging.error(f"Error executing schedule {schedule_id}: {str(e)}")
         import traceback
         traceback.print_exc()
@@ -904,12 +904,12 @@ async def check_and_execute_schedules():
     try:
         now_utc = datetime.now(timezone.utc)
         
-        print(f"[SCHEDULER] Checking schedules at {now_utc.strftime('%H:%M')} UTC")
+        logging.debug(f"[SCHEDULER] Checking schedules at {now_utc.strftime('%H:%M')} UTC")
         
         # Find active schedules that are due (limited to prevent memory issues)
         schedules = await db.schedules.find({"active": True}).limit(500).to_list(length=500)
         
-        print(f"[SCHEDULER] Found {len(schedules)} active schedules")
+        logging.debug(f"[SCHEDULER] Found {len(schedules)} active schedules")
         
         # Batch fetch athlete timezones to avoid N+1 queries
         athlete_ids = list(set(s.get('athlete_id') for s in schedules if s.get('athlete_id')))
@@ -938,12 +938,12 @@ async def check_and_execute_schedules():
                 current_day = now_local.strftime("%A").lower()
             except Exception as tz_error:
                 # Fallback to UTC if timezone conversion fails
-                print(f"[SCHEDULER] Timezone conversion error for {athlete_timezone_str}: {tz_error}. Using UTC.")
+                logging.debug(f"[SCHEDULER] Timezone conversion error for {athlete_timezone_str}: {tz_error}. Using UTC.")
                 current_time = now_utc.strftime("%H:%M")
                 current_day = now_utc.strftime("%A").lower()
                 athlete_timezone_str = "UTC"
             
-            print(f"[SCHEDULER] Checking schedule '{schedule.get('name')}' - scheduled for {schedule_time} {athlete_timezone_str}, current time {current_time} {athlete_timezone_str}")
+            logging.debug(f"[SCHEDULER] Checking schedule '{schedule.get('name')}' - scheduled for {schedule_time} {athlete_timezone_str}, current time {current_time} {athlete_timezone_str}")
             
             # Check if schedule is due
             is_due = False
@@ -959,7 +959,7 @@ async def check_and_execute_schedules():
                         # Execute if not already executed today (in athlete's timezone)
                         if not last_executed:
                             is_due = True
-                            print(f"[SCHEDULER] Schedule '{schedule.get('name')}' is due for execution (never executed)")
+                            logging.debug(f"[SCHEDULER] Schedule '{schedule.get('name')}' is due for execution (never executed)")
                         else:
                             # Convert last_executed to athlete's timezone for comparison
                             try:
@@ -971,9 +971,9 @@ async def check_and_execute_schedules():
                                 # Check if last execution was on a different day in athlete's timezone
                                 if last_exec_local.date() < now_local.date():
                                     is_due = True
-                                    print(f"[SCHEDULER] Schedule '{schedule.get('name')}' is due for execution (last executed on {last_exec_local.date()}, now {now_local.date()})")
+                                    logging.debug(f"[SCHEDULER] Schedule '{schedule.get('name')}' is due for execution (last executed on {last_exec_local.date()}, now {now_local.date()})")
                             except Exception as date_error:
-                                print(f"[SCHEDULER] Date comparison error: {date_error}")
+                                logging.debug(f"[SCHEDULER] Date comparison error: {date_error}")
                                 # Fallback: execute if last_executed is more than 20 hours ago
                                 if (now_utc - datetime.fromisoformat(last_executed).replace(tzinfo=timezone.utc)).total_seconds() > 72000:
                                     is_due = True
@@ -983,10 +983,10 @@ async def check_and_execute_schedules():
                         if current_day == schedule.get('day_of_week', '').lower():
                             if not last_executed or datetime.fromisoformat(last_executed).date() < now_local.date():
                                 is_due = True
-                                print(f"[SCHEDULER] Weekly schedule '{schedule.get('name')}' is due for execution")
+                                logging.debug(f"[SCHEDULER] Weekly schedule '{schedule.get('name')}' is due for execution")
             
             if is_due:
-                print(f"[SCHEDULER] Executing schedule '{schedule.get('name')}'")
+                logging.debug(f"[SCHEDULER] Executing schedule '{schedule.get('name')}'")
                 await execute_scheduled_prompt(
                     schedule['id'],
                     schedule['athlete_id'],
@@ -2852,7 +2852,7 @@ Behavior:
         
         # Provide detailed journal entries with full content
         journal_entries = context.get('journal_entries', [])
-        print(f"🔍 DEBUG: Found {len(journal_entries)} journal entries for athlete")
+        logging.debug(f" Found {len(journal_entries)} journal entries for athlete")
         if journal_entries:
             print(f"📋 First entry sample: {journal_entries[0]}")
         journal_summary = ""
