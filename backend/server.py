@@ -4536,10 +4536,13 @@ async def get_user_daily_metrics(
     return {"daily_metrics": [parse_from_mongo(metric) for metric in daily_metrics]}
 
 @api_router.get("/health/body-score-data/{athlete_id}")
-async def get_body_score_data(athlete_id: str, response: Response):
+async def get_body_score_data(athlete_id: str, response: Response, user: dict = Depends(require_auth)):
     # Updated 2025-11-20: Fixed MongoDB projections for Oura data
     # Updated 2025-11-24: Added cache control headers to prevent stale data
-    """Aggregate health metrics from all integrations for body score calculation"""
+    """Aggregate health metrics from all integrations for body score calculation - Requires authentication"""
+    # Verify user can only view their own health data
+    if user["athlete_id"] != athlete_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     # Prevent caching to ensure fresh data is always fetched
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Pragma"] = "no-cache"
