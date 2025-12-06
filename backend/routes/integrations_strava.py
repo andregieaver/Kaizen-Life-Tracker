@@ -340,12 +340,12 @@ async def strava_auth_callback_redirect(
     Exchange code for tokens and store connection
     """
     try:
-        print(f"\n{'='*80}")
+        logger.debug("=" * 80)
         logger.debug(f"[STRAVA CALLBACK HIT!] Received OAuth callback from Strava")
         logger.debug(f"[STRAVA CALLBACK] code={code[:15]}...")
         logger.debug(f"[STRAVA CALLBACK] state={state[:30]}...")
         logger.debug(f"[STRAVA CALLBACK] scope={scope}")
-        logger.debug('=' * 80)\n")
+        logger.debug("=" * 80)
         
         logging.info(f"[STRAVA CALLBACK] Received: code={code[:10]}..., state={state[:20]}..., scope={scope}")
         
