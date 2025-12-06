@@ -103,7 +103,7 @@ async def get_user_profile(user_id: str, athlete_id: str):
         # Challenges - check if collection exists, default to 0 for now
         try:
             challenges_count = await db.challenges.count_documents({"athlete_id": user_id})
-        except:
+        except Exception:
             challenges_count = 0
         
         # 4. Get referral stats
