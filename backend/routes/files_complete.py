@@ -49,7 +49,7 @@ def parse_from_mongo(item):
     if isinstance(item.get('time'), str):
         try:
             item['time'] = datetime.strptime(item['time'], '%H:%M:%S').time()
-        except:
+        except (ValueError, TypeError):
             pass
     return item
 
