@@ -4512,9 +4512,13 @@ async def get_user_daily_metrics(
     user_id: str = Query(...),
     start_date: Optional[str] = Query(None),
     end_date: Optional[str] = Query(None),
-    limit: int = Query(30, le=90)
+    limit: int = Query(30, le=90),
+    user: dict = Depends(require_auth)
 ):
-    """Get normalized daily metrics for user"""
+    """Get normalized daily metrics for user - Requires authentication"""
+    # Verify user can only view their own metrics
+    if user["athlete_id"] != user_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     query = {"user_id": user_id}
     
     if start_date and end_date:
