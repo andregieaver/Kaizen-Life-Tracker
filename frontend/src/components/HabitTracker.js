@@ -31,6 +31,7 @@ const HabitTracker = ({ athleteId }) => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [timesPerDay, setTimesPerDay] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [expandedHabitId, setExpandedHabitId] = useState(null);
 
   const today = new Date().toISOString().split('T')[0];
   const todayDayName = DAYS_OF_WEEK[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1].value;
