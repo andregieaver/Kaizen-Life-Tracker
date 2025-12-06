@@ -30,24 +30,18 @@ from PIL import Image
 import requests
 from urllib.parse import urlencode
 from stravalib import Client
-import asyncio
-import signal
-import sys
 from oura import OuraClient
-from datetime import timedelta
 from passlib.context import CryptContext
 # from emergentintegrations.llm.chat import LlmChat, UserMessage
 from tavily import TavilyClient
 from emergentintegrations.llm.openai import OpenAIChatRealtime
 import httpx
 from bs4 import BeautifulSoup
-import re
 from email_service import initialize_email_service, get_email_service
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import openai
 from pywebpush import webpush, WebPushException
-import re
 import stripe
 
 # Import image processor
