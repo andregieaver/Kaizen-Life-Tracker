@@ -5178,8 +5178,7 @@ async def get_body_score_leaderboard(limit: int = 50):
     except Exception as e:
         logging.error(f"Error getting leaderboard: {e}")
         raise HTTPException(status_code=500, detail=str(e))
-
-
+"""
 
 
 # ==========================================
