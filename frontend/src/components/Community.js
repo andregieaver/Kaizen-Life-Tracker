@@ -1971,13 +1971,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const handleTranslatePost = async (postId, originalContent, pollOptions = null) => {
-    console.log('Translation requested for post:', postId);
-    console.log('Current language:', i18n.language);
-    console.log('Original content:', originalContent);
+    logger.debug('Community', 'Translation requested for post:', postId);
+    logger.debug('Community', 'Current language:', i18n.language);
     
     // If already translated, toggle back to original
     if (translatedPosts[postId]?.isTranslated) {
-      console.log('Showing original text');
+      logger.debug('Community', 'Showing original text');
       setTranslatedPosts(prev => ({
         ...prev,
         [postId]: { ...prev[postId], isTranslated: false }
@@ -1987,7 +1986,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
     // If we have a cached translation, just show it
     if (translatedPosts[postId]?.translated_text) {
-      console.log('Showing cached translation');
+      logger.debug('Community', 'Showing cached translation');
       setTranslatedPosts(prev => ({
         ...prev,
         [postId]: { ...prev[postId], isTranslated: true }
@@ -2010,13 +2009,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     };
     
     const targetLanguage = languageMap[i18n.language] || 'English';
-    console.log('Target language:', targetLanguage);
+    logger.debug('Community', 'Target language:', targetLanguage);
 
     // Otherwise, fetch translation
     setTranslatingPosts(prev => ({ ...prev, [postId]: true }));
     
     try {
-      console.log('Calling translation API...');
+      logger.debug('Community', 'Calling translation API...');
       
       if (pollOptions) {
         // For polls, translate question and each option separately
@@ -2053,7 +2052,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           target_language: targetLanguage
         });
 
-        console.log('Translation response:', response.data);
+        logger.debug('Community', 'Translation response:', response.data);
 
         setTranslatedPosts(prev => ({
           ...prev,
@@ -2065,10 +2064,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }));
       }
       
-      console.log('Translation successful');
+      logger.debug('Community', 'Translation successful');
     } catch (error) {
-      console.error('Translation error:', error);
-      console.error('Error details:', error.response?.data || error.message);
+      logger.error('Community', 'Translation error:', error);
+      logger.error('Community', 'Error details:', error.response?.data || error.message);
       alert(`Translation failed: ${error.response?.data?.detail || error.message}`);
     } finally {
       setTranslatingPosts(prev => ({ ...prev, [postId]: false }));
