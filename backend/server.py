@@ -3917,8 +3917,11 @@ async def execute_schedule_now(schedule_id: str, user: dict = Depends(require_ad
 
 # Recommendations Routes (other CRUD endpoints moved to routes/recommendations_complete.py)
 @api_router.post("/recommendations/{athlete_id}/generate")
-async def generate_recommendation(athlete_id: str, prompt: str, schedule_id: str = None):
-    """Generate a new AI recommendation based on a prompt"""
+async def generate_recommendation(athlete_id: str, prompt: str, schedule_id: str = None, user: dict = Depends(require_auth)):
+    """Generate a new AI recommendation - Requires authentication"""
+    # Verify user can only generate for themselves (or is admin)
+    if user["athlete_id"] != athlete_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     try:
         # Get AI coach response
         response = await ai_coach.chat_with_coach(athlete_id, prompt)
