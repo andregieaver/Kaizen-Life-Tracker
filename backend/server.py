@@ -170,6 +170,70 @@ def sanitize_input(data: Any) -> Any:
         return [sanitize_input(item) for item in data]
     return data
 
+# ============= IN-MEMORY CACHE =============
+# Simple TTL cache for frequently accessed data
+from functools import lru_cache
+import time
+
+class TTLCache:
+    """
+    Simple time-based cache for frequently accessed data.
+    Reduces database load for settings and other semi-static data.
+    """
+    def __init__(self, ttl_seconds: int = 60):
+        self.ttl = ttl_seconds
+        self._cache = {}
+        self._timestamps = {}
+    
+    def get(self, key: str):
+        """Get value from cache if not expired"""
+        if key in self._cache:
+            if time.time() - self._timestamps.get(key, 0) < self.ttl:
+                return self._cache[key]
+            else:
+                # Expired - remove from cache
+                del self._cache[key]
+                del self._timestamps[key]
+        return None
+    
+    def set(self, key: str, value):
+        """Set value in cache with timestamp"""
+        self._cache[key] = value
+        self._timestamps[key] = time.time()
+    
+    def invalidate(self, key: str = None):
+        """Invalidate specific key or entire cache"""
+        if key:
+            self._cache.pop(key, None)
+            self._timestamps.pop(key, None)
+        else:
+            self._cache.clear()
+            self._timestamps.clear()
+
+# Global cache instance (60 second TTL for settings)
+settings_cache = TTLCache(ttl_seconds=60)
+
+async def get_cached_system_settings():
+    """
+    Get system settings with caching.
+    Reduces DB calls for frequently accessed settings.
+    """
+    cached = settings_cache.get("system_settings")
+    if cached is not None:
+        return cached
+    
+    settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+    if not settings:
+        settings = await db.system_settings.find_one({}, {"_id": 0})
+    
+    if settings:
+        settings_cache.set("system_settings", settings)
+    return settings
+
+def invalidate_settings_cache():
+    """Call this when settings are updated"""
+    settings_cache.invalidate("system_settings")
+
 # Add request timeout middleware
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT_SECONDS", "60"))  # 60 seconds default
 
