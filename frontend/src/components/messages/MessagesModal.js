@@ -315,18 +315,26 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
   };
   
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] md:p-4" onClick={onClose}>
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] md:p-4" 
+      onClick={onClose}
+      role="presentation"
+    >
       <div 
         className="messages-modal w-full h-full md:rounded-3xl md:max-w-5xl md:h-[85vh] flex flex-col"
         style={{ background: 'var(--grad-surface)' }}
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="messages-modal-title"
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
-          <h2 className="text-2xl font-bold text-white">{t('messages.title')}</h2>
+          <h2 id="messages-modal-title" className="text-2xl font-bold text-white">{t('messages.title')}</h2>
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+            aria-label="Close dialog"
           >
             <X className="w-6 h-6 text-white" />
           </button>
