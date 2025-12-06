@@ -233,7 +233,8 @@ async def verify_reset_token(request: dict):
 
 
 @router.post("/reset-password")
-async def reset_password(data: PasswordResetConfirm):
+@limiter.limit("5/minute")
+async def reset_password(http_request: Request, data: PasswordResetConfirm):
     """Reset password using token"""
     # Find athlete with this token
     athlete = await db.athlete_profiles.find_one(
