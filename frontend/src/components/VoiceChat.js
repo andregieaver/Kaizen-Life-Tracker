@@ -193,10 +193,8 @@ class RealtimeAudioChat {
             return;
         }
         
-        // CRITICAL LOG - Show function call was received
-        console.log('🔥 FUNCTION CALL RECEIVED:', functionName, args);
-        logger.debug(null, `Executing function: ${functionName}`, args);
-        alert(`Function called: ${functionName}`);
+        // Log function call in development
+        logger.debug('VoiceChat', `Function call received: ${functionName}`, args);
         
         // Convert function calls to commands
         let command = '';
@@ -221,10 +219,10 @@ class RealtimeAudioChat {
                 break;
             case 'respond_to_user':
                 // Just a chat response, no action needed
-                logger.debug(null, 'Agent responded:', args.response);
+                logger.debug('VoiceChat', 'Agent responded:', args.response);
                 return;
             default:
-                logger.warn(null, `Unknown function: ${functionName}`);
+                logger.warn('VoiceChat', `Unknown function: ${functionName}`);
                 return;
         }
         
