@@ -218,6 +218,69 @@ const HabitTracker = ({ athleteId }) => {
     return streak;
   };
 
+  // Calculate completion score for last 30 days
+  const calculateCompletionScore = (habit) => {
+    let completedDays = 0;
+    let totalScheduledDays = 0;
+    
+    const checkDate = new Date();
+    for (let i = 0; i < 30; i++) {
+      const dateStr = checkDate.toISOString().split('T')[0];
+      const dayName = DAYS_OF_WEEK[checkDate.getDay() === 0 ? 6 : checkDate.getDay() - 1].value;
+      
+      // Only count days that are in the habit's schedule
+      if (habit.days_of_week.includes(dayName)) {
+        totalScheduledDays++;
+        const key = `${habit.id}-${dateStr}`;
+        const count = completions[key] || 0;
+        
+        if (count >= habit.times_per_day) {
+          completedDays++;
+        }
+      }
+      
+      checkDate.setDate(checkDate.getDate() - 1);
+    }
+    
+    return totalScheduledDays > 0 ? Math.round((completedDays / totalScheduledDays) * 100) : 0;
+  };
+
+  // Get last 28 days for mini calendar (4 weeks)
+  const getLast28Days = () => {
+    const days = [];
+    const checkDate = new Date();
+    
+    // Go back to start of current week (Monday)
+    const currentDay = checkDate.getDay();
+    const daysFromMonday = currentDay === 0 ? 6 : currentDay - 1;
+    checkDate.setDate(checkDate.getDate() - daysFromMonday - 21); // Go back 3 more weeks
+    
+    for (let i = 0; i < 28; i++) {
+      days.push({
+        date: new Date(checkDate).toISOString().split('T')[0],
+        dayName: DAYS_OF_WEEK[checkDate.getDay() === 0 ? 6 : checkDate.getDay() - 1].value,
+        dayOfMonth: checkDate.getDate(),
+        isToday: checkDate.toISOString().split('T')[0] === today
+      });
+      checkDate.setDate(checkDate.getDate() + 1);
+    }
+    
+    return days;
+  };
+
+  // Get completion status for a specific day and habit
+  const getDayCompletionStatus = (habit, date) => {
+    const key = `${habit.id}-${date}`;
+    const count = completions[key] || 0;
+    
+    if (count >= habit.times_per_day) {
+      return 'complete';
+    } else if (count > 0) {
+      return 'partial';
+    }
+    return 'none';
+  };
+
   const todayHabits = habits.filter(h => h.days_of_week.includes(todayDayName));
   const longestStreak = habits.length > 0 
     ? Math.max(...habits.map(h => calculateStreak(h)), 0)
