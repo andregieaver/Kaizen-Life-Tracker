@@ -154,11 +154,11 @@ async def get_gender_distribution_stats(athlete_id: str):
     await verify_super_admin(athlete_id)
     
     try:
-        # Get all athlete profiles with gender field
+        # Get all athlete profiles with gender field (capped at 100000 for performance)
         athletes = await db.athlete_profiles.find(
             {},
             {"gender": 1}
-        ).to_list(length=None)
+        ).to_list(length=100000)
         
         # Count gender occurrences
         gender_counts = {
