@@ -155,7 +155,8 @@ async def get_nutrition_entries(athlete_id: str, date: Optional[str] = None):
                 datetime_str = f"{date_str} {time_str}"
                 dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
                 return dt.replace(tzinfo=timezone.utc)
-            except:
+            except (ValueError, TypeError) as e:
+                logging.debug(f"Failed to parse datetime from date/time strings: {e}")
                 pass
         
         if isinstance(entry.get('created_at'), str):
