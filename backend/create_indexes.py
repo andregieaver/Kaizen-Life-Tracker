@@ -137,8 +137,8 @@ async def create_indexes():
         # ============= BODY SCORE =============
         logger.info("Creating indexes for body_score_history...")
         
-        # User body score history
-        await db.body_score_history.create_index([("athlete_id", 1), ("date", -1)], unique=True, background=True)
+        # User body score history (not unique - allow multiple updates per day)
+        await db.body_score_history.create_index([("athlete_id", 1), ("date", -1)], background=True)
         indexes_created += 1
         
         # ============= READINESS SCORES =============
