@@ -5137,9 +5137,12 @@ async def get_habit_completions(athlete_id: str, start_date: Optional[str] = Non
 
 
 # ==========================================
-# ONBOARDING ENDPOINTS
+# ONBOARDING ENDPOINTS - EXTRACTED TO routes/onboarding_complete.py
 # ==========================================
 
+# All onboarding endpoints have been moved to routes/onboarding_complete.py
+
+"""
 class OnboardingStatus(BaseModel):
     """Track user onboarding progress"""
     personal_info_completed: bool = False
