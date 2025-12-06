@@ -159,6 +159,43 @@ async def create_indexes():
         await db.athlete_profiles.create_index([("reset_token_expires", 1)], sparse=True, background=True)
         indexes_created += 1
         
+        # ============= AGENT MESSAGES =============
+        logger.info("Creating indexes for agent messages...")
+        
+        # Management agent messages by athlete
+        await db.management_agent_messages.create_index([("athlete_id", 1), ("timestamp", -1)], background=True)
+        indexes_created += 1
+        
+        # Support agent messages by athlete
+        await db.support_agent_messages.create_index([("athlete_id", 1), ("timestamp", -1)], background=True)
+        indexes_created += 1
+        
+        # Coach messages by athlete
+        await db.coach_messages.create_index([("athlete_id", 1), ("timestamp", -1)], background=True)
+        indexes_created += 1
+        
+        # ============= OAUTH STATES =============
+        logger.info("Creating indexes for OAuth states...")
+        
+        # OAuth state lookup (for Strava, Oura callbacks)
+        await db.oauth_states.create_index([("state", 1)], unique=True, background=True)
+        indexes_created += 1
+        
+        # OAuth state expiration
+        await db.oauth_states.create_index([("created_at", 1)], expireAfterSeconds=3600, background=True)
+        indexes_created += 1
+        
+        # ============= NOTIFICATIONS =============
+        logger.info("Creating indexes for notifications...")
+        
+        # User notifications
+        await db.notifications.create_index([("athlete_id", 1), ("created_at", -1)], background=True)
+        indexes_created += 1
+        
+        # Unread notifications
+        await db.notifications.create_index([("athlete_id", 1), ("read", 1), ("created_at", -1)], background=True)
+        indexes_created += 1
+        
         logger.info(f"✅ Successfully created {indexes_created} indexes")
         
         # Verify indexes
