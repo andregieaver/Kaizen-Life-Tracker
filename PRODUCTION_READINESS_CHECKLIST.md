@@ -223,15 +223,46 @@
 **Script Created**: create_indexes.py for future migrations
 **Completed**: Dec 5, 2025
 ### 11. Replace Bare Exception Handlers ⏸️
-### 12. Implement React Error Boundaries ⏸️
+### 12. Implement React Error Boundaries ✅
+**Status**: COMPLETE
+**Implementation**: Created ErrorBoundary.js component with:
+- Catches JavaScript errors in child components
+- Logs errors to console (and can be extended to Sentry)
+- Shows user-friendly error UI with "Try Again" and "Go Home" buttons
+- Shows error details in development mode
+- Includes withErrorBoundary HOC for easy component wrapping
+- Integrated into App.js wrapping all routes
+**Completed**: Dec 6, 2025
+
 ### 13. Remove console.log Statements ⏸️
 ### 14. Add Comprehensive Health Checks ⏸️
 ### 15. Set Request Timeouts ⏸️
 ### 16. Implement API Versioning ⏸️
 ### 17. Add Graceful Shutdown Handling ⏸️
-### 18. Fix Unlimited Pagination Queries ⏸️
-### 19. Add Request ID Tracing ⏸️
-### 20. Force HTTPS Redirect ⏸️
+### 18. Fix Unlimited Pagination Queries ✅
+**Status**: COMPLETE
+**Implementation**: Added reasonable limits to all `to_list(length=None)` calls in route files:
+- system_complete.py: 3 instances fixed (10k-100k limits for admin stats)
+- groups_complete.py: 3 instances fixed (1000 member limits)
+- bookmarks_complete.py: 1 instance fixed (500 post limit)
+- health_metrics_complete.py: 1 instance fixed (10k athlete limit)
+- events_complete.py: 2 instances fixed (500-1000 limits)
+- server.py: 1 instance fixed (10k athlete limit for leaderboard)
+**Completed**: Dec 6, 2025
+
+### 19. File Upload Validation ✅
+**Status**: COMPLETE
+**Implementation**: Enhanced uploads_complete.py with:
+- File size limits: 10MB for images, 200MB for videos
+- Allowed file type whitelist (JPEG, PNG, GIF, WebP, HEIC, HEIF for images)
+- Allowed file extension validation
+- Filename sanitization to prevent path traversal attacks
+- Empty file detection
+- Separate validation for images and videos
+**Completed**: Dec 6, 2025
+
+### 20. Add Request ID Tracing ⏸️
+### 21. Force HTTPS Redirect ⏸️
 
 ---
 
