@@ -237,12 +237,12 @@ async def get_group(group_id: str, athlete_id: str = Query(...)):
             {"_id": 0}
         ).limit(100).to_list(length=100)
         
-        # Get athlete details for members
+        # Get athlete details for members (capped at 1000)
         athlete_ids = [m["athlete_id"] for m in memberships]
         athletes = await db.athletes.find(
             {"$or": [{"id": {"$in": athlete_ids}}, {"athlete_id": {"$in": athlete_ids}}]},
             {"_id": 0, "id": 1, "athlete_id": 1, "name": 1, "profile_picture": 1}
-        ).to_list(length=None)
+        ).to_list(length=1000)
         
         # Create athlete lookup
         athlete_lookup = {}
