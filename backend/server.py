@@ -5245,13 +5245,13 @@ async def get_body_score_streak(athlete_id: str, user: dict = Depends(require_au
 async def get_body_score_leaderboard(limit: int = 50):
     # Get leaderboard of all users with their body score streaks
     try:
-        # Get all athletes
+        # Get all athletes (capped at 10000 for leaderboard performance)
         athletes = await db.athlete_profiles.find({}, {
             "id": 1,
             "name": 1,
             "profile_picture": 1,
             "_id": 0
-        }).to_list(length=None)
+        }).to_list(length=10000)
         
         leaderboard = []
         
