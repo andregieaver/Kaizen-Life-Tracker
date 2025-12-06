@@ -7,7 +7,8 @@ from typing import List
 import logging
 
 # Import image/video processors
-from image_processor import process_and_save_image, process_and_save_video
+from image_processor import process_and_save_image
+from video_processor import process_and_save_video
 
 router = APIRouter(prefix="/upload", tags=["uploads"])
 logger = logging.getLogger(__name__)
