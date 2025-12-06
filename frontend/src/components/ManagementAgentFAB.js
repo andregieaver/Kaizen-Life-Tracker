@@ -218,13 +218,19 @@ const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => 
 
       {/* Full Screen Text Chat Modal */}
       {showTextChat && (
-        <div className="fixed inset-0 z-[100] bg-[#0B1220]">
+        <div 
+          className="fixed inset-0 z-[100] bg-[#0B1220]"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Management agent chat"
+        >
           <div className="relative h-full">
             {/* Close Button */}
             <button
               onClick={closeTextChat}
               className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 
                          flex items-center justify-center text-white transition-colors"
+              aria-label="Close chat"
             >
               <X className="w-6 h-6" />
             </button>
