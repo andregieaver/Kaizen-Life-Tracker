@@ -18,6 +18,7 @@ from slowapi.util import get_remote_address
 from database import db
 from utils import prepare_for_mongo, parse_from_mongo
 from email_service import get_email_service
+from auth_middleware import create_access_token
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
