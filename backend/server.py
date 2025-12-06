@@ -105,6 +105,10 @@ scheduler = AsyncIOScheduler()
 # Create the main app without a prefix
 app = FastAPI()
 
+# Add GZip compression middleware for responses > 500 bytes
+# This significantly reduces bandwidth for JSON responses
+app.add_middleware(GZipMiddleware, minimum_size=500)
+
 # Initialize rate limiter
 limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
 app.state.limiter = limiter
@@ -124,6 +128,47 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization", "X-Request-ID"],  # Explicit headers
     max_age=3600,  # Cache preflight requests for 1 hour
 )
+
+# ============= INPUT SANITIZATION =============
+# Patterns for detecting potential security issues
+DANGEROUS_PATTERNS = [
+    r'<script[^>]*>',  # XSS script tags
+    r'javascript:',    # JavaScript protocol
+    r'on\w+\s*=',      # Event handlers (onclick, onerror, etc.)
+    r'\$\{.*\}',       # Template injection
+    r'\{\{.*\}\}',     # Template injection (Jinja/Angular style)
+]
+
+def sanitize_string(value: str) -> str:
+    """
+    Sanitize a string by removing potentially dangerous content.
+    Used for user-provided text that will be displayed.
+    """
+    if not isinstance(value, str):
+        return value
+    
+    # Remove null bytes
+    value = value.replace('\x00', '')
+    
+    # Check for dangerous patterns (log but don't block - just sanitize)
+    for pattern in DANGEROUS_PATTERNS:
+        if re.search(pattern, value, re.IGNORECASE):
+            # Remove the dangerous pattern
+            value = re.sub(pattern, '', value, flags=re.IGNORECASE)
+    
+    return value
+
+def sanitize_input(data: Any) -> Any:
+    """
+    Recursively sanitize input data (dicts, lists, strings).
+    """
+    if isinstance(data, str):
+        return sanitize_string(data)
+    elif isinstance(data, dict):
+        return {k: sanitize_input(v) for k, v in data.items()}
+    elif isinstance(data, list):
+        return [sanitize_input(item) for item in data]
+    return data
 
 # Add request timeout middleware
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT_SECONDS", "60"))  # 60 seconds default
