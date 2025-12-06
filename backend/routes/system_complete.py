@@ -112,11 +112,11 @@ async def get_connected_integration_stats(athlete_id: str):
     await verify_super_admin(athlete_id)
     
     try:
-        # Get all integrations from the integrations collection
+        # Get all integrations from the integrations collection (capped at 50000 for performance)
         integrations = await db.integrations.find(
             {},
             {"provider": 1, "user_id": 1}
-        ).to_list(length=None)
+        ).to_list(length=50000)
         
         # Count integration occurrences by provider
         provider_counts = {}
