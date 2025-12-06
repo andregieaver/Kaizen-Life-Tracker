@@ -5369,7 +5369,7 @@ async def check_auto_complete_steps(athlete_id: str):
     except Exception as e:
         logging.error(f"Error auto-checking onboarding completion: {e}")
         raise HTTPException(status_code=500, detail=str(e))
-
+"""
 
 # ==========================================
 # BODY SCORE STREAK & LEADERBOARD ENDPOINTS
