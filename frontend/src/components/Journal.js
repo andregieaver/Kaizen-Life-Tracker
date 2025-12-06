@@ -565,11 +565,27 @@ const Journal = ({ athleteId }) => {
 
       {/* New Entry Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-2 md:p-4">
-          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl border border-gray-700" style={{ background: 'var(--grad-surface)' }}>
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-2 md:p-4"
+          role="presentation"
+        >
+          <div 
+            className="w-full max-w-2xl max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl border border-gray-700" 
+            style={{ background: 'var(--grad-surface)' }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="journal-modal-title"
+            aria-describedby="journal-modal-description"
+          >
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('journal.newJournalEntry')}</h3>
+                <h3 
+                  id="journal-modal-title" 
+                  className="text-lg font-bold" 
+                  style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}
+                >
+                  {t('journal.newJournalEntry')}
+                </h3>
                 <button
                   onClick={() => {
                     setShowModal(false);
@@ -578,11 +594,18 @@ const Journal = ({ athleteId }) => {
                     stopRecording();
                   }}
                   className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
+                  aria-label="Close dialog"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>{t('journal.chooseInputType')}</p>
+              <p 
+                id="journal-modal-description" 
+                className="text-sm mt-1" 
+                style={{ color: 'var(--text-med)' }}
+              >
+                {t('journal.chooseInputType')}
+              </p>
             </div>
             <div className="p-4 space-y-4">
               {/* Entry Type Toggle */}
