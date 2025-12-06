@@ -119,6 +119,24 @@ app.add_middleware(
     max_age=3600,  # Cache preflight requests for 1 hour
 )
 
+# Add request timeout middleware
+REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT_SECONDS", "60"))  # 60 seconds default
+
+@app.middleware("http")
+async def timeout_middleware(request: Request, call_next):
+    """
+    Enforce request timeout to prevent hanging requests
+    Configurable via REQUEST_TIMEOUT_SECONDS environment variable
+    """
+    try:
+        return await asyncio.wait_for(call_next(request), timeout=REQUEST_TIMEOUT)
+    except asyncio.TimeoutError:
+        return Response(
+            content='{"detail": "Request timeout - operation took too long"}',
+            status_code=504,
+            media_type="application/json"
+        )
+
 # Middleware to update last_active_at for authenticated requests
 @app.middleware("http")
 async def update_last_active(request: Request, call_next):
