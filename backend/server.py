@@ -3988,11 +3988,6 @@ async def root():
 # Workout routes - MOVED to routes/workouts_complete.py
 
 
-    readiness_dict = prepare_for_mongo(readiness.model_dump())
-    await db.readiness_scores.insert_one(readiness_dict)
-    
-    return readiness
-
 # Merits / Personal Records routes
 @api_router.get("/merits/{athlete_id}")
 async def get_personal_records(athlete_id: str, user: dict = Depends(require_auth)):
