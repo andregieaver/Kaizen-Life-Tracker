@@ -307,11 +307,12 @@ function App() {
 
   return (
     <ThemeProvider>
-      <div className="App">
-        <BrowserRouter>
-          <AnalyticsProvider />
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
+      <ErrorBoundary>
+        <div className="App">
+          <BrowserRouter>
+            <AnalyticsProvider />
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
           <Route 
             path="/" 
             element={
