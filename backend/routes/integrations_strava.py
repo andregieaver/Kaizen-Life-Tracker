@@ -393,7 +393,7 @@ async def strava_auth_callback_redirect(
         return RedirectResponse(url=frontend_url)
     except Exception as e:
         logger.error(f"[STRAVA CALLBACK ERROR] Unexpected: {type(e).__name__}: {str(e)}")
-        logger.debug('=' * 80)\n")
+        logger.debug("=" * 80)
         logging.error(f"Unexpected error in Strava callback: {type(e).__name__}: {str(e)}", exc_info=True)
         # Redirect to frontend with error - try to get callback domain
         try:
