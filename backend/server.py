@@ -183,10 +183,12 @@ from routes.waitinglist_complete import router as waitinglist_router
 from routes.analytics_system_complete import router as analytics_system_router
 from routes.habits_complete import router as habits_router
 from routes.onboarding_complete import router as onboarding_router
+from routes.uploads_complete import router as uploads_router
 
 # Include refactored routers (these routes are now extracted)
 app.include_router(habits_router, prefix="/api")
 app.include_router(onboarding_router, prefix="/api")
+api_router.include_router(uploads_router)
 api_router.include_router(auth_router)
 api_router.include_router(athletes_router)
 api_router.include_router(agents_router)
