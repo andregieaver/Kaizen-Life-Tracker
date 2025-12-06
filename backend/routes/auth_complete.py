@@ -61,8 +61,9 @@ class ChangeEmailRequest(BaseModel):
 # ============= ROUTES =============
 
 @router.post("/login")
-async def login_athlete(login_data: LoginRequest):
-    """Login athlete by email and password"""
+@limiter.limit("5/minute")  # Strict rate limit for auth
+async def login_athlete(request: Request, login_data: LoginRequest):
+    """Login athlete by email and password - Rate limited to 5 attempts/minute"""
     # Debug logging
     logging.info(f"[LOGIN] Attempt for email: {login_data.email}")
     logging.info(f"[LOGIN] Password length: {len(login_data.password)}, first 3 chars: {login_data.password[:3] if len(login_data.password) >= 3 else login_data.password}")
