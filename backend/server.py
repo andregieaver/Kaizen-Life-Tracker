@@ -3809,8 +3809,11 @@ async def root():
 
 # Merits / Personal Records routes
 @api_router.get("/merits/{athlete_id}")
-async def get_personal_records(athlete_id: str):
-    """Get personal records for different distances"""
+async def get_personal_records(athlete_id: str, user: dict = Depends(require_auth)):
+    """Get personal records for different distances - Requires authentication"""
+    # Verify user can only access their own data (or is admin)
+    if user["athlete_id"] != athlete_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     
     # Define distance mappings (in meters)
     distance_map = {
