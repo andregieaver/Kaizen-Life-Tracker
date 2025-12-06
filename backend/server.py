@@ -5399,6 +5399,10 @@ async def verify_super_admin(athlete_id: str):
 # Duplicate system settings (GET/POST /system/settings, GET /system/subscriber-stats, POST /system/upload-seo-image) moved to routes/system_complete.py
 
 # Waiting List Endpoints
+# ==========================================
+# PLATFORM METRICS ENDPOINT - Keeping in server.py (public endpoint, frequently accessed)
+# ==========================================
+
 @api_router.get("/platform-metrics")
 async def get_platform_metrics():
     """Get platform metrics for landing page (public endpoint, no auth required)"""
