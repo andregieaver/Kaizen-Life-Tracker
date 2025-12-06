@@ -162,7 +162,8 @@ async def get_nutrition_entries(athlete_id: str, date: Optional[str] = None):
         if isinstance(entry.get('created_at'), str):
             try:
                 return datetime.fromisoformat(entry['created_at'].replace('Z', '+00:00'))
-            except:
+            except (ValueError, AttributeError) as e:
+                logging.debug(f"Failed to parse created_at ISO format: {e}")
                 pass
         elif isinstance(entry.get('created_at'), datetime):
             dt = entry['created_at']
