@@ -376,13 +376,13 @@ async def strava_auth_callback_redirect(
         await strava_service.load_settings()
         frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?tab=integrations&strava=connected"
         logger.info(f"[STRAVA CALLBACK SUCCESS] Redirecting to: {frontend_url}")
-        logger.debug('=' * 80)\n")
+        logger.debug("=" * 80)
         logging.info(f"Redirecting to: {frontend_url}")
         return RedirectResponse(url=frontend_url)
         
     except HTTPException as he:
         logger.error(f"[STRAVA CALLBACK ERROR] HTTPException: status={he.status_code}, detail={he.detail}")
-        logger.debug('=' * 80)\n")
+        logger.debug("=" * 80)
         logging.error(f"HTTPException in Strava callback: status={he.status_code}, detail={he.detail}", exc_info=True)
         # Redirect to frontend with error
         try:
