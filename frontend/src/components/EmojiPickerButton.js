@@ -100,6 +100,8 @@ const EmojiPickerButton = ({ onEmojiSelect }) => {
           <div 
             className="fixed inset-0 z-[60] bg-black/50 md:hidden"
             onClick={() => setShowPicker(false)}
+            role="presentation"
+            aria-label="Close emoji picker"
           />
           
           {/* Picker Container */}
