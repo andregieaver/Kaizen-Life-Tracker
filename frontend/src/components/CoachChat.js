@@ -752,7 +752,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
 
             {/* Status Text */}
             <div className="text-center">
-              <p className="text-white text-xl md:text-2xl font-medium mb-2">Listening...</p>
+              <p id="voice-mode-description" className="text-white text-xl md:text-2xl font-medium mb-2">Listening...</p>
               <p className="text-[#e9f0c7] text-lg">Speak to your AI coach</p>
             </div>
           </div>
