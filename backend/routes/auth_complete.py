@@ -282,8 +282,8 @@ async def reset_password(request: Request, data: PasswordResetConfirm):
 
 @router.post("/google-login")
 @limiter.limit("10/minute")
-async def google_login(http_request: Request, data: GoogleLoginRequest):
-    """Login or register athlete using Google OAuth"""
+async def google_login(request: Request, data: GoogleLoginRequest):
+    """Login or register athlete using Google OAuth - Rate limited to 10/minute"""
     email = data.email.lower().strip()
     
     # Check if athlete exists
