@@ -114,11 +114,11 @@ async def get_bookmarks(athlete_id: str, limit: int = 50, skip: int = 0):
         if not bookmarks:
             return {"posts": [], "total": 0}
         
-        # Get the actual posts
+        # Get the actual posts (capped at 500)
         post_ids = [bookmark["post_id"] for bookmark in bookmarks]
         posts = await db.community_posts.find(
             {"id": {"$in": post_ids}}
-        ).to_list(length=None)
+        ).to_list(length=500)
         
         # Create a map for quick lookup
         posts_map = {post["id"]: post for post in posts}
