@@ -214,12 +214,12 @@ async def get_event(event_id: str, athlete_id: str = Query(...)):
             {"_id": 0}
         ).limit(100).to_list(length=100)
         
-        # Get athlete details for attendees
+        # Get athlete details for attendees (capped at 500)
         athlete_ids = [a["athlete_id"] for a in attendees]
         athletes = await db.athlete_profiles.find(
             {"id": {"$in": athlete_ids}},
             {"_id": 0, "id": 1, "name": 1, "profile_picture": 1}
-        ).to_list(length=None)
+        ).to_list(length=500)
         
         # Create athlete lookup
         athlete_lookup = {a["id"]: a for a in athletes}
