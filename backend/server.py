@@ -5009,19 +5009,6 @@ class HabitUpdate(BaseModel):
 # HABITS ENDPOINTS - EXTRACTED TO routes/habits_complete.py
 # ==========================================
 
-# Moved to routes/habits_complete.py
-"""
-@app.post("/api/habits")
-async def create_habit(habit: Habit):
-    """Create a new habit"""
-    try:
-        habit_dict = habit.model_dump()
-        await db.habits.insert_one(habit_dict)
-        return {"success": True, "habit_id": habit.id}
-    except Exception as e:
-        logging.error(f"Error creating habit: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.get("/api/habits/{athlete_id}")
 async def get_habits(athlete_id: str, limit: Optional[int] = Query(None, description="Max habits to return")):
     """Get all habits for an athlete"""
