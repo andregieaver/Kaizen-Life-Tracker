@@ -38,13 +38,13 @@ const BodyScoreCard = ({ athleteId }) => {
         }
       });
       
-      console.log('[BodyScoreCard] API Response:', response.data);
-      console.log('[BodyScoreCard] oura_sleep_score:', response.data.oura_sleep_score);
-      console.log('[BodyScoreCard] resting_heart_rate:', response.data.resting_heart_rate);
-      console.log('[BodyScoreCard] missing_data:', response.data.missing_data);
+      logger.debug('BodyScoreCard', 'API Response:', response.data);
+      logger.debug('BodyScoreCard', 'oura_sleep_score:', response.data.oura_sleep_score);
+      logger.debug('BodyScoreCard', 'resting_heart_rate:', response.data.resting_heart_rate);
+      logger.debug('BodyScoreCard', 'missing_data:', response.data.missing_data);
       setHealthData(response.data);
     } catch (err) {
-      console.error('Error fetching body score data:', err);
+      logger.error('BodyScoreCard', 'Error fetching body score data:', err);
       setError(err.response?.data?.detail || 'Failed to load body score data');
     } finally {
       setLoading(false);
