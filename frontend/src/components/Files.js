@@ -916,10 +916,13 @@ const Files = ({ athleteId }) => {
         <div 
           className="fixed inset-0 bg-black bg-opacity-90 z-[60] flex items-center justify-center p-4"
           onClick={() => setShowImageModal(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image preview"
         >
           <img 
             src={selectedImage} 
-            alt="Full size" 
+            alt="Full size preview" 
             className="max-w-full max-h-full object-contain"
           />
           <Button
@@ -927,6 +930,7 @@ const Files = ({ athleteId }) => {
             size="sm"
             className="absolute top-4 right-4 text-white hover:bg-white/20"
             onClick={() => setShowImageModal(false)}
+            aria-label="Close image preview"
           >
             <X className="w-6 h-6" />
           </Button>
