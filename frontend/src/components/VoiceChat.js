@@ -317,13 +317,12 @@ class RealtimeAudioChat {
         const input = userInput.toLowerCase();
         
         // CRITICAL: Direct action parsing - bypass OpenAI function calling
-        console.log('🔍 PARSING USER INPUT:', userInput);
+        logger.debug('VoiceChat', 'Parsing user input:', userInput);
         
         // CAMERA triggers
         if (input.includes('picture') || input.includes('photo') || input.includes('selfie') || 
             input.includes('camera') || input.includes('take a pic')) {
-            console.log('📸 CAMERA TRIGGER DETECTED!');
-            alert('🔥 CAMERA DETECTED - Opening camera!');
+            logger.debug('VoiceChat', 'Camera trigger detected');
             
             // Trigger camera directly
             const command = 'COMMUNITY:take_photo|Voice activated photo!';
@@ -334,8 +333,7 @@ class RealtimeAudioChat {
         // POST triggers
         if ((input.includes('post') || input.includes('publish') || input.includes('share')) && 
             !input.includes('delete')) {
-            console.log('📝 POST TRIGGER DETECTED!');
-            alert('🔥 POST DETECTED - Creating post!');
+            logger.debug('VoiceChat', 'Post trigger detected');
             
             // Extract content after "post" keyword
             let content = 'Voice post';
@@ -352,7 +350,7 @@ class RealtimeAudioChat {
         
         // NAVIGATE triggers
         if (input.includes('go to') || input.includes('show me') || input.includes('take me to')) {
-            console.log('🧭 NAVIGATE TRIGGER DETECTED!');
+            logger.debug('VoiceChat', 'Navigate trigger detected');
             
             let page = 'community';
             if (input.includes('community')) page = 'community';
@@ -361,13 +359,12 @@ class RealtimeAudioChat {
             else if (input.includes('calendar')) page = 'calendar';
             else if (input.includes('nutrition')) page = 'nutrition';
             
-            alert(`🔥 NAVIGATE DETECTED - Going to ${page}!`);
             const command = `NAVIGATE:/dashboard/${page}`;
             await this.processSupportCommands(command);
             return;
         }
         
-        console.log('ℹ️ No action triggers detected in user input');
+        logger.debug('VoiceChat', 'No action triggers detected in user input');
     }
     
     async processSupportCommands(content) {
@@ -376,7 +373,7 @@ class RealtimeAudioChat {
             const navigateMatch = content.match(/NAVIGATE:(\/[^\s]+)/);
             if (navigateMatch) {
                 const path = navigateMatch[1];
-                logger.debug(null, 'Support Agent: Navigation command detected:', path);
+                logger.debug('VoiceChat', 'Support Agent: Navigation command detected:', path);
                 // Emit event for SupportAgentFAB to handle
                 window.dispatchEvent(new CustomEvent('support-agent-navigate', {
                     detail: { path }
