@@ -95,12 +95,18 @@ scheduler = AsyncIOScheduler()
 app = FastAPI()
 
 # Configure CORS middleware for production deployment
+# SECURITY: Whitelist specific origins only - never use "*" in production
+allowed_origins = os.getenv("ALLOWED_ORIGINS", os.getenv("FRONTEND_URL", "http://localhost:3000"))
+# Support multiple origins separated by comma
+origins_list = [origin.strip() for origin in allowed_origins.split(",")]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for flexibility
+    allow_origins=origins_list,  # Whitelisted origins only
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],  # Explicit methods
+    allow_headers=["Content-Type", "Authorization", "X-Request-ID"],  # Explicit headers
+    max_age=3600,  # Cache preflight requests for 1 hour
 )
 
 # Middleware to update last_active_at for authenticated requests
