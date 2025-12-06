@@ -4127,8 +4127,7 @@ async def generate_recommendation(athlete_id: str, prompt: str, schedule_id: str
         
     except Exception as e:
         logging.error(f"Error generating recommendation: {e}")
-    
-    return {"categories": categories}
+        raise HTTPException(status_code=500, detail=f"Error generating recommendation: {str(e)}")
 
 
 # Schedule Execution Service (would be called by cron job)
