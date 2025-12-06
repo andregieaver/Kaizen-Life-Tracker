@@ -62,7 +62,7 @@ async def _get_stripe_secret_key():
 @router.post("/create-checkout-session")
 async def create_checkout_session(request: CheckoutRequest, http_request: Request):
     """Create a Stripe Checkout session for subscription"""
-    stripe.api_key = await get_stripe_api_key()
+    stripe.api_key = await _get_stripe_secret_key()
     
     # Fetch subscription plans from database to get synced Stripe price IDs
     all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).limit(50).to_list(length=50)
@@ -274,7 +274,7 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
 @router.get("/checkout-status/{session_id}")
 async def get_checkout_status(session_id: str):
     """Get the status of a checkout session"""
-    stripe.api_key = await get_stripe_api_key()
+    stripe.api_key = await _get_stripe_secret_key()
     
     try:
         checkout_session = stripe.checkout.Session.retrieve(session_id)
@@ -562,7 +562,7 @@ async def update_subscription_plan(request: dict):
     if not stripe_subscription_id:
         raise HTTPException(status_code=400, detail="No active subscription found")
     
-    stripe.api_key = await get_stripe_api_key()
+    stripe.api_key = await _get_stripe_secret_key()
     
     # Find new plan
     all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).limit(50).to_list(length=50)
