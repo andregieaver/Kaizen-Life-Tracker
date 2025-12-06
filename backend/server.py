@@ -5236,8 +5236,11 @@ async def get_body_score_leaderboard(limit: int = 50):
 # ==========================================
 
 @api_router.post("/community/polls/{post_id}/vote")
-async def vote_on_poll(post_id: str, vote_data: dict, athlete_id: str = Query(...)):
-    """Vote on a poll"""
+async def vote_on_poll(post_id: str, vote_data: dict, athlete_id: str = Query(...), user: dict = Depends(require_auth)):
+    """Vote on a poll - Requires authentication"""
+    # Verify user can only vote as themselves
+    if user["athlete_id"] != athlete_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     try:
         option_id = vote_data.get("option_id")
         if not option_id:
