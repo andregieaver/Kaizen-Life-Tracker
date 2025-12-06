@@ -5009,8 +5009,9 @@ class HabitUpdate(BaseModel):
 # HABITS ENDPOINTS - EXTRACTED TO routes/habits_complete.py
 # ==========================================
 
- 
+# All habit endpoints have been moved to routes/habits_complete.py
 
+"""
 @app.put("/api/habits/{habit_id}")
 async def update_habit(habit_id: str, update: HabitUpdate):
     """Update a habit"""
