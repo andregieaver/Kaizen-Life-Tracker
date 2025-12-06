@@ -49,7 +49,7 @@ def prepare_for_mongo(data):
 async def sync_strava_activities_legacy(athlete_id: str, force_full: bool = False):
     """Manually sync activities from Strava (Legacy endpoint)"""
     try:
-        print(f"🔄 [STRAVA SYNC] athlete_id/user_id={athlete_id}, force_full={force_full}")
+        logger.info(f"[STRAVA SYNC] athlete_id/user_id={athlete_id}, force_full={force_full}")
         logging.info(f"[STRAVA SYNC] Initiating sync for user: {athlete_id}")
         
         # Use new StravaService instead of old activity manager
@@ -57,7 +57,7 @@ async def sync_strava_activities_legacy(athlete_id: str, force_full: bool = Fals
         await strava_service.load_settings()
         result = await strava_service.sync_activities(athlete_id, force_full_sync=force_full)
         
-        print(f"🟢 [STRAVA SYNC SUCCESS] Synced {result.get('imported', 0)} activities")
+        logger.info(f"[STRAVA SYNC SUCCESS] Synced {result.get('imported', 0)} activities")
         logging.info(f"[STRAVA SYNC] Completed: {result}")
         
         return result
@@ -66,8 +66,8 @@ async def sync_strava_activities_legacy(athlete_id: str, force_full: bool = Fals
     except Exception as e:
         import traceback
         error_traceback = traceback.format_exc()
-        print(f"🔴 [STRAVA SYNC ERROR] {type(e).__name__}: {str(e)}")
-        print(f"🔴 [STRAVA SYNC TRACEBACK]\n{error_traceback}")
+        logger.error(f"[STRAVA SYNC ERROR] {type(e).__name__}: {str(e)}")
+        logger.error(f"[STRAVA SYNC TRACEBACK]\n{error_traceback}")
         logging.error(f"Strava sync error: {str(e)}")
         logging.error(f"Traceback: {error_traceback}")
         raise HTTPException(status_code=500, detail=str(e) or f"Sync failed: {type(e).__name__}")
@@ -259,7 +259,7 @@ async def save_strava_credentials(athlete_id: str, credentials: StravaCredential
         return {"message": "Strava credentials saved successfully"}
         
     except Exception as e:
-        print(f"Error saving Strava credentials: {e}")
+        logger.error(f"Error saving Strava credentials: {e}")
         raise HTTPException(status_code=500, detail="Failed to save Strava credentials")
 
 
@@ -306,14 +306,14 @@ async def strava_auth_start(user_id: str):
     Returns authorization URL for user to visit
     """
     try:
-        print(f"🟢 [STRAVA AUTH START] user_id={user_id}")
+        logger.info(f"[STRAVA AUTH START] user_id={user_id}")
         logging.info(f"[STRAVA AUTH START] Initiating OAuth for user: {user_id}")
         
         strava_service = StravaService(db)
         auth_data = await strava_service.get_authorization_url(user_id)
         
-        print(f"🟢 [STRAVA AUTH START] Generated auth URL for user {user_id}")
-        print(f"🟢 [STRAVA AUTH START] Callback URL will be: {auth_data['url'].split('redirect_uri=')[1].split('&')[0] if 'redirect_uri=' in auth_data['url'] else 'N/A'}")
+        logger.info(f"[STRAVA AUTH START] Generated auth URL for user {user_id}")
+        logger.info(f"[STRAVA AUTH START] Callback URL will be: {auth_data['url'].split('redirect_uri=')[1].split('&')[0] if 'redirect_uri=' in auth_data['url'] else 'N/A'}")
         logging.info(f"[STRAVA AUTH START] Auth URL generated successfully")
         
         # Return the authorization URL - frontend will redirect user
@@ -324,7 +324,7 @@ async def strava_auth_start(user_id: str):
     except HTTPException:
         raise
     except Exception as e:
-        print(f"🔴 [STRAVA AUTH START ERROR] {type(e).__name__}: {str(e)}")
+        logger.error(f"[STRAVA AUTH START ERROR] {type(e).__name__}: {str(e)}")
         logging.error(f"Error starting Strava auth: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -341,48 +341,48 @@ async def strava_auth_callback_redirect(
     """
     try:
         print(f"\n{'='*80}")
-        print(f"🔷 [STRAVA CALLBACK HIT!] Received OAuth callback from Strava")
-        print(f"🔷 [STRAVA CALLBACK] code={code[:15]}...")
-        print(f"🔷 [STRAVA CALLBACK] state={state[:30]}...")
-        print(f"🔷 [STRAVA CALLBACK] scope={scope}")
-        print(f"{'='*80}\n")
+        logger.debug(f"[STRAVA CALLBACK HIT!] Received OAuth callback from Strava")
+        logger.debug(f"[STRAVA CALLBACK] code={code[:15]}...")
+        logger.debug(f"[STRAVA CALLBACK] state={state[:30]}...")
+        logger.debug(f"[STRAVA CALLBACK] scope={scope}")
+        logger.debug('=' * 80)\n")
         
         logging.info(f"[STRAVA CALLBACK] Received: code={code[:10]}..., state={state[:20]}..., scope={scope}")
         
         # Extract user_id from state or session
         strava_service = StravaService(db)
         
-        print(f"🔷 [STRAVA CALLBACK] Looking up OAuth state in database...")
+        logger.debug(f"[STRAVA CALLBACK] Looking up OAuth state in database...")
         # Find the OAuth state to get user_id
         oauth_state = await db.strava_oauth_state.find_one({'state': state})
         if not oauth_state:
-            print(f"🔴 [STRAVA CALLBACK ERROR] OAuth state not found for state: {state}")
+            logger.error(f"[STRAVA CALLBACK ERROR] OAuth state not found for state: {state}")
             logging.error(f"OAuth state not found for state: {state}")
             raise HTTPException(status_code=400, detail="Invalid OAuth state")
         
         user_id = oauth_state['user_id']
-        print(f"🔷 [STRAVA CALLBACK] Found user_id: {user_id}")
+        logger.debug(f"[STRAVA CALLBACK] Found user_id: {user_id}")
         logging.info(f"Found user_id from OAuth state: {user_id}")
         
         # Exchange code for tokens
-        print(f"🔷 [STRAVA CALLBACK] Exchanging authorization code for access tokens...")
+        logger.debug(f"[STRAVA CALLBACK] Exchanging authorization code for access tokens...")
         logging.info(f"Attempting to exchange code for tokens...")
         result = await strava_service.exchange_code_for_tokens(code, state, user_id)
-        print(f"🟢 [STRAVA CALLBACK SUCCESS] Tokens exchanged successfully!")
-        print(f"🟢 [STRAVA CALLBACK SUCCESS] Athlete: {result.get('athlete', {}).get('firstname', 'Unknown')} {result.get('athlete', {}).get('lastname', '')}")
+        logger.info(f"[STRAVA CALLBACK SUCCESS] Tokens exchanged successfully!")
+        logger.info(f"[STRAVA CALLBACK SUCCESS] Athlete: {result.get('athlete', {}).get('firstname', 'Unknown')} {result.get('athlete', {}).get('lastname', '')}")
         logging.info(f"Successfully exchanged code for tokens")
         
         # Redirect back to frontend with success
         await strava_service.load_settings()
         frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?tab=integrations&strava=connected"
-        print(f"🟢 [STRAVA CALLBACK SUCCESS] Redirecting to: {frontend_url}")
-        print(f"{'='*80}\n")
+        logger.info(f"[STRAVA CALLBACK SUCCESS] Redirecting to: {frontend_url}")
+        logger.debug('=' * 80)\n")
         logging.info(f"Redirecting to: {frontend_url}")
         return RedirectResponse(url=frontend_url)
         
     except HTTPException as he:
-        print(f"🔴 [STRAVA CALLBACK ERROR] HTTPException: status={he.status_code}, detail={he.detail}")
-        print(f"{'='*80}\n")
+        logger.error(f"[STRAVA CALLBACK ERROR] HTTPException: status={he.status_code}, detail={he.detail}")
+        logger.debug('=' * 80)\n")
         logging.error(f"HTTPException in Strava callback: status={he.status_code}, detail={he.detail}", exc_info=True)
         # Redirect to frontend with error
         try:
@@ -392,8 +392,8 @@ async def strava_auth_callback_redirect(
             frontend_url = "/dashboard/account?tab=integrations&strava=error"
         return RedirectResponse(url=frontend_url)
     except Exception as e:
-        print(f"🔴 [STRAVA CALLBACK ERROR] Unexpected: {type(e).__name__}: {str(e)}")
-        print(f"{'='*80}\n")
+        logger.error(f"[STRAVA CALLBACK ERROR] Unexpected: {type(e).__name__}: {str(e)}")
+        logger.debug('=' * 80)\n")
         logging.error(f"Unexpected error in Strava callback: {type(e).__name__}: {str(e)}", exc_info=True)
         # Redirect to frontend with error - try to get callback domain
         try:
@@ -446,11 +446,11 @@ async def strava_connection_status(user_id: str):
             print(f"🔍 [STRAVA STATUS CHECK] No connection found for user {user_id}")
             return {'connected': False}
         
-        print(f"🟢 [STRAVA STATUS CHECK] Connected! User: {user_id}, Athlete: {status.get('athlete', {}).get('firstname', 'Unknown')}")
+        logger.info(f"[STRAVA STATUS CHECK] Connected! User: {user_id}, Athlete: {status.get('athlete', {}).get('firstname', 'Unknown')}")
         return status
         
     except Exception as e:
-        print(f"🔴 [STRAVA STATUS CHECK ERROR] {type(e).__name__}: {str(e)}")
+        logger.error(f"[STRAVA STATUS CHECK ERROR] {type(e).__name__}: {str(e)}")
         logging.error(f"Error checking Strava status: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -511,13 +511,13 @@ async def sync_strava_activities_by_user(user_id: str, force_full: bool = Query(
     Sync activities from Strava to database (frontend-compatible endpoint)
     """
     try:
-        print(f"🔄 [STRAVA SYNC] user_id={user_id}, force_full={force_full}")
+        logger.info(f"[STRAVA SYNC] user_id={user_id}, force_full={force_full}")
         logging.info(f"[STRAVA SYNC] Initiating sync for user: {user_id}, force_full={force_full}")
         
         strava_service = StravaService(db)
         result = await strava_service.sync_activities(user_id, force_full_sync=force_full)
         
-        print(f"🟢 [STRAVA SYNC SUCCESS] Synced {result.get('synced_count', 0)} activities")
+        logger.info(f"[STRAVA SYNC SUCCESS] Synced {result.get('synced_count', 0)} activities")
         logging.info(f"[STRAVA SYNC] Completed: {result}")
         
         return result
@@ -525,7 +525,7 @@ async def sync_strava_activities_by_user(user_id: str, force_full: bool = Query(
     except HTTPException:
         raise
     except Exception as e:
-        print(f"🔴 [STRAVA SYNC ERROR] {type(e).__name__}: {str(e)}")
+        logger.error(f"[STRAVA SYNC ERROR] {type(e).__name__}: {str(e)}")
         logging.error(f"Error syncing Strava activities: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
