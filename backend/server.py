@@ -96,8 +96,40 @@ if openai_api_key:
 # Initialize scheduler
 scheduler = AsyncIOScheduler()
 
-# Create the main app without a prefix
-app = FastAPI()
+# Create the main app with API documentation
+app = FastAPI(
+    title="Kaizen Life API",
+    description="""
+## Kaizen Life - Health & Fitness Tracking Platform API
+
+A comprehensive API for managing athlete profiles, workouts, nutrition, 
+community features, and AI-powered coaching.
+
+### Key Features:
+* **Authentication** - JWT-based secure authentication
+* **Athlete Profiles** - Manage user profiles and settings
+* **Workouts** - Track and analyze training sessions
+* **Nutrition** - Log and analyze meals with AI
+* **Community** - Social features, posts, groups, and events
+* **Integrations** - Strava, Oura, Garmin, and more
+* **AI Coach** - Personalized insights and recommendations
+
+### Rate Limits:
+* Auth endpoints: 5 requests/minute
+* General API: 100 requests/minute
+    """,
+    version="2.0.0",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json",
+    contact={
+        "name": "Kaizen Life Support",
+        "email": "support@kaizenlifetracker.com",
+    },
+    license_info={
+        "name": "Proprietary",
+    },
+)
 
 # Add GZip compression middleware for responses > 500 bytes
 # This significantly reduces bandwidth for JSON responses
