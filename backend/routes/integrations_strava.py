@@ -388,7 +388,7 @@ async def strava_auth_callback_redirect(
         try:
             await strava_service.load_settings()
             frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?tab=integrations&strava=error"
-        except:
+        except Exception:
             frontend_url = "/dashboard/account?tab=integrations&strava=error"
         return RedirectResponse(url=frontend_url)
     except Exception as e:
@@ -402,7 +402,7 @@ async def strava_auth_callback_redirect(
                 callback_domain = settings_doc["advanced"]["strava"].get("callbackDomain", "trainsmart-ui.preview.emergentagent.com")
                 frontend_url = f"https://{callback_domain}/dashboard/account?tab=integrations&strava=error"
                 return RedirectResponse(url=frontend_url)
-        except:
+        except Exception:
             pass
         return RedirectResponse(url="/dashboard/account?tab=integrations&strava=error")
 
