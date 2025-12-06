@@ -3443,7 +3443,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                     logging.debug(f"  Tools available: {len(tools)} tools - {', '.join(tool_names)}")
                     logging.info(f"Tools available for function calling: {len(tools)} tools - {', '.join(tool_names)}")
                 else:
-                    print("⚠️  No tools available")
+                    logging.warning("No tools available - Tavily not configured")
                     logging.info("No tools available - Tavily not configured")
                 
                 logging.info(f"Sending request to OpenAI with {len(messages)} messages and {len(tools) if tools else 0} tools")
