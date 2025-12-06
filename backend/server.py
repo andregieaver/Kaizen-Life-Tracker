@@ -8,6 +8,8 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from auth_middleware import require_auth, require_admin, optional_auth
 import asyncio
+import signal
+import sys
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import DocumentTooLarge
 import os
@@ -27,6 +29,8 @@ import requests
 from urllib.parse import urlencode
 from stravalib import Client
 import asyncio
+import signal
+import sys
 from oura import OuraClient
 from datetime import timedelta
 from passlib.context import CryptContext
