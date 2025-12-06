@@ -5,6 +5,7 @@ Handles image and video uploads with processing
 from fastapi import APIRouter, File, UploadFile, HTTPException, Request, Query
 from typing import List
 import logging
+import os
 
 # Import image/video processors
 from image_processor import process_and_save_image
@@ -15,6 +16,30 @@ logger = logging.getLogger(__name__)
 
 # Upload directory
 UPLOAD_DIR = "/app/backend/uploaded_images"
+
+# ============= SECURITY CONSTANTS =============
+MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 10MB per image
+MAX_VIDEO_SIZE = 200 * 1024 * 1024  # 200MB per video
+ALLOWED_IMAGE_TYPES = {'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/heic', 'image/heif'}
+ALLOWED_VIDEO_TYPES = {'video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/webm', 'video/mpeg'}
+ALLOWED_IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.webp', '.heic', '.heif'}
+ALLOWED_VIDEO_EXTENSIONS = {'.mp4', '.mov', '.avi', '.webm', '.mpeg', '.mpg'}
+
+def validate_filename(filename: str) -> str:
+    """Sanitize filename to prevent path traversal attacks"""
+    if not filename:
+        return "unnamed"
+    # Remove path components and dangerous characters
+    safe_name = os.path.basename(filename)
+    # Keep only alphanumeric, dots, dashes, underscores
+    safe_name = ''.join(c if c.isalnum() or c in '.-_' else '_' for c in safe_name)
+    return safe_name or "unnamed"
+
+def get_file_extension(filename: str) -> str:
+    """Safely extract file extension"""
+    if not filename:
+        return ""
+    return os.path.splitext(filename.lower())[1]
 
 # ============= ROUTES =============
 
@@ -29,6 +54,7 @@ async def upload_images(
     - Resize to max 1024x1024px (maintains aspect ratio)
     - Convert to WebP format
     - Compress with minimal quality loss
+    - Security: File type, size, and extension validation
     """
     # Validate max files first (before try block to preserve 400 status)
     if len(files) > max_files:
@@ -37,13 +63,38 @@ async def upload_images(
     uploaded_urls = []
     
     for file in files:
-        # Validate file type
-        if not file.content_type.startswith('image/'):
-            raise HTTPException(status_code=400, detail=f"File {file.filename} is not an image")
+        # Sanitize filename first
+        safe_filename = validate_filename(file.filename)
+        file_ext = get_file_extension(file.filename)
+        
+        # Validate content type
+        if file.content_type not in ALLOWED_IMAGE_TYPES:
+            raise HTTPException(
+                status_code=400, 
+                detail=f"File type '{file.content_type}' not allowed. Allowed: JPEG, PNG, GIF, WebP, HEIC"
+            )
+        
+        # Validate file extension
+        if file_ext not in ALLOWED_IMAGE_EXTENSIONS:
+            raise HTTPException(
+                status_code=400,
+                detail=f"File extension '{file_ext}' not allowed. Allowed: {', '.join(ALLOWED_IMAGE_EXTENSIONS)}"
+            )
         
         try:
             # Read file bytes
             file_bytes = await file.read()
+            
+            # Validate file size
+            if len(file_bytes) > MAX_IMAGE_SIZE:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Image '{safe_filename}' too large. Maximum size is 10MB"
+                )
+            
+            # Check for empty files
+            if len(file_bytes) == 0:
+                raise HTTPException(status_code=400, detail=f"Image '{safe_filename}' is empty")
             
             # Process and save image using image_processor
             # This will resize, convert to WebP, and compress
@@ -58,11 +109,13 @@ async def upload_images(
             image_url = f"/api/uploads/images/{processed_filename}"
             uploaded_urls.append(image_url)
             
-            logger.info(f"Processed and uploaded image: {processed_filename} -> {image_url}")
+            logger.info(f"Processed and uploaded image: {safe_filename} -> {image_url}")
             
+        except HTTPException:
+            raise
         except Exception as e:
-            logger.error(f"Error processing image {file.filename}: {e}")
-            raise HTTPException(status_code=500, detail=f"Failed to process image {file.filename}: {str(e)}")
+            logger.error(f"Error processing image {safe_filename}: {e}")
+            raise HTTPException(status_code=500, detail=f"Failed to process image: {str(e)}")
     
     return {"urls": uploaded_urls}
 
@@ -77,17 +130,35 @@ async def upload_video(
     - Compress to MP4 (H.264, max 720p)
     - Generate thumbnail
     - Max 2 minutes duration
+    - Security: File type, size, and extension validation
     - Returns video URL and thumbnail URL
     """
-    # Validate file type
-    if not file.content_type.startswith('video/'):
-        raise HTTPException(status_code=400, detail=f"File {file.filename} is not a video")
+    # Sanitize filename
+    safe_filename = validate_filename(file.filename)
+    file_ext = get_file_extension(file.filename)
     
-    # Check file size (max 200MB)
+    # Validate content type
+    if file.content_type not in ALLOWED_VIDEO_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"File type '{file.content_type}' not allowed. Allowed: MP4, MOV, AVI, WebM, MPEG"
+        )
+    
+    # Validate file extension
+    if file_ext not in ALLOWED_VIDEO_EXTENSIONS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"File extension '{file_ext}' not allowed. Allowed: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}"
+        )
+    
+    # Read and validate file size
     file_bytes = await file.read()
-    max_size = 200 * 1024 * 1024  # 200MB
-    if len(file_bytes) > max_size:
+    if len(file_bytes) > MAX_VIDEO_SIZE:
         raise HTTPException(status_code=400, detail=f"Video file too large. Maximum size is 200MB")
+    
+    # Check for empty files
+    if len(file_bytes) == 0:
+        raise HTTPException(status_code=400, detail=f"Video file is empty")
     
     try:
         # Process video: compress and generate thumbnail
