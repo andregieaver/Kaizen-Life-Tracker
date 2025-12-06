@@ -7,6 +7,7 @@ import { Badge } from './ui/badge';
 import { RefreshCw, TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Crown } from 'lucide-react';
 import { calculateBodyScore } from '../utils/bodyScoreCalculations';
 import LoadingSpinner from './ui/LoadingSpinner';
+import { logger } from '../utils/logger';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
