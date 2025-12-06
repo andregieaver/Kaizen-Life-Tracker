@@ -106,7 +106,7 @@ async def get_agents(athlete_id: str = Query(...)):
         try:
             await verify_super_admin(athlete_id)
             is_super_admin = True
-        except:
+        except Exception:
             pass
         
         # Super admin gets all agents, others get only public frontend agents
