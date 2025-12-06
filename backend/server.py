@@ -5265,19 +5265,7 @@ async def vote_on_poll(post_id: str, vote_data: dict, athlete_id: str = Query(..
 # All upload endpoints have been moved to routes/uploads_complete.py
 # Endpoints: POST /upload/images, POST /upload/video
 
-"""
-@api_router.post("/upload/images")
-async def upload_images(
-    request: Request,
-    files: List[UploadFile] = File(...),
-    max_files: int = Query(5, description="Maximum number of files allowed")
-):
-    \"\"\"
-    Upload multiple images with processing:
-    - Resize to max 1024x1024px (maintains aspect ratio)
-    - Convert to WebP format
-    - Compress with minimal quality loss
-    \"\"\""""
+# Code removed - now in routes/uploads_complete.py
     # Validate max files first (before try block to preserve 400 status)
     if len(files) > max_files:
         raise HTTPException(status_code=400, detail=f"Maximum {max_files} images allowed")
