@@ -191,6 +191,28 @@ async def request_id_middleware(request: Request, call_next):
     return response
 
 @app.middleware("http")
+async def cache_control_middleware(request: Request, call_next):
+    """
+    Add appropriate cache headers based on content type
+    - Static assets (images, fonts): Long cache (1 year)
+    - API responses: No cache by default
+    - Uploads: Medium cache (1 day)
+    """
+    response = await call_next(request)
+    path = request.url.path
+    
+    # Static uploads (images, videos)
+    if path.startswith("/api/uploads/"):
+        # Cache uploaded assets for 1 day (they have unique filenames)
+        response.headers["Cache-Control"] = "public, max-age=86400"
+    # API endpoints should not be cached
+    elif path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+    
+    return response
+
+@app.middleware("http")
 async def timeout_middleware(request: Request, call_next):
     """
     Enforce request timeout to prevent hanging requests
