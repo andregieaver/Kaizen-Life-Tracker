@@ -4714,8 +4714,8 @@ async def handle_provider_webhook(provider_key: str, request: Request):
     if provider_key not in connectors:
         raise HTTPException(status_code=404, detail="Provider not found")
     
-    # Get raw body for signature verification
-    body = await request.body()
+    # Get raw body for signature verification (reserved for future webhook signature validation)
+    _ = await request.body()  # noqa: F841
     
     # For now, just store as raw event
     # In production, this would verify webhook signature
