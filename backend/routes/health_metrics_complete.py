@@ -3,13 +3,14 @@ Health Metrics Routes
 Handles sleep data and readiness score tracking
 """
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel, Field
 from typing import List
 from datetime import datetime, timezone
 import logging
 
 from database import db
+from auth_middleware import require_auth
 
 # Create router
 router = APIRouter(prefix="/api", tags=["health_metrics"])
