@@ -2854,7 +2854,7 @@ Behavior:
         journal_entries = context.get('journal_entries', [])
         logging.debug(f" Found {len(journal_entries)} journal entries for athlete")
         if journal_entries:
-            print(f"📋 First entry sample: {journal_entries[0]}")
+            logging.debug(f" First entry sample: {journal_entries[0]}")
         journal_summary = ""
         if journal_entries:
             journal_summary = f"\n\nJOURNAL ENTRIES ({len(journal_entries)} in last 30 days):\n"
@@ -2868,7 +2868,7 @@ Behavior:
                 mood = entry.get('mood', '')
                 tags = entry.get('tags', [])
                 
-                print(f"📄 Entry {idx}: date={date}, type={entry_type}, content_len={len(content)}, transcription_len={len(transcription)}")
+                logging.debug(f" Entry {idx}: date={date}, type={entry_type}, content_len={len(content)}, transcription_len={len(transcription)}")
                 
                 # Use transcription for voice/video entries if available
                 entry_text = transcription if entry_type in ['voice', 'video'] and transcription else content
@@ -2886,7 +2886,7 @@ Behavior:
                     
                     entry_line = f"\n[{date}{time_str}] {entry_type.upper()}{metadata_str}:\n{entry_text}\n"
                     journal_summary += entry_line
-                    print(f"📝 Adding journal entry: {entry_line[:100]}...")
+                    logging.debug(f" Adding journal entry: {entry_line[:100]}...")
         else:
             journal_summary = "\n\nNo journal entries available."
         
@@ -3272,20 +3272,20 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
             openai_key = await self.get_openai_key(athlete_id)
             
             if not openai_key:
-                print(f"❌ ERROR: No OpenAI API key found for athlete {athlete_id}")
+                logging.error(f" ERROR: No OpenAI API key found for athlete {athlete_id}")
                 logging.error(f"No OpenAI API key found for athlete {athlete_id}")
                 return "I need an OpenAI API key to function properly. Please ask your administrator to add a global OpenAI API key in System Settings → Advanced tab to enable all features including calendar management, web search, and training plan creation."
             
             # Use OpenAI API key with function calling
             import openai
             
-            print(f"✅ Using OpenAI API key for athlete {athlete_id}")
+            logging.info(f" Using OpenAI API key for athlete {athlete_id}")
             logging.info(f"Using OpenAI API key for athlete {athlete_id}")
             client = openai.AsyncOpenAI(api_key=openai_key)
             
             # Define tools for function calling
             tools = []
-            print(f"🔧 Setting up function calling tools for athlete {athlete_id}")
+            logging.debug(f" Setting up function calling tools for athlete {athlete_id}")
             logging.info(f"Setting up function calling tools for athlete {athlete_id}")
             if self.tavily_client:  # Only add search tool if Tavily is available
                 logging.info("Adding search_health_information tool")
@@ -3440,7 +3440,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 if tools:
                     completion_params["tools"] = tools
                     tool_names = [t["function"]["name"] for t in tools]
-                    print(f"🛠️  Tools available: {len(tools)} tools - {', '.join(tool_names)}")
+                    logging.debug(f"  Tools available: {len(tools)} tools - {', '.join(tool_names)}")
                     logging.info(f"Tools available for function calling: {len(tools)} tools - {', '.join(tool_names)}")
                 else:
                     print("⚠️  No tools available")
@@ -3453,7 +3453,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 
                 # Log whether function was called
                 has_tool_calls = hasattr(assistant_message, "tool_calls") and assistant_message.tool_calls
-                print(f"📨 Response received - Has tool calls: {has_tool_calls}")
+                logging.debug(f" Response received - Has tool calls: {has_tool_calls}")
                 logging.info(f"Response received - Has tool calls: {has_tool_calls}")
                 
                 if assistant_message.content:
@@ -3465,13 +3465,13 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 
                 while has_tool_calls and function_call_count < max_function_calls:
                     function_call_count += 1
-                    print(f"🔄 Function call iteration {function_call_count}")
+                    logging.debug(f" Function call iteration {function_call_count}")
                     
                     tool_call = assistant_message.tool_calls[0]
                     function_name = tool_call.function.name
                     
-                    print(f"🎯 Function called: {function_name}")
-                    print(f"📝 Function arguments: {tool_call.function.arguments}")
+                    logging.debug(f" Function called: {function_name}")
+                    logging.debug(f" Function arguments: {tool_call.function.arguments}")
                     logging.info(f"Function called: {function_name}")
                     logging.info(f"Function arguments: {tool_call.function.arguments}")
                     
@@ -3527,7 +3527,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         })
                         
                         # Call OpenAI again to see if it wants to call another function
-                        print(f"🔁 Calling OpenAI again with function result...")
+                        logging.debug(f" Calling OpenAI again with function result...")
                         next_response = await client.chat.completions.create(
                             model="gpt-4o",
                             messages=messages,
@@ -3538,11 +3538,11 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         
                         assistant_message = next_response.choices[0].message
                         has_tool_calls = hasattr(assistant_message, "tool_calls") and assistant_message.tool_calls
-                        print(f"📨 Next response - Has tool calls: {has_tool_calls}")
+                        logging.debug(f" Next response - Has tool calls: {has_tool_calls}")
                         
                         # If no more tool calls, return the final message
                         if not has_tool_calls:
-                            print(f"✅ Function calling complete after {function_call_count} calls")
+                            logging.info(f" Function calling complete after {function_call_count} calls")
                             return assistant_message.content or "I've completed the requested actions."
                 
                 return assistant_message.content or "I've received your message, but couldn't generate a proper response. Please try rephrasing."
@@ -5205,10 +5205,10 @@ async def startup_scheduler():
                         sender_email=sendgrid_config["senderEmail"],
                         sender_name=sendgrid_config.get("senderName", "TrainSmart")
                     )
-                    print("=" * 50)
-                    print("SENDGRID EMAIL SERVICE INITIALIZED")
-                    print(f"Sender: {sendgrid_config['senderEmail']}")
-                    print("=" * 50)
+                    logging.info("=" * 50)
+                    logging.info("SENDGRID EMAIL SERVICE INITIALIZED")
+                    logging.info(f"Sender: {sendgrid_config['senderEmail']}")
+                    logging.info("=" * 50)
                     logging.info(f"SendGrid email service initialized from database: {sendgrid_config['senderEmail']}")
                 else:
                     logging.warning("SendGrid credentials found in database but incomplete")
@@ -5244,14 +5244,14 @@ async def startup_scheduler():
         )
 
         scheduler.start()
-        print("=" * 50)
-        print("SCHEDULER STARTED SUCCESSFULLY")
-        print("Strava & Oura auto-sync: Daily at 8 AM")
-        print("=" * 50)
+        logging.info("=" * 50)
+        logging.info("SCHEDULER STARTED SUCCESSFULLY")
+        logging.info("Strava & Oura auto-sync: Daily at 8 AM")
+        logging.info("=" * 50)
         logging.info("Scheduler started - checking for due schedules every minute")
         logging.info("Strava & Oura auto-sync scheduled - daily at 8 AM")
     except Exception as e:
-        print(f"ERROR STARTING SCHEDULER: {e}")
+        logging.error(f"ERROR STARTING SCHEDULER: {e}")
         logging.error(f"Failed to start scheduler: {e}")
 
 
