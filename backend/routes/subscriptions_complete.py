@@ -29,11 +29,17 @@ class CheckoutRequest(BaseModel):
 
 # ============= HELPER FUNCTIONS =============
 
-async def get_stripe_api_key():
-    """Get Stripe API key from system settings"""
+async def _get_stripe_secret_key():
+    """
+    PRIVATE: Get Stripe API secret key based on current mode (sandbox/live)
+    WARNING: This returns a SECRET KEY - never expose in API responses or logs!
+    For internal use only - sets stripe.api_key
+    """
+    # Get Stripe settings from database
     system_settings = await db.system_settings.find_one({}, {"_id": 0})
     if not system_settings:
-        raise HTTPException(status_code=500, detail="System settings not found")
+        logging.error("System settings not found in database")
+        raise HTTPException(status_code=500, detail="Payment system not configured")
     
     stripe_settings = system_settings.get("advanced", {}).get("stripe", {})
     stripe_mode = stripe_settings.get("mode", "test")
@@ -45,8 +51,10 @@ async def get_stripe_api_key():
         stripe_secret_key = stripe_settings.get("sandbox", {}).get("apiKey") or stripe_settings.get("sandbox", {}).get("secretKey")
     
     if not stripe_secret_key:
-        raise HTTPException(status_code=500, detail=f"Stripe API key not configured for {stripe_mode} mode")
+        logging.error(f"Stripe secret key not found for mode: {stripe_mode}")
+        raise HTTPException(status_code=500, detail="Payment system not configured")
     
+    # SECURITY: Never log, return in API response, or expose this key
     return stripe_secret_key
 
 # ============= ROUTES =============
