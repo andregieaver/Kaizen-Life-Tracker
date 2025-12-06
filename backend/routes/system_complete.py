@@ -71,11 +71,11 @@ async def get_waitlist_integration_stats(athlete_id: str):
     await verify_super_admin(athlete_id)
     
     try:
-        # Get all waitlist entries with integrations
+        # Get all waitlist entries with integrations (capped at 10000 for performance)
         entries = await db.waiting_list.find(
             {"integrations": {"$exists": True, "$ne": []}},
             {"integrations": 1}
-        ).to_list(length=None)
+        ).to_list(length=10000)
         
         # Count integration occurrences
         integration_counts = {}
