@@ -5032,7 +5032,7 @@ class HabitUpdate(BaseModel):
 
 """
 class BodyScoreHistory(BaseModel):
-    """Track daily body score for streak calculation"""
+    # Track daily body score for streak calculation
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     athlete_id: str
     score: float  # 0-100
@@ -5041,7 +5041,7 @@ class BodyScoreHistory(BaseModel):
 
 @app.post("/api/body-score/save/{athlete_id}")
 async def save_body_score(athlete_id: str, score: float):
-    """Save today's body score for an athlete"""
+    # Save today's body score for an athlete
     try:
         today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         
