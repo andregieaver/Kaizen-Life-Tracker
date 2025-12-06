@@ -140,6 +140,43 @@ limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+# Global exception handler for unhandled errors
+# In production, this sanitizes error messages to avoid leaking internal details
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """
+    Global exception handler that:
+    - Logs the full error for debugging
+    - Returns sanitized error message to client
+    - Preserves request ID for correlation
+    """
+    request_id = getattr(request.state, 'request_id', 'unknown')
+    logging.error(f"[{request_id}] Unhandled exception: {type(exc).__name__}: {str(exc)}", exc_info=True)
+    
+    # In production, return generic error message
+    # In development, return detailed error
+    is_production = os.getenv("ENVIRONMENT", "development").lower() == "production"
+    
+    if is_production:
+        return Response(
+            content=json.dumps({
+                "detail": "An internal error occurred. Please try again later.",
+                "request_id": request_id
+            }),
+            status_code=500,
+            media_type="application/json"
+        )
+    else:
+        return Response(
+            content=json.dumps({
+                "detail": str(exc),
+                "type": type(exc).__name__,
+                "request_id": request_id
+            }),
+            status_code=500,
+            media_type="application/json"
+        )
+
 # Configure CORS middleware for production deployment
 # SECURITY: Whitelist specific origins only - never use "*" in production
 allowed_origins = os.getenv("ALLOWED_ORIGINS", os.getenv("FRONTEND_URL", "http://localhost:3000"))
