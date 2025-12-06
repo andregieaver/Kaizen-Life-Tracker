@@ -4806,8 +4806,66 @@ async def get_body_score_data(athlete_id: str, response: Response, user: dict = 
 
 @api_router.get("/health")
 async def health_check():
-    """Health check endpoint"""
+    """Basic health check endpoint - Always returns 200 if server is running"""
     return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
+
+@api_router.get("/health/ready")
+async def readiness_check():
+    """
+    Readiness check - Verifies all dependencies are available
+    Use this for Kubernetes readiness probes
+    Returns 503 if any dependency is unavailable
+    """
+    health_status = {
+        "status": "healthy",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "checks": {}
+    }
+    
+    all_healthy = True
+    
+    # Check MongoDB connection
+    try:
+        await db.command('ping')
+        health_status["checks"]["database"] = {
+            "status": "healthy",
+            "type": "mongodb"
+        }
+    except Exception as e:
+        all_healthy = False
+        health_status["checks"]["database"] = {
+            "status": "unhealthy",
+            "error": str(e),
+            "type": "mongodb"
+        }
+    
+    # Check OpenAI API (optional - don't fail if missing)
+    openai_key = os.getenv("OPENAI_API_KEY")
+    health_status["checks"]["openai"] = {
+        "status": "configured" if openai_key else "not_configured",
+        "required": False
+    }
+    
+    # Overall status
+    health_status["status"] = "healthy" if all_healthy else "unhealthy"
+    
+    if not all_healthy:
+        raise HTTPException(status_code=503, detail=health_status)
+    
+    return health_status
+
+@api_router.get("/health/live")
+async def liveness_check():
+    """
+    Liveness check - Verifies server is alive and responsive
+    Use this for Kubernetes liveness probes
+    Returns 200 if server can handle requests
+    """
+    return {
+        "status": "alive",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "uptime": "available"  # Could track actual uptime if needed
+    }
 
 # Register OpenAI Realtime router for voice chat
 try:
