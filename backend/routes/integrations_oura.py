@@ -59,7 +59,7 @@ async def save_oura_credentials(athlete_id: str, credentials: OuraCredentials):
         return {"message": "Oura credentials saved successfully"}
         
     except Exception as e:
-        print(f"Error saving Oura credentials: {e}")
+        logging.error(f"Error saving Oura credentials: {e}")
         raise HTTPException(status_code=500, detail="Failed to save Oura credentials")
 
 
