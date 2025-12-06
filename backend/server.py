@@ -4383,8 +4383,11 @@ async def list_providers():
     return {"providers": providers}
 
 @api_router.get("/me/connections")
-async def get_user_connections(user_id: str = Query(...)):
-    """Get all provider connections for a user"""
+async def get_user_connections(user_id: str = Query(...), user: dict = Depends(require_auth)):
+    """Get all provider connections for a user - Requires authentication"""
+    # Verify user can only view their own connections
+    if user["athlete_id"] != user_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     connections = await db.user_connections.find(
         {"user_id": user_id},
         {"_id": 0, "access_token": 0, "refresh_token": 0}  # Don't return sensitive tokens
