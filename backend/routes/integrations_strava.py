@@ -438,12 +438,12 @@ async def strava_connection_status(user_id: str):
     Get current Strava connection status
     """
     try:
-        print(f"🔍 [STRAVA STATUS CHECK] user_id={user_id}")
+        logger.debug(f"[STRAVA STATUS CHECK] user_id={user_id}")
         strava_service = StravaService(db)
         status = await strava_service.get_connection_status(user_id)
         
         if status is None:
-            print(f"🔍 [STRAVA STATUS CHECK] No connection found for user {user_id}")
+            logger.debug(f"[STRAVA STATUS CHECK] No connection found for user {user_id}")
             return {'connected': False}
         
         logger.info(f"[STRAVA STATUS CHECK] Connected! User: {user_id}, Athlete: {status.get('athlete', {}).get('firstname', 'Unknown')}")
