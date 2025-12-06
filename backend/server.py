@@ -4853,11 +4853,13 @@ async def get_body_score_data(athlete_id: str, response: Response, user: dict = 
             # Look for Sleep type activities with complete data first
             latest_sleep = await db.oura_activities.find_one(
                 {
-                    "$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}],
-                    "type": "Sleep",
-                    "$or": [
-                        {"lowest_heart_rate": {"$ne": None}},
-                        {"score": {"$ne": None}}
+                    "$and": [
+                        {"$or": [{"athlete_id": athlete_id}, {"user_id": athlete_id}]},
+                        {"type": "Sleep"},
+                        {"$or": [
+                            {"lowest_heart_rate": {"$ne": None}},
+                            {"score": {"$ne": None}}
+                        ]}
                     ]
                 },
                 {"_id": 0, "score": 1, "raw_data": 1, "start_date": 1, "lowest_heart_rate": 1, "average_hrv": 1, "date": 1, "type": 1},
