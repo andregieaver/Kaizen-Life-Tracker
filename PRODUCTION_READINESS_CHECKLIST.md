@@ -366,17 +366,46 @@
 **Completed**: Dec 6, 2025
 
 ### 26-35. Remaining Medium Priority ⏸️
-- Database query optimization
-- Response caching (Redis)
-- CDN configuration
-- API documentation improvements
+- Database query optimization ⏸️
+- Response caching (Redis) - Basic TTL cache added ✅
+- CDN configuration ⏸️
+- API documentation improvements ⏸️
+
+### 27. In-Memory TTL Cache ✅
+**Status**: COMPLETE
+**Implementation**: Created TTLCache class in server.py
+- 60-second TTL for system settings
+- get_cached_system_settings() helper function
+- invalidate_settings_cache() for cache busting
+- Reduces database queries for frequently accessed settings
+**Completed**: Dec 6, 2025
+
+### 28. Dead Code Cleanup ✅
+**Status**: COMPLETE
+**Implementation**: Removed orphaned code from server.py
+- Removed duplicate imports (asyncio, signal, sys, re, timedelta)
+- Fixed undefined `sync_strava_activities` reference
+- Removed orphaned `return {"categories": categories}` statement
+- Fixed orphaned readiness code block
+**Completed**: Dec 6, 2025
 
 ---
 
 ## 🔵 PHASE 4: POLISH & OPTIMIZATION (FUTURE)
-**Status**: ⏸️ NOT STARTED
+**Status**: ⏳ PARTIAL
 
-### 36-43. Low priority optimizations ⏸️
+### 36. Backup File Cleanup ✅
+**Status**: COMPLETE
+- Removed 6 server.py backup files
+- Moved 31 test files to /tests/
+- Moved 18 utility scripts to /scripts/
+**Completed**: Dec 6, 2025
+
+### 37-43. Low priority optimizations ⏸️
+- Further code refactoring
+- Performance profiling
+- Load testing
+- Documentation updates
 
 ---
 
