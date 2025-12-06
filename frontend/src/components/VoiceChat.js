@@ -129,18 +129,16 @@ class RealtimeAudioChat {
             try {
                 const eventData = JSON.parse(event.data);
                 
-                // CRITICAL DEBUG: Log ALL events to see what OpenAI is actually sending
-                console.log('🔊 VOICE EVENT RECEIVED:', eventData.type, eventData);
-                logger.debug(null, "Received event:", eventData);
+                // Log all events in development
+                logger.debug('VoiceChat', 'Voice event received:', eventData.type, eventData);
                 
                 // Handle transcript events from OpenAI Realtime API
                 if (eventData.type === 'conversation.item.input_audio_transcription.completed') {
-                    console.log('✅ USER TRANSCRIPT EVENT:', eventData.transcript);
-                    alert(`📝 User said: ${eventData.transcript}`);  // DEBUG ALERT
+                    logger.debug('VoiceChat', 'User transcript event:', eventData.transcript);
                     // User speech transcribed
                     this.addToTranscript('user', eventData.transcript, new Date());
                 } else if (eventData.type === 'response.audio_transcript.done') {
-                    console.log('✅ ASSISTANT TRANSCRIPT EVENT:', eventData.transcript);
+                    logger.debug('VoiceChat', 'Assistant transcript event:', eventData.transcript);
                     // Assistant response transcribed
                     this.addToTranscript('assistant', eventData.transcript, new Date());
                 } else if (eventData.type === 'conversation.item.created' && eventData.item?.type === 'message') {
@@ -156,11 +154,11 @@ class RealtimeAudioChat {
                     }
                 } else if (eventData.type === 'response.function_call_arguments.done') {
                     // Function call from assistant
-                    logger.debug(null, 'Function call detected:', eventData);
+                    logger.debug('VoiceChat', 'Function call detected:', eventData);
                     this.handleFunctionCall(eventData);
                 } else if (eventData.type === 'conversation.item.created' && eventData.item?.type === 'function_call') {
                     // Function call item created
-                    logger.debug(null, 'Function call item created:', eventData.item);
+                    logger.debug('VoiceChat', 'Function call item created:', eventData.item);
                     if (eventData.item.name && eventData.item.arguments) {
                         this.handleFunctionCall({
                             name: eventData.item.name,
@@ -169,12 +167,11 @@ class RealtimeAudioChat {
                         });
                     }
                 } else {
-                    // CATCH-ALL: Log any unhandled event types
-                    console.log('⚠️ UNHANDLED EVENT TYPE:', eventData.type);
+                    // Log any unhandled event types
+                    logger.debug('VoiceChat', 'Unhandled event type:', eventData.type);
                 }
             } catch (error) {
-                logger.error(null, "Error parsing data channel event:", error);
-                console.error('❌ DATA CHANNEL ERROR:', error);
+                logger.error('VoiceChat', 'Error parsing data channel event:', error);
             }
         };
         
