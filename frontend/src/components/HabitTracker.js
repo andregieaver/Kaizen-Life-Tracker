@@ -223,7 +223,7 @@ const HabitTracker = ({ athleteId }) => {
     : 0;
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 to-gray-800 pt-4 px-2 space-y-6">
+    <div className="pt-4 px-2 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-white">{t('habits.title')}</h2>
