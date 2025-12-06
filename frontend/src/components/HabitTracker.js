@@ -433,14 +433,31 @@ const HabitTracker = ({ athleteId }) => {
 
       {/* Add/Edit Habit Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-gradient-to-br from-gray-900 to-gray-800 p-6">
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4"
+          role="presentation"
+        >
+          <div 
+            className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-gradient-to-br from-gray-900 to-gray-800 p-6"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="habit-modal-title"
+          >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">{editingHabit ? t('habits.editHabit') : t('habits.addHabit')}</h3>
-              <button onClick={closeModal} className="p-2 hover:bg-gray-700 rounded-lg text-white">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+              <h3 
+                id="habit-modal-title" 
+                className="text-xl font-bold text-white"
+              >
+                {editingHabit ? t('habits.editHabit') : t('habits.addHabit')}
+              </h3>
+              <button 
+                onClick={closeModal} 
+                className="p-2 hover:bg-gray-700 rounded-lg text-white"
+                aria-label="Close dialog"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
             
             <div className="space-y-4">
               {/* Title */}
