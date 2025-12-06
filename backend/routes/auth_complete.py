@@ -2,7 +2,7 @@
 Authentication routes - Complete example of refactored router
 Extracted from server.py as part of the refactoring effort
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timezone, timedelta
@@ -11,6 +11,8 @@ from passlib.context import CryptContext
 import secrets
 import logging
 import os
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
 # Import shared dependencies
 from database import db
@@ -18,6 +20,9 @@ from utils import prepare_for_mongo, parse_from_mongo
 from email_service import get_email_service
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
+
+# Initialize rate limiter for auth routes
+limiter = Limiter(key_func=get_remote_address)
 
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
