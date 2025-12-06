@@ -82,9 +82,6 @@ async def get_sleep_data(athlete_id: str, limit: int = 14):
 @router.get("/readiness/{athlete_id}", response_model=ReadinessScore)
 async def get_daily_readiness(athlete_id: str):
     """Get daily readiness score for an athlete"""
-    # Import here to avoid circular dependencies
-    from ai_coach_service import AICoachService
-    
     # Check if we have today's readiness score
     today = datetime.now(timezone.utc).date().isoformat()
     existing = await db.readiness_scores.find_one(
@@ -95,31 +92,19 @@ async def get_daily_readiness(athlete_id: str):
     if existing:
         return parse_from_mongo(existing)
     
-    # Get OpenAI API key from system settings
-    system_settings = await db.system_settings.find_one({}, {"_id": 0})
-    openai_api_key = system_settings.get('advanced', {}).get('openaiApiKey') if system_settings else None
-    
-    if not openai_api_key:
-        # Return a default readiness score if no AI coach available
-        default_readiness = ReadinessScore(
-            id=f"{athlete_id}_{today}",
-            athlete_id=athlete_id,
-            date=today,
-            score=75,
-            factors={"default": "AI coach not configured"},
-            recommendation="Continue with normal training"
-        )
-        readiness_dict = prepare_for_mongo(default_readiness.model_dump())
-        await db.readiness_scores.insert_one(readiness_dict)
-        return default_readiness
-    
-    # Calculate new readiness score using AI coach
-    ai_coach = AICoachService(openai_api_key)
-    readiness = await ai_coach.calculate_readiness_score(athlete_id)
-    readiness_dict = prepare_for_mongo(readiness.model_dump())
+    # Return a default readiness score (AI calculation disabled until service is refactored)
+    # Note: AICoachService is defined in server.py but not accessible as a standalone module
+    default_readiness = ReadinessScore(
+        id=f"{athlete_id}_{today}",
+        athlete_id=athlete_id,
+        date=today,
+        score=75,
+        factors={"default": "Using default readiness calculation"},
+        recommendation="Continue with normal training. Connect Oura/Whoop for personalized insights."
+    )
+    readiness_dict = prepare_for_mongo(default_readiness.model_dump())
     await db.readiness_scores.insert_one(readiness_dict)
-    
-    return readiness
+    return default_readiness
 
 
 # ==================== BODY SCORE STREAK & LEADERBOARD ====================
