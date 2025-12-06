@@ -167,7 +167,7 @@ def sanitize_input(data: Any) -> Any:
 # ============= IN-MEMORY CACHE =============
 # Simple TTL cache for frequently accessed data
 from functools import lru_cache
-import time
+import time as time_module
 
 class TTLCache:
     """
@@ -182,7 +182,7 @@ class TTLCache:
     def get(self, key: str):
         """Get value from cache if not expired"""
         if key in self._cache:
-            if time.time() - self._timestamps.get(key, 0) < self.ttl:
+            if time_module.time() - self._timestamps.get(key, 0) < self.ttl:
                 return self._cache[key]
             else:
                 # Expired - remove from cache
@@ -193,7 +193,7 @@ class TTLCache:
     def set(self, key: str, value):
         """Set value in cache with timestamp"""
         self._cache[key] = value
-        self._timestamps[key] = time.time()
+        self._timestamps[key] = time_module.time()
     
     def invalidate(self, key: str = None):
         """Invalidate specific key or entire cache"""
