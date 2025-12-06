@@ -890,10 +890,10 @@ const Dashboard = ({ athleteId }) => {
                     alt={siteTitle}
                     className="w-8 h-8 object-contain mr-2"
                     onError={(e) => {
-                      console.error('❌ Logo failed to load:', logoUrl);
-                      console.error('Image error:', e.target.error);
+                      logger.error('Dashboard', 'Logo failed to load:', logoUrl);
+                      logger.error('Dashboard', 'Image error:', e.target.error);
                     }}
-                    onLoad={() => console.log('✅ Logo loaded successfully:', logoUrl)}
+                    onLoad={() => logger.debug('Dashboard', 'Logo loaded successfully:', logoUrl)}
                   />
                 )}
                 <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-logo)' }}>
