@@ -5694,7 +5694,7 @@ def shutdown_handler(signum, frame):
     logging.info("Stopping scheduler...")
     try:
         scheduler.shutdown(wait=False)
-    except:
+    except Exception:
         pass
     
     # Close database connections
@@ -5702,7 +5702,7 @@ def shutdown_handler(signum, frame):
     try:
         from database import client
         client.close()
-    except:
+    except Exception:
         pass
     
     logging.info("Graceful shutdown complete")
