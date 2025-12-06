@@ -4396,8 +4396,11 @@ async def get_user_connections(user_id: str = Query(...), user: dict = Depends(r
     return {"connections": [parse_from_mongo(conn) for conn in connections]}
 
 @api_router.post("/me/connections/{provider_key}/disconnect")
-async def disconnect_provider(provider_key: str, user_id: str = Query(...)):
-    """Disconnect a provider"""
+async def disconnect_provider(provider_key: str, user_id: str = Query(...), user: dict = Depends(require_auth)):
+    """Disconnect a provider - Requires authentication"""
+    # Verify user can only disconnect their own connections
+    if user["athlete_id"] != user_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     result = await db.user_connections.update_one(
         {"user_id": user_id, "provider_key": provider_key},
         {"$set": {"status": "disconnected", "updated_at": datetime.now(timezone.utc)}}
