@@ -1,87 +1,107 @@
-# Waitlist Auto-responder Fix - Deployment Checklist
+# Deployment Checklist
 
-## Changes Made in Preview Environment
+## Pre-Deployment
 
-### 1. Backend Code Fix (`/app/backend/server.py`)
-- **Line 21757**: Added `email_service = get_email_service()` initialization
-- **Lines 21759-21764**: Added validation to check if email service is enabled
-- This ensures the email service is properly initialized before sending emails
+### Environment Configuration
+- [ ] Set `ENVIRONMENT=production` in backend/.env
+- [ ] Configure production `MONGO_URL` with authentication
+- [ ] Set appropriate `ALLOWED_ORIGINS` for your domain
+- [ ] Configure all required API keys (OpenAI, SendGrid, Stripe, etc.)
+- [ ] Verify `REACT_APP_BACKEND_URL` points to production API
 
-### 2. Database - Email Template Created
-The `waitlist_autoresponder` email template has been created with:
-- **Template ID**: `waitlist_autoresponder`
-- **Subject**: "Thank You for Joining Our Waitlist!"
-- **Variables**: `{{user_name}}`, `{{user_email}}`, `{{preferred_language}}`
+### Database
+- [ ] Run index creation script: `python scripts/create_indexes.py`
+- [ ] Verify all 32 indexes are created
+- [ ] Enable MongoDB authentication
+- [ ] Set up database backups
+
+### Security
+- [ ] Verify rate limiting is active (5/min auth, 100/min general)
+- [ ] Confirm security headers are present (X-Frame-Options, etc.)
+- [ ] Test error handling (errors sanitized in production)
+- [ ] Verify HTTPS is configured at load balancer
+- [ ] Review CORS origins list
+
+### Performance
+- [ ] GZip compression enabled (responses > 500 bytes)
+- [ ] TTL cache for system settings active
+- [ ] Database connection pooling configured
+- [ ] Request timeout set (default 60s)
 
 ## Deployment Steps
 
-### Step 1: Deploy Code to Production
-1. Use the "Deploy" or "Push to Production" feature in your Emergent dashboard
-2. This will deploy the updated `server.py` with the email service fix
+1. **Build Frontend**
+   ```bash
+   cd /app/frontend && yarn build
+   ```
 
-### Step 2: Create Email Template in Production Database
-After deployment, you need to create the email template in your **production** database.
+2. **Verify Backend**
+   ```bash
+   curl http://localhost:8001/api/health
+   curl http://localhost:8001/api/health/ready
+   curl http://localhost:8001/api/version
+   ```
 
-**Option A - Via API (Recommended):**
+3. **Run Database Migrations**
+   ```bash
+   cd /app/backend && python scripts/create_indexes.py
+   ```
+
+4. **Start Services**
+   ```bash
+   supervisorctl restart backend frontend
+   ```
+
+## Post-Deployment Verification
+
+### API Health
 ```bash
-# Replace YOUR_PROD_URL with your actual production URL
-curl -X POST "YOUR_PROD_URL/api/email-templates" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "template_id": "waitlist_autoresponder",
-    "name": "Waitlist Auto-responder",
-    "subject": "Thank You for Joining Our Waitlist!",
-    "body": "Hi {{user_name}},\n\nThank you for signing up for our waitlist! We are excited to have you join us.\n\nYour email: {{user_email}}\nPreferred language: {{preferred_language}}\n\nWe will notify you as soon as we launch. Stay tuned!\n\nBest regards,\nThe Team",
-    "html_body": "<p>Hi {{user_name}},</p><p>Thank you for signing up for our waitlist! We are excited to have you join us.</p><p><strong>Your email:</strong> {{user_email}}<br><strong>Preferred language:</strong> {{preferred_language}}</p><p>We will notify you as soon as we launch. Stay tuned!</p><p>Best regards,<br>The Team</p>",
-    "variables": ["{{user_name}}", "{{user_email}}", "{{preferred_language}}"]
-  }'
+# Health check
+curl -s https://your-domain.com/api/health | jq
+
+# Version check
+curl -s https://your-domain.com/api/version | jq
+
+# Metrics check
+curl -s https://your-domain.com/api/metrics | jq
 ```
 
-### Step 3: Verify SendGrid Sender Email
-1. Log into your SendGrid dashboard: https://app.sendgrid.com/
-2. Navigate to: **Settings → Sender Authentication**
-3. Verify the sender email: `support@kaizenlifetracker.com`
-4. Follow SendGrid's verification process (they'll send you a verification email)
-
-## Testing After Deployment
-
-### Test 1: Check Backend Logs
-After a waitlist signup, check your production logs for:
-```
-INFO:root:Waiting list entry added: [email]
-INFO:email_service:=== EMAIL SERVICE SEND START ===
-INFO:root:Waitlist auto-responder sent to [email]
+### Security Headers
+```bash
+curl -I https://your-domain.com/api/health | grep -E "x-content-type|x-frame|x-xss"
 ```
 
-### Test 2: Verify Email Receipt
-1. Sign up with a real email address on your production waitlist
-2. Check the inbox for the auto-responder email
-3. If you get 403 errors in logs, verify the SendGrid sender authentication
+### Rate Limiting
+```bash
+# Should block after 5 requests
+for i in {1..7}; do
+  curl -X POST https://your-domain.com/api/auth/login \
+    -H "Content-Type: application/json" \
+    -d '{"email":"test","password":"test"}'
+done
+```
 
-## Current Status
+## Monitoring
 
-### Preview Environment (Development)
-- ✅ Code fix applied
-- ✅ Email template created
-- ⚠️ SendGrid sender needs verification (403 Forbidden error)
+### Endpoints to Monitor
+- `/api/health` - Basic health (should return 200)
+- `/api/health/ready` - Readiness with DB check
+- `/api/health/live` - Liveness probe
+- `/api/metrics` - Basic application metrics
 
-### Production Environment
-- ❌ Old code (missing email service initialization)
-- ❌ Email template doesn't exist
-- ⚠️ SendGrid sender needs verification
+### Log Locations
+- Backend: `/var/log/supervisor/backend.err.log`
+- Frontend: `/var/log/supervisor/frontend.err.log`
 
-## Troubleshooting
+## Rollback Plan
 
-### If emails still don't send after deployment:
+1. Stop services: `supervisorctl stop backend frontend`
+2. Restore previous deployment
+3. Start services: `supervisorctl start backend frontend`
+4. Verify health: `curl https://your-domain.com/api/health`
 
-1. **Check backend logs** for error messages
-2. **Verify template exists**: `curl YOUR_PROD_URL/api/email-templates`
-3. **Check SendGrid activity**: Log into SendGrid dashboard → Activity
-4. **Common issues**:
-   - 403 Forbidden = Sender email not verified in SendGrid
-   - "Template not found" = Email template not created in production DB
-   - No logs = Code not deployed to production
+## Support
 
-## Summary
-✅ **Preview/Dev**: Fixed and working (except SendGrid verification)  
-❌ **Production**: Needs deployment + email template creation + SendGrid verification
+- API Documentation: `/api/docs` (Swagger UI)
+- ReDoc: `/api/redoc`
+- OpenAPI JSON: `/api/openapi.json`
