@@ -710,10 +710,16 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
 
       {/* Voice Mode Overlay - Full Screen */}
       {isVoiceActive && (
-        <div className="fixed inset-0 bg-gradient-to-br from-[#272727] to-[#4b7d81] z-[70] flex flex-col">
+        <div 
+          className="fixed inset-0 bg-gradient-to-br from-[#272727] to-[#4b7d81] z-[70] flex flex-col"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="voice-mode-title"
+          aria-describedby="voice-mode-description"
+        >
           {/* Header Section */}
           <div className="bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] p-6 shadow-lg">
-            <h2 className="text-2xl md:text-3xl font-bold text-white text-center">Voice Mode Active</h2>
+            <h2 id="voice-mode-title" className="text-2xl md:text-3xl font-bold text-white text-center">Voice Mode Active</h2>
           </div>
 
           {/* Main Content - Centered */}
