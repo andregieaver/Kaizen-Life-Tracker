@@ -5678,3 +5678,38 @@ async def serve_react_app(full_path: str, request: Request):
 
 
 
+
+# ============================================
+# GRACEFUL SHUTDOWN HANDLER
+# ============================================
+
+def shutdown_handler(signum, frame):
+    """
+    Handle shutdown signals gracefully
+    Allows in-flight requests to complete before shutting down
+    """
+    logging.info(f"Received shutdown signal ({signum}). Initiating graceful shutdown...")
+    
+    # Stop accepting new requests
+    logging.info("Stopping scheduler...")
+    try:
+        scheduler.shutdown(wait=False)
+    except:
+        pass
+    
+    # Close database connections
+    logging.info("Closing database connections...")
+    try:
+        from database import client
+        client.close()
+    except:
+        pass
+    
+    logging.info("Graceful shutdown complete")
+    sys.exit(0)
+
+# Register signal handlers
+signal.signal(signal.SIGTERM, shutdown_handler)
+signal.signal(signal.SIGINT, shutdown_handler)
+
+logging.info("✅ Graceful shutdown handlers registered (SIGTERM, SIGINT)")
