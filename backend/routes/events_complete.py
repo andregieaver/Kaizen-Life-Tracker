@@ -156,11 +156,11 @@ async def get_all_events(
             # Filter by group
             query["group_id"] = group_id
         else:
-            # Get user's group memberships
+            # Get user's group memberships (capped at 1000)
             memberships = await db.community_group_memberships.find(
                 {"athlete_id": athlete_id, "status": "approved"},
                 {"_id": 0, "group_id": 1}
-            ).to_list(length=None)
+            ).to_list(length=1000)
             
             member_group_ids = [m["group_id"] for m in memberships]
             
