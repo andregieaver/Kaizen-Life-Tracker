@@ -4488,9 +4488,13 @@ async def handle_provider_webhook(provider_key: str, request: Request):
 async def get_user_activities(
     user_id: str = Query(...),
     since: Optional[str] = Query(None),
-    limit: int = Query(50, le=100)
+    limit: int = Query(50, le=100),
+    user: dict = Depends(require_auth)
 ):
-    """Get normalized activities for user"""
+    """Get normalized activities for user - Requires authentication"""
+    # Verify user can only view their own activities
+    if user["athlete_id"] != user_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     query = {"user_id": user_id}
     
     if since:
