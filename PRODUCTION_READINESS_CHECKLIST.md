@@ -52,8 +52,24 @@
 
 ---
 
-### 3. Add Authentication to Protected Endpoints ⚠️
-**Status**: IN PROGRESS - 30% complete  
+### 3. Add Authentication to Protected Endpoints ✅
+**Status**: COMPLETE - 100% complete
+**Endpoints Secured**: 12+ endpoints now require authentication
+- ✅ /api/merits/{athlete_id}
+- ✅ /api/schedules/execute-now/{schedule_id}
+- ✅ /api/schedules/execute
+- ✅ /api/recommendations/{athlete_id}/generate
+- ✅ /api/body-score/save/{athlete_id}
+- ✅ /api/body-score/streak/{athlete_id}
+- ✅ /api/health/body-score-data/{athlete_id}
+- ✅ /api/me/connections
+- ✅ /api/me/connections/{provider}/disconnect
+- ✅ /api/me/activities
+- ✅ /api/me/daily
+- ✅ /api/community/polls/{post_id}/vote
+
+**Testing**: ✅ Verified unauthorized requests return 401
+**Completed**: Dec 5, 2025  
 **Risk**: CRITICAL - Unauthorized access  
 **Task**:
 - [ ] Audit all endpoints without @require_auth
