@@ -5010,8 +5010,7 @@ class HabitUpdate(BaseModel):
 # ==========================================
 
 # Moved to routes/habits_complete.py
-"""
-@app.post("/api/habits")
+# @app.post("/api/habits")
 async def create_habit(habit: Habit):
     """Create a new habit"""
     try:
