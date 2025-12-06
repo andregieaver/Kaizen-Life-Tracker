@@ -383,14 +383,14 @@ const Dashboard = ({ athleteId }) => {
           const fullLogoUrl = seo.logoUrl.startsWith('http') || seo.logoUrl.startsWith('data:')
             ? seo.logoUrl 
             : `${BACKEND_URL}${seo.logoUrl}`;
-          console.log('🖼️ Logo URL loaded:', {
+          logger.debug('Dashboard', 'Logo URL loaded:', {
             original: seo.logoUrl,
             BACKEND_URL,
             full: fullLogoUrl
           });
           setLogoUrl(fullLogoUrl);
         } else {
-          console.log('⚠️ No logoUrl in SEO settings');
+          logger.debug('Dashboard', 'No logoUrl in SEO settings');
         }
       }
     } catch (error) {
