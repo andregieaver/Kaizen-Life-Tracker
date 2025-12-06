@@ -112,8 +112,9 @@ async def login_athlete(request: Request, login_data: LoginRequest):
 
 
 @router.post("/forgot-password")
-async def forgot_password(request: dict):
-    """Generate password reset token and send email"""
+@limiter.limit("3/minute")  # Strict limit to prevent abuse
+async def forgot_password(http_request: Request, request: dict):
+    """Generate password reset token and send email - Rate limited to 3/minute"""
     email = request.get("email", "").lower().strip()
     
     if not email:
