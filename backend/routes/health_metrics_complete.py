@@ -172,8 +172,11 @@ async def save_body_score(athlete_id: str, score: float, user: dict = Depends(re
 
 
 @router.get("/body-score/streak/{athlete_id}")
-async def get_body_score_streak(athlete_id: str):
-    """Calculate current streak of days with body score >= 85"""
+async def get_body_score_streak(athlete_id: str, user: dict = Depends(require_auth)):
+    """Calculate current streak of days with body score >= 85 - Requires authentication"""
+    # Verify user can only view their own streak
+    if user["athlete_id"] != athlete_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     try:
         # Get all scores for this athlete, sorted by date descending
         scores = await db.body_score_history.find(
