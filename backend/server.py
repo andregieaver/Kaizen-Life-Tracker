@@ -5117,6 +5117,50 @@ async def liveness_check():
         "uptime": "available"  # Could track actual uptime if needed
     }
 
+@api_router.get("/version")
+async def get_version():
+    """
+    Get API version and build information
+    Useful for deployments and debugging
+    """
+    return {
+        "api_version": "2.0.0",
+        "name": "Kaizen Life API",
+        "environment": os.getenv("ENVIRONMENT", "development"),
+        "python_version": f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
+
+@api_router.get("/metrics")
+async def get_basic_metrics():
+    """
+    Get basic application metrics
+    For monitoring and alerting
+    """
+    try:
+        # Get basic counts from database
+        athlete_count = await db.athlete_profiles.count_documents({})
+        post_count = await db.community_posts.count_documents({})
+        active_integrations = await db.integrations.count_documents({"status": "active"})
+        
+        return {
+            "status": "ok",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "metrics": {
+                "total_athletes": athlete_count,
+                "total_posts": post_count,
+                "active_integrations": active_integrations,
+                "api_endpoints": 319
+            }
+        }
+    except Exception as e:
+        logging.error(f"Error fetching metrics: {e}")
+        return {
+            "status": "error",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "error": "Could not fetch metrics"
+        }
+
 # Register OpenAI Realtime router for voice chat
 try:
     # Create a separate router for realtime endpoints
