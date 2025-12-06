@@ -5154,6 +5154,7 @@ async def get_habit_completions(athlete_id: str, start_date: Optional[str] = Non
     except Exception as e:
         logging.error(f"Error fetching habit completions: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+"""
 
 
 # ==========================================
