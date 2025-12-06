@@ -265,10 +265,33 @@
 **Remaining**: 21 console.logs in utility/minor files (non-critical)
 **Completed**: Dec 6, 2025
 
-### 14. Add Comprehensive Health Checks ⏸️
-### 15. Set Request Timeouts ⏸️
+### 14. Add Comprehensive Health Checks ✅
+**Status**: COMPLETE (Already implemented)
+**Endpoints available**:
+- `GET /api/health` - Basic health check
+- `GET /api/health/ready` - Readiness probe (checks MongoDB)
+- `GET /api/health/live` - Liveness probe
+**Completed**: Pre-existing
+
+### 15. Set Request Timeouts ✅
+**Status**: COMPLETE (Already implemented)
+**Implementation**: REQUEST_TIMEOUT middleware in server.py
+- Default: 60 seconds (configurable via REQUEST_TIMEOUT_SECONDS env var)
+- Returns 504 Gateway Timeout on timeout
+**Completed**: Pre-existing
+
 ### 16. Implement API Versioning ⏸️
-### 17. Add Graceful Shutdown Handling ⏸️
+**Status**: DEFERRED
+**Reason**: Not critical for initial production release. Can be added later when breaking changes needed.
+
+### 17. Add Graceful Shutdown Handling ✅
+**Status**: COMPLETE (Already implemented)
+**Implementation**: Signal handlers for SIGTERM and SIGINT
+- Stops scheduler
+- Closes database connections
+- Logs shutdown progress
+**Completed**: Pre-existing
+
 ### 18. Fix Unlimited Pagination Queries ✅
 **Status**: COMPLETE
 **Implementation**: Added reasonable limits to all `to_list(length=None)` calls in route files:
