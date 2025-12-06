@@ -5187,10 +5187,6 @@ async def get_body_score_leaderboard(limit: int = 50):
 # WEATHER API ENDPOINTS - MOVED to routes/weather_complete.py
 # ==========================================
 # BOOKMARKS ENDPOINTS - MOVED to routes/bookmarks_complete.py
-        logging.error(f"Error checking bookmark: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
 # ==========================================
 # POLL ENDPOINTS
 # ==========================================
