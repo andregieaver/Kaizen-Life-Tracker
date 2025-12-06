@@ -5005,6 +5005,12 @@ class HabitUpdate(BaseModel):
     days_of_week: Optional[List[str]] = None
     times_per_day: Optional[int] = None
 
+# ==========================================
+# HABITS ENDPOINTS - EXTRACTED TO routes/habits_complete.py
+# ==========================================
+
+# Moved to routes/habits_complete.py
+"""
 @app.post("/api/habits")
 async def create_habit(habit: Habit):
     """Create a new habit"""
