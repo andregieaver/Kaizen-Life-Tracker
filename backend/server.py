@@ -390,7 +390,7 @@ async def update_last_active(request: Request, call_next):
                     {"$set": {"last_active_at": datetime.now(timezone.utc).isoformat()}},
                     upsert=False
                 )
-            except Exception as e:
+            except Exception:
                 # Silently fail - don't break the request
                 pass
     
@@ -646,11 +646,11 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         # Get OpenAI API key (checks user's personal key first, then global system settings)
         openai_key = await ai_coach.get_openai_key(athlete_id)
         if not openai_key:
-            logging.debug(f"[SCHEDULER] ERROR: No OpenAI API key configured (checked personal and system settings)")
+            logging.debug("[SCHEDULER] ERROR: No OpenAI API key configured (checked personal and system settings)")
             logging.error(f"No OpenAI API key configured for athlete {athlete_id} (checked personal and system settings)")
             return
         
-        logging.debug(f"[SCHEDULER] OpenAI key found, calling API...")
+        logging.debug("[SCHEDULER] OpenAI key found, calling API...")
         
         # Get coach language preference
         coach_language = athlete.get('coach_language', 'en')
@@ -842,7 +842,7 @@ Behavior:
         
         # Prepare comprehensive context for OpenAI
         context = f"IMPORTANT: Respond in {language_name.upper()}. This is the athlete's preferred language for all coaching responses.\n\n"
-        context += f"Athlete Profile:\n"
+        context += "Athlete Profile:\n"
         context += f"- Name: {athlete.get('name', 'Unknown')}\n"
         context += f"- Age: {calculate_age(athlete.get('date_of_birth'))}\n" if athlete.get('date_of_birth') else ""
         context += f"- Gender: {athlete.get('gender', 'Not specified')}\n"
@@ -941,7 +941,7 @@ Behavior:
         }
         
         await db.recommendations.insert_one(recommendation)
-        logging.debug(f"[SCHEDULER] Recommendation saved to database")
+        logging.debug("[SCHEDULER] Recommendation saved to database")
         
         # Send push notification
         await send_push_notification(
@@ -950,7 +950,7 @@ Behavior:
             body=recommendation['summary'],
             url="/dashboard/reports"
         )
-        logging.debug(f"[SCHEDULER] Push notification sent")
+        logging.debug("[SCHEDULER] Push notification sent")
         
         # Update schedule last_executed time
         await db.schedules.update_one(
@@ -2506,7 +2506,7 @@ Return only the JSON array, nothing else.
             
             response = self.tavily_client.search(**search_params)
             
-            logging.info(f"Search completed successfully")
+            logging.info("Search completed successfully")
             return response
             
         except Exception as e:
@@ -3596,7 +3596,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         })
                         
                         # Call OpenAI again to see if it wants to call another function
-                        logging.debug(f" Calling OpenAI again with function result...")
+                        logging.debug(" Calling OpenAI again with function result...")
                         next_response = await client.chat.completions.create(
                             model="gpt-4o",
                             messages=messages,
