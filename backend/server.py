@@ -127,6 +127,23 @@ app.add_middleware(
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT_SECONDS", "60"))  # 60 seconds default
 
 @app.middleware("http")
+async def request_id_middleware(request: Request, call_next):
+    """
+    Add request ID for tracing and debugging
+    Uses X-Request-ID header if provided, otherwise generates one
+    """
+    import uuid
+    request_id = request.headers.get("X-Request-ID", str(uuid.uuid4())[:8])
+    # Store request_id in request state for logging
+    request.state.request_id = request_id
+    
+    response = await call_next(request)
+    
+    # Add request ID to response headers
+    response.headers["X-Request-ID"] = request_id
+    return response
+
+@app.middleware("http")
 async def timeout_middleware(request: Request, call_next):
     """
     Enforce request timeout to prevent hanging requests
