@@ -134,8 +134,11 @@ class BodyScoreHistory(BaseModel):
 
 
 @router.post("/body-score/save/{athlete_id}")
-async def save_body_score(athlete_id: str, score: float):
-    """Save today's body score for an athlete"""
+async def save_body_score(athlete_id: str, score: float, user: dict = Depends(require_auth)):
+    """Save today's body score for an athlete - Requires authentication"""
+    # Verify user can only save their own score
+    if user["athlete_id"] != athlete_id and not user.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied")
     try:
         today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         
