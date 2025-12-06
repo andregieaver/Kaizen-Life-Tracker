@@ -1807,6 +1807,12 @@
     "startTracking": "Start å spore daglige vaner",
     "noHabitsYet": "Ingen vaner ennå",
     "otherHabits": "Andre vaner",
+    "showHistory": "Vis historikk",
+    "hideHistory": "Skjul historikk",
+    "last4Weeks": "Siste 4 uker",
+    "completed": "Fullført",
+    "partial": "Delvis",
+    "missed": "Utelatt",
     "daysOfWeek": {
       "mon": "Man",
       "monday": "Mandag",
