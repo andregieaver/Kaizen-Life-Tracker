@@ -186,11 +186,11 @@ async def get_all_groups(
 async def get_my_groups(athlete_id: str, limit: int = Query(50)):
     """Get groups that the athlete is a member of"""
     try:
-        # Get user's approved memberships
+        # Get user's approved memberships (capped at 1000)
         memberships = await db.community_group_memberships.find(
             {"athlete_id": athlete_id, "status": "approved"},
             {"_id": 0, "group_id": 1, "role": 1}
-        ).to_list(length=None)
+        ).to_list(length=1000)
         
         if not memberships:
             return {"groups": []}
