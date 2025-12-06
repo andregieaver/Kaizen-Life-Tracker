@@ -59,7 +59,8 @@ async def create_schedule(schedule: Schedule):
             {"_id": 0, "subscription_tier": 1}
         )
         tier = subscription.get('subscription_tier', 'free') if subscription else 'free'
-    except:
+    except Exception as e:
+        logger.warning(f"Failed to fetch subscription tier for athlete {athlete_id}: {e}")
         tier = 'free'
     
     # Define schedule limits per tier
