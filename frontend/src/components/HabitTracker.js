@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Plus, X, Edit3, Trash2, Check, Flame } from 'lucide-react';
+import { Plus, X, Edit3, Trash2, Check, Flame, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
