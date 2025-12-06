@@ -104,7 +104,18 @@ async def login_athlete(request: Request, login_data: LoginRequest):
         {"$set": {"last_active_at": datetime.now(timezone.utc).isoformat()}}
     )
     
+    # Create JWT token
+    token_data = {
+        "athlete_id": athlete_identifier,
+        "email": athlete["email"],
+        "role": athlete.get("role", "user"),
+        "is_super_admin": athlete.get("is_super_admin", False)
+    }
+    access_token = create_access_token(token_data)
+    
     return {
+        "token": access_token,
+        "token_type": "bearer",
         "athlete_id": athlete_identifier,
         "name": athlete["name"],
         "email": athlete["email"],
