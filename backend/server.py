@@ -3953,8 +3953,8 @@ async def generate_recommendation(athlete_id: str, prompt: str, schedule_id: str
 
 # Schedule Execution Service (would be called by cron job)
 @api_router.post("/schedules/execute")
-async def execute_scheduled_analyses():
-    """Execute scheduled AI analyses - typically called by cron job"""
+async def execute_scheduled_analyses(user: dict = Depends(require_admin)):
+    """Execute scheduled AI analyses - Admin only (cron job)"""
     executed_count = 0
     
     try:
