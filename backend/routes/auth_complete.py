@@ -199,7 +199,7 @@ My Health Tracker Team
             
             logging.info(f"[FORGOT PASSWORD] Reset email sent to: {email}")
         else:
-            logging.warning(f"[FORGOT PASSWORD] Email service not configured, token generated but not sent")
+            logging.warning("[FORGOT PASSWORD] Email service not configured, token generated but not sent")
     
     except Exception as e:
         logging.error(f"[FORGOT PASSWORD] Failed to send email: {str(e)}")
