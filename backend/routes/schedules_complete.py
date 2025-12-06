@@ -13,6 +13,9 @@ import logging
 from database import db
 from utils import prepare_for_mongo, parse_from_mongo
 
+# Set up logger
+logger = logging.getLogger(__name__)
+
 router = APIRouter(prefix="/schedules", tags=["schedules"])
 
 # ============= MODELS =============
