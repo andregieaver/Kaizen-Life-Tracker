@@ -131,8 +131,17 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
   const IconComponent = calculator.icon;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4"
+      role="presentation"
+    >
+      <Card 
+        className="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calculator-modal-title"
+        aria-describedby="calculator-modal-description"
+      >
         <CardHeader className="sticky top-0 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-700 z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -140,8 +149,8 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
                 <IconComponent className="w-6 h-6 text-teal-400" />
               </div>
               <div>
-                <CardTitle className="text-white text-xl">{calculator.title}</CardTitle>
-                <CardDescription className="text-gray-300">
+                <CardTitle id="calculator-modal-title" className="text-white text-xl">{calculator.title}</CardTitle>
+                <CardDescription id="calculator-modal-description" className="text-gray-300">
                   {calculator.description}
                 </CardDescription>
               </div>
@@ -149,6 +158,7 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
+              aria-label="Close dialog"
             >
               <X className="w-5 h-5" />
             </button>
