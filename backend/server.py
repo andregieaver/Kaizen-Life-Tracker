@@ -5023,9 +5023,12 @@ class HabitUpdate(BaseModel):
 #            POST /check-auto-complete/{athlete_id}
 
 # ==========================================
-# BODY SCORE STREAK & LEADERBOARD ENDPOINTS
+# BODY SCORE STREAK & LEADERBOARD ENDPOINTS - EXTRACTED TO routes/health_metrics_complete.py
 # ==========================================
+# All body score endpoints have been moved to routes/health_metrics_complete.py
+# Endpoints: POST /body-score/save/{athlete_id}, GET /body-score/streak/{athlete_id}, GET /body-score/leaderboard
 
+"""
 class BodyScoreHistory(BaseModel):
     """Track daily body score for streak calculation"""
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
