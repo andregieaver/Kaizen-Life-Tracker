@@ -1853,6 +1853,12 @@
     "startTracking": "Start tracking your daily habits",
     "noHabitsYet": "No habits yet",
     "otherHabits": "Other Habits",
+    "showHistory": "Show history",
+    "hideHistory": "Hide history",
+    "last4Weeks": "Last 4 weeks",
+    "completed": "Done",
+    "partial": "Partial",
+    "missed": "Missed",
     "daysOfWeek": {
       "mon": "Mon",
       "monday": "Monday",
