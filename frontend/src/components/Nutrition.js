@@ -1006,7 +1006,7 @@ const Nutrition = ({ athleteId }) => {
   const entriesByDay = viewType === 'week' ? groupEntriesByDay(filteredEntries) : {};
 
   return (
-    <div className="min-h-screen p-2 md:p-6 space-y-6" style={{ background: 'var(--grad-page)' }}>
+    <div className="min-h-screen p-2 md:p-6 space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
