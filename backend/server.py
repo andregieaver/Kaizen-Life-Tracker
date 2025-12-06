@@ -3900,8 +3900,8 @@ async def get_personal_records(athlete_id: str, user: dict = Depends(require_aut
 # Schedule Management Routes
 # Manual trigger endpoint for testing (CRUD endpoints moved to routes/schedules_complete.py)
 @api_router.post("/schedules/execute-now/{schedule_id}")
-async def execute_schedule_now(schedule_id: str):
-    """Manually trigger a schedule execution (for testing)"""
+async def execute_schedule_now(schedule_id: str, user: dict = Depends(require_admin)):
+    """Manually trigger a schedule execution - Admin only"""
     schedule = await db.schedules.find_one({"id": schedule_id}, {"_id": 0})
     if not schedule:
         raise HTTPException(status_code=404, detail="Schedule not found")
