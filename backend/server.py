@@ -97,6 +97,11 @@ scheduler = AsyncIOScheduler()
 # Create the main app without a prefix
 app = FastAPI()
 
+# Initialize rate limiter
+limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 # Configure CORS middleware for production deployment
 # SECURITY: Whitelist specific origins only - never use "*" in production
 allowed_origins = os.getenv("ALLOWED_ORIGINS", os.getenv("FRONTEND_URL", "http://localhost:3000"))
