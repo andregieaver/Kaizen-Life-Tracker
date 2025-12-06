@@ -4565,7 +4565,8 @@ async def get_body_score_data(athlete_id: str, response: Response, user: dict = 
                 )
                 today = datetime.now(timezone.utc)
                 age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
-            except:
+            except (ValueError, AttributeError, KeyError) as e:
+                logging.debug(f"Could not calculate age from birth date: {e}")
                 pass
         
         # Fallback to age field if birth date not available
