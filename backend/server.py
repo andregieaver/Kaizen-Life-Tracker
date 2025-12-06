@@ -5117,7 +5117,7 @@ async def get_body_score_streak(athlete_id: str):
 
 @app.get("/api/body-score/leaderboard")
 async def get_body_score_leaderboard(limit: int = 50):
-    """Get leaderboard of all users with their body score streaks"""
+    # Get leaderboard of all users with their body score streaks
     try:
         # Get all athletes
         athletes = await db.athlete_profiles.find({}, {
