@@ -516,12 +516,24 @@ const HabitTracker = ({ athleteId }) => {
                             {t('habits.tap')}
                           </Button>
                         ) : (
-                          <Button
-                            onClick={() => handleUncomplete(habit.id)}
-                            className="flex-1 md:flex-none md:min-w-[100px] bg-gray-700 text-white border-0 hover:bg-gray-600 text-sm md:text-base"
-                          >
-                            {t('habits.undo')}
-                          </Button>
+                          <div className="flex gap-2 flex-1 md:flex-none">
+                            <Button
+                              onClick={() => handleUncomplete(habit.id)}
+                              className="flex-1 md:min-w-[80px] bg-gray-700 text-white border-0 hover:bg-gray-600 text-sm md:text-base"
+                            >
+                              {t('habits.undo')}
+                            </Button>
+                            {/* Show Clear All button for multi-occurrence habits with more than 1 completion */}
+                            {habit.times_per_day > 1 && todayCount > 1 && (
+                              <Button
+                                onClick={() => handleClearAllCompletions(habit.id)}
+                                className="flex-1 md:min-w-[80px] bg-red-900/40 text-red-300 border-0 hover:bg-red-900/60 text-sm md:text-base"
+                                title={t('habits.clearAllTooltip') || 'Remove all completions for today'}
+                              >
+                                {t('habits.clearAll') || 'Clear All'}
+                              </Button>
+                            )}
+                          </div>
                         )}
                         
                         <div className="flex gap-1">
