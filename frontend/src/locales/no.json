@@ -1814,6 +1814,10 @@
     "partial": "Delvis",
     "missed": "Utelatt",
     "clickToToggle": "Klikk dato for å bytte",
+    "startDate": "Startdato",
+    "endDate": "Sluttdato",
+    "infiniteHabit": "Uendelig",
+    "infiniteDescription": "Denne vanen vil fortsette på ubestemt tid",
     "daysOfWeek": {
       "mon": "Man",
       "monday": "Mandag",
