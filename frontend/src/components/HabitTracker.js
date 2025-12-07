@@ -588,28 +588,33 @@ const HabitTracker = ({ athleteId }) => {
                             const status = getDayCompletionStatus(habit, day.date);
                             const isFuture = day.date > today;
                             const isClickable = isScheduled && !isFuture;
+                            const cellKey = `${habit.id}-${day.date}`;
+                            const cellCount = completions[cellKey] || 0;
+                            const isHighlighted = highlightedCell?.habitId === habit.id && highlightedCell?.date === day.date;
                             
                             return (
                               <button
                                 key={index}
                                 onClick={() => handleCalendarDateClick(habit, day.date, isScheduled)}
                                 disabled={!isClickable}
-                                className={`aspect-square rounded-sm flex items-center justify-center text-[10px] font-medium transition-all ${
+                                className={`aspect-square rounded-sm flex items-center justify-center text-[10px] font-bold transition-all ${
                                   day.isToday ? 'ring-1 ring-white' : ''
                                 } ${
-                                  !isScheduled 
-                                    ? 'bg-gray-800/30 text-gray-600 cursor-not-allowed' 
-                                    : isFuture
-                                      ? 'bg-gray-700/30 text-gray-500 cursor-not-allowed'
-                                      : status === 'complete'
-                                        ? 'bg-green-500/80 text-white hover:bg-green-600/80 cursor-pointer'
-                                        : status === 'partial'
-                                          ? 'bg-yellow-500/60 text-white hover:bg-yellow-600/60 cursor-pointer'
-                                          : 'bg-gray-700/50 text-gray-400 hover:bg-gray-600/50 cursor-pointer'
-                                } ${isClickable ? 'active:scale-95' : ''}`}
-                                title={`${day.date}${isScheduled ? (isFuture ? ' - Future date' : status === 'complete' ? ' - Click to uncomplete' : status === 'partial' ? ' - Click to complete' : ' - Click to mark complete') : ' - Not scheduled'}`}
+                                  isHighlighted
+                                    ? 'bg-cyan-400 text-gray-900 scale-110 shadow-lg shadow-cyan-400/50'
+                                    : !isScheduled 
+                                      ? 'bg-gray-800/30 text-gray-600 cursor-not-allowed' 
+                                      : isFuture
+                                        ? 'bg-gray-700/30 text-gray-500 cursor-not-allowed'
+                                        : status === 'complete'
+                                          ? 'bg-green-500/80 text-white hover:bg-green-600/80 cursor-pointer'
+                                          : status === 'partial'
+                                            ? 'bg-yellow-500/60 text-white hover:bg-yellow-600/60 cursor-pointer'
+                                            : 'bg-gray-700/50 text-gray-400 hover:bg-gray-600/50 cursor-pointer'
+                                } ${isClickable && !isHighlighted ? 'active:scale-95' : ''}`}
+                                title={`${day.date} - ${cellCount}/${habit.times_per_day} completions${isScheduled ? (isFuture ? ' (Future)' : ' - Click to cycle') : ' (Not scheduled)'}`}
                               >
-                                {day.dayOfMonth}
+                                {isHighlighted ? highlightedCell.count : day.dayOfMonth}
                               </button>
                             );
                           })}
