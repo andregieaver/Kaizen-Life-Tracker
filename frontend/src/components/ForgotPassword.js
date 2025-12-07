@@ -11,8 +11,8 @@ import LoggedOutHeader from './LoggedOutHeader';
 import { initializeSiteTitle } from '../utils/siteTitle';
 
 import { logger } from '../utils/logger';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 
 const ForgotPassword = () => {
   const { t } = useTranslation();
