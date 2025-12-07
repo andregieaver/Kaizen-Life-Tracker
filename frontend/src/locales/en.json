@@ -1850,6 +1850,8 @@
     "today": "Today",
     "tap": "Tap",
     "undo": "Undo",
+    "clearAll": "Clear All",
+    "clearAllTooltip": "Remove all completions for today",
     "startTracking": "Start tracking your daily habits",
     "noHabitsYet": "No habits yet",
     "otherHabits": "Other Habits",
