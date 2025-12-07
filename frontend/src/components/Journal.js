@@ -6,8 +6,9 @@ import { Badge } from './ui/badge';
 import { Plus, Mic, MicOff, Trash2, Edit3, FileText, Volume2, X, BookOpen, Video, VideoOff, Play, Check } from 'lucide-react';
 
 import { logger } from '../utils/logger';
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const Journal = ({ athleteId }) => {
   const { t } = useTranslation();

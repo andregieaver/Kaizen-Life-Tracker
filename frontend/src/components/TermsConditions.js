@@ -6,8 +6,9 @@ import axios from 'axios';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
 
 import { logger } from '../utils/logger';
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const TermsConditions = () => {
   const [siteTitle, setSiteTitle] = useState('TrainSmart');

@@ -7,8 +7,9 @@ import { Badge } from './ui/badge';
 import { Plus, Save, Trash2, Calendar, Check, X, ChefHat, Star, Clock, Users } from 'lucide-react';
 
 import { logger } from '../utils/logger';
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 const MEALS = ['breakfast', 'lunch', 'dinner'];

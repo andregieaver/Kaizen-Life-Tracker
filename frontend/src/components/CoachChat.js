@@ -11,8 +11,9 @@ import ChartRenderer from './ChartRenderer';
 import VoiceChat from './VoiceChat';
 
 import { logger } from '../utils/logger';
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   const { t } = useTranslation();

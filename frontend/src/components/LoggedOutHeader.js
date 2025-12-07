@@ -6,8 +6,9 @@ import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import axios from 'axios';
 import { logger } from '../utils/logger';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const LoggedOutHeader = () => {
   const navigate = useNavigate();

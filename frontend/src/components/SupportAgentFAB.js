@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import SupportAgentChat from './SupportAgentChat';
 import VoiceChat from './VoiceChat';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const SupportAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
   const [showSupportMenu, setShowSupportMenu] = useState(false);

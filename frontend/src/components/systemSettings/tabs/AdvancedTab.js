@@ -6,8 +6,9 @@ import { Button } from '../../ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../ui/dialog';
 import axios from 'axios';
 
-import { getApiUrl } from '../../../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../../../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const AdvancedTab = ({
   advancedSettings,

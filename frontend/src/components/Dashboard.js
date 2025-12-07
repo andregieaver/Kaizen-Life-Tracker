@@ -48,8 +48,9 @@ import ThemeToggle from './ThemeToggle';
 import LoadingSpinner from './ui/LoadingSpinner';
 
 import { logger } from '../utils/logger';
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 // Helper function to translate notification content
 const translateNotificationContent = (notification, t) => {

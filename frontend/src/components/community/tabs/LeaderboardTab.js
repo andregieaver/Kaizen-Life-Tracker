@@ -4,8 +4,9 @@ import axios from 'axios';
 import { Trophy, TrendingUp, Flame } from 'lucide-react';
 import LoadingSpinner from '../../ui/LoadingSpinner';
 
-import { getApiUrl } from '../../../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../../../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const LeaderboardTab = () => {
   const { t } = useTranslation();

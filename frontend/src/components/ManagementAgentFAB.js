@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import ManagementAgentChat from './ManagementAgentChat';
 import VoiceChat from './VoiceChat';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const ManagementAgentFAB = ({ athleteId, isSuperAdmin, footerProgress = 1 }) => {
   const [showMgmtMenu, setShowMgmtMenu] = useState(false);

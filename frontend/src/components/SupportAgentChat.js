@@ -3,8 +3,9 @@ import { Headphones, Send, Loader } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const SupportAgentChat = ({ athleteId, initialMode = 'text' }) => {
   const [messages, setMessages] = useState([]);
