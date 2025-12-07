@@ -634,7 +634,7 @@ const HabitTracker = ({ athleteId }) => {
                             <div className="w-3 h-3 rounded-sm bg-gray-700/50"></div>
                             <span>{t('habits.missed') || 'Missed'}</span>
                           </div>
-                          <span className="text-gray-500 ml-auto">{t('habits.clickToToggle') || 'Click date to toggle'}</span>
+                          <span className="text-gray-500 ml-auto">{t('habits.clickToCycle') || 'Click to cycle count'}</span>
                         </div>
                       </div>
                     )}
