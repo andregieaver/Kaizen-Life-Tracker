@@ -4659,14 +4659,9 @@ async def disconnect_provider(provider_key: str, user_id: str = Query(...), user
     
     return {"message": f"{provider_key.capitalize()} disconnected successfully"}
 
-@api_router.get("/auth/{provider_key}")
+@api_router.get("/auth/provider/{provider_key}")
 async def begin_provider_auth(provider_key: str, user_id: str = Query(...)):
     """Begin OAuth flow for a provider"""
-    # Prevent auth routes from being caught by this endpoint
-    reserved_paths = ['login', 'logout', 'forgot-password', 'reset-password', 'verify-reset-token', 'google-login', 'change-password', 'change-email']
-    if provider_key in reserved_paths:
-        raise HTTPException(status_code=404, detail="Use POST method for authentication endpoints")
-    
     if provider_key not in connectors:
         raise HTTPException(status_code=404, detail="Provider not found")
     
