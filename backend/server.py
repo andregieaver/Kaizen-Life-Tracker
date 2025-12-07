@@ -4670,7 +4670,7 @@ async def begin_provider_auth(provider_key: str, user_id: str = Query(...)):
     
     return auth_data
 
-@api_router.post("/auth/{provider_key}/callback")
+@api_router.post("/auth/provider/{provider_key}/callback")
 async def handle_provider_callback(provider_key: str, request: Request):
     """Handle OAuth callback from provider"""
     # Skip Strava - it has its own dedicated callback handler
