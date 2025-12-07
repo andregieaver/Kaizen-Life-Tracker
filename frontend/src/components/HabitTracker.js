@@ -213,6 +213,18 @@ const HabitTracker = ({ athleteId }) => {
     }
   };
 
+  // Clear ALL completions for a habit on a specific date
+  const handleClearAllCompletions = async (habitId, dateString = today) => {
+    try {
+      await axios.post(`${API}/habits/${habitId}/clear-completions`, null, {
+        params: { athlete_id: athleteId, date: dateString }
+      });
+      await loadCompletions();
+    } catch (error) {
+      logger.error(null, 'Error clearing completions:', error);
+    }
+  };
+
   // Handle clicking on a date in the calendar to toggle completion
   const handleCalendarDateClick = async (habit, dateString, isScheduled) => {
     // Don't allow clicking on unscheduled days
