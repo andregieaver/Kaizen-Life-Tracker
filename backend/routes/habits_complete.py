@@ -175,6 +175,21 @@ async def undo_habit_completion(habit_id: str, athlete_id: str, date: str):
         logging.error(f"Error undoing habit completion: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.post("/{habit_id}/clear-completions")
+async def clear_all_completions(habit_id: str, athlete_id: str, date: str):
+    """Clear ALL completions for a habit on a specific date (delete the entire record)"""
+    try:
+        result = await db.habit_completions.delete_one({
+            "habit_id": habit_id,
+            "athlete_id": athlete_id,
+            "date": date
+        })
+        
+        return {"success": True, "deleted": result.deleted_count > 0}
+    except Exception as e:
+        logging.error(f"Error clearing habit completions: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.get("/{athlete_id}/completions")
 async def get_habit_completions(athlete_id: str, start_date: Optional[str] = None, end_date: Optional[str] = None, limit: Optional[int] = Query(None, description="Max completions to return")):
     """Get all habit completions for an athlete within a date range"""
