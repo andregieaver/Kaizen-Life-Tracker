@@ -30,6 +30,9 @@ const HabitTracker = ({ athleteId }) => {
   const [title, setTitle] = useState('');
   const [selectedDays, setSelectedDays] = useState([]);
   const [timesPerDay, setTimesPerDay] = useState(1);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [hasEndDate, setHasEndDate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [expandedHabitId, setExpandedHabitId] = useState(null);
 
