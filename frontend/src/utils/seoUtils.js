@@ -1,7 +1,8 @@
 import { logger } from '../utils/logger';
 
-import { getApiUrl } from './apiConfig';
+import { getApiUrl, getApiBaseUrl } from './apiConfig';
 const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 /**
  * Inject SEO meta tags into the document head based on page data
