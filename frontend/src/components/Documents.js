@@ -8,7 +8,8 @@ import { Badge } from './ui/badge';
 import { Plus, Upload, Trash2, FileText, File, X, Activity, Clipboard, FlaskConical, BookOpen, FolderOpen, Download, RefreshCw, Camera } from 'lucide-react';
 
 import { logger } from '../utils/logger';
-const API = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
+const API = getApiBaseUrl();
 
 const Documents = ({ athleteId }) => {
   const [documents, setDocuments] = useState([]);

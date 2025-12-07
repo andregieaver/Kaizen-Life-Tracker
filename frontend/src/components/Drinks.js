@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { GlassWater, Plus, X, Trash2, Calendar as CalendarIcon, Clock, Droplets } from 'lucide-react';
 
 import { logger } from '../utils/logger';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const Drinks = ({ athleteId }) => {

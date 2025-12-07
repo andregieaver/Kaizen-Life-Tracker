@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { Cloud, CloudRain, CloudSnow, Sun, Wind, Droplets, Eye, Gauge, MapPin } from 'lucide-react';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 
-const API = process.env.REACT_APP_BACKEND_URL;
+const API = getApiBaseUrl();
 
 const WeatherCard = () => {
   const { t } = useTranslation();

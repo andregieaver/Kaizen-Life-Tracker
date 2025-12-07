@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Badge } from './ui/badge';
 import { logger } from '../utils/logger';
 import { 
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
   Brain, 
   Search, 
   Plus, 
@@ -22,7 +23,7 @@ import {
   Star
 } from 'lucide-react';
 
-const API = process.env.REACT_APP_BACKEND_URL;
+const API = getApiBaseUrl();
 
 const Memories = ({ athleteId }) => {
   const { t } = useTranslation();

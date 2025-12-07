@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, X, Maximize2, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 import { logger } from '../utils/logger';
+import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
 const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
   // Get backend URL from environment
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+  const backendUrl = getApiBaseUrl();
   
   // Helper function to normalize URLs
   const normalizeUrl = (url) => {

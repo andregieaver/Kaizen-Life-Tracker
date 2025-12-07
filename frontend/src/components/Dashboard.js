@@ -619,7 +619,7 @@ const Dashboard = ({ athleteId }) => {
   // Load background image from localStorage or athlete data
   useEffect(() => {
     const loadBackgroundImage = () => {
-      const API = process.env.REACT_APP_BACKEND_URL || '';
+      const API = getApiBaseUrl(); || '';
       const defaultBackground = `${API}/uploaded_images/default-background.jpg`;
       
       // Check localStorage first
