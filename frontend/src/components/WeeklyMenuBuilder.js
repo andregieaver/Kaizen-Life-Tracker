@@ -257,7 +257,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
 
   const openNutritionEntryDetail = async (entryId) => {
     try {
-      const API_URL = process.env.REACT_APP_BACKEND_URL;
+      const API_URL = BACKEND_URL;
       const response = await axios.get(`${API_URL}/api/nutrition/entry/${entryId}`);
       setSelectedNutritionEntry(response.data);
     } catch (error) {
@@ -960,7 +960,7 @@ const NutritionEntryDetailModal = ({ entry, onClose }) => {
     setReanalyzeError(null);
     
     try {
-      const API_URL = process.env.REACT_APP_BACKEND_URL;
+      const API_URL = BACKEND_URL;
       const response = await axios.post(`${API_URL}/api/nutrition/entry/${entry.id}/reanalyze`);
       
       if (response.data.success) {

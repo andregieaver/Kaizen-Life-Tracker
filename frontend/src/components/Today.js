@@ -21,7 +21,7 @@ import WeatherCard from './WeatherCard';
 
 import { logger } from '../utils/logger';
 import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = `${BACKEND_URL}/api`;
 
 const Today = ({ athleteId }) => {
   const { t, i18n } = useTranslation();

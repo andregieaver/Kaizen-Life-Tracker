@@ -18,7 +18,7 @@ const CalculatorsConverters = ({ athleteId }) => {
 
   const loadAthletePreferences = async () => {
     try {
-      const API_URL = process.env.REACT_APP_BACKEND_URL;
+      const API_URL = BACKEND_URL;
       const response = await axios.get(`${API_URL}/api/athlete/${athleteId}`);
       setAthletePreferences(response.data);
     } catch (error) {

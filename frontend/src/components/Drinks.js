@@ -7,7 +7,7 @@ import { GlassWater, Plus, X, Trash2, Calendar as CalendarIcon, Clock, Droplets 
 
 import { logger } from '../utils/logger';
 import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = `${BACKEND_URL}/api`;
 
 const Drinks = ({ athleteId }) => {
   const { t } = useTranslation();

@@ -541,14 +541,14 @@ const Journal = ({ athleteId }) => {
                 {entry.entry_type === 'video' && entry.video_path && (
                   <div className="mb-4">
                     <video
-                      src={`${process.env.REACT_APP_BACKEND_URL}${entry.video_path}`}
+                      src={`${BACKEND_URL}${entry.video_path}`}
                       controls
                       className="w-full rounded-lg bg-black"
                     >
                       {entry.subtitle_path && !entry.has_burned_subtitles && (
                         <track
                           kind="subtitles"
-                          src={`${process.env.REACT_APP_BACKEND_URL}${entry.subtitle_path}`}
+                          src={`${BACKEND_URL}${entry.subtitle_path}`}
                           srcLang="en"
                           label="English"
                           default

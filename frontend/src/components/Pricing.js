@@ -46,7 +46,7 @@ const Pricing = () => {
   useEffect(() => {
     const loadPlans = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscription-plans-public`);
+        const response = await fetch(`${BACKEND_URL}/api/subscription-plans-public`);
         const data = await response.json();
         
         logger.debug(null, 'Loaded plans from API:', data.plans);
@@ -144,7 +144,7 @@ const Pricing = () => {
     setCouponError('');
 
     try {
-      let url = `${process.env.REACT_APP_BACKEND_URL}/api/coupons/validate?code=${encodeURIComponent(couponCode)}&amount=${planPrice}&purchase_type=subscriptions`;
+      let url = `${BACKEND_URL}/api/coupons/validate?code=${encodeURIComponent(couponCode)}&amount=${planPrice}&purchase_type=subscriptions`;
       if (planId) {
         url += `&plan_id=${planId}`;
       }
@@ -310,7 +310,7 @@ const Pricing = () => {
         ...(couponCode && { coupon_code: couponCode })
       });
 
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscriptions/create-checkout-session`, {
+      const response = await fetch(`${BACKEND_URL}/api/subscriptions/create-checkout-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

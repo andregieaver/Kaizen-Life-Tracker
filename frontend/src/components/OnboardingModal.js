@@ -48,7 +48,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
 
   const loadAthleteData = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/athlete/${athleteId}`);
+      const response = await fetch(`${BACKEND_URL}/api/athlete/${athleteId}`);
       if (response.ok) {
         const data = await response.json();
         
@@ -83,7 +83,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
         return false;
       }
       
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/athlete/${athleteId}`, {
+      const response = await fetch(`${BACKEND_URL}/api/athlete/${athleteId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(personalInfo)
@@ -108,7 +108,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
 
   const handlePreferencesSave = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/athlete/${athleteId}`, {
+      const response = await fetch(`${BACKEND_URL}/api/athlete/${athleteId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(preferences)
@@ -133,7 +133,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
   const handleIntegrationConnect = async (integration) => {
     try {
       // Get auth URL from backend
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/${integration}?user_id=${athleteId}`);
+      const response = await fetch(`${BACKEND_URL}/api/auth/${integration}?user_id=${athleteId}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -159,7 +159,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
   const checkIntegrationStatus = async () => {
     try {
       // Check if any integration is connected
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/onboarding/check-auto-complete/${athleteId}`, {
+      const response = await fetch(`${BACKEND_URL}/api/onboarding/check-auto-complete/${athleteId}`, {
         method: 'POST'
       });
       
@@ -183,7 +183,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
         formData.append('images', postImage);
       }
       
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/community/posts`, {
+      const response = await fetch(`${BACKEND_URL}/api/community/posts`, {
         method: 'POST',
         body: formData
       });
@@ -201,7 +201,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
 
   const markStepComplete = async (step) => {
     try {
-      await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/onboarding/step/${athleteId}`, {
+      await fetch(`${BACKEND_URL}/api/onboarding/step/${athleteId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ step, completed: true })
@@ -264,7 +264,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
 
   const handleSkipForNow = async () => {
     try {
-      await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/onboarding/dismiss/${athleteId}`, {
+      await fetch(`${BACKEND_URL}/api/onboarding/dismiss/${athleteId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ permanent: false })
@@ -279,7 +279,7 @@ const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
     const confirmed = window.confirm(t('onboarding.confirmNeverShow'));
     if (confirmed) {
       try {
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/onboarding/dismiss/${athleteId}`, {
+        await fetch(`${BACKEND_URL}/api/onboarding/dismiss/${athleteId}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ permanent: true })
