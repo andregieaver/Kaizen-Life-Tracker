@@ -5,7 +5,7 @@ import { X, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 import { logger } from '../../../utils/logger';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../../utils/apiConfig';
 const API = getApiUrl();
 
 const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesAccepted }) => {

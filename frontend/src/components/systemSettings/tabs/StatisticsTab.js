@@ -30,7 +30,7 @@ ChartJS.register(
   Legend
 );
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../../utils/apiConfig';
 const API = getApiUrl();
 
 const StatisticsTab = ({

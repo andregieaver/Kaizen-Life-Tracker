@@ -7,7 +7,7 @@ import EmojiPicker from 'emoji-picker-react';
 import axios from 'axios';
 import { logger } from '../../utils/logger';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../utils/apiConfig';
 const API = getApiUrl();
 
 const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initialUserId = null }) => {

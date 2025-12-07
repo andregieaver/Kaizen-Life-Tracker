@@ -11,7 +11,7 @@ import axios from 'axios';
 import { logger } from '../../../utils/logger';
 import { formatMentions } from '../../../utils/mentionUtils';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../../utils/apiConfig';
 const API = getApiUrl();
 
 const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athleteId, loadAthleteProfile, handleLike, handleShare, handleToggleComments, setFullSizeImageUrl, setShowFullSizeImage, onMessageUser, onAcceptFollowRequest, onDeclineFollowRequest, onAcceptMessageRequest, onDeclineMessageRequest }) => {

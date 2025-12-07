@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from '../../ui/dialog';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../../utils/apiConfig';
 const API = getApiUrl();
 
 const VOICES = [

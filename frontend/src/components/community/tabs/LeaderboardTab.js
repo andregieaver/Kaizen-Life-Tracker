@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Trophy, TrendingUp, Flame } from 'lucide-react';
 import LoadingSpinner from '../../ui/LoadingSpinner';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../../utils/apiConfig';
 const API = getApiUrl();
 
 const LeaderboardTab = () => {

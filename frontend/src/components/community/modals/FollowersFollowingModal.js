@@ -6,7 +6,7 @@ import FlagIcon from '../../FlagIcon';
 import OnlineStatusIndicator from '../../OnlineStatusIndicator';
 import axios from 'axios';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../../utils/apiConfig';
 const API = getApiUrl();
 
 const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followers', onClose, onViewProfile, t }) => {
