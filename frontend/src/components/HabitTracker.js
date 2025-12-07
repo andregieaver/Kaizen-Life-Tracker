@@ -226,7 +226,8 @@ const HabitTracker = ({ athleteId }) => {
     }
   };
 
-  // Handle clicking on a date in the calendar to toggle completion
+  // Handle clicking on a date in the calendar to cycle completion count
+  // Logic: 0 → 1 → 2 → ... → times_per_day → 0 (reset)
   const handleCalendarDateClick = async (habit, dateString, isScheduled) => {
     // Don't allow clicking on unscheduled days
     if (!isScheduled) return;
@@ -239,16 +240,26 @@ const HabitTracker = ({ athleteId }) => {
     
     try {
       if (currentCount >= habit.times_per_day) {
-        // Already complete - uncomplete it
-        await axios.post(`${API}/habits/${habit.id}/uncomplete`, null, {
+        // Fully complete - reset to 0 (clear all)
+        await axios.post(`${API}/habits/${habit.id}/clear-completions`, null, {
           params: { athlete_id: athleteId, date: dateString }
         });
+        // Show "0" briefly
+        setHighlightedCell({ habitId: habit.id, date: dateString, count: 0 });
       } else {
-        // Not complete - complete it
+        // Not fully complete - add one completion
         await axios.post(`${API}/habits/${habit.id}/complete`, null, {
           params: { athlete_id: athleteId, date: dateString }
         });
+        // Show new count briefly
+        setHighlightedCell({ habitId: habit.id, date: dateString, count: currentCount + 1 });
       }
+      
+      // Clear highlight after 800ms
+      setTimeout(() => {
+        setHighlightedCell(null);
+      }, 800);
+      
       await loadCompletions();
     } catch (error) {
       logger.error(null, 'Error toggling completion:', error);
