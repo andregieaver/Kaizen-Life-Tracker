@@ -1862,6 +1862,7 @@
     "partial": "Partial",
     "missed": "Missed",
     "clickToToggle": "Click date to toggle",
+    "clickToCycle": "Click to cycle count",
     "startDate": "Start Date",
     "endDate": "End Date",
     "infiniteHabit": "Infinite",
