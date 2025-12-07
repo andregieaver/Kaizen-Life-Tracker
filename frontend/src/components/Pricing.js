@@ -12,6 +12,8 @@ import { initializeSiteTitle } from '../utils/siteTitle';
 
 import { logger } from '../utils/logger';
 import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
+const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 const Pricing = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();

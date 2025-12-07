@@ -4,6 +4,8 @@ import { X, Check, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react';
 import Confetti from 'react-confetti';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
+const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const OnboardingModal = ({ athleteId, onComplete, onDismiss }) => {
   const { t } = useTranslation();

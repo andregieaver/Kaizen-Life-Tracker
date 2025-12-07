@@ -7,6 +7,8 @@ import { Calculator, Activity, Target, Ruler, X } from 'lucide-react';
 
 import { logger } from '../utils/logger';
 import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
+const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 const CalculatorsConverters = ({ athleteId }) => {
   const { t } = useTranslation();
   const [selectedCalculator, setSelectedCalculator] = useState(null);
