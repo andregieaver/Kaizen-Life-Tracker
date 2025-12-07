@@ -53,7 +53,8 @@ export const cacheSiteTitle = (title) => {
  */
 export const fetchAndCacheSiteTitle = async () => {
   try {
-    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
     const response = await fetch(`${BACKEND_URL}/api/system/settings/public`);
     const data = await response.json();
     

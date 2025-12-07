@@ -11,7 +11,8 @@ import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable } from '../utils/StrictModeDroppable';
 
 import { logger } from '../utils/logger';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 const PageEditor = ({ athleteId, pageId }) => {

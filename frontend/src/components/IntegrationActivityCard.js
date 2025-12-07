@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { RefreshCw, Activity, Clock, TrendingUp, MapPin } from 'lucide-react';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 const INTEGRATION_CONFIG = {

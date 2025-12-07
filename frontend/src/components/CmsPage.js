@@ -7,7 +7,8 @@ import { loadAndInjectPageSEO } from '../utils/seoUtils';
 import HtmlRenderer from '../utils/HtmlRenderer';
 
 import { logger } from '../utils/logger';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 
 const CmsPage = () => {
   const location = useLocation();

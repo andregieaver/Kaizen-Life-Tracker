@@ -35,7 +35,8 @@ import LeaderboardTab from './community/tabs/LeaderboardTab';
 import { useMediaUpload, useMentions, usePostActions, useComments, useNotifications } from '../hooks/community';
 
 import { logger } from '../utils/logger';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 // Helper function to translate notification content

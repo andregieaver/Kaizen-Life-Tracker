@@ -34,7 +34,8 @@ const CmsPage = lazy(() => import('./components/CmsPage'));
 // Individual components handle their own loading states for better UX
 const LoadingFallback = () => null;
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 // Analytics Provider Component

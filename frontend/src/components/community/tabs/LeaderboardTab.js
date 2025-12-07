@@ -4,7 +4,8 @@ import axios from 'axios';
 import { Trophy, TrendingUp, Flame } from 'lucide-react';
 import LoadingSpinner from '../../ui/LoadingSpinner';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 const LeaderboardTab = () => {

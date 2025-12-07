@@ -16,7 +16,8 @@ import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import ChatbotWidget from './ChatbotWidget';
 
 import { logger } from '../utils/logger';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 // Animated Counter Component

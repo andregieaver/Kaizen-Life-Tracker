@@ -6,7 +6,8 @@ import { Badge } from './ui/badge';
 import { Plus, Camera, Upload, Trash2, Edit3, Utensils, Coffee, UtensilsCrossed, Apple, X, ImageIcon, ChevronLeft, ChevronRight, Pill, ChevronDown, ChevronUp } from 'lucide-react';
 
 import { logger } from '../utils/logger';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 // RDI (Recommended Daily Intake) values for adults

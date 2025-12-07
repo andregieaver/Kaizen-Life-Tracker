@@ -5,7 +5,8 @@ import { X, Send, Bot, MessageCircle, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {

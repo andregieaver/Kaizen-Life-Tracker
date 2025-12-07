@@ -8,7 +8,8 @@ import { Label } from './ui/label';
 import { Plus, X, Edit3, Trash2, Check, Flame, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { logger } from '../utils/logger';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 const HabitTracker = ({ athleteId }) => {

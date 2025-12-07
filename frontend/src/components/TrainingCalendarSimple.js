@@ -9,7 +9,8 @@ import moment from 'moment';
 import { logger } from '../utils/logger';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 const localizer = momentLocalizer(moment);

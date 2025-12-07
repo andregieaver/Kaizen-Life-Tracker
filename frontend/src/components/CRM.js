@@ -10,7 +10,8 @@ import { Badge } from './ui/badge';
 import ConfirmationModal from './ConfirmationModal';
 
 import { logger } from '../utils/logger';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 const CRM = ({ athleteId }) => {

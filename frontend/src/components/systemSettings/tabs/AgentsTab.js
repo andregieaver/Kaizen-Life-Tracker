@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Plus, Edit2, Trash2, Bot, Mic } from 'lucide-react';
 import AgentModal from '../modals/AgentModal';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { getApiUrl } from '../utils/apiConfig';
+const API = getApiUrl();
 const API = `${BACKEND_URL}/api`;
 
 const AgentsTab = ({ athleteId }) => {
