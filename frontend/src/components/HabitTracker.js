@@ -584,7 +584,10 @@ const HabitTracker = ({ athleteId }) => {
                         {/* Calendar grid - 4 weeks - Clickable */}
                         <div className="grid grid-cols-7 gap-1">
                           {last28Days.map((day, index) => {
-                            const isScheduled = habit.days_of_week.includes(day.dayName);
+                            // Check if date is within habit's active period (start_date to end_date)
+                            const isWithinDateRange = (!habit.start_date || day.date >= habit.start_date) && 
+                                                      (!habit.end_date || day.date <= habit.end_date);
+                            const isScheduled = habit.days_of_week.includes(day.dayName) && isWithinDateRange;
                             const status = getDayCompletionStatus(habit, day.date);
                             const isFuture = day.date > today;
                             const isClickable = isScheduled && !isFuture;
