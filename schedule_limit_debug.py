@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from environment
-BACKEND_URL = "https://securityaudit-7.preview.emergentagent.com/api"
+BACKEND_URL = "https://healthtrack-pro-6.preview.emergentagent.com/api"
 
 def debug_schedule_limit_issue():
     """Debug the specific schedule limit issue"""

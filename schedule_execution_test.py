@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 import pytz
 
 # Backend URL from environment
-BACKEND_URL = "https://securityaudit-7.preview.emergentagent.com/api"
+BACKEND_URL = "https://healthtrack-pro-6.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""

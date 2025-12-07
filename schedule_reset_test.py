@@ -11,7 +11,7 @@ import uuid
 from datetime import datetime, timezone, timedelta
 
 # Backend URL from environment
-BACKEND_URL = "https://securityaudit-7.preview.emergentagent.com/api"
+BACKEND_URL = "https://healthtrack-pro-6.preview.emergentagent.com/api"
 
 # Test athlete from review request
 TEST_ATHLETE_EMAIL = "andre@example.com"
