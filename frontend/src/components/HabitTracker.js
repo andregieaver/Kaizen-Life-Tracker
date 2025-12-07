@@ -233,7 +233,7 @@ const HabitTracker = ({ athleteId }) => {
     
     const checkDate = new Date();
     for (let i = 0; i < 30; i++) {
-      const dateStr = checkDate.toISOString().split('T')[0];
+      const dateStr = getLocalDateString(checkDate);
       const dayName = DAYS_OF_WEEK[checkDate.getDay() === 0 ? 6 : checkDate.getDay() - 1].value;
       
       // Only count days that are in the habit's schedule
