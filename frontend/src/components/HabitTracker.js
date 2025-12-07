@@ -132,8 +132,14 @@ const HabitTracker = ({ athleteId }) => {
   };
 
   const handleSubmit = async () => {
-    if (!title.trim() || selectedDays.length === 0 || timesPerDay < 1) {
-      alert('Please fill all fields correctly');
+    if (!title.trim() || selectedDays.length === 0 || timesPerDay < 1 || !startDate) {
+      alert('Please fill all required fields correctly');
+      return;
+    }
+
+    // Validate end date is after start date if provided
+    if (hasEndDate && endDate && endDate < startDate) {
+      alert('End date must be after start date');
       return;
     }
 
@@ -144,7 +150,9 @@ const HabitTracker = ({ athleteId }) => {
         await axios.put(`${API}/habits/${editingHabit.id}`, {
           title: title.trim(),
           days_of_week: selectedDays,
-          times_per_day: timesPerDay
+          times_per_day: timesPerDay,
+          start_date: startDate,
+          end_date: hasEndDate ? endDate : null
         });
       } else {
         // Create
@@ -152,7 +160,9 @@ const HabitTracker = ({ athleteId }) => {
           athlete_id: athleteId,
           title: title.trim(),
           days_of_week: selectedDays,
-          times_per_day: timesPerDay
+          times_per_day: timesPerDay,
+          start_date: startDate,
+          end_date: hasEndDate ? endDate : null
         });
       }
       
