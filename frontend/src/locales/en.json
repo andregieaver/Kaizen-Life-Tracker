@@ -1859,6 +1859,7 @@
     "completed": "Done",
     "partial": "Partial",
     "missed": "Missed",
+    "clickToToggle": "Click date to toggle",
     "daysOfWeek": {
       "mon": "Mon",
       "monday": "Monday",
