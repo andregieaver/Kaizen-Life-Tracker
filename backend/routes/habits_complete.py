@@ -53,6 +53,9 @@ async def create_habit(habit: Habit):
     """Create a new habit"""
     try:
         habit_dict = habit.model_dump()
+        # Set default start_date to today if not provided
+        if not habit_dict.get('start_date'):
+            habit_dict['start_date'] = datetime.now(timezone.utc).strftime('%Y-%m-%d')
         await db.habits.insert_one(habit_dict)
         return {"success": True, "habit_id": habit.id}
     except Exception as e:
