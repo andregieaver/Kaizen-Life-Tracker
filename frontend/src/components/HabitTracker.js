@@ -279,8 +279,12 @@ const HabitTracker = ({ athleteId }) => {
       const dateStr = getLocalDateString(checkDate);
       const dayName = DAYS_OF_WEEK[checkDate.getDay() === 0 ? 6 : checkDate.getDay() - 1].value;
       
-      // Only check days that are in the habit's schedule
-      if (habit.days_of_week.includes(dayName)) {
+      // Check if date is within habit's active period
+      const isWithinDateRange = (!habit.start_date || dateStr >= habit.start_date) && 
+                                (!habit.end_date || dateStr <= habit.end_date);
+      
+      // Only check days that are in the habit's schedule AND within date range
+      if (habit.days_of_week.includes(dayName) && isWithinDateRange) {
         const key = `${habit.id}-${dateStr}`;
         const count = completions[key] || 0;
         
@@ -292,6 +296,11 @@ const HabitTracker = ({ athleteId }) => {
         }
       }
       
+      // Stop if we've gone before the habit's start date
+      if (habit.start_date && dateStr < habit.start_date) {
+        break;
+      }
+      
       checkDate.setDate(checkDate.getDate() - 1);
       
       // Limit to last 90 days
@@ -301,7 +310,7 @@ const HabitTracker = ({ athleteId }) => {
     return streak;
   };
 
-  // Calculate completion score for last 30 days
+  // Calculate completion score for last 30 days (only within habit's active period)
   const calculateCompletionScore = (habit) => {
     let completedDays = 0;
     let totalScheduledDays = 0;
@@ -311,8 +320,12 @@ const HabitTracker = ({ athleteId }) => {
       const dateStr = getLocalDateString(checkDate);
       const dayName = DAYS_OF_WEEK[checkDate.getDay() === 0 ? 6 : checkDate.getDay() - 1].value;
       
-      // Only count days that are in the habit's schedule
-      if (habit.days_of_week.includes(dayName)) {
+      // Check if date is within habit's active period
+      const isWithinDateRange = (!habit.start_date || dateStr >= habit.start_date) && 
+                                (!habit.end_date || dateStr <= habit.end_date);
+      
+      // Only count days that are in the habit's schedule AND within date range
+      if (habit.days_of_week.includes(dayName) && isWithinDateRange) {
         totalScheduledDays++;
         const key = `${habit.id}-${dateStr}`;
         const count = completions[key] || 0;
