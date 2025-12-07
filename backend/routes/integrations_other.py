@@ -276,7 +276,7 @@ def get_integration_service(provider: str):
     return services[provider]()
 
 
-@router.get("/auth/{provider}")
+@router.get("/integrations/{provider}/auth")
 async def start_integration_auth(provider: str, user_id: str):
     """Generic OAuth start for any provider"""
     try:
@@ -303,7 +303,7 @@ async def start_integration_auth(provider: str, user_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/auth/{provider}/callback")
+@router.get("/integrations/{provider}/callback")
 async def integration_callback(provider: str, code: str = None, state: str = None, error: str = None):
     """Generic OAuth callback for any provider"""
     try:
