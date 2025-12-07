@@ -3,7 +3,7 @@ import { compressPostImage } from '../../utils/imageCompression';
 import { logger } from '../../utils/logger';
 import axios from 'axios';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../utils/apiConfig';
 const API = getApiUrl();
 
 /**

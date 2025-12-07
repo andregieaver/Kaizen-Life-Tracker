@@ -53,7 +53,7 @@ export const cacheSiteTitle = (title) => {
  */
 export const fetchAndCacheSiteTitle = async () => {
   try {
-    import { getApiUrl } from '../utils/apiConfig';
+    import { getApiUrl } from './apiConfig';
 const API = getApiUrl();
     const response = await fetch(`${BACKEND_URL}/api/system/settings/public`);
     const data = await response.json();

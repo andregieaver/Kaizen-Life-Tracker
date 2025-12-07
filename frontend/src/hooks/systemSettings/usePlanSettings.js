@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { logger } from '../../utils/logger';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../utils/apiConfig';
 const API = getApiUrl();
 
 /**

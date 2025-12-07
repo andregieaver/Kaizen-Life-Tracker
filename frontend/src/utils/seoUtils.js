@@ -1,6 +1,6 @@
 import { logger } from '../utils/logger';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from './apiConfig';
 const API = getApiUrl();
 
 /**

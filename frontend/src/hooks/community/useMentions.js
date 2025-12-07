@@ -3,7 +3,7 @@ import axios from 'axios';
 import { findMentionTrigger, insertMention, formatMentions } from '../../utils/mentionUtils';
 import { logger } from '../../utils/logger';
 
-import { getApiUrl } from '../utils/apiConfig';
+import { getApiUrl } from '../../utils/apiConfig';
 const API = getApiUrl();
 
 /**
