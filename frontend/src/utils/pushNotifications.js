@@ -2,7 +2,8 @@
 
 import { logger } from '../utils/logger';
 
-const API = process.env.REACT_APP_BACKEND_URL;
+import { getApiBaseUrl } from './apiConfig';
+const API = getApiBaseUrl();
 
 // Convert base64 URL-safe string to Uint8Array
 function urlBase64ToUint8Array(base64String) {
