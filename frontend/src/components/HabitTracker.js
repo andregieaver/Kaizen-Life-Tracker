@@ -690,36 +690,42 @@ const HabitTracker = ({ athleteId }) => {
                         ))}
                       </div>
                       
-                      {/* Calendar grid - 4 weeks */}
+                      {/* Calendar grid - 4 weeks - Clickable */}
                       <div className="grid grid-cols-7 gap-1">
                         {last28Days.map((day, index) => {
                           const isScheduled = habit.days_of_week.includes(day.dayName);
                           const status = getDayCompletionStatus(habit, day.date);
+                          const isFuture = day.date > today;
+                          const isClickable = isScheduled && !isFuture;
                           
                           return (
-                            <div
+                            <button
                               key={index}
+                              onClick={() => handleCalendarDateClick(habit, day.date, isScheduled)}
+                              disabled={!isClickable}
                               className={`aspect-square rounded-sm flex items-center justify-center text-[10px] font-medium transition-all ${
                                 day.isToday ? 'ring-1 ring-white' : ''
                               } ${
                                 !isScheduled 
-                                  ? 'bg-gray-800/30 text-gray-600' 
-                                  : status === 'complete'
-                                    ? 'bg-green-500/80 text-white'
-                                    : status === 'partial'
-                                      ? 'bg-yellow-500/60 text-white'
-                                      : 'bg-gray-700/50 text-gray-400'
-                              }`}
-                              title={`${day.date}${isScheduled ? (status === 'complete' ? ' - Completed' : status === 'partial' ? ' - Partial' : ' - Not done') : ' - Not scheduled'}`}
+                                  ? 'bg-gray-800/30 text-gray-600 cursor-not-allowed' 
+                                  : isFuture
+                                    ? 'bg-gray-700/30 text-gray-500 cursor-not-allowed'
+                                    : status === 'complete'
+                                      ? 'bg-green-500/80 text-white hover:bg-green-600/80 cursor-pointer'
+                                      : status === 'partial'
+                                        ? 'bg-yellow-500/60 text-white hover:bg-yellow-600/60 cursor-pointer'
+                                        : 'bg-gray-700/50 text-gray-400 hover:bg-gray-600/50 cursor-pointer'
+                              } ${isClickable ? 'active:scale-95' : ''}`}
+                              title={`${day.date}${isScheduled ? (isFuture ? ' - Future date' : status === 'complete' ? ' - Click to uncomplete' : status === 'partial' ? ' - Click to complete' : ' - Click to mark complete') : ' - Not scheduled'}`}
                             >
                               {day.dayOfMonth}
-                            </div>
+                            </button>
                           );
                         })}
                       </div>
                       
-                      {/* Legend */}
-                      <div className="flex items-center gap-3 mt-2 text-[10px] text-gray-400">
+                      {/* Legend with click hint */}
+                      <div className="flex items-center gap-3 mt-2 text-[10px] text-gray-400 flex-wrap">
                         <div className="flex items-center gap-1">
                           <div className="w-3 h-3 rounded-sm bg-green-500/80"></div>
                           <span>{t('habits.completed') || 'Done'}</span>
@@ -732,6 +738,7 @@ const HabitTracker = ({ athleteId }) => {
                           <div className="w-3 h-3 rounded-sm bg-gray-700/50"></div>
                           <span>{t('habits.missed') || 'Missed'}</span>
                         </div>
+                        <span className="text-gray-500 ml-auto">{t('habits.clickToToggle') || 'Click date to toggle'}</span>
                       </div>
                     </div>
                   )}
