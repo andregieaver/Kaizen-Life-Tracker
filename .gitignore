@@ -129,19 +129,6 @@ frontend/build/bundle-stats.json
 frontend/node_modules/.cache/default-development/4.pack_
 frontend/node_modules/.cache/default-development/14.pack_
 frontend/node_modules/.cache/default-development/12.pack_
--e 
-# Environment files are needed for Emergent deployments - DO NOT IGNORE
-# *.env
-# *.env.*
--e 
-# Environment files - Commented out to allow .env files for deployment
-# *.env
-# *.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
+
+# Environment files - DO NOT IGNORE for Emergent deployments
+# .env files are required for deployment and should NOT be gitignored
