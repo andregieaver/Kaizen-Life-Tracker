@@ -264,11 +264,12 @@ const HabitTracker = ({ athleteId }) => {
     checkDate.setDate(checkDate.getDate() - daysFromMonday - 21); // Go back 3 more weeks
     
     for (let i = 0; i < 28; i++) {
+      const dateString = getLocalDateString(checkDate);
       days.push({
-        date: new Date(checkDate).toISOString().split('T')[0],
+        date: dateString,
         dayName: DAYS_OF_WEEK[checkDate.getDay() === 0 ? 6 : checkDate.getDay() - 1].value,
         dayOfMonth: checkDate.getDate(),
-        isToday: checkDate.toISOString().split('T')[0] === today
+        isToday: dateString === today
       });
       checkDate.setDate(checkDate.getDate() + 1);
     }
