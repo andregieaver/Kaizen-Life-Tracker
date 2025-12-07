@@ -191,6 +191,35 @@ const HabitTracker = ({ athleteId }) => {
     }
   };
 
+  // Handle clicking on a date in the calendar to toggle completion
+  const handleCalendarDateClick = async (habit, dateString, isScheduled) => {
+    // Don't allow clicking on unscheduled days
+    if (!isScheduled) return;
+    
+    // Don't allow clicking on future dates
+    if (dateString > today) return;
+    
+    const key = `${habit.id}-${dateString}`;
+    const currentCount = completions[key] || 0;
+    
+    try {
+      if (currentCount >= habit.times_per_day) {
+        // Already complete - uncomplete it
+        await axios.post(`${API}/habits/${habit.id}/uncomplete`, null, {
+          params: { athlete_id: athleteId, date: dateString }
+        });
+      } else {
+        // Not complete - complete it
+        await axios.post(`${API}/habits/${habit.id}/complete`, null, {
+          params: { athlete_id: athleteId, date: dateString }
+        });
+      }
+      await loadCompletions();
+    } catch (error) {
+      logger.error(null, 'Error toggling completion:', error);
+    }
+  };
+
   const getTodayCompletions = (habitId) => {
     const key = `${habitId}-${today}`;
     return completions[key] || 0;
