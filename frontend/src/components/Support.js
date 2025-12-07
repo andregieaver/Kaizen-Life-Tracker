@@ -8,7 +8,6 @@ import { Mail, Send, CheckCircle, AlertCircle, HelpCircle } from 'lucide-react';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Support = ({ athleteId, athlete }) => {
   const { t } = useTranslation();

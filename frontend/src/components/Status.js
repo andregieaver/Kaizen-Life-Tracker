@@ -17,7 +17,6 @@ import {
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Status = ({ athleteId }) => {
   const [connections, setConnections] = useState([]);

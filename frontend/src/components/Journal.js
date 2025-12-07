@@ -8,7 +8,6 @@ import { Plus, Mic, MicOff, Trash2, Edit3, FileText, Volume2, X, BookOpen, Video
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Journal = ({ athleteId }) => {
   const { t } = useTranslation();

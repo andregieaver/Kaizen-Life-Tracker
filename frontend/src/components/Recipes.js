@@ -8,7 +8,6 @@ import { Clock, Users, ChefHat, Star, Sparkles, Loader2, X, Flame, Beef, Wheat, 
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Recipes = ({ athleteId }) => {
   const { t } = useTranslation();

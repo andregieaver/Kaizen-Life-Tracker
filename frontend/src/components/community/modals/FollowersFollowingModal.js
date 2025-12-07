@@ -8,7 +8,6 @@ import axios from 'axios';
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followers', onClose, onViewProfile, t }) => {
   const [activeTab, setActiveTab] = useState(initialTab);

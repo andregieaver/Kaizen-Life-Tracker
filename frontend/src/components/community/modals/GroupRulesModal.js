@@ -7,7 +7,6 @@ import { logger } from '../../../utils/logger';
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesAccepted }) => {
   const [group, setGroup] = useState(null);

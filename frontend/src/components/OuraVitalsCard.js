@@ -7,7 +7,6 @@ import { RefreshCw, Moon, Zap, Activity, TrendingUp, TrendingDown, Minus } from 
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const OuraVitalsCard = ({ athleteId }) => {
   const { t } = useTranslation();

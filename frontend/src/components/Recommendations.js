@@ -24,7 +24,6 @@ import {
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Recommendations = ({ athleteId }) => {
   const { t } = useTranslation();

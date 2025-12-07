@@ -12,7 +12,6 @@ import { initializeSiteTitle } from '../utils/siteTitle';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const ResetPassword = () => {
   const { t } = useTranslation();

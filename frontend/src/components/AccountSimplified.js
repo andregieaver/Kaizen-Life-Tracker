@@ -23,7 +23,6 @@ import {
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Account = ({ athleteId }) => {
   const navigate = useNavigate();

@@ -6,7 +6,6 @@ import { Trophy, TrendingUp, Activity, Calendar, MapPin, Clock, Zap } from 'luci
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Merits = ({ athleteId }) => {
   const { t } = useTranslation();

@@ -50,7 +50,6 @@ import LoadingSpinner from './ui/LoadingSpinner';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 // Helper function to translate notification content
 const translateNotificationContent = (notification, t) => {

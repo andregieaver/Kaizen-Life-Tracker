@@ -7,7 +7,6 @@ import remarkGfm from 'remark-gfm';
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const ChatbotWidget = ({ isLoggedIn = false, athleteId = null }) => {
   const navigate = useNavigate();

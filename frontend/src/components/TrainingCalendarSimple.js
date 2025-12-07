@@ -11,7 +11,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const localizer = momentLocalizer(moment);
 

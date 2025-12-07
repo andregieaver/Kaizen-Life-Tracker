@@ -18,7 +18,6 @@ import ChatbotWidget from './ChatbotWidget';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 // Animated Counter Component
 const AnimatedCounter = ({ end, duration = 2000, suffix = '' }) => {

@@ -12,7 +12,6 @@ import VoiceChat from './VoiceChat';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const ManagementAgentChat = ({ athleteId, scrollDirection = 'none' }) => {
   const { t } = useTranslation();

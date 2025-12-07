@@ -12,7 +12,6 @@ import ConfirmationModal from './ConfirmationModal';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const CRM = ({ athleteId }) => {
   const navigate = useNavigate();

@@ -10,7 +10,6 @@ import { Lock, CheckCircle, AlertCircle } from 'lucide-react';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const ChangePassword = ({ athleteId }) => {
   const { t } = useTranslation();

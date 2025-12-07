@@ -23,7 +23,6 @@ import { Badge } from './ui/badge';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Subscriptions = ({ athleteId }) => {
   const navigate = useNavigate();

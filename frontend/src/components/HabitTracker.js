@@ -10,7 +10,6 @@ import { Plus, X, Edit3, Trash2, Check, Flame, Calendar, ChevronLeft, ChevronRig
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const HabitTracker = ({ athleteId }) => {
   const { t, i18n } = useTranslation();

@@ -9,7 +9,6 @@ import { Plus, Camera, Upload, Trash2, Edit3, X, ImageIcon, ChevronLeft, Chevron
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Files = ({ athleteId }) => {
   const { t } = useTranslation();

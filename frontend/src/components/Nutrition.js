@@ -8,7 +8,6 @@ import { Plus, Camera, Upload, Trash2, Edit3, Utensils, Coffee, UtensilsCrossed,
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 // RDI (Recommended Daily Intake) values for adults
 const RDI_VALUES = {

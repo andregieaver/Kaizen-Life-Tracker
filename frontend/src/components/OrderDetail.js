@@ -23,7 +23,6 @@ import { Input } from './ui/input';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const OrderDetail = ({ athleteId }) => {
   const location = useLocation();

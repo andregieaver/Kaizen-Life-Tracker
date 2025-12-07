@@ -13,7 +13,6 @@ import { StrictModeDroppable } from '../utils/StrictModeDroppable';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const PageEditor = ({ athleteId, pageId }) => {
   const navigate = useNavigate();

@@ -6,7 +6,6 @@ import LoadingSpinner from '../../ui/LoadingSpinner';
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const LeaderboardTab = () => {
   const { t } = useTranslation();

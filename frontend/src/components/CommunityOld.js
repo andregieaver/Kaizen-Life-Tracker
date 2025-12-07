@@ -7,7 +7,6 @@ import { Heart, MessageCircle, Share2, Send, Edit2, Trash2, Camera, X, Bell } fr
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Community = ({ athleteId }) => {
   const [posts, setPosts] = useState([]);

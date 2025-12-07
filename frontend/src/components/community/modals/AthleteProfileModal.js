@@ -13,7 +13,6 @@ import { formatMentions } from '../../../utils/mentionUtils';
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athleteId, loadAthleteProfile, handleLike, handleShare, handleToggleComments, setFullSizeImageUrl, setShowFullSizeImage, onMessageUser, onAcceptFollowRequest, onDeclineFollowRequest, onAcceptMessageRequest, onDeclineMessageRequest }) => {
   const { t } = useTranslation();

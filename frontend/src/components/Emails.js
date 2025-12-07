@@ -10,7 +10,6 @@ import { Mail, Edit3, X, CheckCircle, XCircle, Plus, Trash2, Send } from 'lucide
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const Emails = () => {
   const { t } = useTranslation();

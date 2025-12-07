@@ -36,7 +36,6 @@ const LoadingFallback = () => null;
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 // Analytics Provider Component
 // Initializes analytics tracking and page views

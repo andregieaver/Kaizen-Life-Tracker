@@ -24,7 +24,6 @@ import { Button } from './ui/button';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const UserProfile = ({ athleteId }) => {
   const location = useLocation();

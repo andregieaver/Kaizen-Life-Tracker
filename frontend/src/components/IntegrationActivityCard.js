@@ -6,7 +6,6 @@ import { RefreshCw, Activity, Clock, TrendingUp, MapPin } from 'lucide-react';
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const INTEGRATION_CONFIG = {
   strava: {

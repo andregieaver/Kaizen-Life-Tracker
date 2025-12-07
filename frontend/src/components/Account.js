@@ -62,7 +62,6 @@ import {
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 // Simple Integration Card Component
 const IntegrationCard = ({ 

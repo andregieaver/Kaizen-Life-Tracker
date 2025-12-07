@@ -21,7 +21,6 @@ import AddEventModal from './AddEventModal';
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const localizer = momentLocalizer(moment);
 

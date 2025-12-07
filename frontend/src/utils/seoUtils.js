@@ -183,7 +183,6 @@ export const injectPageSEO = (pageData) => {
  */
 export const loadAndInjectPageSEO = async (urlSlug) => {
   try {
-    const API = `${BACKEND_URL}/api`;
     const response = await fetch(`${API}/pages/public/by-slug?slug=${encodeURIComponent(urlSlug)}`);
     
     if (response.ok) {

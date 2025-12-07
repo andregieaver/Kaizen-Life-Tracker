@@ -6,7 +6,6 @@ import AgentModal from '../modals/AgentModal';
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 const AgentsTab = ({ athleteId }) => {
   const { t } = useTranslation();

@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import { getApiUrl } from '../utils/apiConfig';
 const API = getApiUrl();
-const API = `${BACKEND_URL}/api`;
 
 /**
  * Custom hook for handling media uploads (images and videos)
