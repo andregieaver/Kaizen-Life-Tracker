@@ -43,6 +43,8 @@ class HabitUpdate(BaseModel):
     title: Optional[str] = None
     days_of_week: Optional[List[str]] = None
     times_per_day: Optional[int] = None
+    start_date: Optional[str] = None
+    end_date: Optional[str] = None
 
 # ============= ROUTES =============
 
