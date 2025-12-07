@@ -327,7 +327,7 @@ async def integration_callback(provider: str, code: str = None, state: str = Non
         return RedirectResponse(url=f"/dashboard/account?tab=integrations&{provider}=error")
 
 
-@router.post("/auth/{provider}/disconnect")
+@router.post("/integrations/{provider}/disconnect")
 async def disconnect_integration(provider: str, user_id: str = None, request: Request = None):
     """Generic disconnect for any provider"""
     try:
@@ -352,7 +352,7 @@ async def disconnect_integration(provider: str, user_id: str = None, request: Re
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/auth/{provider}/status")
+@router.get("/integrations/{provider}/status")
 async def get_integration_status(provider: str, user_id: str):
     """Generic status check for any provider"""
     try:
