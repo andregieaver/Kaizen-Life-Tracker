@@ -95,6 +95,9 @@ const HabitTracker = ({ athleteId }) => {
     setTitle('');
     setSelectedDays([]);
     setTimesPerDay(1);
+    setStartDate(today);  // Default to today
+    setEndDate('');
+    setHasEndDate(false);
     setShowModal(true);
   };
 
@@ -103,6 +106,9 @@ const HabitTracker = ({ athleteId }) => {
     setTitle(habit.title);
     setSelectedDays(habit.days_of_week || []);
     setTimesPerDay(habit.times_per_day || 1);
+    setStartDate(habit.start_date || today);
+    setEndDate(habit.end_date || '');
+    setHasEndDate(!!habit.end_date);
     setShowModal(true);
   };
 
@@ -112,6 +118,9 @@ const HabitTracker = ({ athleteId }) => {
     setTitle('');
     setSelectedDays([]);
     setTimesPerDay(1);
+    setStartDate('');
+    setEndDate('');
+    setHasEndDate(false);
   };
 
   const toggleDay = (day) => {
