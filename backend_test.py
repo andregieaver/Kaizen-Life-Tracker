@@ -16982,33 +16982,33 @@ def test_logo_upload_functionality():
         return False
 
 if __name__ == "__main__":
-    print("🚀 STARTING NUTRITION CRUD TESTING - UPDATE (PUT) FUNCTIONALITY FOCUS")
+    print("🚀 STARTING HABIT START_DATE AND END_DATE FEATURE TESTING")
     print("=" * 80)
     
     try:
-        # Run comprehensive nutrition CRUD testing with focus on UPDATE (PUT) functionality
+        # Run comprehensive habit start_date and end_date feature testing
         print(f"\n{'='*80}")
-        nutrition_result = test_nutrition_crud_operations()
+        habit_result = test_habit_start_end_date_feature()
         
-        if nutrition_result:
-            print(f"\n🎉 NUTRITION CRUD TESTING COMPLETED SUCCESSFULLY!")
-            print(f"   ✅ GET /api/nutrition/{{athlete_id}} - List entries working")
-            print(f"   ✅ POST /api/nutrition - Create entries working")
-            print(f"   ✅ PUT /api/nutrition/{{entry_id}} - Update functionality comprehensive testing passed")
-            print(f"   ✅ DELETE /api/nutrition/{{entry_id}} - Delete entries working")
-            print(f"   ✅ All 10 UPDATE test scenarios passed")
-            print(f"   ✅ Backend behavior verified (response format, data persistence)")
-            print(f"   ✅ Error handling confirmed (404 for invalid IDs)")
-            print(f"   ✅ Field validation working (only allowed fields updated)")
+        if habit_result:
+            print(f"\n🎉 HABIT START_DATE AND END_DATE FEATURE TESTING COMPLETED SUCCESSFULLY!")
+            print(f"   ✅ POST /api/habits - Create habit with start_date and end_date working")
+            print(f"   ✅ POST /api/habits - Create infinite habit (no end_date) working")
+            print(f"   ✅ GET /api/habits/{{athlete_id}} - Retrieve habits with correct dates working")
+            print(f"   ✅ PUT /api/habits/{{habit_id}} - Update habit dates working")
+            print(f"   ✅ Default start_date behavior (today's date) working")
+            print(f"   ✅ Date storage and retrieval verified")
+            print(f"   ✅ Both finite and infinite habits supported")
+            print(f"   ✅ Edge case handling tested")
             sys.exit(0)
         else:
-            print(f"\n❌ NUTRITION CRUD TESTING FAILED!")
-            print(f"   ⚠️  Some nutrition endpoints have issues")
+            print(f"\n❌ HABIT START_DATE AND END_DATE FEATURE TESTING FAILED!")
+            print(f"   ⚠️  Some habit date functionality has issues")
             print(f"   ⚠️  Please review the test results above")
             sys.exit(1)
             
     except Exception as e:
-        print(f"❌ EXCEPTION during nutrition testing: {str(e)}")
+        print(f"❌ EXCEPTION during habit testing: {str(e)}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
