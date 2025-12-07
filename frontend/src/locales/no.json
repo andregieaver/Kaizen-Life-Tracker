@@ -1804,6 +1804,8 @@
     "today": "I dag",
     "tap": "Trykk",
     "undo": "Angre",
+    "clearAll": "Fjern alle",
+    "clearAllTooltip": "Fjern alle fullføringer for i dag",
     "startTracking": "Start å spore daglige vaner",
     "noHabitsYet": "Ingen vaner ennå",
     "otherHabits": "Andre vaner",
