@@ -847,6 +847,49 @@ const HabitTracker = ({ athleteId }) => {
                 />
               </div>
 
+              {/* Start Date */}
+              <div>
+                <Label htmlFor="startDate" className="text-white">{t('habits.startDate') || 'Start Date'} *</Label>
+                <Input
+                  id="startDate"
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="mt-1 bg-gray-700 border-gray-600 text-white [color-scheme:dark]"
+                />
+              </div>
+
+              {/* End Date with Toggle */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <Label htmlFor="endDate" className="text-white">{t('habits.endDate') || 'End Date'}</Label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <span className="text-sm text-gray-400">{t('habits.infiniteHabit') || 'Infinite'}</span>
+                    <div 
+                      className={`relative w-10 h-5 rounded-full transition-colors ${!hasEndDate ? 'bg-teal-600' : 'bg-gray-600'}`}
+                      onClick={() => setHasEndDate(!hasEndDate)}
+                    >
+                      <div 
+                        className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${!hasEndDate ? 'translate-x-5' : 'translate-x-0.5'}`}
+                      />
+                    </div>
+                  </label>
+                </div>
+                {hasEndDate && (
+                  <Input
+                    id="endDate"
+                    type="date"
+                    value={endDate}
+                    min={startDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="mt-1 bg-gray-700 border-gray-600 text-white [color-scheme:dark]"
+                  />
+                )}
+                {!hasEndDate && (
+                  <p className="text-sm text-gray-400 mt-1">{t('habits.infiniteDescription') || 'This habit will continue indefinitely'}</p>
+                )}
+              </div>
+
               {/* Actions */}
               <div className="flex gap-2 pt-4">
                 <Button
