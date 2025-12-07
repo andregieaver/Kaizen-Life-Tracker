@@ -35,6 +35,7 @@ const HabitTracker = ({ athleteId }) => {
   const [hasEndDate, setHasEndDate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [expandedHabitId, setExpandedHabitId] = useState(null);
+  const [highlightedCell, setHighlightedCell] = useState(null); // Track which cell is showing count {habitId, date, count}
 
   // Use local date formatting to avoid timezone issues with toISOString()
   const getLocalDateString = (date) => {
