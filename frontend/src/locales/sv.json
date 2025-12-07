@@ -1490,6 +1490,13 @@
     "startTracking": "Commence à suivre tes habitudes quotidiennes",
     "noHabitsYet": "Pas encore d'habitudes",
     "otherHabits": "Autres Habitudes",
+    "showHistory": "Visa historik",
+    "hideHistory": "Dölj historik",
+    "last4Weeks": "Senaste 4 veckorna",
+    "completed": "Klar",
+    "partial": "Delvis",
+    "missed": "Missad",
+    "clickToToggle": "Klicka på datum för att växla",
     "daysOfWeek": {
       "mon": "Lun",
       "monday": "Lundi",
