@@ -33,7 +33,15 @@ const HabitTracker = ({ athleteId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [expandedHabitId, setExpandedHabitId] = useState(null);
 
-  const today = new Date().toISOString().split('T')[0];
+  // Use local date formatting to avoid timezone issues with toISOString()
+  const getLocalDateString = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+  
+  const today = getLocalDateString(new Date());
   const todayDayName = DAYS_OF_WEEK[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1].value;
 
   useEffect(() => {
