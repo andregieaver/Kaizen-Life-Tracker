@@ -3,6 +3,8 @@
  * Manages fetching and caching of site title from system settings
  */
 
+import { getApiUrl } from './apiConfig';
+
 const SITE_TITLE_CACHE_KEY = 'app_site_title';
 const CACHE_DURATION = 1000 * 60 * 60; // 1 hour in milliseconds
 
@@ -53,9 +55,8 @@ export const cacheSiteTitle = (title) => {
  */
 export const fetchAndCacheSiteTitle = async () => {
   try {
-    import { getApiUrl } from './apiConfig';
-const API = getApiUrl();
-    const response = await fetch(`${BACKEND_URL}/api/system/settings/public`);
+    const API = getApiUrl();
+    const response = await fetch(`${API}/system/settings/public`);
     const data = await response.json();
     
     const title = data?.seo?.siteTitle || 'TrainSmart';
