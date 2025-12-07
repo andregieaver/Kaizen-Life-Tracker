@@ -1860,6 +1860,10 @@
     "partial": "Partial",
     "missed": "Missed",
     "clickToToggle": "Click date to toggle",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "infiniteHabit": "Infinite",
+    "infiniteDescription": "This habit will continue indefinitely",
     "daysOfWeek": {
       "mon": "Mon",
       "monday": "Monday",
