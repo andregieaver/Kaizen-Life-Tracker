@@ -25,6 +25,8 @@ class Habit(BaseModel):
     title: str
     days_of_week: List[str]  # ['monday', 'tuesday', etc.]
     times_per_day: int
+    start_date: Optional[str] = None  # ISO date string YYYY-MM-DD, defaults to today if not provided
+    end_date: Optional[str] = None  # ISO date string YYYY-MM-DD, null for infinite habits
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 class HabitCompletion(BaseModel):
