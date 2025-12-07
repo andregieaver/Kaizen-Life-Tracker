@@ -8,8 +8,8 @@ import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Badge } from './ui/badge';
 import { logger } from '../utils/logger';
-import { 
 import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
+import { 
   Brain, 
   Search, 
   Plus, 
@@ -23,7 +23,8 @@ import { getApiUrl, getApiBaseUrl } from '../utils/apiConfig';
   Star
 } from 'lucide-react';
 
-const API = getApiBaseUrl();
+const API = getApiUrl();
+const BACKEND_URL = getApiBaseUrl();
 
 const Memories = ({ athleteId }) => {
   const { t } = useTranslation();
