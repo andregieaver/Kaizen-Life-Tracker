@@ -10,7 +10,7 @@ import sys
 from urllib.parse import urlparse, parse_qs
 
 # Backend URL from environment
-BACKEND_URL = "https://healthtrack-pro-6.preview.emergentagent.com/api"
+BACKEND_URL = "https://timetracker-202.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""

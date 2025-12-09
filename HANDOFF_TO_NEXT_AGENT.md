@@ -230,7 +230,7 @@ async def endpoint_handler():
 - Email: `testuser@example.com`
 - Password: `password123`
 
-**API Base URL:** `https://healthtrack-pro-6.preview.emergentagent.com/api`
+**API Base URL:** `https://timetracker-202.preview.emergentagent.com/api`
 
 ---
 
