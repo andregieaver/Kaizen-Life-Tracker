@@ -96,7 +96,7 @@ class CommunityComment(BaseModel):
 async def create_post(post_data: CreatePostRequest, athlete_id: str = Query(...)):
     """Create a new community post"""
     # Get athlete info to enrich the post
-    athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0})
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
     if not athlete:
         raise HTTPException(status_code=404, detail="Athlete not found")
     
