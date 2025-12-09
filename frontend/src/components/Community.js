@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Heart, MessageCircle, Share2, Send, Edit2, Edit3, Trash2, Camera, X, Bell, UserPlus, UserMinus, Users as UsersIcon, Lock, Globe, Crown, Shield, Search, Home, UserCheck, ThumbsUp, ThumbsDown, Calendar, Clock, MapPin, Star, RefreshCw, Video, Image as ImageIcon, GripVertical, Trophy, Target, TrendingUp, Award, Plus, PlusCircle, Smile, Bookmark } from 'lucide-react';
-import { compressPostImage, compressThumbnail, compressBannerImage } from '../utils/imageCompression';
+import { compressPostImage, compressPostImageBase64 } from '../utils/imageCompression';
 import { findMentionTrigger, insertMention, formatMentions } from '../utils/mentionUtils';
 import EmojiPickerButton from './EmojiPickerButton';
 import ConfirmationModal from './ConfirmationModal';
