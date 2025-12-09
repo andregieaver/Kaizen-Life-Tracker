@@ -44,11 +44,8 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
 
   // Early return if no media
   if (!mediaItems || mediaItems.length === 0) {
-    logger.debug(null, '❌ ImageCarousel: No media items to display');
     return null;
   }
-  
-  logger.debug(null, '✅ ImageCarousel: Rendering', mediaItems.length, 'items');
 
   // Handle keyboard navigation
   useEffect(() => {
