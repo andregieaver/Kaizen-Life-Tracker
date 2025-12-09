@@ -12,10 +12,10 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
     const file = e.target.files[0];
     if (file) {
       try {
-        // Compress image based on type
+        // Compress image based on type - using Base64 for direct display and API
         const compressed = type === 'profile_image' 
-          ? await compressThumbnail(file)
-          : await compressBannerImage(file);
+          ? await compressThumbnailBase64(file)
+          : await compressBannerImageBase64(file);
         setGroupData({ ...groupData, [type]: compressed });
       } catch (error) {
         logger.error(null, 'Error compressing image:', error);
