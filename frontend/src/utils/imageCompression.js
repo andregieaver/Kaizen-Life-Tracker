@@ -9,7 +9,8 @@ export const compressImage = async (file, options = {}) => {
     maxWidth = 1200,
     maxHeight = 1200,
     quality = 0.85,
-    outputFormat = 'image/webp'
+    outputFormat = 'image/webp',
+    returnBlob = true // Return Blob by default for URL.createObjectURL compatibility
   } = options;
 
   return new Promise((resolve, reject) => {
@@ -43,13 +44,24 @@ export const compressImage = async (file, options = {}) => {
         canvas.toBlob(
           (blob) => {
             if (blob) {
-              // Convert blob to base64
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                resolve(reader.result);
-              };
-              reader.onerror = reject;
-              reader.readAsDataURL(blob);
+              if (returnBlob) {
+                // Return blob directly for URL.createObjectURL compatibility
+                // Create a File object to preserve the filename
+                const compressedFile = new File(
+                  [blob], 
+                  file.name.replace(/\.[^/.]+$/, '.webp'), 
+                  { type: outputFormat }
+                );
+                resolve(compressedFile);
+              } else {
+                // Return base64 for backward compatibility
+                const base64Reader = new FileReader();
+                base64Reader.onloadend = () => {
+                  resolve(base64Reader.result);
+                };
+                base64Reader.onerror = reject;
+                base64Reader.readAsDataURL(blob);
+              }
             } else {
               reject(new Error('Canvas to Blob conversion failed'));
             }
