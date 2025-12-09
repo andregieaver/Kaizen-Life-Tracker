@@ -27,17 +27,6 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
       }))
     : images.map(url => ({ type: 'image', url: normalizeUrl(url) }));
   
-  // Debug logging
-  logger.debug(null, '🔍 ImageCarousel received:', { 
-    images, 
-    media, 
-    mediaItems,
-    backendUrl,
-    hasImages: images?.length > 0,
-    hasMedia: media?.length > 0,
-    mediaItemsCount: mediaItems?.length
-  });
-  
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
