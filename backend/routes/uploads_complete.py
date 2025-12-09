@@ -102,7 +102,7 @@ async def upload_images(
             # This will resize, convert to WebP, and compress
             processed_filename = process_and_save_image(
                 file_data=file_bytes,
-                upload_dir=UPLOAD_DIR,
+                upload_dir=UPLOAD_DIR_IMAGES,
                 max_dimension=1024,
                 quality=85
             )
