@@ -167,13 +167,14 @@ async def upload_video(
         # Process video: compress and generate thumbnail
         video_filename, thumbnail_filename = process_and_save_video(
             file_data=file_bytes,
-            upload_dir=UPLOAD_DIR,
+            upload_dir=UPLOAD_DIR_VIDEOS,
             max_duration=120  # 2 minutes
         )
         
         # Generate relative URLs with /api prefix
-        video_url = f"/api/uploads/images/{video_filename}"
-        thumbnail_url = f"/api/uploads/images/{thumbnail_filename}"
+        # Static files are mounted at /api/uploaded_videos
+        video_url = f"/api/uploaded_videos/{video_filename}"
+        thumbnail_url = f"/api/uploaded_videos/{thumbnail_filename}"
         
         logger.info(f"Processed video: {video_filename}, thumbnail: {thumbnail_filename}")
         
