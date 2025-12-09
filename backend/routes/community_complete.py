@@ -93,11 +93,45 @@ class CommunityComment(BaseModel):
 # ============= END NOTE =============
 
 @router.post("/posts")
-async def create_post(post: CommunityPost):
+async def create_post(post_data: CreatePostRequest, athlete_id: str = Query(...)):
     """Create a new community post"""
-    post_dict = prepare_for_mongo(post.model_dump())
-    await db.community_posts.insert_one(post_dict)
-    return {"success": True, "id": post.id, "post": post}
+    # Get athlete info to enrich the post
+    athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    # Build image_urls from media if available
+    image_urls = post_data.image_urls or []
+    if post_data.media:
+        for m in post_data.media:
+            if m.get("type") == "image" and m.get("url"):
+                if m["url"] not in image_urls:
+                    image_urls.append(m["url"])
+    
+    # Create full post with athlete data
+    post = {
+        "id": str(uuid.uuid4()),
+        "athlete_id": athlete_id,
+        "athlete_name": athlete.get("name", "Unknown"),
+        "athlete_profile_picture": athlete.get("profile_picture"),
+        "content": post_data.content,
+        "image_urls": image_urls,
+        "media": post_data.media or [],
+        "visibility": post_data.visibility,
+        "likes_count": 0,
+        "comments_count": 0,
+        "shares_count": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": None,
+        "is_edited": False,
+        "shared_post_id": None,
+        "shared_post_data": None,
+        "youtube_data": post_data.youtube_data,
+        "url_preview": post_data.url_preview
+    }
+    
+    await db.community_posts.insert_one(prepare_for_mongo(post.copy()))
+    return {"success": True, "id": post["id"], "post": post}
 
 
 @router.get("/posts/{post_id}")
