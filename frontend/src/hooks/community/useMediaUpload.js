@@ -157,24 +157,28 @@ const useMediaUpload = () => {
 
     for (const media of selectedMedia) {
       const formData = new FormData();
-      formData.append('file', media.file);
 
       try {
-        const endpoint = media.type === 'video' ? '/community/upload-video' : '/community/upload-image';
-        const response = await axios.post(`${API}${endpoint}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-
         if (media.type === 'video') {
+          // Video upload endpoint expects 'file'
+          formData.append('file', media.file);
+          const response = await axios.post(`${API}/upload/video`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
           uploadedUrls.push({
             type: 'video',
-            url: response.data.url,
-            thumbnail: response.data.thumbnail
+            url: response.data.video_url,
+            thumbnail: response.data.thumbnail_url
           });
         } else {
+          // Image upload endpoint expects 'files' (array)
+          formData.append('files', media.file);
+          const response = await axios.post(`${API}/upload/images?max_files=1`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
           uploadedUrls.push({
             type: 'image',
-            url: response.data.url
+            url: response.data.urls[0]
           });
         }
       } catch (error) {
