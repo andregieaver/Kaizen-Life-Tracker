@@ -1271,20 +1271,24 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     if (!writePostContent.trim()) return;
 
     try {
-      // Build media array from selectedMedia
-      const media = selectedMedia.map(item => ({
-        type: item.type,
-        url: item.url,
-        thumbnail: item.thumbnail
-      }));
+      // First, upload any selected media files
+      let uploadedMedia = [];
+      if (selectedMedia.length > 0) {
+        setIsUploadingMedia(true);
+        try {
+          uploadedMedia = await uploadMediaFiles();
+        } finally {
+          setIsUploadingMedia(false);
+        }
+      }
 
       const postData = {
         content: writePostContent,
         image_data: writePostImage,
         visibility: writePostVisibility,
-        media: media.length > 0 ? media : [],
+        media: uploadedMedia.length > 0 ? uploadedMedia : [],
         // Keep image_urls for backward compatibility
-        image_urls: selectedMedia.filter(m => m.type === 'image').map(m => m.url),
+        image_urls: uploadedMedia.filter(m => m.type === 'image').map(m => m.url),
         youtube_data: youtubePreview,
         url_preview: urlPreview
       };
