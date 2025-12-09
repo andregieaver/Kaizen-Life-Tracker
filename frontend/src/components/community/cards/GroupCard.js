@@ -12,7 +12,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
     <div 
       className="border-0 shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all rounded-none md:rounded-3xl" 
       style={{ background: 'var(--grad-surface)' }}
-      onClick={onClick}
+      onClick={() => onClick(group.id)}
     >
       <div className="p-0 sm:p-6">
         {group.cover_photo && (
