@@ -4,6 +4,7 @@ Handles image and video uploads with processing
 """
 from fastapi import APIRouter, File, UploadFile, HTTPException, Request, Query
 from typing import List
+from pathlib import Path
 import logging
 import os
 
