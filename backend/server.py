@@ -5183,11 +5183,13 @@ UPLOADED_IMAGES_DIR = Path("/app/backend/uploaded_images")
 UPLOADED_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
 # Mount static files on the API router path so ingress can reach it
+# NOTE: More specific paths must come BEFORE less specific paths
+# Mount at /api/uploads/images for backward compatibility with legacy URLs (must be first!)
+app.mount("/api/uploads/images", StaticFiles(directory="/app/backend/uploaded_images"), name="uploads_images_compat")
+# General uploads mount
 app.mount("/api/uploads", StaticFiles(directory="/app/backend/uploads"), name="uploads")
 # Mount static files for CMS page images (must use /api prefix for Kubernetes ingress routing)
 app.mount("/api/uploaded_images", StaticFiles(directory="/app/backend/uploaded_images"), name="uploaded_images")
-# Also mount at /api/uploads/images for backward compatibility with legacy URLs
-app.mount("/api/uploads/images", StaticFiles(directory="/app/backend/uploaded_images"), name="uploads_images_compat")
 # Mount static files for video journals
 app.mount("/api/uploaded_videos", StaticFiles(directory="/app/backend/uploaded_videos"), name="uploaded_videos")
 
