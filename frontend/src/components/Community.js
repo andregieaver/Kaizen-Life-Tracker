@@ -805,8 +805,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     setProfileLoading(true);
     try {
       const response = await axios.get(`${API}/community/profile/${targetAthleteId}?athlete_id=${athleteId}`);
+      // Flatten the response - merge athlete data with stats and flags
       const profileWithContext = {
-        ...response.data,
+        ...response.data.athlete,  // Spread athlete data at root level
+        stats: response.data.stats,
+        is_following: response.data.is_following,
+        is_blocked: response.data.is_blocked,
         requestContext // Add request context if present (follow_request or message_request)
       };
       setProfileData(profileWithContext);
