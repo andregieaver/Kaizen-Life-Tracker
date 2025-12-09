@@ -5,7 +5,6 @@ import { Camera, Crown, Users as UsersIcon, Lock, Globe, X, Send, Heart, Share2,
 import EmojiPickerButton from '../../EmojiPickerButton';
 import FlagIcon from '../../FlagIcon';
 import SubscriptionBadge from '../../SubscriptionBadge';
-import { compressPostImage } from '../../../utils/imageCompression';
 import { logger } from '../../../utils/logger';
 import axios from 'axios';
 
