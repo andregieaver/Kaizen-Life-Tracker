@@ -3,7 +3,7 @@ Community routes - Extracted from server.py
 Handles posts, comments, likes, events, challenges, groups, and social interactions
 This is the largest domain with 60+ endpoints for comprehensive social features
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime, timezone
@@ -17,6 +17,18 @@ from utils import prepare_for_mongo, parse_from_mongo
 router = APIRouter(prefix="/community", tags=["community"])
 
 # ============= MODELS =============
+
+class CreatePostRequest(BaseModel):
+    """Request model for creating a post - minimal required data from frontend"""
+    model_config = ConfigDict(extra="ignore")
+    
+    content: str
+    image_urls: Optional[List[str]] = []
+    media: Optional[List[dict]] = []
+    visibility: str = "public"
+    image_data: Optional[str] = None  # Legacy base64 image
+    youtube_data: Optional[dict] = None
+    url_preview: Optional[dict] = None
 
 class CommunityPost(BaseModel):
     model_config = ConfigDict(extra="ignore")
