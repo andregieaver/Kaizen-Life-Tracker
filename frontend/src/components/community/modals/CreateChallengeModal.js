@@ -227,7 +227,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                     const file = e.target.files[0];
                     if (file) {
                       try {
-                        const compressed = await compressBannerImage(file);
+                        const compressed = await compressBannerImageBase64(file);
                         setChallengeData({ ...challengeData, trophy_image: compressed });
                       } catch (error) {
                         logger.error(null, 'Error compressing trophy image:', error);
