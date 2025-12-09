@@ -1462,22 +1462,31 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       
       // Load existing media for editing
       if (post.media && post.media.length > 0) {
-        setSelectedMedia(post.media.map((m, i) => ({
-          id: `existing-${i}`,
-          type: m.type,
-          url: m.url,
-          thumbnail: m.thumbnail,
-          preview: m.type === 'video' ? m.thumbnail : m.url,
-          uploading: false
-        })));
+        setSelectedMedia(post.media.map((m, i) => {
+          // Normalize URLs - prepend backend URL if relative
+          const normalizedUrl = m.url?.startsWith('/') ? `${BACKEND_URL}${m.url}` : m.url;
+          const normalizedThumbnail = m.thumbnail?.startsWith('/') ? `${BACKEND_URL}${m.thumbnail}` : m.thumbnail;
+          return {
+            id: `existing-${i}`,
+            type: m.type,
+            url: m.url,  // Keep original for API
+            thumbnail: m.thumbnail,
+            preview: m.type === 'video' ? normalizedThumbnail : normalizedUrl,
+            uploading: false
+          };
+        }));
       } else if (post.image_urls && post.image_urls.length > 0) {
-        setSelectedMedia(post.image_urls.map((url, i) => ({
-          id: `existing-img-${i}`,
-          type: 'image',
-          url: url,
-          preview: url,
-          uploading: false
-        })));
+        setSelectedMedia(post.image_urls.map((url, i) => {
+          // Normalize URLs - prepend backend URL if relative
+          const normalizedUrl = url?.startsWith('/') ? `${BACKEND_URL}${url}` : url;
+          return {
+            id: `existing-img-${i}`,
+            type: 'image',
+            url: url,  // Keep original for API
+            preview: normalizedUrl,
+            uploading: false
+          };
+        }));
       } else {
         setSelectedMedia([]);
       }
