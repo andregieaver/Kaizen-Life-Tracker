@@ -82,36 +82,84 @@ export const compressImage = async (file, options = {}) => {
 
 /**
  * Compress image for thumbnails (profile pictures, small icons)
+ * Returns File/Blob for URL.createObjectURL and FormData upload
  */
 export const compressThumbnail = async (file) => {
   return compressImage(file, {
     maxWidth: 400,
     maxHeight: 400,
     quality: 0.85,
-    outputFormat: 'image/webp'
+    outputFormat: 'image/webp',
+    returnBlob: true
+  });
+};
+
+/**
+ * Compress image for thumbnails and return base64 string
+ * Use this for direct <img src={} /> display and API payloads
+ */
+export const compressThumbnailBase64 = async (file) => {
+  return compressImage(file, {
+    maxWidth: 400,
+    maxHeight: 400,
+    quality: 0.85,
+    outputFormat: 'image/webp',
+    returnBlob: false
   });
 };
 
 /**
  * Compress image for posts/events (larger images)
+ * Returns File/Blob for URL.createObjectURL and FormData upload
  */
 export const compressPostImage = async (file) => {
   return compressImage(file, {
     maxWidth: 1200,
     maxHeight: 1200,
     quality: 0.85,
-    outputFormat: 'image/webp'
+    outputFormat: 'image/webp',
+    returnBlob: true
+  });
+};
+
+/**
+ * Compress image for posts and return base64 string
+ * Use this for direct <img src={} /> display and API payloads
+ */
+export const compressPostImageBase64 = async (file) => {
+  return compressImage(file, {
+    maxWidth: 1200,
+    maxHeight: 1200,
+    quality: 0.85,
+    outputFormat: 'image/webp',
+    returnBlob: false
   });
 };
 
 /**
  * Compress image for banners/cover photos
+ * Returns File/Blob for URL.createObjectURL and FormData upload
  */
 export const compressBannerImage = async (file) => {
   return compressImage(file, {
     maxWidth: 1600,
     maxHeight: 900,
     quality: 0.85,
-    outputFormat: 'image/webp'
+    outputFormat: 'image/webp',
+    returnBlob: true
+  });
+};
+
+/**
+ * Compress image for banners and return base64 string
+ * Use this for direct <img src={} /> display and API payloads
+ */
+export const compressBannerImageBase64 = async (file) => {
+  return compressImage(file, {
+    maxWidth: 1600,
+    maxHeight: 900,
+    quality: 0.85,
+    outputFormat: 'image/webp',
+    returnBlob: false
   });
 };
