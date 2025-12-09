@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
 import { X, Trophy, Edit2 } from 'lucide-react';
-import { compressBannerImage } from '../../../utils/imageCompression';
+import { compressBannerImageBase64 } from '../../../utils/imageCompression';
 import { logger } from '../../../utils/logger';
 
 const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }) => {
@@ -12,7 +12,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
     const file = e.target.files[0];
     if (file) {
       try {
-        const compressed = await compressBannerImage(file);
+        const compressed = await compressBannerImageBase64(file);
         setChallengeData({ ...challengeData, [type]: compressed });
       } catch (error) {
         logger.error(null, 'Error compressing image:', error);
