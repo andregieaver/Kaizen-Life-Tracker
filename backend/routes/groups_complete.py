@@ -316,14 +316,21 @@ async def update_group(group_id: str, group_data: dict, athlete_id: str = Query(
 async def delete_group(group_id: str, athlete_id: str = Query(...)):
     """Delete a group (admin only)"""
     try:
-        # Verify admin
+        # Check if group exists
+        group = await db.community_groups.find_one({"id": group_id}, {"_id": 0})
+        if not group:
+            raise HTTPException(status_code=404, detail="Group not found")
+        
+        # Check if user is admin via membership OR is the original creator
+        is_creator = group.get("admin_id") == athlete_id
+        
         membership = await db.community_group_memberships.find_one({
             "group_id": group_id,
             "athlete_id": athlete_id,
             "role": "admin"
         })
         
-        if not membership:
+        if not membership and not is_creator:
             raise HTTPException(status_code=403, detail="Only admin can delete group")
         
         # Delete group and related data
