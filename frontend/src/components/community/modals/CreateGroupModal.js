@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
 import { X, Users as UsersIcon } from 'lucide-react';
-import { compressThumbnail, compressBannerImage } from '../../../utils/imageCompression';
+import { compressThumbnailBase64, compressBannerImageBase64 } from '../../../utils/imageCompression';
 import { logger } from '../../../utils/logger';
 
 const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
