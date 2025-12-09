@@ -107,7 +107,8 @@ async def upload_images(
             )
             
             # Generate relative URL with /api prefix
-            image_url = f"/api/uploads/images/{processed_filename}"
+            # Static files are mounted at /api/uploaded_images
+            image_url = f"/api/uploaded_images/{processed_filename}"
             uploaded_urls.append(image_url)
             
             logger.info(f"Processed and uploaded image: {safe_filename} -> {image_url}")
