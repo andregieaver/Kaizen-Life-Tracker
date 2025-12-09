@@ -119,6 +119,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     setIsUploadingMedia,
     draggedIndex,
     handleMediaSelect,
+    handleImageSelect,
     handleRemoveMedia,
     clearMedia: clearMediaUpload,
     uploadMediaFiles,
