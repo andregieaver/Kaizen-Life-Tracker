@@ -15,8 +15,9 @@ from video_processor import process_and_save_video
 router = APIRouter(prefix="/upload", tags=["uploads"])
 logger = logging.getLogger(__name__)
 
-# Upload directory
-UPLOAD_DIR = Path("/app/backend/uploaded_images")
+# Upload directories - must match StaticFiles mounts in server.py
+UPLOAD_DIR_IMAGES = Path("/app/backend/uploaded_images")
+UPLOAD_DIR_VIDEOS = Path("/app/backend/uploaded_videos")
 
 # ============= SECURITY CONSTANTS =============
 MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 10MB per image
