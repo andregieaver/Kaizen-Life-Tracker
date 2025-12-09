@@ -804,7 +804,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   const loadAthleteProfile = async (targetAthleteId, requestContext = null) => {
     setProfileLoading(true);
     try {
-      const response = await axios.get(`${API}/community/profile/${targetAthleteId}?viewer_athlete_id=${athleteId}`);
+      const response = await axios.get(`${API}/community/profile/${targetAthleteId}?athlete_id=${athleteId}`);
       const profileWithContext = {
         ...response.data,
         requestContext // Add request context if present (follow_request or message_request)
