@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
 import { X, Users as UsersIcon } from 'lucide-react';
-import { compressThumbnail, compressBannerImage } from '../../../utils/imageCompression';
+import { compressThumbnailBase64, compressBannerImageBase64 } from '../../../utils/imageCompression';
 import { logger } from '../../../utils/logger';
 
 const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
@@ -12,10 +12,10 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
     const file = e.target.files[0];
     if (file) {
       try {
-        // Compress image based on type
+        // Compress image based on type - using Base64 for direct display and API
         const compressed = type === 'profile_image' 
-          ? await compressThumbnail(file)
-          : await compressBannerImage(file);
+          ? await compressThumbnailBase64(file)
+          : await compressBannerImageBase64(file);
         setGroupData({ ...groupData, [type]: compressed });
       } catch (error) {
         logger.error(null, 'Error compressing image:', error);
