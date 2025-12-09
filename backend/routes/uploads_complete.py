@@ -15,7 +15,7 @@ router = APIRouter(prefix="/upload", tags=["uploads"])
 logger = logging.getLogger(__name__)
 
 # Upload directory
-UPLOAD_DIR = "/app/backend/uploaded_images"
+UPLOAD_DIR = Path("/app/backend/uploaded_images")
 
 # ============= SECURITY CONSTANTS =============
 MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 10MB per image
