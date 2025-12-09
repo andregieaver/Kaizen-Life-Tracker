@@ -1417,9 +1417,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     if (!file) return;
 
     try {
-      const compressed = await compressPostImage(file);
+      // Use base64 version for API compatibility
+      const compressed = await compressPostImageBase64(file);
       setWritePostImage(compressed);
-      setWritePostImagePreview(URL.createObjectURL(file));
+      // Use compressed as preview since it's already base64
+      setWritePostImagePreview(compressed);
     } catch (error) {
       logger.error(null, 'Error processing image:', error);
       alert('Failed to process image');
