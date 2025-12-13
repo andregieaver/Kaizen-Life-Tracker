@@ -646,6 +646,92 @@ const AdvancedTab = ({
         </CardContent>
       </Card>
 
+      {/* Code Includes - Custom Scripts */}
+      <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center">
+            <Settings className="w-5 h-5 mr-2 text-[#32D3FF]" />
+            Code Includes
+          </CardTitle>
+          <CardDescription className="text-gray-400">
+            Add custom code snippets for analytics, tracking pixels, or other scripts. 
+            These will be injected into the appropriate sections of your pages.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Head Code */}
+          <div>
+            <label className="block text-gray-300 mb-2 text-sm font-semibold">
+              Head Code
+            </label>
+            <p className="text-xs text-gray-400 mb-2">
+              Code injected inside the &lt;head&gt; tag. Use for meta tags, stylesheets, or analytics that need to load early (e.g., Google Tag Manager, Meta Pixel base code).
+            </p>
+            <textarea
+              value={advancedSettings.includes?.head || ''}
+              onChange={(e) => onUpdateIntegration('includes', 'head', e.target.value)}
+              rows={8}
+              className="w-full bg-gray-900 text-green-400 px-4 py-3 rounded border border-gray-600 focus:border-[#32D3FF] font-mono text-sm"
+              placeholder={`<!-- Example: Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-XXXX');</script>`}
+              spellCheck={false}
+            />
+          </div>
+
+          {/* Body Code */}
+          <div>
+            <label className="block text-gray-300 mb-2 text-sm font-semibold">
+              Body Code (After Opening Tag)
+            </label>
+            <p className="text-xs text-gray-400 mb-2">
+              Code injected right after the opening &lt;body&gt; tag. Use for noscript fallbacks (e.g., GTM noscript, Meta Pixel noscript).
+            </p>
+            <textarea
+              value={advancedSettings.includes?.body || ''}
+              onChange={(e) => onUpdateIntegration('includes', 'body', e.target.value)}
+              rows={6}
+              className="w-full bg-gray-900 text-green-400 px-4 py-3 rounded border border-gray-600 focus:border-[#32D3FF] font-mono text-sm"
+              placeholder={`<!-- Example: Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`}
+              spellCheck={false}
+            />
+          </div>
+
+          {/* Footer Code */}
+          <div>
+            <label className="block text-gray-300 mb-2 text-sm font-semibold">
+              Footer Code (Before Closing Body Tag)
+            </label>
+            <p className="text-xs text-gray-400 mb-2">
+              Code injected just before the closing &lt;/body&gt; tag. Use for scripts that should load after page content (e.g., chat widgets, deferred analytics).
+            </p>
+            <textarea
+              value={advancedSettings.includes?.footer || ''}
+              onChange={(e) => onUpdateIntegration('includes', 'footer', e.target.value)}
+              rows={6}
+              className="w-full bg-gray-900 text-green-400 px-4 py-3 rounded border border-gray-600 focus:border-[#32D3FF] font-mono text-sm"
+              placeholder={`<!-- Example: Chat widget or deferred scripts -->
+<script>
+  // Your custom script here
+</script>`}
+              spellCheck={false}
+            />
+          </div>
+
+          {/* Warning notice */}
+          <div className="p-3 bg-yellow-900/20 border border-yellow-700 rounded-lg">
+            <p className="text-yellow-400 text-sm">
+              ⚠️ <strong>Important:</strong> Only add code from trusted sources. Invalid or malicious code may break your site or compromise security.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Save Button */}
       <div className="flex justify-end pt-4 border-t border-gray-700">
         <Button
