@@ -50,6 +50,12 @@ const useAdvancedSettings = (athleteId) => {
     microsoftClarity: {
       scriptCode: ''
     },
+    // Code Includes for custom scripts (Meta Pixel, GTM, etc.)
+    includes: {
+      head: '',    // Code to inject in <head>
+      body: '',    // Code to inject at start of <body>
+      footer: ''   // Code to inject before </body>
+    },
     strava: {
       clientId: '',
       clientSecret: '',
