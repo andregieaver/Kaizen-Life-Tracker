@@ -145,6 +145,7 @@ const useAdvancedSettings = (athleteId) => {
           sendgrid: advancedSettings.sendgrid,
           googleTagManager: advancedSettings.googleTagManager,
           microsoftClarity: advancedSettings.microsoftClarity,
+          includes: advancedSettings.includes,
           strava: advancedSettings.strava,
           oura: advancedSettings.oura,
           polar: advancedSettings.polar,
