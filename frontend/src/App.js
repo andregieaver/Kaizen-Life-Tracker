@@ -9,6 +9,7 @@ import Login from './components/Login';
 import CookieBanner from './components/CookieBanner';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import ErrorBoundary from './components/ErrorBoundary';
+import CodeIncludes from './components/CodeIncludes';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { usePageViews } from './lib/usePageViews';
 import { logger } from './utils/logger';
