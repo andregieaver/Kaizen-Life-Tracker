@@ -310,6 +310,7 @@ function App() {
   return (
     <ThemeProvider>
       <ErrorBoundary>
+        <CodeIncludes />
         <div className="App">
           <BrowserRouter>
             <AnalyticsProvider />
