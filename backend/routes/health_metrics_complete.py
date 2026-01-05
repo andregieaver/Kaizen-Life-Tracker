@@ -3,7 +3,7 @@ Health Metrics Routes
 Handles sleep data and readiness score tracking
 """
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
 from pydantic import BaseModel, Field
 from typing import List
 from datetime import datetime, timezone
