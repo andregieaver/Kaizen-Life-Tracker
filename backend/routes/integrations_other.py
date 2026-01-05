@@ -282,6 +282,98 @@ def get_integration_service(provider: str):
     return services[provider]()
 
 
+# Provider-specific scopes
+PROVIDER_SCOPES = {
+    "strava": ["read", "activity:read_all", "profile:read_all"],
+    "oura": ["daily", "heartrate", "workout", "tag", "personal", "session", "email", "spo2"],
+    "polar": ["accesslink.read_all"],
+    "fitbit": ["activity", "heartrate", "profile", "sleep", "weight"],
+    "garmin": ["activity", "sleep", "heartrate"],
+    "whoop": ["read:recovery", "read:cycles", "read:workout", "read:sleep", "read:profile", "read:body_measurement"],
+    "suunto": ["workout"]
+}
+
+
+@router.get("/auth/polar")
+async def initiate_polar_auth(user_id: str = Query(...)):
+    """Initiate Polar OAuth authorization flow"""
+    try:
+        service = PolarService(db)
+        scopes = PROVIDER_SCOPES.get("polar", [])
+        auth_url = await service.get_authorization_url(user_id, scopes)
+        logging.info(f"[POLAR] Authorization URL generated for user: {user_id}")
+        return {"authorization_url": auth_url}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error starting Polar auth: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/auth/fitbit")
+async def initiate_fitbit_auth(user_id: str = Query(...)):
+    """Initiate Fitbit OAuth authorization flow"""
+    try:
+        service = FitbitService(db)
+        scopes = PROVIDER_SCOPES.get("fitbit", [])
+        auth_url = await service.get_authorization_url(user_id, scopes)
+        logging.info(f"[FITBIT] Authorization URL generated for user: {user_id}")
+        return {"authorization_url": auth_url}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error starting Fitbit auth: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/auth/garmin")
+async def initiate_garmin_auth(user_id: str = Query(...)):
+    """Initiate Garmin OAuth authorization flow"""
+    try:
+        service = GarminService(db)
+        scopes = PROVIDER_SCOPES.get("garmin", [])
+        auth_url = await service.get_authorization_url(user_id, scopes)
+        logging.info(f"[GARMIN] Authorization URL generated for user: {user_id}")
+        return {"authorization_url": auth_url}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error starting Garmin auth: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/auth/whoop")
+async def initiate_whoop_auth(user_id: str = Query(...)):
+    """Initiate WHOOP OAuth authorization flow"""
+    try:
+        service = WhoopService(db)
+        scopes = PROVIDER_SCOPES.get("whoop", [])
+        auth_url = await service.get_authorization_url(user_id, scopes)
+        logging.info(f"[WHOOP] Authorization URL generated for user: {user_id}")
+        return {"authorization_url": auth_url}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error starting WHOOP auth: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/auth/suunto")
+async def initiate_suunto_auth(user_id: str = Query(...)):
+    """Initiate Suunto OAuth authorization flow"""
+    try:
+        service = SuuntoService(db)
+        scopes = PROVIDER_SCOPES.get("suunto", [])
+        auth_url = await service.get_authorization_url(user_id, scopes)
+        logging.info(f"[SUUNTO] Authorization URL generated for user: {user_id}")
+        return {"authorization_url": auth_url}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error starting Suunto auth: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/integrations/{provider}/auth")
 async def start_integration_auth(provider: str, user_id: str):
     """Generic OAuth start for any provider"""
