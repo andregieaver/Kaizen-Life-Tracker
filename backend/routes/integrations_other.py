@@ -127,6 +127,12 @@ async def initiate_coros_auth(athlete_id: str):
     return {"auth_url": auth_url}
 
 
+@router.get("/auth/coros")
+async def initiate_coros_auth_query(user_id: str = Query(...)):
+    """Initiate COROS OAuth via Terra API (query param version)"""
+    return await initiate_coros_auth(user_id)
+
+
 @router.post("/auth/coros/callback")
 async def coros_oauth_callback(request: Request):
     """Handle COROS OAuth callback from Terra"""
