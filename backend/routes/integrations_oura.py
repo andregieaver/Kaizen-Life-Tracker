@@ -125,6 +125,14 @@ async def oura_auth_initiate(athlete_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/auth/oura")
+async def oura_auth_initiate_query(user_id: str = Query(...)):
+    """
+    Initiate Oura OAuth authorization flow (query param version for frontend compatibility)
+    """
+    return await oura_auth_initiate(user_id)
+
+
 @router.post("/integrations/oura/{athlete_id}/sync")
 async def sync_oura_data(athlete_id: str, force_full: bool = False):
     """
