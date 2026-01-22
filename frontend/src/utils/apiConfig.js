@@ -3,9 +3,9 @@
  * Provides dynamic API URL resolution for different deployment environments
  */
 
-// The backend API URL - always use the Emergent preview URL for API calls
-// This is required because custom domains route through different infrastructure
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://timetracker-202.preview.emergentagent.com';
+// The backend API URL - use production URL for deployed apps
+// REACT_APP_BACKEND_URL should be set to https://timetracker-202.emergent.host for production
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://timetracker-202.emergent.host';
 
 /**
  * Get the backend API base URL
