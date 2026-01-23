@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 from typing import List
 from datetime import datetime, timezone
 import logging
+import uuid
 
 from database import db
 from auth_middleware import require_auth
@@ -71,9 +72,9 @@ async def log_sleep_data(sleep_data: SleepData):
 async def get_sleep_data(athlete_id: str, limit: int = 14):
     """Get recent sleep data for an athlete"""
     sleep_data = await db.sleep_data.find(
-        {"athlete_id": athlete_id}, 
+        {"athlete_id": athlete_id},
         {"_id": 0}
-    ).sort("date", -1).limit(limit).limit(100).to_list(length=100)
+    ).sort("date", -1).limit(min(limit, 100)).to_list(length=100)
     return [parse_from_mongo(s) for s in sleep_data]
 
 
@@ -111,7 +112,7 @@ async def get_daily_readiness(athlete_id: str):
 
 class BodyScoreHistory(BaseModel):
     """Track daily body score for streak calculation"""
-    id: str = Field(default_factory=lambda: str(__import__('uuid').uuid4()))
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     athlete_id: str
     score: float  # 0-100
     date: str  # YYYY-MM-DD format
@@ -139,7 +140,7 @@ async def save_body_score(athlete_id: str, score: float = Query(...)):
         else:
             # Create new entry
             score_entry = {
-                "id": str(__import__('uuid').uuid4()),
+                "id": str(uuid.uuid4()),
                 "athlete_id": athlete_id,
                 "score": score,
                 "date": today,
@@ -149,8 +150,8 @@ async def save_body_score(athlete_id: str, score: float = Query(...)):
         
         return {"success": True, "date": today, "score": score}
     except Exception as e:
-        logger.error(f"Error saving body score: {e}")
-        raise __import__('fastapi').HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Error saving body score: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Failed to save body score")
 
 
 @router.get("/body-score/streak/{athlete_id}")
@@ -193,8 +194,8 @@ async def get_body_score_streak(athlete_id: str):
             "last_date": latest["date"] if latest else None
         }
     except Exception as e:
-        logger.error(f"Error calculating streak: {e}")
-        raise __import__('fastapi').HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Error calculating streak: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Failed to calculate body score streak")
 
 
 @router.get("/body-score/leaderboard")
@@ -262,5 +263,5 @@ async def get_body_score_leaderboard(limit: int = 50):
             "total_count": len(leaderboard)
         }
     except Exception as e:
-        logger.error(f"Error getting leaderboard: {e}")
-        raise __import__('fastapi').HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Error getting leaderboard: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Failed to retrieve body score leaderboard")

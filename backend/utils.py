@@ -1,6 +1,7 @@
 """Utility functions for the application"""
 from datetime import datetime, date, time, timezone
 from typing import Any, Dict
+import logging
 
 
 def prepare_for_mongo(data: Dict[str, Any]) -> Dict[str, Any]:
@@ -103,7 +104,10 @@ def get_db():
     global _client, _db
     if _db is None:
         _client = AsyncIOMotorClient(_mongo_url)
-        _db = _client[os.environ['DB_NAME']]
+        db_name = os.environ.get('DB_NAME')
+        if not db_name:
+            raise ValueError("DB_NAME environment variable is required")
+        _db = _client[db_name]
     return _db
 
 
@@ -169,5 +173,38 @@ async def verify_athlete(athlete_id: str):
     
     if not athlete:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     return athlete
+
+
+def handle_error(
+    error: Exception,
+    logger: logging.Logger,
+    context: str,
+    status_code: int = 500,
+    sanitized_message: str = "An error occurred while processing your request"
+) -> HTTPException:
+    """
+    Handle exceptions properly by logging full details and returning sanitized error to client.
+
+    Args:
+        error: The exception that was caught
+        logger: Logger instance to use for logging
+        context: Description of what operation failed (e.g., "saving workout data")
+        status_code: HTTP status code to return (default 500)
+        sanitized_message: Safe message to return to client (default generic message)
+
+    Returns:
+        HTTPException with sanitized error message
+
+    Example:
+        try:
+            # some operation
+        except Exception as e:
+            raise handle_error(e, logger, "saving workout data", 500, "Failed to save workout")
+    """
+    # Log full error details for debugging (includes stack trace)
+    logger.error(f"Error {context}: {str(error)}", exc_info=True)
+
+    # Return sanitized error to client (no internal details exposed)
+    return HTTPException(status_code=status_code, detail=sanitized_message)

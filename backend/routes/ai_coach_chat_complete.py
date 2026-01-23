@@ -90,9 +90,9 @@ async def test_search(query: str = "benefits of Zone 2 training"):
 @router.get("/coach/history/{athlete_id}")
 async def get_chat_history(athlete_id: str, limit: int = 20):
     messages = await db.chat_messages.find(
-        {"athlete_id": athlete_id}, 
+        {"athlete_id": athlete_id},
         {"_id": 0}
-    ).sort("timestamp", -1).limit(limit).limit(100).to_list(length=100)
+    ).sort("timestamp", -1).limit(min(limit, 100)).to_list(length=100)
     return [parse_from_mongo(m) for m in messages]
 
 @router.get("/coach/conversations/{athlete_id}")

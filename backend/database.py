@@ -11,7 +11,9 @@ ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
 # MongoDB connection with connection pooling
-mongo_url = os.environ['MONGO_URL']
+mongo_url = os.environ.get('MONGO_URL')
+if not mongo_url:
+    raise ValueError("MONGO_URL environment variable is required")
 
 # Connection pool configuration
 # These settings are optimized for production use
@@ -28,7 +30,10 @@ pool_config = {
 logger.info(f"Initializing MongoDB connection with pool config: {pool_config}")
 
 client = AsyncIOMotorClient(mongo_url, **pool_config)
-db = client[os.environ['DB_NAME']]
+db_name = os.environ.get('DB_NAME')
+if not db_name:
+    raise ValueError("DB_NAME environment variable is required")
+db = client[db_name]
 
 # Connection verification on startup
 async def verify_connection():
