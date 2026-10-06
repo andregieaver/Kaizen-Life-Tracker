@@ -21,7 +21,7 @@ router = APIRouter(prefix="/community/challenges", tags=["challenges"])
 
 class Challenge(BaseModel):
     model_config = ConfigDict(extra="ignore")
-
+    
     id: str = Field(default_factory=lambda: str(uuid4()))
     title: str
     description: str
@@ -43,8 +43,6 @@ class Challenge(BaseModel):
     recurrence_frequency: Optional[str] = None
     recurrence_count: Optional[int] = None
     group_id: Optional[str] = None
-    notes: Optional[str] = None  # Additional notes for the challenge
-    goal: Optional[str] = None  # Intent and goal to inform AI assistant
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
@@ -121,7 +119,6 @@ async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
             challenge_type=challenge.get("challenge_type"),
             goal_value=float(challenge.get("goal_value")),
             goal_unit=challenge.get("goal_unit"),
-            time_period=challenge.get("time_period", "total"),
             start_date=challenge.get("start_date"),
             end_date=challenge.get("end_date"),
             visibility=challenge.get("visibility", "public"),
@@ -136,8 +133,6 @@ async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
             recurrence_frequency=challenge.get("recurrence_frequency"),
             recurrence_count=challenge.get("recurrence_count"),
             group_id=challenge.get("group_id"),
-            notes=challenge.get("notes"),
-            goal=challenge.get("goal"),
             created_at=datetime.now(timezone.utc)
         )
         
