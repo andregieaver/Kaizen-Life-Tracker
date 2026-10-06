@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Trophy, Target, Calendar, Users, Edit3, Edit2, Trash2, Crown, Lock, Clock, RefreshCw, TrendingUp } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { logger } from '../../../utils/logger';
+import CountdownTimer from '../CountdownTimer';
 
 const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit, onClick, isSuperAdmin = false, t }) => {
   const { t: translate } = useTranslation();
@@ -93,6 +94,14 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                 </div>
               )}
             </div>
+
+            {/* Countdown Timer */}
+            {isActive && (
+              <div className="mb-2">
+                <CountdownTimer endDate={challenge.end_date} showIcon={true} />
+              </div>
+            )}
+
             <p className="text-gray-300 text-sm line-clamp-2 mb-2">{challenge.description}</p>
           </div>
 

@@ -49,9 +49,9 @@ def parse_from_mongo(item):
 async def get_athlete_recommendations(athlete_id: str, limit: int = 20):
     """Get AI-generated recommendations for an athlete"""
     recommendations = await db.recommendations.find(
-        {"athlete_id": athlete_id}, 
+        {"athlete_id": athlete_id},
         {"_id": 0}
-    ).sort("generated_at", -1).limit(limit).limit(100).to_list(length=100)
+    ).sort("generated_at", -1).limit(min(limit, 100)).to_list(length=100)
     return [parse_from_mongo(r) for r in recommendations]
 
 

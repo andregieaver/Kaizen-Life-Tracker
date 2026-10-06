@@ -384,9 +384,10 @@ class GarminService(BaseIntegrationService):
     
     async def get_stats(self, user_id: str) -> Dict[str, Any]:
         """Get Garmin activity statistics"""
+        # Limit to 10000 most recent activities to prevent memory issues
         activities = await self.db[f"{self.provider_name}_activities"].find(
             {"user_id": user_id}
-        ).to_list(length=None)
+        ).sort("date", -1).limit(10000).to_list(length=10000)
         
         total_activities = len(activities)
         total_distance_km = sum(a.get("distance_km", 0) for a in activities)

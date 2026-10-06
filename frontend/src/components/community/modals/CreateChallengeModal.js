@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
-import { X, Trophy, Target, TrendingUp, Award, PlusCircle } from 'lucide-react';
+import { X, Trophy, Target, TrendingUp, Award, PlusCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { compressBannerImageBase64 } from '../../../utils/imageCompression';
 import { logger } from '../../../utils/logger';
 
 const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCreate }) => {
   const { t } = useTranslation();
+  const [showAdvanced, setShowAdvanced] = useState(false);
   
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -242,6 +243,58 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                 )}
                 <p className="text-xs text-gray-400 mt-1">{t('community.challenge.trophyHelp')}</p>
               </div>
+            </div>
+
+            {/* Advanced Section Toggle */}
+            <div className="border-t border-gray-600 pt-4">
+              <button
+                type="button"
+                onClick={() => setShowAdvanced(!showAdvanced)}
+                className="flex items-center gap-2 text-sm font-medium text-white hover:text-[#32D3FF] transition-colors"
+              >
+                {showAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                Advanced Options
+              </button>
+
+              {showAdvanced && (
+                <div className="mt-4 space-y-4 pl-6">
+                  {/* Goal Field - AI Assistant Context */}
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      Goal & Intent
+                      <span className="text-gray-400 text-xs ml-2">(Optional - Helps AI assist you better)</span>
+                    </label>
+                    <textarea
+                      value={challengeData.goal || ''}
+                      onChange={(e) => setChallengeData({ ...challengeData, goal: e.target.value })}
+                      className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                      rows="4"
+                      placeholder="Describe your intent and goals for this challenge. What do you hope to achieve? How can AI assist you? This helps personalize your experience..."
+                    />
+                    <p className="text-xs text-gray-400 mt-1">
+                      Share your deeper intentions to help AI assistants provide better support and recommendations
+                    </p>
+                  </div>
+
+                  {/* Notes Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      Notes
+                      <span className="text-gray-400 text-xs ml-2">(Optional)</span>
+                    </label>
+                    <textarea
+                      value={challengeData.notes || ''}
+                      onChange={(e) => setChallengeData({ ...challengeData, notes: e.target.value })}
+                      className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                      rows="3"
+                      placeholder="Add any additional notes or details about this challenge..."
+                    />
+                    <p className="text-xs text-gray-400 mt-1">
+                      Internal notes for reference
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="flex justify-end space-x-3 pt-4 pb-20 md:pb-4">

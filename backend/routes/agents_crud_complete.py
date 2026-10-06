@@ -111,12 +111,12 @@ async def get_agents(athlete_id: str = Query(...)):
         
         # Super admin gets all agents, others get only public frontend agents
         if is_super_admin:
-            agents = await db.agents.find({}, {"_id": 0}).to_list(length=100)
+            agents = await db.agents.find({}, {"_id": 0}).limit(100).to_list(length=100)
         else:
             agents = await db.agents.find(
                 {"accessibility": "frontend", "is_active": True},
                 {"_id": 0}
-            ).to_list(length=100)
+            ).limit(100).to_list(length=100)
         
         return [parse_from_mongo(agent) for agent in agents]
         
@@ -354,7 +354,7 @@ async def get_agents_by_accessibility(accessibility_level: str):
         agents = await db.agents.find(
             {"accessibility": accessibility_level, "is_active": True},
             {"_id": 0}
-        ).to_list(length=100)
+        ).limit(100).to_list(length=100)
         
         return [parse_from_mongo(agent) for agent in agents]
         
@@ -704,7 +704,7 @@ async def chat_with_agent(request: AgentChatRequest):
                         samples = {}
                         samples["recent_users"] = await db.athlete_profiles.find({}, {"_id": 0, "email": 1, "name": 1, "created_at": 1}).sort("created_at", -1).limit(3).to_list(length=3)
                         samples["recent_posts"] = await db.community_posts.find({}, {"_id": 0, "title": 1, "author_name": 1, "created_at": 1}).sort("created_at", -1).limit(3).to_list(length=3)
-                        samples["active_agents"] = await db.agents.find({"is_active": True}, {"_id": 0, "name": 1, "accessibility": 1}).to_list(length=5)
+                        samples["active_agents"] = await db.agents.find({"is_active": True}, {"_id": 0, "name": 1, "accessibility": 1}).limit(5).to_list(length=5)
                         inspection_data["samples"] = samples
                     
                     if aspect in ["system_info", "all"]:

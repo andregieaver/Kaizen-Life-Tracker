@@ -247,7 +247,7 @@ async def apply_referral_discount(athlete_id: str = Query(...)):
         rewards = await db.referral_rewards.find({
             "athlete_id": athlete_id,
             "status": "pending"
-        }).sort("created_at", 1).limit(5).limit(100).to_list(length=100)
+        }).sort("created_at", 1).limit(5).to_list(length=5)
         
         if not rewards:
             return {"success": False, "message": "No rewards available"}

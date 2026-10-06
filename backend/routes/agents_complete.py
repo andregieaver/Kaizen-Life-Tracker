@@ -86,12 +86,12 @@ async def get_agents(athlete_id: str = Query(...)):
         
         # Super admin gets all agents, others get only public frontend agents
         if is_super_admin:
-            agents = await db.agents.find({}, {"_id": 0}).to_list(length=100)
+            agents = await db.agents.find({}, {"_id": 0}).limit(100).to_list(length=100)
         else:
             agents = await db.agents.find(
                 {"accessibility": "frontend", "is_active": True},
                 {"_id": 0}
-            ).to_list(length=100)
+            ).limit(100).to_list(length=100)
         
         return [parse_from_mongo(agent) for agent in agents]
         
@@ -372,7 +372,7 @@ async def get_agents_by_accessibility(accessibility_level: str, athlete_id: str 
         agents = await db.agents.find(
             {"accessibility": accessibility_level, "is_active": True},
             {"_id": 0}
-        ).to_list(length=100)
+        ).limit(100).to_list(length=100)
         
         return [parse_from_mongo(agent) for agent in agents]
         

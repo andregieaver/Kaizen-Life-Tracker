@@ -9,6 +9,7 @@ import { Plus, X, Edit3, Trash2, Check, Flame, Calendar, ChevronLeft, ChevronRig
 
 import { logger } from '../utils/logger';
 import { getApiUrl } from '../utils/apiConfig';
+import CountdownTimer from './community/CountdownTimer';
 const API = getApiUrl();
 
 const HabitTracker = ({ athleteId }) => {
@@ -480,7 +481,14 @@ const HabitTracker = ({ athleteId }) => {
                             {completionScore}%
                           </span>
                         </div>
-                        
+
+                        {/* Countdown Timer for habits with end date */}
+                        {habit.end_date && new Date(habit.end_date) > new Date() && (
+                          <div className="mb-2">
+                            <CountdownTimer endDate={habit.end_date} showIcon={true} />
+                          </div>
+                        )}
+
                         <div className="text-xs md:text-sm text-gray-300 mb-3">
                           {t('habits.goal')}: {habit.times_per_day}x {t('habits.today').toLowerCase()}
                           <span className="mx-2">•</span>

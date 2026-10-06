@@ -4,6 +4,7 @@ import { Button } from '../../ui/button';
 import { X, Trophy, Target, TrendingUp, Award, Users as UsersIcon, Calendar, Clock, Send, Trash2, Lock, Globe, RefreshCw } from 'lucide-react';
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
+import CountdownTimer from '../CountdownTimer';
 
 const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJoin, onLeave, onDelete, onAddComment }) => {
   const { t } = useTranslation();
@@ -49,7 +50,15 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-white">{challengeData.title}</h2>
-                <p className="text-gray-400 text-sm">
+
+                {/* Countdown Timer */}
+                {isActive && (
+                  <div className="mt-2">
+                    <CountdownTimer endDate={challengeData.end_date} showIcon={true} />
+                  </div>
+                )}
+
+                <p className="text-gray-400 text-sm mt-1">
                   {t('community.challenge.createdBy')} {challengeData.creator_name}
                   {challengeData.is_recurring && <RefreshCw className="w-4 h-4 inline ml-2 text-blue-400" title={t('community.actions.recurringChallenge')} />}
                 </p>

@@ -378,11 +378,21 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     id: '',
     title: '',
     description: '',
-    cover_photo: null,
-    trophy_image: null,
+    challenge_type: 'distance',
+    goal_value: '',
+    goal_unit: 'km',
+    time_period: 'total',
+    start_date: '',
     end_date: '',
     visibility: 'public',
-    goal_value: ''
+    competition_type: 'individual',
+    cover_photo: null,
+    trophy_image: null,
+    is_recurring: false,
+    recurrence_frequency: 'weekly',
+    recurrence_count: 4,
+    notes: '',
+    goal: ''
   });
 
 
@@ -2530,11 +2540,21 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       id: challenge.id,
       title: challenge.title,
       description: challenge.description,
-      cover_photo: challenge.cover_photo,
-      trophy_image: challenge.trophy_image,
+      challenge_type: challenge.challenge_type,
+      goal_value: challenge.goal_value,
+      goal_unit: challenge.goal_unit,
+      time_period: challenge.time_period || 'total',
+      start_date: challenge.start_date,
       end_date: challenge.end_date,
       visibility: challenge.visibility,
-      goal_value: challenge.goal_value
+      competition_type: challenge.competition_type,
+      cover_photo: challenge.cover_photo,
+      trophy_image: challenge.trophy_image,
+      is_recurring: challenge.is_recurring || false,
+      recurrence_frequency: challenge.recurrence_frequency,
+      recurrence_count: challenge.recurrence_count,
+      notes: challenge.notes,
+      goal: challenge.goal
     });
     setShowEditChallenge(true);
   };
