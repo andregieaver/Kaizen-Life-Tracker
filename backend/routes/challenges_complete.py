@@ -121,6 +121,7 @@ async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
             challenge_type=challenge.get("challenge_type"),
             goal_value=float(challenge.get("goal_value")),
             goal_unit=challenge.get("goal_unit"),
+            time_period=challenge.get("time_period", "total"),
             start_date=challenge.get("start_date"),
             end_date=challenge.get("end_date"),
             visibility=challenge.get("visibility", "public"),
@@ -135,6 +136,8 @@ async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
             recurrence_frequency=challenge.get("recurrence_frequency"),
             recurrence_count=challenge.get("recurrence_count"),
             group_id=challenge.get("group_id"),
+            notes=challenge.get("notes"),
+            goal=challenge.get("goal"),
             created_at=datetime.now(timezone.utc)
         )
         
