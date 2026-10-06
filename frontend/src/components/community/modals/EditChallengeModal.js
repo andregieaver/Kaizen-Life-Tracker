@@ -133,24 +133,6 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
 
               {showAdvanced && (
                 <div className="mt-4 space-y-4 pl-6">
-                  {/* Notes Field */}
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">
-                      Notes
-                      <span className="text-gray-400 text-xs ml-2">(Optional)</span>
-                    </label>
-                    <textarea
-                      value={challengeData.notes || ''}
-                      onChange={(e) => setChallengeData({ ...challengeData, notes: e.target.value })}
-                      className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
-                      rows="3"
-                      placeholder="Add any additional notes or details about this challenge..."
-                    />
-                    <p className="text-xs text-gray-400 mt-1">
-                      Internal notes for reference
-                    </p>
-                  </div>
-
                   {/* Goal Field - AI Assistant Context */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
@@ -166,6 +148,24 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
                     />
                     <p className="text-xs text-gray-400 mt-1">
                       Share your deeper intentions to help AI assistants provide better support and recommendations
+                    </p>
+                  </div>
+
+                  {/* Notes Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      Notes
+                      <span className="text-gray-400 text-xs ml-2">(Optional)</span>
+                    </label>
+                    <textarea
+                      value={challengeData.notes || ''}
+                      onChange={(e) => setChallengeData({ ...challengeData, notes: e.target.value })}
+                      className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                      rows="3"
+                      placeholder="Add any additional notes or details about this challenge..."
+                    />
+                    <p className="text-xs text-gray-400 mt-1">
+                      Internal notes for reference
                     </p>
                   </div>
                 </div>
