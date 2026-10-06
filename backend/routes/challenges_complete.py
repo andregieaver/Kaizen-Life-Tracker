@@ -21,7 +21,7 @@ router = APIRouter(prefix="/community/challenges", tags=["challenges"])
 
 class Challenge(BaseModel):
     model_config = ConfigDict(extra="ignore")
-    
+
     id: str = Field(default_factory=lambda: str(uuid4()))
     title: str
     description: str
@@ -43,6 +43,8 @@ class Challenge(BaseModel):
     recurrence_frequency: Optional[str] = None
     recurrence_count: Optional[int] = None
     group_id: Optional[str] = None
+    notes: Optional[str] = None  # Additional notes for the challenge
+    goal: Optional[str] = None  # Intent and goal to inform AI assistant
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
